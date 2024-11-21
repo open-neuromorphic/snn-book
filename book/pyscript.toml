@@ -1,0 +1,3 @@
+name = "snn-book"
+description = "A simple application that uses Numpy."
+packages = ["numpy"]

@@ -1,0 +1,164 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <!-- Recommended meta tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <!-- PyScript CSS -->
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+  <!-- CSS for examples -->
+  <!-- <link rel="stylesheet" href="./assets/css/examples.css" /> -->
+
+  <!-- This script tag bootstraps PyScript -->
+  <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+  <!-- for splashscreen -->
+  <style>
+    #loading {
+      outline: none;
+      border: none;
+      background: transparent
+    }
+
+    .plot {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 100%;
+    }
+
+    .slider-container input {
+      direction: rtl;
+      writing-mode: vertical-lr;
+      height: 200px;
+    }
+
+    #v-value {
+      min-width: 60px;
+    }
+  </style>
+  <script type="module">
+    const loading = document.getElementById('loading');
+    addEventListener('py:ready', () => loading.close());
+    loading.showModal();
+  </script>
+
+  <title>Plotting Example</title>
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+
+<body>
+  <dialog id="loading">
+    <h1>Loading...</h1>
+  </dialog>
+
+  <div class="plot">
+    <div class="controls">
+      <div class="slider-container">
+        <label for="v-slider">Value of v:</label>
+        <input type="range" id="v-slider" min="0" max="1" step="0.1" value="0.1">
+        <span id="v-value">0.1</span>
+      </div>
+    </div>
+
+    <div id="canvas" width="300" height="300" style="width:600px;height:250px;"></div>
+  </div>
+
+  <py-script>
+    # Python code:
+    import js
+    from pyodide import ffi
+
+    def simulate(input, last_value):
+      last_value = (input + last_value) - last_value * 0.1
+      return last_value
+
+    js.init_plot([0 for _ in range(100)], ffi.create_proxy(simulate))
+
+  </py-script>
+
+  <script type="text/javascript">
+    // JavaScript code:
+    const horizon = 100;
+    let xs = [], ys = [], index = 0, callback = null, is_running = false;
+    let v = 0.1;  // Default value
+
+    // Add slider event listener
+    document.getElementById('v-slider').addEventListener('input', function (e) {
+      v = parseFloat(e.target.value);
+      document.getElementById('v-value').textContent = v.toFixed(2);
+    });
+
+    function init_plot(values, fn) {
+      ys = values.toJs();
+      xs = Array.from({ length: values.length }, (_, i) => i);
+      callback = fn;
+
+      Plotly.newPlot('canvas', [{
+        x: xs,
+        y: ys,
+        mode: 'scatter'
+      }], {
+        xaxis: {
+          range: [0, horizon],
+          automargin: false,
+        },
+        yaxis: { range: [0, 10], },
+        margin: {
+          l: 30,
+          r: 10,
+          t: 10,
+          b: 30
+        }
+      })
+      is_running = true;
+      return ys;
+    }
+
+    function update_plot(value) {
+      new_y = callback(v, ys[ys.length - 1]);
+      if (zeros > 0) {
+        zeros -= 1;
+      }
+      ys.shift();
+      ys.push(new_y);
+      index += 1;
+
+      Plotly.animate('canvas', {
+        data: [{ x: xs, y: ys }]
+      }, {
+        transition: {
+          duration: 0
+        },
+        frame: {
+          duration: 0,
+          redraw: index % 100
+        },
+        xaxis: { range: [Math.max(-10, index - horizon), index] },
+      });
+      requestAnimationFrame(update_plot);
+    }
+
+    var run_checker = null;
+    run_checker = setInterval(() => {
+      if (is_running) {
+        requestAnimationFrame(update_plot);
+        clearInterval(run_checker);
+      }
+    }, 100);
+  </script>
+
+</body>
+
+</html>
