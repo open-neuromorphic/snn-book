@@ -66,3 +66,6 @@ coverage/
 *.nav
 *.snm
 *.vrb
+# MyST build outputs
+_build
+.book-old

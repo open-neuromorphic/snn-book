@@ -1,7 +1,7 @@
-# Practical guide to SNNs
+# Practical spiking neural networks
 
 This book is a hands-on introduction to biologically-inspired neural networks *in practice*.
-Reading this book will give you means to **design**, **build**, and **execute** spiking neural networks **in simulation** and **in hardware**.
+Reading this book will give you means to **design**, **build**, and **execute** spiking neural networks both **in simulation** and **in hardware**.
 
 ## Building the book
 

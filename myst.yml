@@ -1,0 +1,29 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: 04162ef5-fe1c-4cf7-99bf-a0d930bc11c2
+  title: Practical Spiking Neural Networks
+  description: A hands-on guide to building and deploying spiking neural networks using Python
+  keywords:
+    - spiking neural networks
+    - neuromorphic computing
+    - Python
+    - machine learning
+    - deep learning
+  authors:
+    - name: Guarav, Ramashish
+      affiliation: Virginia Tech, USA
+      email: ramashishgaurav@gmail.com
+    - name: Pedersen, Jens Egholm
+      affiliation: Stanford University, USA
+      email: jens@jepedersen.dk
+    - name: Bogdan, Petrut
+      affiliation: Innatera
+      email: petrut.bogdan@innatera.com
+  github: https://github.com/open-neuromorphic/snn-book
+  license: CC BY-NC-SA 4.0
+site:
+  template: book-theme
+  # options:
+  #   favicon: favicon.ico
+  #   logo: site_logo.png
