@@ -3,26 +3,38 @@
 This book is a hands-on introduction to biologically-inspired neural networks *in practice*.
 Reading this book will give you means to **design**, **build**, and **execute** spiking neural networks both **in simulation** and **in hardware**.
 
-## Building the book
+## What is this about?
 
-The book can be consumed as a static PDF and as a dynamic website.
-The original source code is written in Latex (in `book/latex`), but with small [templated annotations](https://mustache.github.io/) to enrich the text with dynamical content.
-From there, we generate template-free LaTeX code, which in turn is compiled to a PDF.
-For the website, we convert the LaTeX code to Markdown, which in turn is built into a [Jupyter book](https://jupyterbook.org/).
+Artificial neural networks can solve tremendously complicated problems.
+But we know that biology is *much* more expressive and can solve *much* tougher tasks.
+They do this by being **both digital and analog** [@Neumann_2012], that is, use neurons that do some internal integration of signals but sends digital, discrete spikes.
+To model that, *spiking* neural networks (SNNs) are used instead of *artificial* neural networks.
+SNNs are hard to understand and train.
+But they are powerful, fast, and energy efficient.
+This book explains what SNNs are and shows you how to build, train, and run SNNs.
 
-Luckily, we have built a script that takes care of all this. You will need to 
-1. Install the Python dependencies in `requirements.txt`,
-2. Install Latexmk and Pandoc, and
-3. run the script in `book/generate/generate.py`.
+## How to read the book
 
-Here are the setup steps for Ubuntu to install the requirements and build the book locally:
+The book exists in both a static PDF version and a live website.
+We strongly recommend that you take time to exploit the interactive examples on the website to understand the *semantics* of the code examples and equations, rather than just jumping straight to the solution or conclusion.
+The goal is to give you a strong intuition.
+You can always solve practical coding problems by asking your favorite LLM (it probably already indexed this book anyway).
 
-```bash
-apt install latexmk pandoc fonts-inconsolata # Install system dependencies
-pip install -r requirements.txt              # Install python requirements
-# Build the book from source (in book/latex) to a target directory
-python3 book/generate/generate.py book/latex --target book/build 
-```
+The book is structured in three sections:
+1. A **theoretical introduction** to the world of SNNs
+2. A practical guide to **implementing and working with SNNs using deep learning frameworks**
+3. A practical guide to **running SNNs on neuromorphic hardware**
+
+Each section can be read independently and features self-contained *interactive* examples that builds strong intuition.
+We reiterate that we recommend getting a strong grasp on the fundamentals before skipping to the later chapters, but the book *can* be used as a reference for solutions when you are in a time crunch.
+
+If you are new to the field, we recommend starting from the beginning.
+
+## Contributing to the book
+
+The book is open source, under [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
+You're more than welcome to help us out by pointing out, suggesting improvements, and even submit pull requests to better the book at https://github.com/open-neuromorphic/snn-book.
+
 
 ## Acknowledgements (in alphabetic order)
 

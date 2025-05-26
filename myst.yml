@@ -22,8 +22,20 @@ project:
       email: petrut.bogdan@innatera.com
   github: https://github.com/open-neuromorphic/snn-book
   license: CC BY-NC-SA 4.0
+  toc:
+    - file: README.md
+    - file: sections/1/section_1.md
+      children:
+        - file: sections/1/section_1_spiking.md
+    - file: sections/2/section_2.md
+    - file: sections/3/section_3.md
+    - file: sections/appendices.md
+bibliography:
+  - references.bib
 site:
   template: book-theme
-  # options:
+  options:
+    folders: true
+    logo_text: Practical Spiking Neural Networks
   #   favicon: favicon.ico
   #   logo: site_logo.png
