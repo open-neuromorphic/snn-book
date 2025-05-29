@@ -1,0 +1,2 @@
+(chapter:training)=
+# Training SNNs

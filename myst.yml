@@ -21,17 +21,39 @@ project:
       affiliation: Innatera
       email: petrut.bogdan@innatera.com
   github: https://github.com/open-neuromorphic/snn-book
-  license: CC BY-NC-SA 4.0
+  license: CC-BY-NC-SA-4.0
   toc:
     - file: README.md
-    - file: sections/1/section_1.md
+      numbering: false   
+    - file: sections/1_computing.md
       children:
-        - file: sections/1/section_1_spiking.md
-    - file: sections/2/section_2.md
-    - file: sections/3/section_3.md
+        - file: sections/1_1_neuron.md
+        - file: sections/1_2_spiking.md
+        - file: sections/1_3_snn.md
+        - file: sections/1_4_modelling.md
+    - file: sections/2_training.md
+      children:
+        - file: sections/2_1_architecture.md
+        - file: sections/2_2_training.md
+        - file: sections/2_3_tuning.md
+    - file: sections/3_hardware.md
+      children:
+        - file: sections/3_1_platforms.md
+        - file: sections/3_2_frameworks.md
+        - file: sections/3_3_quantization.md
     - file: sections/appendices.md
-bibliography:
-  - references.bib
+      numbering: false
+  bibliography:
+    - references.bib
+  numbering:
+    title:
+      enabled: true
+      continue: true
+    headings: true
+  exports:
+    - format: pdf
+      template: arxiv_nips
+      article_type: book
 site:
   template: book-theme
   options:

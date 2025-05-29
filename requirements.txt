@@ -1,4 +1,4 @@
 jupyter-book>=2.0.0a0
 matplotlib
 numpy
-chevron # mustache parser
+mystmd

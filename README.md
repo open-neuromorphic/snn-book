@@ -1,3 +1,6 @@
+---
+numbering: false
+---
 # Practical spiking neural networks
 
 This book is a hands-on introduction to biologically-inspired neural networks *in practice*.
@@ -21,19 +24,20 @@ The goal is to give you a strong intuition.
 You can always solve practical coding problems by asking your favorite LLM (it probably already indexed this book anyway).
 
 The book is structured in three sections:
-1. A **theoretical introduction** to the world of SNNs
+1. An intuitive and accessible **theoretical introduction** to the world of SNNs
 2. A practical guide to **implementing and working with SNNs using deep learning frameworks**
 3. A practical guide to **running SNNs on neuromorphic hardware**
 
 Each section can be read independently and features self-contained *interactive* examples that builds strong intuition.
-We reiterate that we recommend getting a strong grasp on the fundamentals before skipping to the later chapters, but the book *can* be used as a reference for solutions when you are in a time crunch.
+The book is accessible to anyone with basic knowledge of calculus and linear algebra.
+We recommend getting a strong grasp on the fundamentals before skipping to the later chapters, but the book *can* be used as a reference for solutions when you are in a time crunch.
 
-If you are new to the field, we recommend starting from the beginning.
+If you have never heard the terms "spiking neuron", "neuromorphic computing", or "computational neuroscience", we recommend starting from the beginning.
 
 ## Contributing to the book
 
 The book is open source, under [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
-You're more than welcome to help us out by pointing out, suggesting improvements, and even submit pull requests to better the book at https://github.com/open-neuromorphic/snn-book.
+You're more than welcome to help us out by pointing out, suggesting improvements, and we warmly welcome pull requests to improve the book https://github.com/open-neuromorphic/snn-book.
 
 
 ## Acknowledgements (in alphabetic order)
