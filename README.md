@@ -4,17 +4,17 @@ numbering: false
 # Practical spiking neural networks
 
 This book is a hands-on introduction to biologically-inspired neural networks *in practice*.
-Reading this book will give you means to **design**, **build**, and **execute** spiking neural networks both **in simulation** and **in hardware**.
+Reading this book will give you means to **design**, **build**, and **execute** Spiking Neural Networks (SNNs) - both **in simulation** and **on hardware**.
 
 ## What is this about?
 
-Artificial neural networks can solve tremendously complicated problems.
-But we know that biology is *much* more expressive and can solve *much* tougher tasks.
-They do this by being **both digital and analog** [@Neumann_2012], that is, use neurons that do some internal integration of signals but sends digital, discrete spikes.
-To model that, *spiking* neural networks (SNNs) are used instead of *artificial* neural networks.
-SNNs are hard to understand and train.
-But they are powerful, fast, and energy efficient.
-This book explains what SNNs are and shows you how to build, train, and run SNNs.
+Artificial Neural Networks (ANNs) can solve tremendously complicated problems. 
+But we know that biology is *much* more **expressive** and can solve *much* tougher tasks. 
+They do this by being **both digital and analog** [@Neumann_2012], that is, use neurons that do some internal integration of signals but send digital, discrete spikes. 
+To model that, *spiking* neurons (in SNNs) are used instead of *artificial* neurons (in ANNs). 
+SNNs have richer dynamics than ANNs, and are hard to understand and train. 
+But they are powerful, fast, and energy-efficient when deployed on specialized *neuromorphic* hardware. 
+This book explains what SNNs are and shows you how to build, train, and execute SNNs.
 
 ## How to read the book
 
@@ -38,7 +38,12 @@ If you have never heard the terms "spiking neuron", "neuromorphic computing", or
 
 The book is open source, under [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
 You're more than welcome to help us out by pointing out, suggesting improvements, and we warmly welcome pull requests to improve the book https://github.com/open-neuromorphic/snn-book.
+In you have made significant peer-reviewed contributions to a chapter, then following the approval of the existing authors of that chapter, your name will be included in the author list in subsequent versions of the book.
 
+## Citing the book/chapters
+
+We have enabled citing the individual chapters, as well as the book as a whole.
+We recommend citing the chapters as that would give due credit to the contributors of those chapters that helped you in your research.  
 
 ## Acknowledgements (in alphabetic order)
 
