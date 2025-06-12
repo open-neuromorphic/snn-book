@@ -1,4 +1,4 @@
-# Modelling theories
+# Modelling Theories
 
 ## Representation principle
 

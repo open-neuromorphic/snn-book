@@ -1,2 +1,2 @@
 (chapter:snn)=
-# What is a spiking neural network?
+# What is a Spiking Neural Network?
