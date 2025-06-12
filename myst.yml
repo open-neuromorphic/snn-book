@@ -30,7 +30,8 @@ project:
         - file: sections/1_1_neuron.md
         - file: sections/1_2_spiking.md
         - file: sections/1_3_snn.md
-        - file: sections/1_4_modelling.md
+          children:
+            - file: sections/1_3_1_encdec.md
     - file: sections/2_training.md
       children:
         - file: sections/2_1_architecture.md
@@ -42,6 +43,8 @@ project:
         - file: sections/3_2_frameworks.md
         - file: sections/3_3_quantization.md
     - file: sections/appendices.md
+      children:
+        - file: sections/appx_modeling_theories.md
       numbering: false
     - file: glossary.md
       numbering: false
