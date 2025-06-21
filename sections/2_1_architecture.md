@@ -1,3 +1,0 @@
-(chapter:architecture)=
-# SNN Architecture
-
