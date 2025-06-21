@@ -1,4 +1,4 @@
-(chapter:spiking)=
+(spiking)=
 # What is a spiking neuron?
 
 In this chapter, we will study the most fundamental unit of building SNNs -- the
@@ -30,6 +30,7 @@ generation of action-potential by producing a *binary*/*graded* *spike*, where a
 *binary* *spike* implies a binary value ∈ {0, 1} and a *graded* *spike* implies
 an integer value ∈ ℤ⁺ > 1. Note that the values of spikes are also sometimes
 referred as their *amplitude*.
+>>>>>>> c9975a3 (Suggested splitting chapter 2 into 'simulation' and 'training')
 
 ```{note}
 Some SNN implementations may use negative spikes! Also, it is commonly agreed
@@ -68,3 +69,7 @@ models.
 
 ### Section on Spiking Neurons summary?
 
+<<<<<<< HEAD
+=======
+Example of a website [example.com](https://example.com/).
+>>>>>>> c9975a3 (Suggested splitting chapter 2 into 'simulation' and 'training')
