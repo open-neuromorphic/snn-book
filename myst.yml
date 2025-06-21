@@ -28,10 +28,20 @@ project:
     - file: sections/1_computing.md
       children:
         - file: sections/1_1_neuron.md
-        - file: sections/1_2_spiking.md
-        - file: sections/1_3_snn.md
           children:
-            - file: sections/1_3_1_encdec.md
+            - file: sections/1_1_1_bio-neurons.md
+            - file: sections/1_1_2_glial-cells.md
+        - file: sections/1_2_spiking.md
+          children:
+            - file: sections/1_2_1_point-neurons.md
+            - file: sections/1_2_2_spatial-neurons.md
+        - file: sections/1_3_encdec.md
+          children:
+            - file: sections/1_3_1_rate-enc.md
+            - file: sections/1_3_2_temp-enc.md
+        - file: sections/1_4_snn.md
+          children:
+            - file: sections/1_4_1_snn-basics.md
     - file: sections/2_training.md
       children:
         - file: sections/2_1_architecture.md
