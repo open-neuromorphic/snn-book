@@ -1,4 +1,4 @@
-(chapter:neuron)=
+(neuron)=
 # What is a neuron?
 
 ---
