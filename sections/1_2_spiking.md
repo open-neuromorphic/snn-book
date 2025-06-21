@@ -4,15 +4,15 @@
 In this chapter, we will study the most fundamental unit of building SNNs -- the **Spiking Neuron**.
 First, we provide a brief refresherstart from the *Biological Neurons* lay down the neuroscience principles underlying the spiking neurons. Later, a section on the *functional comparison* between spiking neurons and artificial neurons is also presented, where we highlight the inherent temporality and sparsity of spiking neurons.
 
-## Should we write a section on why Spiking Neurons
+### Should we write a section on why Spiking Neurons
 
 Sparse method of encoding and working with temporal information. H/W neurons don't need to be active all the time.
 
-## Dales Principle
+### Dales Principle
 
 and How SNNs violate that?
 
-## Biological Neurons
+### Biological Neurons
 
 (sec:bio-neuron)=
 ### Action Potentials
@@ -23,14 +23,14 @@ Introduce the notations for membrane potential, V[t], input current I[t], etc. h
 
 ---
 
-## Spiking Neurons
+### Spiking Neurons
 
 **Spiking Neurons** are electro-mathematical abstraction of biological neurons. They are generally *not* very detailed representations of biological neurons, rather simple enough to reproduce their intended spiking behaviour. Note that a majority of the spiking neurons you will come across will fall into the category of *point* spiking neuron models; few rare ones will fall into the category of *spatial* spiking neuron models. The **major characteristics** of biological neurons -- that are of common interest to mimic (via spiking neurons) are:
 
 - **Accounting incoming action-potentials**: Spiking neurons emulate this behavior by *integrating* the incoming action-potentials into their membrane potential/voltage -- either in a *decaying* or *non-decaying* fashion (more details later). Assuming the incoming action-potentials positively contribute, the spiking neuron's potential/voltage increases with time and eventually reaches/crosses a certain set voltage threshold.
 
 - **Generating an output action-potential**: Spiking neurons emulate the generation of action-potential by producing a *binary*/*graded* *spike*, where a *binary* *spike* implies a binary value ∈ {0, 1} and a *graded* *spike* implies an integer value ∈ ℤ⁺ > 1. Note that the values of spikes are also sometimes referred as their *amplitude*.
-  
+
   ```{note}
   Some SNN implementations may use negative spikes! Also, it is commonly agreed that biological neurons' action potentials do *not* have the notion of amplitude.
   ```
@@ -80,7 +80,7 @@ V[t] \leftarrow V_\text{rest} \quad \text{if } V[t] > V_\text{thr}
 
 Before we begin explaining them, consider a *Spike Generator* that generates binary spikes $S_\text{inp}[t]$ (i.e., $S_\text{inp}[t]$ at time-step $t$ can either be $0$ or $1$) and feeds them to the IF neuron (see {numref}`fig:spk-neuron-if`). Note that spike generators are mere *programming constructs* (that follow a desired implementation) to generate spikes and stimulate the connected neuron(s).
 
-```{figure} 
+```{figure}
 :name: fig:spk-neuron-if
 :align: center
 
@@ -91,7 +91,7 @@ A Spike Generator stimulating an IF Neuron. $w$ is the weight of connection.
 
 In Equation {eq}`eq:discrete-if-cur-update`, $I[t]$ and $I[t-1]$ are the IF neuron's *current* at time-step $t$ and $t-1$, $\tau_\text{cur}$ is the *current decay* constant (s.t., $0\leq\tau_\text{cur}\leq1$). As can be seen in the *current update* Equation {eq}`eq:discrete-if-cur-update`, the current at time-step $t$ i.e., $I[t]$ is a sum of the *decayed* value of current at the previous time-step $t-1$ i.e., $I[t-1]$ (decayed by the factor $(1 - \tau_\text{cur})$) **and** the $w$ weighted spike input $S_\text{inp}[t]$.
 
-In Equation {eq}`eq:discrete-if-vol-update`, 
+In Equation {eq}`eq:discrete-if-vol-update`,
 
 where, $S_\text{inp}[t]$ are the *input* spikes from the preceding/pre-synaptic neuron to the IF neuron, $I[t]$ and $V[t]$ are the IF neuron's *current* and *voltage* respectively -- all at the *discrete* time-step $t$. Note that $I[t-1]$ and $V[t-1]$ are the IF neuron's current and voltage at the previous time-step '$t-1$' -- accounting these values realizes the stateful-ness of the IF neuron. Also note that the current $I[t]$ intakes a , where , whereas, there is no such decay term for $V[t]$'s update.
 
