@@ -39,6 +39,7 @@ project:
           children:
             - file: sections/1_3_1_rate-enc.md
             - file: sections/1_3_2_temp-enc.md
+            - file: sections/1_3_3_decoding.md
         - file: sections/1_4_snn.md
           children:
             - file: sections/1_4_1_snn-basics.md
