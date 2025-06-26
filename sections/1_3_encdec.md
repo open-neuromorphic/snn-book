@@ -1,2 +1,2 @@
 (chapter:encdec)=
-# Encoding & Decoding
+# What is Encoding & Decoding?
