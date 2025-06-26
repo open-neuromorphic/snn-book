@@ -35,6 +35,7 @@ project:
           children:
             - file: sections/1_2_1_point-neurons.md
             - file: sections/1_2_2_spatial-neurons.md
+            - file: sections/1_2_3_spk-vs-artfcl.md
         - file: sections/1_3_encdec.md
           children:
             - file: sections/1_3_1_rate-enc.md

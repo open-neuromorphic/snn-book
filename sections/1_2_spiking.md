@@ -1,7 +1,14 @@
 (chapter:spiking)=
 # What is a spiking neuron?
 
-In this chapter, we will study the most fundamental unit of building SNNs -- the **Spiking Neuron**.
+In this chapter, we will study the most fundamental unit of building SNNs -- the
+**Spiking Neuron**. In the previous chapter you were introduced to **Biological
+Neurons** and their common types. Here'in, we will learn how to _simulate_ them
+with various levels of fidelity.
+
+
+---
+
 First, we provide a brief refresherstart from the *Biological Neurons* lay down the neuroscience principles underlying the spiking neurons. Later, a section on the *functional comparison* between spiking neurons and artificial neurons is also presented, where we highlight the inherent temporality and sparsity of spiking neurons.
 
 ### Should we write a section on why Spiking Neurons
