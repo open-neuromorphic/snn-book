@@ -4,53 +4,73 @@
 In this chapter, we will study the most fundamental unit of building SNNs -- the
 **Spiking Neuron**. In the previous chapter you were introduced to **Biological
 Neurons** and their common types. Here'in, we will learn how to _simulate_ them
-with various levels of fidelity.
+with various levels of fidelity, using the *neuroscience principles* underlying
+the biological neurons. Later, a section on the *functional comparison* between
+spiking neurons and artificial neurons will also be presented, where, we:
 
-
----
-
-First, we provide a brief refresherstart from the *Biological Neurons* lay down the neuroscience principles underlying the spiking neurons. Later, a section on the *functional comparison* between spiking neurons and artificial neurons is also presented, where we highlight the inherent temporality and sparsity of spiking neurons.
-
-### Should we write a section on why Spiking Neurons
-
-Sparse method of encoding and working with temporal information. H/W neurons don't need to be active all the time.
-
-### Dales Principle
-
-and How SNNs violate that?
-
-### Biological Neurons
-
-(sec:bio-neuron)=
-### Action Potentials
-
-Perhaps look here: https://pure.rug.nl/ws/portalfiles/portal/1106997626/Complete_thesis.pdf
-
-Introduce the notations for membrane potential, V[t], input current I[t], etc. here and then explain them in the Spiking Neurons section.
-
----
+- highlight the inherent _temporality_ and _sparsity_ of spiking neurons, and
+- intuitively explain the _relation_ between spiking and artificial neurons
 
 ### Spiking Neurons
+**Spiking Neurons** are electro-mathematical abstraction of biological neurons.
+They are generally *not* very detailed representations of biological neurons,
+rather simple enough to reproduce their intended spiking behaviour. The **major
+characteristics** of biological neurons -- that are of common interest to mimic
+(via spiking neurons) are:
 
-**Spiking Neurons** are electro-mathematical abstraction of biological neurons. They are generally *not* very detailed representations of biological neurons, rather simple enough to reproduce their intended spiking behaviour. Note that a majority of the spiking neurons you will come across will fall into the category of *point* spiking neuron models; few rare ones will fall into the category of *spatial* spiking neuron models. The **major characteristics** of biological neurons -- that are of common interest to mimic (via spiking neurons) are:
+- **Accounting incoming action-potentials**: Spiking neurons simulate this
+behavior by *integrating* the incoming action-potentials into their membrane
+potential/voltage -- either in a *decaying* or *non-decaying* fashion (more
+details later). Assuming the incoming action-potentials positively contribute,
+the spiking neuron's potential/voltage increases with time and eventually
+reaches/crosses a certain set voltage threshold.
 
-- **Accounting incoming action-potentials**: Spiking neurons emulate this behavior by *integrating* the incoming action-potentials into their membrane potential/voltage -- either in a *decaying* or *non-decaying* fashion (more details later). Assuming the incoming action-potentials positively contribute, the spiking neuron's potential/voltage increases with time and eventually reaches/crosses a certain set voltage threshold.
+- **Generating an output action-potential**: Spiking neurons simulate the
+generation of action-potential by producing a *binary*/*graded* *spike*, where a
+*binary* *spike* implies a binary value ∈ {0, 1} and a *graded* *spike* implies
+an integer value ∈ ℤ⁺ > 1. Note that the values of spikes are also sometimes
+referred as their *amplitude*.
 
-- **Generating an output action-potential**: Spiking neurons emulate the generation of action-potential by producing a *binary*/*graded* *spike*, where a *binary* *spike* implies a binary value ∈ {0, 1} and a *graded* *spike* implies an integer value ∈ ℤ⁺ > 1. Note that the values of spikes are also sometimes referred as their *amplitude*.
+```{note}
+Some SNN implementations may use negative spikes! Also, it is commonly agreed
+that biological neurons' action potentials do *not* have the notion of amplitude.
+```
 
-  ```{note}
-  Some SNN implementations may use negative spikes! Also, it is commonly agreed that biological neurons' action potentials do *not* have the notion of amplitude.
-  ```
+- **Resetting the membrane potential**: Spiking neurons simulate the resetting of
+membrane potential/voltage via two common methods: *hard-reset* and *soft-reset*,
+where *hard-reset* implies setting the neuron's voltage to 0, whereas
+*soft-reset* implies setting the neuron's voltage to a value that is equal to
+the neuron's current voltage *subtracted* by its assumed voltage threshold. The
+difference between these two will be clear in the later sections.
 
-- **Resetting the membrane potential**: Spiking neurons emulate the resetting of membrane potential/voltage via two common methods: *hard-reset* and *soft-reset*, where *hard-reset* implies setting the neuron's voltage to 0, whereas *soft-reset* implies setting the neuron's voltage to a value that is equal to the neuron's current voltage *subtracted* by its assumed voltage threshold. The difference between these two will be clear in the later sections.
+- **Entering into refractory state**: Spiking neurons simulate this behavior by
+generally _keeping_ their membrane potential/voltage at 0 (in case of soft-reset)
+or at a subtracted value (in case of hard-reset) for a certain number of
+time-steps.
 
-- **Entering into refractory state**: Spiking neurons emulate this behavior by generally keeping their membrane potential/voltage at 0 (in case of soft-reset) or at a subtracted value (in case of hard-reset) for a certain number of time-steps. This characteristic is typically ignored while building SNNs and is subject to varied implementations.
+- **Propagating the action-potential along axon**: Spiking neurons generally do
+*not* simulate this behaviour, except for the *spatial* spiking neuron models;
+whose neural dynamics incorporate this behaviour as a _delay_ (effected in
+simulation time-steps) in action potential propagation through the modeled axon
+to the axon-terminals.
 
-- **Propagating the action-potential along axon**: Spiking neurons generally do *not* emulate this behaviour, except for the *spatial* spiking neuron models. This characteristic/property is typically embedded into the SNNs itself via the concept of *delays*. In other words, when an action-potential propagates along the neuron's axon, it reaches the axon-terminal typically after some delays; this behaviour is accommodated in SNNs via introducing delays in spike propagation between the pre-synaptic and post-synaptic layers.
+```{note}
+SNNs built with _point_ spiking neuron models incorporate the characteristic of
+action potential _propagation_ via the concept of introducing _delays_ in spike
+transmission time between the pre-synaptic and post-synpatic neurons.
+```
+
+Note that we have subtely introduced the concept of _point_ and _spatial_
+spiking neuron models here. While researching in SNNs, you will see that a
+majority of the SNN models are built with _point_ spiking neurons. Our next
+chapter dives into different kinds of **Point Neuron** and **Spatial Neuron**
+models.
+
+---
 
 ### Point Spiking Neuron Models
 
-**Point spiking neurons** are minimalistic neuron models that use simplified electro-mathematical equations to mimic the spike generation, voltage reset, and refractory state behaviour of biological neurons; they conveniently ignore to model the ionic channels, axial conductance, axonal propagation of spike/action-potential, etc., basically anything that relates to the spatial form of a biological neuron. Common examples of point spiking neurons are *Integrate & Fire*, *Leaky Integrate & Fire*, and *Resonate & Fire* neuron models.
+**Point spiking neurons** are minimalistic neuron models that use simplified electro-mathematical equations to mimic the spike generation, voltage reset, and refractory state behaviour of biological neurons; they conveniently ignore to model the ionic channels, axial conductance, axonal propagation of spike/action-potential, etc., basically anything that relates to the spatial form of a biological neuron. Common examples of point spikting neurons are *Integrate & Fire*, *Leaky Integrate & Fire*, and *Resonate & Fire* neuron models.
 
 #### Integrate & Fire neuron model
 
@@ -127,3 +147,7 @@ Here is some remark {ref}`sec:proin`.
 **Spiking Neurons Summary**
 
 Example of a website [example.com](https://example.com/).
+
+### Should we write a section on why Spiking Neurons
+Sparse method of encoding and working with temporal information. H/W neurons don't need to be active all the time.
+
