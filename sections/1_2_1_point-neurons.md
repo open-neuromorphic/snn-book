@@ -1,21 +1,42 @@
 (chapter:point-neurons)=
 # Point Neuron Models
-### Point Spiking Neuron Models
+**Point Neurons Models** are minimalistic spiking neuron models that use 
+simplified electro-mathematical equations to mimic the spike generation, 
+voltage reset, and refractory state behaviour of biological neurons; they 
+conveniently ignore to model the ionic channels, axial conductance, axonal 
+propagation of spike/action-potential, etc., basically anything that relates to 
+the spatial form of a biological neuron. Common examples of point spikting 
+neurons are *Integrate & Fire*, *Leaky Integrate & Fire*, and *Resonate & Fire* 
+spiking neuron models. We explain each of these three point nueron models below, 
+along with their code examples. We highly encourage you to play with their
+different hyper-parameter settings, and observe/analyse their spiking behaviour.
 
-**Point spiking neurons** are minimalistic neuron models that use simplified electro-mathematical equations to mimic the spike generation, voltage reset, and refractory state behaviour of biological neurons; they conveniently ignore to model the ionic channels, axial conductance, axonal propagation of spike/action-potential, etc., basically anything that relates to the spatial form of a biological neuron. Common examples of point spikting neurons are *Integrate & Fire*, *Leaky Integrate & Fire*, and *Resonate & Fire* neuron models.
+## Integrate & Fire Neuron
 
-#### Integrate & Fire neuron model
-
-**Integrate & Fire** (IF) neuron model is the simplest of all the spiking neuron models -- by virtue of which, it's dynamic behaviour is also quite limited. An IF neuron, as the name goes, (at the very least) *integrates* the incoming/input spikes into its *non-decaying* membrane potential/voltage, followed by generating an output spike when its voltage reaches/crosses the set voltage threshold; whether or not it undergoes through a refractory state, is dependent on the subjective implementation. Following is the *continuous-time* equation of an IF neuron:
+**Integrate & Fire** (**IF**) neuron model is the simplest of all the spiking 
+neuron models -- by virtue of which, it's dynamic behaviour is also quite 
+limited. An IF neuron, as the name goes, (at the very least) *integrates* the 
+incoming/input spikes into its *non-decaying* membrane potential/voltage, 
+followed by generating an output spike when its voltage reaches/crosses the set 
+voltage threshold; whether or not it undergoes through a refractory state, is 
+dependent on the subjective implementation. Following is the *continuous-time* 
+equation of an IF neuron relating its voltage $V(t)$ and current $I(t)$.
 
 ```{math}
 :label: eq:continuous-if
 C\frac{dV(t)}{dt} = I(t)
 ```
 
-Note the inherent temporality in $t$.
+Note the inherent temporality in $V(t)$ and $I(t)$ by the virtue of time $t$.
+Here, we subtely note the activation function of an example artificial neuron,
+say $\texttt{ReLU}$: $max(x, 0)$, where $x\in\mathbb{R}$; as can be seen, there 
+is **no** temporal component in $\texttt{ReLU}$, however, you will that all the 
+spiking neurons are inherently temporal. In the later sections, we will present 
+the interesting relation between spiking and artificial neurons.
 
-To implement an IF neuron on digital systems, i.e., your computer, it is necessary to discretize its continuous-time equations. Following are the *discrete-time* equations that describe an IF neuron:
+Coming back to the IF neurons, to implement it on digital systems, i.e., your 
+computer, it is necessary to discretize its continuous-time equations. Following 
+are the *discrete-time* equations that describe an IF neuron:
 
 ```{math}
 :label: eq:discrete-if-cur-update
