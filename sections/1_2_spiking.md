@@ -11,7 +11,7 @@ spiking neurons and artificial neurons will also be presented, where, we:
 - highlight the inherent _temporality_ and _sparsity_ of spiking neurons, and
 - intuitively explain the _relation_ between spiking and artificial neurons
 
-### Spiking Neurons
+## Spiking Neurons
 **Spiking Neurons** are electro-mathematical abstraction of biological neurons.
 They are generally *not* very detailed representations of biological neurons,
 rather simple enough to reproduce their intended spiking behaviour. The **major
@@ -56,8 +56,8 @@ to the axon-terminals.
 
 ```{note}
 SNNs built with _point_ spiking neuron models incorporate the characteristic of
-action potential _propagation_ via the concept of introducing _delays_ in spike
-transmission time between the pre-synaptic and post-synpatic neurons.
+action potential _propagation_ through the concept of introducing _delays_ in 
+spike transmission time - between the pre-synaptic and post-synpatic neurons.
 ```
 
 Note that we have subtely introduced the concept of _point_ and _spatial_
@@ -66,11 +66,8 @@ majority of the SNN models are built with _point_ spiking neurons. Our next
 chapter dives into different kinds of **Point Neuron** and **Spatial Neuron**
 models.
 
----
-**Spiking Neurons Summary**
-
-**Introduce voltage, current, spike notations here?**
-
 ### Should we write a section on why Spiking Neurons
 Sparse method of encoding and working with temporal information. H/W neurons don't need to be active all the time. Sparsity in spiking.
+
+### Section on Spiking Neurons summary?
 
