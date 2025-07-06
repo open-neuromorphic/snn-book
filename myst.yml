@@ -71,6 +71,9 @@ project:
     - format: pdf
       template: arxiv_nips
       article_type: book
+parse:
+  myst_enable_extensions:
+    - amsmath
 site:
   template: book-theme
   options:
