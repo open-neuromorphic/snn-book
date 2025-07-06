@@ -40,10 +40,10 @@ equation of an IF neuron [@heeger2000integrate] :
 
 ```{math}
 :label: eq:continuous-if
-C_m\frac{dV(t)}{dt} = I(t)
+C_\text{m}\frac{dV(t)}{dt} = I(t)
 ```
-where, $C_m$ is the neuron's _Capacitance_ value (generally assumed to be $1$),
-$V(t)$ is neuron's membrane potential/voltage, and $I(t)$ is the input 
+where, $C_\text{m}$ is the neuron's _Capacitance_ value (generally assumed to be 
+$1$), $V(t)$ is neuron's membrane potential/voltage, and $I(t)$ is the input 
 stimulus/current due to the incoming spikes.
 
 In Eq {eq}`eq:continuous-if`, note the inherent temporality in $V(t)$ and $I(t)$ 
@@ -139,12 +139,52 @@ a hard reset sets $V[t]$ to $V_\text{rest}$ after the neuron produces a spike an
 a soft reset sets $V[t]$ to its new value lesser by $V_\text{rest}$. In other 
 words, the soft reset enables the neuron to retain some contribution of the 
 $I[t]$ or $S_\text{inp}[t]$ received, while hard reset results the neuron to 
-discard any such contribution and start updating $V[t]$ right from
+discard any such contribution and start updating its $V[t]$ right from
 $V_\text{rest}$.
 
-
 ## Leaky Integrate & Fire Neuron Model
+**Leaky Integrate & Fire** (**LIF**) neuron model is another simple and a common 
+spiking neuron model that displays slightly more complex behavior than the IF 
+neuron model. A LIF neuron, as the name goes, integrates the incoming/input 
+spikes into its _decaying_ membrane potential/voltage, followed by generating an 
+output spike when its voltage reaches/crosses the set voltage threshold. Note 
+that the refractory period (after spiking) is a standard component of the LIF 
+neuron model and is often included in its implementation, although, one can 
+choose to ignore this. Also note that including the refractory period in LIF 
+prevents it from spiking immediately after it has already spiked; this mimics the 
+neurobiological behavior of the neurons. Needless to say, inclusion of refractory 
+period influences LIF neuron’s firing rate behavior too, as well as its response 
+to the input stimuli. Following is the _continuous-time_ equation (Eq
+{eq}`eq:continuous-lif`) of the LIF neuron [@gerstner2014neuronal]:
 
+```{math}
+:label: eq:continuous-lif 
+\tau_\text{m}\frac{dV(t)}{dt} = -(V(t) - V_\text{rest}) + R_\text{m}I(t)
+```
+where, $\tau_\text{m}$ and $R_\text{m}$ are the neuron's _time-constant_ and
+_membrane resistance_ respectively. Note $\tau_\text{m}=R_\text{m}C_\text{m}$ and
+$R_\text{m}$ contributes to the "leak" of accumulating charge in the membrane 
+capacitance  $C_\text{m}$, hence the name: "leaky integrator"
+[@gerstner2014neuronal].
+
+### Implementing LIF neuron
+Similar to implementing the IF neuron on a digital computer, one can discretize
+the Eq {eq}`eq:continuous-lif` of the LIF neuron via the forward Euler method; we 
+do that in Appx X. Following are the _discrete-time_ equations that describe a
+LIF neuron:
+
+\begin{align}
+I[t] &= (1 - \tau_\text{cur})\times I[t-1] + w\times S_\text{inp}[t] \tag{a} \\
+V[t] &= (1 - \tau_\text{vol})\times V[t-1] + I[t]  \tag{b} \\
+S_\text{out}[t] &= \Theta(V[t] - V_\text{thr})  \tag{c} \\
+V[t] &\leftarrow \begin{cases} \tag{d}
+    V_\text{rest} \text{\quad\qquad\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{hard reset}} \\
+    V[t] - V_\text{rest}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
+\end{cases} 
+\label{eq:discrete-lif}
+\end{align}
+
+In Eqs {eq}`eq:discrete-lif`a and {eq}`eq:discrete-lif`b
 ```{note}
 Most of the literature on SNNs use point neuron models because they are simple and easy to implement in both software and hardware.
 ```
