@@ -34,9 +34,8 @@ You can always solve practical coding problems by asking your favorite LLM (it p
 
 The book is structured in three Sections:
 1. An intuitive and accessible **theoretical introduction** to the world of SNNs
-2. A practical guide to **implementing and working** with SNNs using **deep learning**
-and **neuro-inspired** frameworks
-3. A practical guide to running SNNs on **neuromorphic hardware**
+2. A practical guide to **implementing and working with SNNs in Python**
+3. A practical guide to **running SNNs on neuromorphic hardware**
 
 Each section can be read independently and features self-contained *interactive* examples that build strong intuition.
 The book is accessible to anyone with basic knowledge of **calculus** and **linear algebra**.
@@ -46,12 +45,17 @@ If you have never heard the terms "spiking neuron", "neuromorphic computing", or
 
 ## Contributing to the book
 
+<<<<<<< HEAD
 The book is open source, under [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
 You're more than welcome to help us out by pointing out and suggesting improvements;
 and we warmly welcome pull requests to improve the book https://github.com/open-neuromorphic/snn-book.
 If you have made significant peer-reviewed contributions to a chapter, then following
 the approval of the existing authors of that chapter, your name will be included
 in the author list in subsequent versions of the book.
+=======
+The book is open source, under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en).
+You're more than welcome to help us out by pointing out, suggesting improvements, and we warmly welcome pull requests to improve the book https://github.com/open-neuromorphic/snn-book.
+>>>>>>> 3ca23d5 (Restructured and added appendix on dynamics)
 
 ## Citing the book/chapters
 

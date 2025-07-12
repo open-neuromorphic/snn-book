@@ -1,2 +1,0 @@
-(simulating)=
-# Simulating SNNs
