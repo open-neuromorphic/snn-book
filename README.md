@@ -10,12 +10,20 @@ Reading this book will give you means to **design**, **build**, **train**, and *
 
 Artificial Neural Networks (ANNs) can solve tremendously complicated problems.
 But we know that biological brains are *much* more **expressive** and can solve *much* tougher tasks.
-In brains, the computational power comes from **spiking** neurons that are **both digital and analog** [@Neumann_2012], that is, biological cells that gather analog information internally, but emits signals digitally via discrete electrical pulses (spikes).
+In brains, the computational power comes from **biological neurons** that are
+**both digital and analog** [@Neumann2012], that is, biological cells that gather
+analog information internally, but emit signals digitally via discrete electrical
+pulses (which we informally call _spikes_). **Spiking** neurons are either digital
+or analog (or hybrid) implementations of the biological neurons, which integrate
+incoming information and generate discrete spikes upon meeting certain conditions.
 
-In SNNs, **spiking** neurons are used instead of the **artificial** neurons we see in ANNs.
-SNNs are more powerful, faster, and more energy-efficient than SNNs when deployed on specialized **neuromorphic hardware**.
-But, they are hard to understand and difficult to train.
-This book is meant to help: we will give you a thorough intuitive understanding of SNNs and show you how to design, build, train, and execute them.
+In SNNs, **spiking** neurons are used instead of the conventional **artificial**
+neurons (e.g., $\texttt{sigmoid}$, $\texttt{ReLU}$, etc.) that we see in the ANNs.
+SNNs are more computationally expressive and more energy-efficient and faster than
+ANNs when deployed on specialized **neuromorphic hardware**. But, they are hard
+to understand and difficult to train. This book is meant to help: we will give
+you a thorough intuitive understanding of SNNs and show you how to design, build,
+train, and execute them.
 
 ## How to read the book
 
@@ -41,7 +49,7 @@ If you have never heard the terms "spiking neuron", "neuromorphic computing", or
 The book is open source, under [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
 You're more than welcome to help us out by pointing out and suggesting improvements;
 and we warmly welcome pull requests to improve the book https://github.com/open-neuromorphic/snn-book.
-In you have made significant peer-reviewed contributions to a chapter, then following
+If you have made significant peer-reviewed contributions to a chapter, then following
 the approval of the existing authors of that chapter, your name will be included
 in the author list in subsequent versions of the book.
 
