@@ -47,13 +47,12 @@ project:
             - file: sections/1_4_2_snn-basics.md
     - file: sections/2_training.md
       children:
-        - file: sections/2_1_credit_assignment.md
-        - file: sections/2_2_spiking_data.md
-        - file: sections/2_3_offline_training.md
-        - file: sections/2_4_online_training.md
-        - file: sections/2_5_alternative_training.md
-        - file: sections/2_6_optimization.md
-        - file: sections/2_7_benchmarking.md
+        - file: sections/2_credit_assignment.md
+        - file: sections/2_offline_training.md
+        - file: sections/2_online_training.md
+        - file: sections/2_alternative_training.md
+        - file: sections/2_optimization.md
+        - file: sections/2_benchmarking.md
     - file: sections/3_hardware.md
       children:
         - file: sections/3_1_platforms.md
@@ -61,11 +60,10 @@ project:
         - file: sections/3_3_quantization.md
     - file: sections/appendices.md
       children:
-<<<<<<< HEAD
-        - file: sections/appx_modeling_theories.md
-=======
-        - file: sections/a_1_dynamics.md
->>>>>>> 3dc43f3 (Updated toc)
+        - file: sections/a_dynamics.md
+        - file: sections/a_modeling_theories.md
+        - file: sections/a_datasets.md
+        - file: sections/a_tools.md
       numbering: false
     - file: glossary.md
       numbering: false
