@@ -43,7 +43,8 @@ project:
             - file: sections/1_3_3_decoding.md
         - file: sections/1_4_snn.md
           children:
-            - file: sections/1_4_1_snn-basics.md
+            - file: sections/1_4_1_why-snns.md
+            - file: sections/1_4_2_snn-basics.md
     - file: sections/2_training.md
       children:
         - file: sections/2_1_architecture.md
