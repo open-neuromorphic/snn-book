@@ -56,7 +56,7 @@ to the axon-terminals.
 
 ```{note}
 SNNs built with _point_ spiking neuron models incorporate the characteristic of
-action potential _propagation_ through the concept of introducing _delays_ in 
+action potential _propagation_ through the concept of introducing _delays_ in
 spike transmission time - between the pre-synaptic and post-synpatic neurons.
 ```
 
@@ -65,9 +65,6 @@ spiking neuron models here. While researching in SNNs, you will see that a
 majority of the SNN models are built with _point_ spiking neurons. Our next
 chapter dives into different kinds of **Point Neuron** and **Spatial Neuron**
 models.
-
-### Should we write a section on why Spiking Neurons
-Sparse method of encoding and working with temporal information. H/W neurons don't need to be active all the time. Sparsity in spiking.
 
 ### Section on Spiking Neurons summary?
 
