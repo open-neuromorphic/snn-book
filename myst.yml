@@ -25,7 +25,7 @@ project:
   toc:
     - file: README.md
       numbering: false
-    - file: sections/1_computing.md
+    - file: sections/1_foundations.md
       children:
         - file: sections/1_1_neuron.md
           children:
