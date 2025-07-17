@@ -9,11 +9,11 @@ This chapter covers
 (section:deployment)=
 # Deploying SNNs to Neuromorphic Hardware
 
-This chapter details the process of deploying Spiking Neural Networks onto specialized neuromorphic hardware. It moves from the motivating principles and core hardware design trade-offs to the practical compilation toolchain and platform-specific implementations. The content is structured to provide a working knowledge for machine learning engineers familiar with standard deep learning frameworks.
+This topic details the process of deploying Spiking Neural Networks onto specialized neuromorphic hardware. It moves from the motivating principles and core hardware design trade-offs to the practical compilation toolchain and platform-specific implementations. 
 
-The chapter is organized as follows:
+The topic is organized as follows:
 
-1. Motivation and Performance Metrics: This section establishes the context for neuromorphic computing. It contrasts the event-driven paradigm with synchronous processing in GPUs, focusing on key performance indicators relevant to SNNs:
+1. Motivation and Performance Metrics: This chapter talks about system level benchamrks and figures of merit of neuromorphic computing systems. It contrasts the event-driven paradigm with synchronous processing in GPUs, focusing on key performance indicators relevant to SNNs:
     - Beyond energy consumption per synaptic operation.
     - Inference latency and real-time processing capabilities.
     - Trade-offs in computational precision and bandwidth, drawing from application examples like sensor-edge control systems.
@@ -25,8 +25,9 @@ The chapter is organized as follows:
     - On-Chip Communication and Scalability: Covers different network-on-chip (NoC) strategies and their impact on how a large SNN graph must be partitioned and routed across the hardware.
 
 3. The Neuromorphic Compilation Toolchain: This section details the sequence of steps required to map a software-based SNN to a physical hardware target
-    - Quantize
-    - Transform
+    - Quantize-aware training and post-training quantization
+    - Partition, place and route 
+    - Runtimes
 
 
 4. Platform-Specific Deployment Examples: This final section provides practical, end-to-end case studies for deploying a simple SNN on representative hardware platforms. Each subsection will walk through the process using the platform's native deployment framework, highlighting how the concepts from the previous sections apply.
@@ -34,7 +35,8 @@ The chapter is organized as follows:
     - Case Study 2: Deployment to a Microcontroller-based or Edge-Focused System (e.g. Synsense/Innatera)
 
 5. Platform interoperability
-    - NIR
+    - Intermediate representation: NIR
+    - Network descriptions with multiple backends: PyNN
 
 6. Data, datasets and sensors
     - Traditional sensors
