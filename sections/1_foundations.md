@@ -1,5 +1,5 @@
-(sec:computing)=
-# Computing with spikes
+(sec:foundations)=
+# Foundations of SNNs
 
 Have you wondered how the brain works as a *computer*?
 What it means *practically* that the brain consists of neurons?
