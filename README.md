@@ -45,17 +45,12 @@ If you have never heard the terms "spiking neuron", "neuromorphic computing", or
 
 ## Contributing to the book
 
-<<<<<<< HEAD
-The book is open source, under [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
+The book is open source, under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en).
 You're more than welcome to help us out by pointing out and suggesting improvements;
 and we warmly welcome pull requests to improve the book https://github.com/open-neuromorphic/snn-book.
 If you have made significant peer-reviewed contributions to a chapter, then following
 the approval of the existing authors of that chapter, your name will be included
 in the author list in subsequent versions of the book.
-=======
-The book is open source, under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en).
-You're more than welcome to help us out by pointing out, suggesting improvements, and we warmly welcome pull requests to improve the book https://github.com/open-neuromorphic/snn-book.
->>>>>>> 3ca23d5 (Restructured and added appendix on dynamics)
 
 ## Citing the book/chapters
 
