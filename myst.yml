@@ -72,6 +72,8 @@ project:
       numbering: false
     - file: contributors.md
       numbering: false
+    - file: glossary.md
+      numbering: false
   bibliography:
     - references.bib
   numbering:
