@@ -25,6 +25,10 @@ project:
   toc:
     - file: README.md
       numbering: false
+    - file: topics/0_intro.md
+      children:
+        - file: topics/0_reader.md
+        - file: topics/0_why_snns.md
     - file: topics/1_foundations.md
       children:
         - file: topics/1_1_neuron.md
