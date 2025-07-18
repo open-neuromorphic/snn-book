@@ -66,4 +66,4 @@ majority of the SNN models are built with _point_ spiking neurons. Our next
 chapter dives into different kinds of **Point Neuron** and **Spatial Neuron**
 models.
 
-### Section on Spiking Neurons summary?
+### Topic on Spiking Neurons summary?

@@ -32,16 +32,16 @@ We strongly recommend that you take time to exploit the interactive examples on 
 The goal is to give you a strong intuition.
 You can always solve practical coding problems by asking your favorite LLM (it probably already indexed this book anyway).
 
-The book is structured in three Sections:
+The book is structured in three Topics:
 1. An intuitive and accessible **theoretical introduction** to the world of SNNs
 2. A practical guide to **implementing and working with SNNs in Python**
 3. A practical guide to **running SNNs on neuromorphic hardware**
 
 Each section can be read independently and features self-contained *interactive* examples that build strong intuition.
 The book is accessible to anyone with basic knowledge of **calculus** and **linear algebra**.
-We recommend getting a strong grasp on the **fundamentals** (Section 1) before skipping to the later chapters, but the book *can* be used as a reference for solutions when you are in a time crunch.
+We recommend getting a strong grasp on the **fundamentals** (Topic 1) before skipping to the later chapters, but the book *can* be used as a reference for solutions when you are in a time crunch.
 
-If you have never heard the terms "spiking neuron", "neuromorphic computing", or "computational neuroscience", we recommend starting from the first chapter in Section 1.
+If you have never heard the terms "spiking neuron", "neuromorphic computing", or "computational neuroscience", we recommend starting from the first chapter in Topic 1.
 
 ## Contributing to the book
 
