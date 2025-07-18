@@ -24,7 +24,7 @@ project:
   license: CC-BY-NC-SA-4.0
   toc:
     - file: README.md
-      numbering: false   
+      numbering: false
     - file: sections/1_computing.md
       children:
         - file: sections/1_1_neuron.md
@@ -42,6 +42,8 @@ project:
         - file: sections/3_2_frameworks.md
         - file: sections/3_3_quantization.md
     - file: sections/appendices.md
+      numbering: false
+    - file: glossary.md
       numbering: false
   bibliography:
     - references.bib

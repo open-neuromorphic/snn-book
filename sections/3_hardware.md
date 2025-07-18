@@ -9,7 +9,7 @@ This chapter covers
 (section:deployment)=
 # Deploying SNNs to Neuromorphic Hardware
 
-This topic details the process of deploying Spiking Neural Networks onto specialized neuromorphic hardware. It moves from the motivating principles and core hardware design trade-offs to the practical compilation toolchain and platform-specific implementations. 
+This topic details the process of deploying Spiking Neural Networks onto specialized neuromorphic hardware. It moves from the motivating principles and core hardware design trade-offs to the practical compilation toolchain and platform-specific implementations.
 
 The topic is organized as follows:
 
@@ -22,11 +22,11 @@ The topic is organized as follows:
 
     - Analog vs. Digital Neuron Circuits: Discusses the implications of analog's efficiency versus digital's precision on model quantization and noise robustness.
     - Neuron and Synapse Model Flexibility: Explores the spectrum from highly configurable models to fixed-function hardware, and how this constrains the translation of a software-defined SNN.
-    - On-Chip Communication and Scalability: Covers different network-on-chip (NoC) strategies and their impact on how a large SNN graph must be partitioned and routed across the hardware.
+    - On-Chip Communication and Scalability: Covers different {term}`NoC` strategies and their impact on how a large SNN graph must be partitioned and routed across the hardware.
 
 3. The Neuromorphic Compilation Toolchain: This section details the sequence of steps required to map a software-based SNN to a physical hardware target
     - Quantize-aware training and post-training quantization
-    - Partition, place and route 
+    - Partition, place and route
     - Runtimes
 
 
@@ -41,4 +41,3 @@ The topic is organized as follows:
 6. Data, datasets and sensors
     - Traditional sensors
     - Neuromorphic sensors
-
