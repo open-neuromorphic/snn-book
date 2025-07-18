@@ -25,44 +25,44 @@ project:
   toc:
     - file: README.md
       numbering: false
-    - file: sections/1_foundations.md
+    - file: topics/1_foundations.md
       children:
-        - file: sections/1_1_neuron.md
+        - file: topics/1_1_neuron.md
           children:
-            - file: sections/1_1_1_bio-neurons.md
-            - file: sections/1_1_2_glial-cells.md
-        - file: sections/1_2_spiking.md
+            - file: topics/1_1_1_bio-neurons.md
+            - file: topics/1_1_2_glial-cells.md
+        - file: topics/1_2_spiking.md
           children:
-            - file: sections/1_2_1_point-neurons.md
-            - file: sections/1_2_2_spatial-neurons.md
-            - file: sections/1_2_3_spk-vs-artfcl.md
-        - file: sections/1_3_encdec.md
+            - file: topics/1_2_1_point-neurons.md
+            - file: topics/1_2_2_spatial-neurons.md
+            - file: topics/1_2_3_spk-vs-artfcl.md
+        - file: topics/1_3_encdec.md
           children:
-            - file: sections/1_3_1_rate-enc.md
-            - file: sections/1_3_2_temp-enc.md
-            - file: sections/1_3_3_decoding.md
-        - file: sections/1_4_snn.md
+            - file: topics/1_3_1_rate-enc.md
+            - file: topics/1_3_2_temp-enc.md
+            - file: topics/1_3_3_decoding.md
+        - file: topics/1_4_snn.md
           children:
-            - file: sections/1_4_1_why-snns.md
-            - file: sections/1_4_2_snn-basics.md
-    - file: sections/2_training.md
+            - file: topics/1_4_1_why-snns.md
+            - file: topics/1_4_2_snn-basics.md
+    - file: topics/2_training.md
       children:
-        - file: sections/2_credit_assignment.md
-        - file: sections/2_offline_training.md
-        - file: sections/2_online_training.md
-        - file: sections/2_alternative_training.md
-        - file: sections/2_optimization.md
-    - file: sections/3_hardware.md
+        - file: topics/2_credit_assignment.md
+        - file: topics/2_offline_training.md
+        - file: topics/2_online_training.md
+        - file: topics/2_alternative_training.md
+        - file: topics/2_optimization.md
+    - file: topics/3_hardware.md
       children:
-        - file: sections/3_1_platforms.md
-        - file: sections/3_2_frameworks.md
-        - file: sections/3_3_quantization.md
-    - file: sections/appendices.md
+        - file: topics/3_1_platforms.md
+        - file: topics/3_2_frameworks.md
+        - file: topics/3_3_quantization.md
+    - file: topics/appendices.md
       children:
-        - file: sections/a_dynamics.md
-        - file: sections/a_modeling_theories.md
-        - file: sections/a_datasets.md
-        - file: sections/a_tools.md
+        - file: topics/a_dynamics.md
+        - file: topics/a_modeling_theories.md
+        - file: topics/a_datasets.md
+        - file: topics/a_tools.md
       numbering: false
     - file: glossary.md
       numbering: false
