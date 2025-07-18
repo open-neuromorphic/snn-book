@@ -1,5 +1,5 @@
 ---
 numbering: false
 ---
-(section:appendix)=
+(appendix)=
 # Appendices
