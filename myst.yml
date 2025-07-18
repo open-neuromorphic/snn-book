@@ -52,7 +52,6 @@ project:
         - file: sections/2_online_training.md
         - file: sections/2_alternative_training.md
         - file: sections/2_optimization.md
-        - file: sections/2_benchmarking.md
     - file: sections/3_hardware.md
       children:
         - file: sections/3_1_platforms.md

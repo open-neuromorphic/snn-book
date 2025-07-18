@@ -17,6 +17,16 @@ The topic is organized as follows:
     - Beyond energy consumption per synaptic operation.
     - Inference latency and real-time processing capabilities.
     - Trade-offs in computational precision and bandwidth, drawing from application examples like sensor-edge control systems.
+    - 
+    
+    # Benchmarking SNNs
+    Metrics beyond accuracy: sparsity, energy, latency
+    Temporal performance evaluation
+    Robustness testing and adversarial examples
+    Comparing SNN performance to ANN baselines
+    Standardized benchmarks and datasets
+    SNN suitable datasets vs ANN suitable datasets
+    
 
 2. Hardware Design Principles and Deployment Consequences: An overview of the fundamental design decisions that differentiate neuromorphic platforms. Each principle is directly tied to its practical consequences for the ML engineer during model deployment, with accompanying examples.
 
