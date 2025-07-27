@@ -1,7 +1,6 @@
 ---
 numbering: false
 ---
-
 # Guidelines for Contributors
 
 This page explains what and how to contribute to this **Practical Spiking Neural
