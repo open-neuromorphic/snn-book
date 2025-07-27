@@ -32,8 +32,8 @@ https://github.com/open-neuromorphic/snn-book/issues) on this repo
   and we will officially assign that issue to you
 * Adding new chapters, sections, or light-weight code/programs (in PyTorch, Jax)
 
-NOTE: Please check the following section: **Call for planned contributions** for
-more concrete opportunities to contribute to this book!
+**NOTE:** Please check the following section: **1. 4 Call for planned
+contributions** for more concrete opportunities to contribute to this book!
 
 ## How to contribute?
 
@@ -73,14 +73,16 @@ from within your python environment, and <br>
 on your browser <br> <br>
 
 * Once you have made your changes, push your commits to review <br>
-`git push`
+`git push` <br> <br>
+
+* File a pull request, and choose a reviewer for your edits; consult in the
+`#snn-book` channel for the same! <br> <br>
 
 * Once you've addressed all the review comments and received approval from your
-  reviewers, merge your branch to `main`
+  reviewer(s), merge your branch to `main`
 
-Unless already discussed with repo maintainers please do not add massive changes
-to review.
-
+**NOTE:** Unless already discussed with repo maintainers/reviewer(s) please do
+not add massive changes to review.
 
 
 ## Getting acknowledged!
