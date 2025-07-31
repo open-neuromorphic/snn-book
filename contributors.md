@@ -1,3 +1,7 @@
+---
+numbering: false
+---
+
 # Guidelines for Contributors
 
 This page explains what and how to contribute to this **Practical Spiking Neural
@@ -7,8 +11,7 @@ are subject to change.
 
 This open-source book is primarily written in
 [Markdown using Myst](https://mystmd.org). The light-weight code examples are
-written in Python using libraries: [Numpy](https://numpy.org/).
-
+written in Python using [Numpy](https://numpy.org/).
 
 ## What to contribute?
 
@@ -41,7 +44,7 @@ Interested to contribute? Thank you! Please read the following instructions to
 quickly set up your dev environment and push your first commit!
 
 ### Only two pedantic asks!
-Please configure your favour text editor (where you plan to add your edits to
+Please configure your favourite text editor (where you plan to add your edits to
 this book) such that the individual lines (including code snippets) are 80
 characters long; most of the editors come with the auto-wrap functionality, you
 just need to configure it to 80 characters long.
@@ -66,11 +69,11 @@ before executing the following steps.
 `git checkout issue-17` <br>
 `git push --set-upstream origin issue-17` <br> <br>
 
-* Make small edits and execute the book to see how it looks <br>
+* Make small edits, compile the book <br>
 `jupyter book start` <br>
-from within your python environment, and <br>
+from within your python environment, and open <br>
 `http://localhost:3000/` <br>
-on your browser <br> <br>
+on your browser to see how it looks <br> <br>
 
 * Once you have made your changes, push your commits to review <br>
 `git push` <br> <br>
@@ -86,6 +89,10 @@ not add massive changes to review.
 
 
 ## Getting acknowledged!
+Any contribution will be acknowledged on the GitHub page and for perpetuity in the git
+log.
+If you are contributing large chunks of the work, please get in touch with the
+editors to discuss authorship and proper acknowledgements.
 
 ## Call for planned contributions
 Become a reviewer!
