@@ -25,10 +25,13 @@ project:
   toc:
     - file: README.md
       numbering: false
+<<<<<<< HEAD
     - file: topics/0_intro.md
       children:
         - file: topics/0_reader.md
         - file: topics/0_why_snns.md
+=======
+>>>>>>> 5ba6eba (Moved the contributor and clarified a few details)
     - file: topics/1_foundations.md
       children:
         - file: topics/1_1_neuron.md
@@ -67,6 +70,8 @@ project:
         - file: topics/a_modeling_theories.md
         - file: topics/a_datasets.md
         - file: topics/a_tools.md
+      numbering: false
+    - file: contributors.md
       numbering: false
   bibliography:
     - references.bib
