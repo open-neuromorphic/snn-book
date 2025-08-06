@@ -56,40 +56,56 @@ great, otherwise, we can help you learn it during the review phase of your edits
 We suggest you begin with installing a python3 environment and activating it
 before executing the following steps.
 
-* Clone this repo <br>
+* Clone this repo: <br>
 `git clone git@github.com:open-neuromorphic/snn-book.git` <br> <br>
 
-* Install the required libraries<br>
+* Install the required libraries: <br>
 `pip install -r requirements.txt` <br> <br>
 
-* Creating a branch (pertaining to an issue, say 17) and set it to track `main`
-  <br>
+* Creating a branch (pertaining to an issue, say 17): <br>
 `git branch issue-17` <br>
-`git checkout issue-17` <br>
+`git checkout issue-17` <br> <br>
+
+* Set your local branch to track **its own** remote: <br>
 `git push --set-upstream origin issue-17` <br> <br>
 
-* Make small edits, compile the book <br>
+* Make small edits, and compile the book: <br>
 `jupyter book start` <br>
 from within your python environment, and open <br>
 `http://localhost:3000/` <br>
-on your browser to see how it looks <br> <br>
+on your browser to see how it looks. <br> <br>
 
-* Once you have made your changes, push your commits to review <br>
-`git push` <br> <br>
+* Once you have made your changes, push your commits: <br>
+`git push` <br>
+You will see that these will be pushed to your remote branch `issue-17` (not
+`main`). <br> <br>
 
-* File a pull request, and choose a reviewer for your edits; consult in the
-`#snn-book` channel for the same! <br> <br>
+* Keep developing your branch as needed, and keep pushing your commits to remote. 
+<br> <br>
+
+* Once all the necessary changes have been made, and your branch to ready to be
+merged to `main`, fetch `main` and rebase against it (make sure your working 
+directory is clean, i.e., all your files are committed and pushed to remote 
+`issue-17`); while rebasing, resolve the merge conflicts if any: <br>
+`git fetch origin` <br>
+`git rebase origin/main` <br> <br>
+
+* Once you have resolved all the merge conflicts, push your local branch: <br>
+`git push origin issue-17` <br> <br>
+
+* File a pull request upon successful push, and choose a reviewer for your edits; 
+consult in the `#snn-book` channel for the same! <br> <br>
 
 * Once you've addressed all the review comments and received approval from your
-  reviewer(s), merge your branch to `main`
+reviewer(s), merge your branch to `main` (assuming no conflicts exist).
 
 **NOTE:** Unless already discussed with repo maintainers/reviewer(s) please do
 not add massive changes to review.
 
 
 ## Getting acknowledged!
-Any contribution will be acknowledged on the GitHub page and for perpetuity in the git
-log.
+Any contribution will be acknowledged on the GitHub page and for perpetuity in 
+the git log.
 If you are contributing large chunks of the work, please get in touch with the
 editors to discuss authorship and proper acknowledgements.
 
