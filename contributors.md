@@ -87,7 +87,7 @@ You will see that these will be pushed to your remote branch `issue-17` (not
 merged to `main`, fetch `main` and rebase against it (make sure your working 
 directory is clean, i.e., all your files are committed and pushed to remote 
 `issue-17`); while rebasing, resolve the merge conflicts if any: <br>
-`git fetch origin` <br>
+`git fetch origin main` <br>
 `git rebase origin/main` <br> <br>
 
 * Once you have resolved all the merge conflicts, push your local branch: <br>
