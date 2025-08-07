@@ -1,5 +1,5 @@
 ---
-numbering: false
+numbering: true
 ---
 # Guidelines for Contributors
 
@@ -63,11 +63,11 @@ before executing the following steps.
 `pip install -r requirements.txt` <br> <br>
 
 * Creating a branch (pertaining to an issue, say 17): <br>
-`git branch issue-17` <br>
-`git checkout issue-17` <br> <br>
+`git branch <branch-name>` <br>
+`git checkout <branch-name>` <br> <br>
 
 * Set your local branch to track **its own** remote: <br>
-`git push --set-upstream origin issue-17` <br> <br>
+`git push --set-upstream origin <branch-name>` <br> <br>
 
 * Make small edits, and compile the book: <br>
 `jupyter book start` <br>
@@ -77,7 +77,7 @@ on your browser to see how it looks. <br> <br>
 
 * Once you have made your changes, push your commits: <br>
 `git push` <br>
-You will see that these will be pushed to your remote branch `issue-17` (not
+You will see that these will be pushed to your remote branch `<branch-name>` (not
 `main`). <br> <br>
 
 * Keep developing your branch as needed, and keep pushing your commits to remote. 
@@ -86,12 +86,12 @@ You will see that these will be pushed to your remote branch `issue-17` (not
 * Once all the necessary changes have been made, and your branch to ready to be
 merged to `main`, fetch `main` and rebase against it (make sure your working 
 directory is clean, i.e., all your files are committed and pushed to remote 
-`issue-17`); while rebasing, resolve the merge conflicts if any: <br>
+`<branch-name>`); while rebasing, resolve the merge conflicts if any: <br>
 `git fetch origin main` <br>
 `git rebase origin/main` <br> <br>
 
 * Once you have resolved all the merge conflicts, push your local branch: <br>
-`git push origin issue-17` <br> <br>
+`git push origin <branch-name>` <br> <br>
 
 * File a pull request upon successful push, and choose a reviewer for your edits; 
 consult in the `#snn-book` channel for the same! <br> <br>
@@ -104,10 +104,27 @@ not add massive changes to review.
 
 
 ## Getting acknowledged!
-Any contribution will be acknowledged on the GitHub page and for perpetuity in 
-the git log.
-If you are contributing large chunks of the work, please get in touch with the
-editors to discuss authorship and proper acknowledgements.
+There are two planned ways for your contributions to be acknowledged on snn-book:
+
+* Any contribution, e.g., code, fixing typos, adding contents, basically any Git
+commit will be acknowledged on the GitHub page and for perpetuity in the git log.
+
+* Significant contributions of large chunks of work, e.g., adding an important 
+section(s) in a chapter, writing a chapter, etc., will be acknowledged as sharing
+authorship of a chapter (that will be citable) subject to the approval of the
+existing authors of the intended chapter (where your contributions are aimed to)
+and the editors. For contributions in this direction, it is advisable to get in
+touch with this SNN book's editors first.
+
+**NOTE**: Any other modes of contributions, e.g., planning this book, 
+advising/ideas on new chapters, joining and contributing to meetings/discussions
+will also be acknowledged (in a separate page on this repo) subject to the
+editors approval. All these means of acknowledgements are subject to change if 
+the SNN books editors deem necessary. 
 
 ## Call for planned contributions
-Become a reviewer!
+Following are the chapters where we call for contributions. Please get in touch
+with the editors on `#snn-book` channel on 
+[ONM Discord](https://discord.gg/hUygPUdD8E) to plan well, before any Git
+activity. [ We will populate the remaining of this section once our book is 
+public ].
