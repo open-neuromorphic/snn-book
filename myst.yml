@@ -51,11 +51,11 @@ project:
             - file: topics/1_4_2_snn-basics.md
     - file: topics/2_engineering.md
       children:
-        - file: topics/2_credit_assignment.md
-        - file: topics/2_offline_training.md
-        - file: topics/2_online_training.md
-        - file: topics/2_alternative_training.md
-        - file: topics/2_optimization.md
+        - file: topics/2_1_credit_assignment.md
+        - file: topics/2_2_offline_training.md
+        - file: topics/2_3_online_training.md
+        - file: topics/2_4_alternative_training.md
+        - file: topics/2_5_optimization.md
     - file: topics/3_hardware.md
       children:
         - file: topics/3_1_platforms.md
