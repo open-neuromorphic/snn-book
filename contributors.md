@@ -1,5 +1,6 @@
 ---
-numbering: true
+numbering:
+  title: false
 ---
 # Guidelines for Contributors
 
@@ -80,12 +81,12 @@ on your browser to see how it looks. <br> <br>
 You will see that these will be pushed to your remote branch `<branch-name>` (not
 `main`). <br> <br>
 
-* Keep developing your branch as needed, and keep pushing your commits to remote. 
+* Keep developing your branch as needed, and keep pushing your commits to remote.
 <br> <br>
 
 * Once all the necessary changes have been made, and your branch to ready to be
-merged to `main`, fetch `main` and rebase against it (make sure your working 
-directory is clean, i.e., all your files are committed and pushed to remote 
+merged to `main`, fetch `main` and rebase against it (make sure your working
+directory is clean, i.e., all your files are committed and pushed to remote
 `<branch-name>`); while rebasing, resolve the merge conflicts if any: <br>
 `git fetch origin main` <br>
 `git rebase origin/main` <br> <br>
@@ -93,7 +94,7 @@ directory is clean, i.e., all your files are committed and pushed to remote
 * Once you have resolved all the merge conflicts, push your local branch: <br>
 `git push origin <branch-name>` <br> <br>
 
-* File a pull request upon successful push, and choose a reviewer for your edits; 
+* File a pull request upon successful push, and choose a reviewer for your edits;
 consult in the `#snn-book` channel for the same! <br> <br>
 
 * Once you've addressed all the review comments and received approval from your
@@ -109,22 +110,22 @@ There are two planned ways for your contributions to be acknowledged on snn-book
 * Any contribution, e.g., code, fixing typos, adding contents, basically any Git
 commit will be acknowledged on the GitHub page and for perpetuity in the git log.
 
-* Significant contributions of large chunks of work, e.g., adding an important 
+* Significant contributions of large chunks of work, e.g., adding an important
 section(s) in a chapter, writing a chapter, etc., will be acknowledged as sharing
 authorship of a chapter (that will be citable) subject to the approval of the
 existing authors of the intended chapter (where your contributions are aimed to)
 and the editors. For contributions in this direction, it is advisable to get in
 touch with this SNN book's editors first.
 
-**NOTE**: Any other modes of contributions, e.g., planning this book, 
+**NOTE**: Any other modes of contributions, e.g., planning this book,
 advising/ideas on new chapters, joining and contributing to meetings/discussions
 will also be acknowledged (in a separate page on this repo) subject to the
-editors approval. All these means of acknowledgements are subject to change if 
-the SNN books editors deem necessary. 
+editors approval. All these means of acknowledgements are subject to change if
+the SNN books editors deem necessary.
 
 ## Call for planned contributions
 Following are the chapters where we call for contributions. Please get in touch
-with the editors on `#snn-book` channel on 
+with the editors on `#snn-book` channel on
 [ONM Discord](https://discord.gg/hUygPUdD8E) to plan well, before any Git
-activity. [ We will populate the remaining of this section once our book is 
+activity. [ We will populate the remaining of this section once our book is
 public ].
