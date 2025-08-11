@@ -5,7 +5,7 @@ The fundamental engineering challenge in training any neural network is **credit
 
 ## The Credit Assignment Problem
 
-**Core question:** Given an output error, which neurons, synapses, and time steps contributed to that error?
+**Core question:** Given an output error, which neurons, synapses, contributed to that error—and at which time step?
 
 **In SNNs, this becomes complex because:**
 - **Temporal dependencies**: Spikes at different times influence the final output
