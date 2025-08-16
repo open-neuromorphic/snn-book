@@ -25,7 +25,7 @@ mostly the case), then one must employ some sort of encoding methodology to
 convert the continuous-valued data to input events/spikes. Therefore, this 
 encoding process can be considered as the task of the _Input_ layer in an SNN. 
 The encoding methods fall under two broad categories: **Rate Encoding** and 
-**Temporal Encoding**. In this chapter, we will discuss them both. 
+**Temporal Encoding**; in this chapter, we will discuss them both. 
 
 ## Decoding
 Spiking neurons output spikes, and use that to communicate with each other; they 
@@ -33,4 +33,6 @@ do _not_ output their internal voltage and current states. Therefore, for
 operations that involve discrete spikes as input and continuous-values as output 
 e.g., at the output layer of an SNN for classification or regression, we need to
 decode the spikes. In other words, when we need to extract some meaningful
-information from spikes, we decode them. There are 
+information from spikes, we decode them. Similar to encoding, there are multiple 
+decoding approaches that can broadly categorised in two: **Rate Decoding** and
+**Temporal Decoding**; in this chapter, we will discuss them both.  
