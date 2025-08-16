@@ -28,4 +28,9 @@ The encoding methods fall under two broad categories: **Rate Encoding** and
 **Temporal Encoding**. In this chapter, we will discuss them both. 
 
 ## Decoding
-
+Spiking neurons output spikes, and use that to communicate with each other; they 
+do _not_ output their internal voltage and current states. Therefore, for 
+operations that involve discrete spikes as input and continuous-values as output 
+e.g., at the output layer of an SNN for classification or regression, we need to
+decode the spikes. In other words, when we need to extract some meaningful
+information from spikes, we decode them. There are 
