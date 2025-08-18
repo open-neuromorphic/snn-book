@@ -36,17 +36,29 @@ J[t] = \alpha \times e \times x[t] + J_\text{bias} \label{eq:enc-nrn-jt}
 
 where $\alpha$ is the encoding neuron’s _gain_ value, $e$ is the encoding 
 neuron’s _encoder_ value, $x[t]$ is the scalar input, and $J_\text{bias}$ is the 
-_bias current_ to the encoding neuron. After obtaining $J[t]$, one can use the 
-Eqs (1.7) , (1.8), (1.9) or the Eqs. (1.20), (1.21) , (1.22) – depending
-on the choice of IF or LIF neuron (respectively) to encode x[t] to spikes; note that I(t) in
-these equations will be replaced by J[t].
-In the Eq (2.2), the scalar hyper-parameters α, e, and Jbias characterize the encoding
-neuron. One can choose the values of α ∈ R+ and Jbias ∈ R+
-0 in accordance with the
+_bias current_ to the encoding neuron. Note that $e$ determines the _sensitivity_ 
+(of the enoding neuron) to input values; we will provide more details in the NEF
+appendix. After obtaining $J[t]$, one can use the 
+Eqs {eq}`eq:discrete-if`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$) or the 
+Eqs {eq}`eq:discrete-lif`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$) depending on 
+the choice of $\texttt{IF}$ or $\texttt{LIF}$ neuron respectively to encode 
+continuous $x[t]$ to spikes; note that $I[t]$ in these equations will be replaced 
+by $J[t]$.
+
+
+Coming to the values of the hyper-parameters in Eq {eq}`eq:enc-nrn-jt` above, 
+$\alpha$, $e$, and $J_\text{bias}$ characterize the encoding neuron. One can 
+choose the values of $\alpha\in\mathbb{R}^+$, $J_\text{bias}\in\mathbb{R}^$, and 
+
+
+in accordance with the
 input x[t] and the chosen Vthr, however, the encoder e’s value should be either +1 or −1;
 a +1 and −1 denote that the encoding neuron is sensitive to positive and negative x[t],
 respectively. Following code demonstrates how to encode an example x[t] using the Eq
 (2.2) via an IF neuron.
+
+$\textcolor{red}{start}$
+
 
 ## Population Rate Encoding
 
