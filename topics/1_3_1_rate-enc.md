@@ -46,18 +46,32 @@ continuous $x[t]$ to spikes; note that $I[t]$ in these equations will be replace
 by $J[t]$.
 
 
-Coming to the values of the hyper-parameters in Eq {eq}`eq:enc-nrn-jt` above, 
-$\alpha$, $e$, and $J_\text{bias}$ characterize the encoding neuron. One can 
-choose the values of $\alpha\in\mathbb{R}^+$, $J_\text{bias}\in\mathbb{R}^$, and 
+Coming to the values of the hyper-parameters in Eq {eq}`eq:enc-nrn-jt` above, one
+can set their values as $\alpha\in\mathbb{R}^+$ and 
+$J_\text{bias}\in\mathbb{R}^+_0$. However the value of $e$ depends not only on
+its intended sensitivity, but also on the dimensionality of the input (more in
+the NEF Appendix). For now, let us consider only scalar input, i.e., 
+$x[t]\in\mathbb{R}$. This implies that $e$ should be scalar too; coming to its
+sensitivity, it should be set $e=1$ if one wants to encode _only_ positive 
+values, and $e=-1$ for encoding _only_ negative values. Overall, one should be
+careful in choosing appropriate values of $\alpha$, $e$, $J_\text{bias}$ in
+accordance with in the input $x[t]$ and the chosen $V_\text{thr}\in\mathbb{R}^+$
+or any other hyper-parameter of the encoding neuron (e.g., voltage decay 
+$\tau_\text{vol}$ in $\texttt{LIF}$ neuron, i.e., in Eq {eq}`eq:discrete-lif`). 
 
+```{note}
+It's highly recommended to check the spiking profile of your encondig neurons (in
+the input layer of your SNN) on a few samples to ensure the input $x[t]$ is 
+properly represented and the information doesn't get lost.
+```
 
-in accordance with the
-input x[t] and the chosen Vthr, however, the encoder e’s value should be either +1 or −1;
-a +1 and −1 denote that the encoding neuron is sensitive to positive and negative x[t],
-respectively. Following code demonstrates how to encode an example x[t] using the Eq
-(2.2) via an IF neuron.
-
+Following code demonstrates how to encode an example signal $x[t]$ using the Eq
+{eq}`eq:enc-nrn-jt` via an $\texttt{IF}$ neuron (Eq {eq}`eq:discrete-if`).
 $\textcolor{red}{start}$
+
+
+
+
 
 
 ## Population Rate Encoding
