@@ -2,10 +2,10 @@
 # What is Encoding & Decoding?
 
 This chapter describes another foundational concept in neuromorphic computing: 
-**Encoding** & **Decoding**. By now, as you very well know, spiking networks 
-work with _discrete_ spikes (generally binary, i.e., 0 and 1). However, 
-since the real-world data are _continuous_ valued, it need to be converted to 
-_discrete_ spikes to work with spiking networks. Likewise, one also needs 
+**Encoding** & **Decoding**. Spiking networks work with _discrete_ spikes 
+(generally binary, i.e., 0 and 1); however, the real-world data are (almost
+always) _continuous_ valued. Therefore, the real-world data need to be converted 
+to _discrete_ spikes to work with spiking networks. Likewise, one also needs 
 to convert the _discrete_ spikes back to _continuous_ values to make real-world 
 sense. 
 
