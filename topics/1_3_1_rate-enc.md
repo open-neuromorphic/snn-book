@@ -1,7 +1,7 @@
 (chapter:rate-enc)=
 # Rate Encoding
-**Rate Encoding** is most prevalent form of encoding continuous values to 
-discrete spikes and easiest to work with. It is because it relates well to the 
+**Rate Encoding** is a prevalent form of encoding continuous values to discrete 
+spikes and quite easy to work with. It is because it relates well to the 
 Deep Learning networks and training methodologies (that the researchers leverage 
 to train SNNs – discussed in the later chapters). The core idea behind Rate 
 Encoding is to represent the continuous values via a spike _rate_ over time 
@@ -11,8 +11,8 @@ popular methods of rate encoding: **Count Rate Encoding** (also commonly known a
 **Frequency Rate Encoding**) and **Population Rate Encoding**. 
 
 ## Count/Frequency Rate Encoding
-This encoding method is the most common approach used in most spiking works. The 
-idea is to have _one_ spike generator _per dimension_ of the input to encode 
+This encoding method is a standard approach used in most Spiking Neural Networks. 
+The idea is to have _one_ spike generator _per dimension_ of the input to encode 
 continuous values to binary spikes. That one spike generator can either be a 
 mathematical function (e.g., **Poisson Encoding**) or a neuron (e.g., **Neuron 
 Encoding**); we describe them next.
