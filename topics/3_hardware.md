@@ -1,3 +1,10 @@
+---
+numbering:
+  headings:
+    enabled: true
+    continue: false
+---
+
 (deployment)=
 # Deploying SNNs
 
