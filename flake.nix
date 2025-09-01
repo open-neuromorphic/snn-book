@@ -21,6 +21,7 @@
                     pkgs.nodejs
                     pypkgs.matplotlib
                     pypkgs.numpy
+                    pkgs.uv
                 ];
 
                 shellHook = ''
@@ -28,7 +29,7 @@
                         python3 -m venv .venv
                     fi
                     source .venv/bin/activate
-                    pip install -r requirements.txt
+                    uv pip install -r requirements.txt
                 '';
             };
         }
