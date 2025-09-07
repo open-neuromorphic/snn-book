@@ -1,4 +1,4 @@
-<!-- (section:deployment)=
+(deployment)=
 # Deploying SNNs
 
 This chapter covers

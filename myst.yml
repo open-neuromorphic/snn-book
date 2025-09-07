@@ -68,11 +68,7 @@ project:
         - file: topics/a_datasets.md
         - file: topics/a_tools.md
       numbering: false
-    - file: glossary.md
-      numbering: false
     - file: contributors.md
-      numbering: false
-    - file: glossary.md
       numbering: false
   bibliography:
     - references.bib
