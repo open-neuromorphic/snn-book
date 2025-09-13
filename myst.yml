@@ -52,10 +52,11 @@ project:
     - file: topics/2_engineering.md
       children:
         - file: topics/2_1_credit_assignment.md
-        - file: topics/2_2_offline_training.md
-        - file: topics/2_3_online_training.md
-        - file: topics/2_4_alternative_training.md
-        - file: topics/2_5_optimization.md
+        - file: topics/2_2_spiking_data.md
+        - file: topics/2_3_offline_training.md
+        - file: topics/2_4_online_training.md
+        - file: topics/2_5_alternative_training.md
+        - file: topics/2_6_optimization.md
     - file: topics/3_hardware.md
       children:
         - file: topics/3_1_platforms.md
