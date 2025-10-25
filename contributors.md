@@ -34,6 +34,8 @@ https://github.com/open-neuromorphic/snn-book/issues) on this repo
   * Mention the issue number your are interested in, on the `#snn-book` channel
   and we will officially assign that issue to you
 * Adding new chapters, sections, or light-weight code/programs (in PyTorch, Jax)
+* Suggesting (classical) research papers providing in-depth coverage of a certain 
+  topic, which we can refer the readers to. 
 
 **NOTE:** Please check the following section: **1. 4 Call for planned
 contributions** for more concrete opportunities to contribute to this book!
