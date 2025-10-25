@@ -70,6 +70,8 @@ project:
         - file: topics/a_tools.md
         - file: topics/a_point_neurons_discretization.md
       numbering: false
+    - file: glossary.md
+      numbering: false
     - file: contributors.md
       numbering: false
   bibliography:
