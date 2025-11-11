@@ -28,6 +28,7 @@ unless stated otherwise.
 - **Voltage**: The voltage/membrane potential of a spiking neuron is denoted as
   $V(t)$ in continuous time or $V[t]$ in discrete time.
 
+(sec:spk-nrn-if)=
 ## Integrate & Fire Neuron Model
 
 **Integrate & Fire** (**IF**) neuron model is the simplest of all the spiking
