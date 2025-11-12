@@ -1,14 +1,14 @@
 (point_neurons_discretization)=
 # Point Neurons Discretization
 
-Here, we present the derivations based on **Forward Euler** method to discretize 
-the continuous time equations of the $\texttt{IF}$ and $\texttt{LIF}$ neurons.
-Forward Euler method is a simple numerical method to approximate solutions to the
-first order {term}`Ordinary Differential Equations (ODEs)<ODE>`. Note that the 
-equations of the $\texttt{IF}$ (Eq {eq}`eq:continuous-if`) and $\texttt{LIF}$ 
-(Eq {eq}`eq:continuous-lif`) neurons are first order ODEs. Therefore, we can use 
-the Forward Euler method to discretize and solve them numerically on our 
-computers.
+Here, we present the derivations based on the **Forward Euler** method to 
+discretize the continuous time equations of the $\texttt{IF}$ and $\texttt{LIF}$ 
+neurons. The Forward Euler method is a simple numerical method to approximate 
+solutions to the first order {term}`Ordinary Differential Equations (ODEs)<ODE>`. 
+Note that the equations of the $\texttt{IF}$ (Eq {eq}`eq:continuous-if`) and 
+$\texttt{LIF}$ (Eq {eq}`eq:continuous-lif`) neurons are first order ODEs. 
+Therefore, we can use the Forward Euler method to discretize and solve them 
+numerically on our computers.
 
 (sec:forward-euler)=
 ## Forward Euler method
