@@ -10,6 +10,7 @@ equations of the $\texttt{IF}$ (Eq {eq}`eq:continuous-if`) and $\texttt{LIF}$
 the Forward Euler method to discretize and solve them numerically on our 
 computers.
 
+(sec:forward-euler)=
 ## Forward Euler method
 
 Consider 
@@ -85,7 +86,10 @@ i.e.,
 :label: eq:dscrt-if-1
 \frac{V[n+1] - V[n]}{h} = I[n]
 ```
-Assuming $h=1$ in Eq {eq}`eq:dscrt-if-1`, we get the following:
+Note that in Eq {eq}`eq:dscrt-if-1`, $h$ denotes the _difference_ between
+consecutive timesteps (as mentioned in the [Sec. %s](#sec:forward-euler)), 
+therefore, let us assume the _difference_ is $1$ timestep, i.e., $h=1$. Thus,
+setting $h=1$ in Eq {eq}`eq:dscrt-if-1`, we get the following:
 
 ```{math}
 :label: eq:dscrt-if
