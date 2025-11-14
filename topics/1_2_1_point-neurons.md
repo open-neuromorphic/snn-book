@@ -133,6 +133,7 @@ $I[t]$ or $S_\text{inp}[t]$ received, while hard reset results the neuron to
 discard any such contribution and start updating its $V[t]$ right from
 $V_\text{rest}$.
 
+(sec:spk-nrn-lif)=
 ## Leaky Integrate & Fire Neuron Model
 **Leaky Integrate & Fire** (**LIF**) neuron model is another simple and a common
 spiking neuron model that displays slightly more complex behavior than the IF
