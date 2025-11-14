@@ -99,3 +99,29 @@ which is a _discrete-time_ equation of an $\texttt{IF}$ neuron.
 
 
 ## Discretizing $\texttt{LIF}$ neuron
+The _continuous-time_ equation of the $\texttt{LIF}$ neuron as mentioned in the 
+[Sec. %s](#sec:spk-nrn-lif) is:
+
+```{math}
+:label: eq:cont-lif
+\tau_\text{m}\frac{dV(t)}{dt} = -(V(t) - V_\text{rest}) + R_\text{m}I(t)
+```
+which upon rearranging becomes:
+
+```{math}
+:label: eq:cont-lif-1
+\frac{dV(t)}{dt} = \frac{-(V(t) - V_\text{rest})}{\tau_\text{m}} + 
+                   \frac{R_\text{m}I(t)}{\tau_\text{m}}
+```
+
+Note that $\tau_\text{m}=R_\text{m}C_\text{m}$, therefore, Eq
+{eq}`eq:cont-lif-1` becomes:
+
+```{math}
+:label: eq:cont-lif-2
+\frac{dV(t)}{dt} = \frac{-(V(t) - V_\text{rest})}{R_\text{m}C_\text{m}} + 
+                   \frac{I(t)}{C_\text{m}}
+                 = klk
+```
+To _discretize_ it, let us consider $C_\text{m}=1$ and $V_\text{rest}=0$,
+therefore, the Eq {eq}`eq:cont-lif` to discretize becomes:
