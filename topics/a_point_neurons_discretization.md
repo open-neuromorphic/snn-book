@@ -122,8 +122,9 @@ Note that $\tau_\text{m}=R_\text{m}C_\text{m}$, therefore, Eq
 \frac{dV(t)}{dt} &= \frac{-(V(t)-V_\text{rest})}{R_\text{m}C_\text{m}} + 
                    \frac{I(t)}{C_\text{m}}
 ```
-To _discretize_ it, let us consider $C_\text{m}=1$ and $V_\text{rest}=0$,
-therefore, the Eq {eq}`eq:cont-lif-2` to discretize becomes:
+To _discretize_ it, let us consider $C_\text{m}=1$ (same as for discretizing the
+$\texttt{IF}$ neuron), and $V_\text{rest}=0$, therefore, the Eq 
+{eq}`eq:cont-lif-2` to discretize becomes:
 
 ```{math}
 :label: eq:cont-lif-3
@@ -132,7 +133,7 @@ therefore, the Eq {eq}`eq:cont-lif-2` to discretize becomes:
                  }\tau_\text{vol} = \frac{1}{R_\text{m}}
 ```
 
-As can be easily seen, Eq {eq}`eq:cont-lif-3` is of the same form as the Eq
+As can be easily seen, Eq {eq}`eq:cont-lif-3` is of the same form as Eq
 {eq}`eq:first-ord-ode`, thus, from Eq {eq}`eq:forward-euler`, we get the
 following discrete from of Eq {eq}`eq:cont-lif-3`:
 
@@ -147,9 +148,10 @@ i.e.,
 \frac{V[n+1] - V[n]}{h} = -\tau_\text{vol}V[n] + I[n] 
 ```
 
-Note that in Eq {eq}`eq:dscrt-lif-1`, similar to the case of discrete
-$\texttt{IF}$ neuron, $h$ denotes the difference between consecutive timesteps,
-therefore, assuming $h=1$ in Eq {eq}`eq:dscrt-lif-1`, we get the following:
+Note that in Eq {eq}`eq:dscrt-lif-1` (similar to the case of discretizing the 
+$\texttt{IF}$ neuron), $h$ denotes the _difference_ between consecutive 
+timesteps, therefore, assuming $h=1$ in Eq {eq}`eq:dscrt-lif-1`, we get the 
+following:
 ```{math}
 :label: eq:dscrt-lif-2
 V[n+1] &= V[n] - \tau_\text{vol}V[n] + I[n] \\
