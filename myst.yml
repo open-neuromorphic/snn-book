@@ -51,12 +51,15 @@ project:
             - file: topics/1_4_2_snn-basics.md
     - file: topics/2_engineering.md
       children:
-        - file: topics/2_1_credit_assignment.md
-        - file: topics/2_2_spiking_data.md
-        - file: topics/2_3_offline_training.md
-        - file: topics/2_4_online_training.md
-        - file: topics/2_5_alternative_training.md
-        - file: topics/2_6_optimization.md
+        - file: topics/2_1_spiking_data.md
+        - file: topics/2_2_credit_assignment.md
+        - file: topics/2_3_surrograte_gradients.md
+        - file: topics/2_4_exact_gradients.md
+        - file: topics/2_5_meta_learning.md
+        - file: topics/2_6_biologically_inspired_training.md
+        - file: topics/2_7_evolutionary_algorithms.md
+        - file: topics/2_8_ann-to-snn_conversion.md
+        - file: topics/2_9_optimization.md
     - file: topics/3_hardware.md
       children:
         - file: topics/3_1_platforms.md

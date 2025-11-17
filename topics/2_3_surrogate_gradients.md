@@ -1,12 +1,6 @@
-(offline_training)=
-# Offline Training
-*Batch processing without real-time constraints*
-
-**Offline training** means training while the network is inactive - using pre-collected data without real-time constraints. This is the **prevailing method** for training SNNs in practical applications.
-
-## Key Difference
-- **Offline**: Network processes training data in simulation, can use full sequence information
-- **Online**: Updates happen during active operation, must respect real-time constraints
+(surrogate_gradients)=
+# Surrograte Gradient Training
+*Training with gradient approximations*
 
 ## Primary Method: BPTT with Surrogate Gradients
 
