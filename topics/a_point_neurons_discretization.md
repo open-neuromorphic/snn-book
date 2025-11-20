@@ -56,6 +56,12 @@ We can use the formulation of the Eqs {eq}`eq:forward-euler` or
 {eq}`eq:forward-euler-dsct` to derive the discrete-time equations of the
 $\texttt{IF}$ and $\texttt{LIF}$ neurons. 
 
+```{note}
+In a ``time-accurate'' derivation of $\texttt{IF}$ and $\texttt{LIF}$ neuron's 
+discrete-time equations, $h=\Delta t$, where $\Delta t$ is usually set to 
+$0.001$s, i.e., $1$ms.
+```
+
 ## Discretizing $\texttt{IF}$ neuron
 The _continuous-time_ equation of the $\texttt{IF}$ neuron as mentioned in the
 [Sec. %s](#sec:spk-nrn-if) is:
@@ -129,8 +135,8 @@ $\texttt{IF}$ neuron), and $V_\text{rest}=0$, therefore, the Eq
 ```{math}
 :label: eq:cont-lif-3
 \frac{dV(t)}{dt} &= \frac{-V(t)}{R_\text{m}} + I(t) \\
-                 &= -\tau_\text{vol}V(t) + I(t) \quad\quad\text{where
-                 }\tau_\text{vol} = \frac{1}{R_\text{m}}
+                 &= -v_\text{decay}V(t) + I(t) \quad\quad\text{where
+                 }v_\text{decay} = \frac{1}{R_\text{m}}
 ```
 
 As can be easily seen, Eq {eq}`eq:cont-lif-3` is of the same form as Eq
@@ -145,7 +151,7 @@ i.e.,
 
 ```{math}
 :label: eq:dscrt-lif-1
-\frac{V[n+1] - V[n]}{h} = -\tau_\text{vol}V[n] + I[n] 
+\frac{V[n+1] - V[n]}{h} = -v_\text{decay}\times V[n] + I[n] 
 ```
 
 Note that in Eq {eq}`eq:dscrt-lif-1` (similar to the case of discretizing the 
@@ -154,8 +160,14 @@ timesteps, therefore, assuming $h=1$ in Eq {eq}`eq:dscrt-lif-1`, we get the
 following:
 ```{math}
 :label: eq:dscrt-lif-2
-V[n+1] &= V[n] - \tau_\text{vol}V[n] + I[n] \\
-       &= (1-\tau_\text{vol})V[n] + I[n]
+V[n+1] &= V[n] - v_\text{decay}\times V[n] + I[n] \\
+       &= (1-v_\text{decay})\times V[n] + I[n]
 ```
 
 which is the _discrete-time_ equation of a $\texttt{LIF}$ neuron.
+
+```{note}
+In quite a few research papers, you will see $v_\text{decay} =
+\text{exp}(\frac{-\Delta t}{\tau_\text{m}})$, where $\tau_\text{m}$ is the
+membrane time-constant as mentioned above.
+```
