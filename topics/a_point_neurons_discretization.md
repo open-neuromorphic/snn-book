@@ -141,7 +141,7 @@ $\texttt{IF}$ neuron), and $V_\text{rest}=0$, therefore, the Eq
 
 As can be easily seen, Eq {eq}`eq:cont-lif-3` is of the same form as Eq
 {eq}`eq:first-ord-ode`, thus, from Eq {eq}`eq:forward-euler`, we get the
-following discrete from of Eq {eq}`eq:cont-lif-3`:
+following discrete form of Eq {eq}`eq:cont-lif-3`:
 
 ```{math}
 :label: eq:dscrt-lif
@@ -167,7 +167,7 @@ V[n+1] &= V[n] - v_\text{decay}\times V[n] + I[n] \\
 which is the _discrete-time_ equation of a $\texttt{LIF}$ neuron.
 
 ```{note}
-In quite a few research papers, you will see $v_\text{decay} =
+In some research papers, you will see $v_\text{decay} =
 \text{exp}(\frac{-\Delta t}{\tau_\text{m}})$, where $\tau_\text{m}$ is the
 membrane time-constant as mentioned above.
 ```
