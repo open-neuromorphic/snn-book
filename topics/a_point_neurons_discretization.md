@@ -62,6 +62,7 @@ discrete-time equations, $h=\Delta t$, where $\Delta t$ is usually set to
 $0.001$s, i.e., $1$ms.
 ```
 
+(sec:discretizing-if-neuron)=
 ## Discretizing $\texttt{IF}$ neuron
 The _continuous-time_ equation of the $\texttt{IF}$ neuron as mentioned in the
 [Sec. %s](#sec:spk-nrn-if) is:
@@ -103,7 +104,7 @@ V[n+1] = V[n] + I[n]
 ```
 which is a _discrete-time_ equation of an $\texttt{IF}$ neuron.
 
-
+(sec:discretizing-lif-neuron)=
 ## Discretizing $\texttt{LIF}$ neuron
 The _continuous-time_ equation of the $\texttt{LIF}$ neuron as mentioned in the 
 [Sec. %s](#sec:spk-nrn-lif) is:
