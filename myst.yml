@@ -45,21 +45,21 @@ project:
             - file: topics/1_3_1_rate-enc.md
             - file: topics/1_3_2_temp-enc.md
             - file: topics/1_3_3_decoding.md
+        - file: topics/1_4_event_representations.md
         - file: topics/1_4_snn.md
           children:
             - file: topics/1_4_1_why-snns.md
             - file: topics/1_4_2_snn-basics.md
     - file: topics/2_engineering.md
       children:
-        - file: topics/2_1_spiking_data.md
-        - file: topics/2_2_credit_assignment.md
-        - file: topics/2_3_surrograte_gradients.md
-        - file: topics/2_4_exact_gradients.md
-        - file: topics/2_5_meta_learning.md
-        - file: topics/2_6_biologically_inspired_training.md
-        - file: topics/2_7_evolutionary_algorithms.md
-        - file: topics/2_8_ann-to-snn_conversion.md
-        - file: topics/2_9_optimization.md
+        - file: topics/2_1_credit_assignment.md
+        - file: topics/2_2_surrograte_gradients.md
+        - file: topics/2_3_exact_gradients.md
+        - file: topics/2_4_meta_learning.md
+        - file: topics/2_5_biologically_inspired_training.md
+        - file: topics/2_6_evolutionary_algorithms.md
+        - file: topics/2_7_ann-to-snn_conversion.md
+        - file: topics/2_8_optimization.md
     - file: topics/3_hardware.md
       children:
         - file: topics/3_1_platforms.md

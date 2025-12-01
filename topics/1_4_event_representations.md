@@ -1,5 +1,5 @@
 (spiking_data)=
-# Working with spikes
+# Representing data as events
 
 Three parts:
 1. Converting data to spikes
