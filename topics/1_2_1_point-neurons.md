@@ -6,7 +6,7 @@ simplified electro-mathematical equations to mimic the spike generation,
 voltage reset, and refractory state behaviour of biological neurons; they
 conveniently ignore to model the ionic channels, axial conductance, axonal
 propagation of spike/action-potential, etc., basically anything that relates to
-the spatial form of a biological neuron. Common examples of point spikting
+the spatial form of a biological neuron. Common examples of point spiking
 neurons are *Integrate & Fire*, *Leaky Integrate & Fire*, and *Resonate & Fire*
 spiking neuron models. We explain each of these three point neuron models below,
 along with their code examples. We highly encourage you to play with their
@@ -33,7 +33,7 @@ unless stated otherwise.
 
 **Integrate & Fire** (**$\texttt{IF}$**) neuron model is the simplest of all the 
 spiking neuron models -- by virtue of which, it's dynamic behaviour is also 
-quite limited. An $\texttt{IF}$ neuron, as the name goes *integrates* the 
+quite limited. An $\texttt{IF}$ neuron, as the name goes, *integrates* the 
 incoming/input spikes into its *non-decaying* membrane potential/voltage, 
 followed by generating an output spike when its voltage reaches/crosses the set
 voltage threshold; whether or not it undergoes through a refractory state, is
@@ -63,9 +63,9 @@ temporal!
 
 Other few differences are:
 * Unlike artificial neurons, spiking neurons are (_implicitly_) recurrent (note 
-  the relation between $V[t]$ and $V[t-1]$)
+  the relation between $V[t]$ and $V[t-1]$).
 * Spiking neurons output _discrete_ spikes (which can be graded too, i.e., 
-  non-binary integers)
+  non-binary integers).
   
 In the later sections, we will present an interesting relation between the
 spiking and artificial neurons.
