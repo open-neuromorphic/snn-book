@@ -2,8 +2,8 @@
 # Point Neuron Models
 
 **Point Neurons Models** are minimalistic spiking neuron models that use
-simplified electro-mathematical equations to mimic the spike generation,
-voltage reset, and refractory state behaviour of biological neurons; they
+simplified electro-mathematical equations to mimic the _spike generation_,
+_voltage reset_, and _refractory state_ behaviours of biological neurons; they
 conveniently ignore to model the ionic channels, axial conductance, axonal
 propagation of spike/action-potential, etc., basically anything that relates to
 the spatial form of a biological neuron. Common examples of point spiking
@@ -36,7 +36,7 @@ spiking neuron models -- by virtue of which, it's dynamic behaviour is also
 quite limited. An $\texttt{IF}$ neuron, as the name goes, *integrates* the 
 incoming/input spikes into its *non-decaying* membrane potential/voltage, 
 followed by generating an output spike when its voltage reaches/crosses the set
-voltage threshold; whether or not it undergoes through a refractory state, is
+voltage threshold; whether or not it undergoes through a _refractory_ state, is
 dependent on its subjective implementation. Following is the *continuous-time*
 equation of an $\texttt{IF}$ neuron [@heeger2000integrate] :
 
@@ -89,24 +89,25 @@ V[t] &\leftarrow \begin{cases}
 \label{eq:discrete-if}
 \end{align}
 
-Before we begin explaining the Eqs {eq}`eq:discrete-if`, consider a
-_Spike Generator_ that generates binary spikes $S_\text{inp}[t]$ (i.e.,
-$S_\text{inp}[t]$ at time-step $t$ can either be a $0$ or a $1$) and feeds them
-to the $\texttt{IF}$ neuron (see {numref}`fig:spk-neuron-if`).
+Before we begin explaining the Eqs {eq}`eq:discrete-if`, let us introduce the 
+concept of **Spike Train**. 
+```{note} Spike Train
+A spike train is a sequential collection of spikes in time; consider it to be a 
+1-dimensional binary vector. That is, the individual elements of such a vector 
+can either be a 0 or an integer (generally 1), where the index of each scalar 
+element denotes a time-step.
+```
+A spike train holding a _random_ collection of binary spikes and feeding them to 
+an $\texttt{IF}$ neuron (see {numref}`fig:spk-neuron-if`) is shown below.
 
 ```{figure}
 :name: fig:spk-neuron-if
 :align: center
 
-[Spike Generator] --w--> [IF Neuron]
+[Spike Train] --w--> [IF Neuron]
 
-A Spike Generator stimulating an IF Neuron. $w$ is the weight of connection.
+A Spike Train stimulating an IF Neuron. $w$ is the weight of connection.
 ```
-
-Note that the spike generators are mere *programming constructs* (that follow a
-desired implementation) to generate spikes and stimulate the connected 
-neuron(s). We will learn about a popular spike generator called **Poisson
-Encoder** later in the Chapter [1.3](./1_3_encdec.md) 
 
 In Eq {eq}`eq:discrete-if`$\textsf{a}$, $I[t]$ and $I[t-1]$ are the 
 $\texttt{IF}$ neuron's *current* at time-step $t$ and $t-1$, $i_\text{decay}$ is 
@@ -116,7 +117,7 @@ time-step $t$ i.e., $I[t]$ is a sum of the *decayed* value of current at the
 previous time-step $t-1$ i.e., $I[t-1]$ (decayed by the factor $(1 - 
 i_\text{cur})$) and the $w$ weighted spike input $S_\text{inp}[t]$. Note that
 the $S_\text{inp}[t]$ can be from a pre-synaptic neuron too (instead of just 
-being from a simple spike generator).
+being a part of the above randomly generated spike train).
 
 In Eq {eq}`eq:discrete-if`$\textsf{b}$, $V[t]$ and $V[t−1]$ are the 
 $\texttt{IF}$ neuron’s *voltage* at the time-steps $t$ and $t-1$. Note that 
@@ -155,13 +156,11 @@ potential/voltage, followed by generating an output spike when its voltage
 reaches/crosses the set voltage threshold. Note that the _refractory_ period 
 (after spiking) is a standard component of the $\texttt{LIF}$ neuron model and 
 is often included in its implementation, although, one can choose to ignore 
-this. Also note that including the refractory period in $\texttt{LIF}$ prevents 
-it from spiking immediately after it has already spiked; this mimics the 
-neurobiological behavior of the neurons. Needless to say, inclusion of 
-refractory period influences $\texttt{LIF}$ neuron’s firing behavior too, i.e., 
-its response to the input stimuli. Following is the _continuous-time_ equation 
-(Eq {eq}`eq:continuous-lif`) of the $\texttt{LIF}$ neuron 
-[@gerstner2014neuronal]:
+this. Since the refractory period in a spiking neuron prevents it from spiking 
+immediately after it has spiked, it influences the $\texttt{LIF}$ neuron’s 
+firing (rate) behavior i.e., its response to the input stimuli. Following is the 
+_continuous-time_ equation (Eq {eq}`eq:continuous-lif`) of the $\texttt{LIF}$ 
+neuron [@gerstner2014neuronal]:
 
 ```{math}
 :label: eq:continuous-lif
