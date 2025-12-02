@@ -36,3 +36,9 @@ decode the spikes. In other words, when we need to extract some meaningful
 information from spikes, we decode them. Similar to encoding, there are multiple 
 decoding approaches that can broadly categorised in two: **Rate Decoding** and
 **Temporal Decoding**; in this chapter, we will discuss them both.  
+
+## Introduce the concept of spike generators here.
+Note that the spike generators are mere *programming constructs* (that follow a
+desired implementation) to generate spikes and stimulate the connected 
+neuron(s). We will learn about a popular spike generator called **Poisson
+Encoder** later in the Chapter [1.3](./1_3_encdec.md) 
