@@ -1,7 +1,10 @@
 (spiking_data)=
-# Handling spiking data
+# Representing data as events
 
-Unlike the theoretical encoding schemes in {ref}`chapter:rate-enc` and {ref}`chapter:temp-enc`, this chapter focuses on practical data handling for spike inputs to models.
+Three parts:
+1. Converting data to spikes
+2. Using spiking datasets
+3. Structuring spiking datasets
 
 ## Data Structures
 

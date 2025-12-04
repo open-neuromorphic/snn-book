@@ -1,14 +1,17 @@
 (engineering)=
 # Engineering SNNs
 
-This topic covers the complete engineering workflow for SNNs: from understanding credit assignment fundamentals to implementing practical training solutions and optimizing performance.
+This topic covers the complete engineering workflow for SNNs: from event-based datasets to practical and high-performance training setups.
 
 ## What You'll Learn
 
-- **Credit Assignment**: How to attribute success/failure to network components across time and space
-- **Offline Training**: BPTT, surrogate gradients, and supervised learning approaches
-- **Online Training**: STDP, eligibility traces, and biologically-inspired learning
-- **Alternative Methods**: Evolutionary algorithms, direct encoding, and hybrid approaches
-- **Optimization**: Hyperparameter tuning, regularization, and performance optimization
+1. **Credit Assignment**: Attribute success/failure to network components across time and space
+2. **Surrograte Gradients**: Train your spiking neurons with gradient approximations 
+3. **Exact Gradients**: Train your spiking neurons with exact gradients
+4. **Meta Learning**: Learn to improve the learning in your network
+5. **Biologically Inspired Training**: Work with plasticity and biologically inspired architectures
+6. **Evolutionary Algorithms**: Evolve networks that continuously improve
+7. **ANN-to-SNN Conversion**: How to convert existing ANNs to SNNs
+8. **Optimization**: Hyperparameter tuning, regularization, and performance optimization
 
 This engineering-focused approach gives you the tools to build, train, and deploy SNNs effectively in real applications.
