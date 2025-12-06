@@ -50,6 +50,7 @@ project:
           children:
             - file: topics/1_4_1_why-snns.md
             - file: topics/1_4_2_snn-basics.md
+        - file: topics/1_5_plasticity.md
     - file: topics/2_engineering.md
       children:
         - file: topics/2_1_credit_assignment.md
