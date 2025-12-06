@@ -115,7 +115,7 @@ the *current decay* value (such that, $0\leq i_\text{decay}\leq1$). As can be
 seen in the *current update* Eq {eq}`eq:discrete-if`$\textsf{a}$, the current at
 time-step $t$ i.e., $I[t]$ is a sum of the *decayed* value of current at the
 previous time-step $t-1$ i.e., $I[t-1]$ (decayed by the factor $(1 - 
-i_\text{cur})$) and the $w$ weighted spike input $S_\text{inp}[t]$. Note that
+i_\text{decay})$) and the $w$ weighted spike input $S_\text{inp}[t]$. Note that
 the $S_\text{inp}[t]$ can be from a pre-synaptic neuron too (instead of just 
 being a part of the above randomly generated spike train).
 
