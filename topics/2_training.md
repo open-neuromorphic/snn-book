@@ -1,7 +1,7 @@
 (engineering)=
-# Engineering SNNs
+# Training SNNs
 
-This topic covers the complete engineering workflow for SNNs: from event-based datasets to practical and high-performance training setups.
+This topic covers the complete training workflow for SNNs: from understanding how credit assignment flows to practical and efficient training setups.
 
 ## What You'll Learn
 
@@ -14,4 +14,3 @@ This topic covers the complete engineering workflow for SNNs: from event-based d
 7. **ANN-to-SNN Conversion**: How to convert existing ANNs to SNNs
 8. **Optimization**: Hyperparameter tuning, regularization, and performance optimization
 
-This engineering-focused approach gives you the tools to build, train, and deploy SNNs effectively in real applications.
