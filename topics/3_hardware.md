@@ -3,6 +3,7 @@
 
 In the previous chapters you have looked that what SNNs are and the various features that you can use to construct your networks. Up to this point, you will have been simulating any SNNs that you have created in order to see them in operation.  SNN simulators are very good at letting you see the results of the fullness of what you have described, but they can also be quite forgiving on letting you describe features quite far removed from any likely found in actual biological networks.  Why is this important you may ask, and with good reason?  The answer to this question is that we know from biology that SNNs can do some amazing things that have so far eluded us somewhat in our attempts to replicate them, none more so than the fact that it manages these feats with such little power used.
 
+To that end, hardware has been designed and developed in an attempt to efficiently simulate SNNs, and move us closer to that biological-level efficiency.  However, these hardware systems are not always as forgiving of network-level inefficiencies, and so more care must be taken when simulating, or indeed emulating, networks on such systems.  The gains to be made are many though, so you are requested to persevere through the challenges.  With that in mind, we will present some of the systems that already exist and discuss how you can make use of them, and how they might help you on the path to uncovering the secrets that make biological networks so efficient and effective.
 
 
 
