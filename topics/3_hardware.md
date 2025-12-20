@@ -1,4 +1,9 @@
 (deployment)=
+# Deploying SNNs on Hardware
+
+
+
+(deployment)=
 # Deploying SNNs
 
 This chapter covers
