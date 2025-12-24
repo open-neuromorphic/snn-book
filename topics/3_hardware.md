@@ -6,7 +6,7 @@ In the previous chapters you have looked that what SNNs are and the various feat
 To that end, hardware has been designed and developed in an attempt to efficiently simulate SNNs, and move us closer to that biological-level efficiency.  However, these hardware systems are not always as forgiving of network-level inefficiencies, and so more care must be taken when simulating, or indeed emulating, networks on such systems.  The gains to be made are many though, so you are requested to persevere through the challenges.  With that in mind, we will present some of the systems that already exist and discuss how you can make use of them, and how they might help you on the path to uncovering the secrets that make biological networks so efficient and effective.
 
 
-## Different Neuromorohic Hardware
+## Different Types of Neuromorohic Hardware
 
 Neuromorohic hardware comes in many different forms, driven by different design principles and ideas.  Some hardware is digital, like a standard computer, to simulate neurons and synapses.  Others use analog electronic components, like resistors and capacitors, to emulated the behaviour of individual neurons and synapses.  Others still combine both digital and analogue electronics in their efforts to replicate the network activity.  It is important that you consider the properties of the hardware when considering the networks that you are going to run on it as this may determine how successful the deployment is.
 
@@ -18,6 +18,14 @@ Both of these systems will often come with further limitations.  For example, it
 
 In some cases the hardware will allow you to write additional custom extensions that modify the behaviour in some way.  This might include adding your own models of neurons activity (more common in digital hardware), or possibly new model synaptic plasticity algorithms; on analogue hardware this might then be run in digital hardware that can modify the weights or other properties of the network but which still otherwise uses analogue hardware for the rest of the emulation.  Some hardware could also use more exotic components such as memristors, which might then enable learning to happen within the circuits themselves.
 
+Let's have a look at some of the Neuromorohic hardware systems available and explore their properties.
+
+### SpiNNaker (University of Manchester)
+The SpiNNaker system is a digital 
+
+### BrainScales (University of Heidelberg)
+
+### Loihi (Intel)
 
 (deployment)=
 # Deploying SNNs
