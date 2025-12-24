@@ -18,10 +18,10 @@ Both of these systems will often come with further limitations.  For example, it
 
 In some cases the hardware will allow you to write additional custom extensions that modify the behaviour in some way.  This might include adding your own models of neurons activity (more common in digital hardware), or possibly new model synaptic plasticity algorithms; on analogue hardware this might then be run in digital hardware that can modify the weights or other properties of the network but which still otherwise uses analogue hardware for the rest of the emulation.  Some hardware could also use more exotic components such as memristors, which might then enable learning to happen within the circuits themselves.
 
-Let's have a look at some of the Neuromorohic hardware systems available and explore their properties.
+Let's have a look at some of the Neuromorohic hardware systems available and explore their properties. We will not discuss the low-level details of these systems, only concentrating on the details that will matter when running your SNNs.
 
 ### SpiNNaker (University of Manchester)
-The SpiNNaker system is a digital 
+The SpiNNaker system is a digital Neuromorohic system which is designed to run SNNs with biological properties in real-time, using standard computer cors that can be programmed using C with a GCC compiler.  The real-time execution of an SNN can only be achieved if the networks do not generate too many spikes per second, since every spike needs to use some of the time available for processing in each time-step of the simulation.
 
 ### BrainScales (University of Heidelberg)
 
