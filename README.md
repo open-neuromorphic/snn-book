@@ -18,14 +18,15 @@ Return here or chat to us on our [Discord Channel](https://discord.gg/C9bzWgNmqk
 
 ## What is this about?
 
-SNNs are biologically-inspired neural networks that use discrete spikes for computation, making them more energy-efficient and expressive than conventional ANNs when deployed on neuromorphic hardware. This book bridges theory and practice with interactive examples, guiding you **from fundamentals through training methods to hardware deployment**.
+SNNs are biologically-inspired neural networks that use discrete spikes for computation, making them inherently _sparser_ and highly _energy-efficient_ than conventional Artificial Neural Networks (ANNs) when deployed on neuromorphic hardware. This book bridges _theory_ and _practice_ with _interactive_ examples, guiding you **from fundamentals through training methods to hardware deployment**.
 
-**Topics covered:**
+#### Topics covered:
 1. **Foundations**: Theoretical introduction to SNNs
 2. **Training**: Implementing and training SNNs in Python
 3. **Hardware**: Running SNNs on neuromorphic chips
 
-Prerequisites: Basic calculus and linear algebra.
+#### Prerequisites: 
+Basic calculus and linear algebra.
 
 ## Contributing
 
@@ -33,7 +34,7 @@ The book is open source under [CC BY 4.0](https://creativecommons.org/licenses/b
 
 ## Citing
 
-You can cite individual chapters or the book as a whole. We recommend citing specific chapters to credit the contributors who helped your research.
+You can cite individual chapters or the book as a whole. We recommend citing specific chapters to credit the contributors/authors who helped your research.
 
 ## Acknowledgements (in alphabetic order)
 
