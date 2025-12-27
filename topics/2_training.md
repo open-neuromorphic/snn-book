@@ -3,7 +3,7 @@
 
 This topic covers the complete training workflow for SNNs: from understanding how credit assignment flows to practical and efficient training setups.
 
-## What You'll Learn
+## What You'll Learn?
 
 1. **Credit Assignment**: Attribute success/failure to network components across time and space
 2. **Surrograte Gradients**: Train your spiking neurons with gradient approximations 

@@ -1,13 +1,25 @@
 (sec:foundations)=
 # Foundations of SNNs
 
-Have you wondered how the brain works as a *computer*?
-What it means *practically* that the brain consists of neurons?
-Not only what they are, but what they *do*?
-This chapter defines what a "spiking neuron" means, and what *computations* they are capable of.
-It turns out that biological, spiking, neurons are extremely expressive&mdash;much more so than the kind of neurons we are familiar with from deep learning.
+Have you wondered how the brain works as a *computer*? And what it "practically" 
+means... that the brain consists of **neurons**? What those biological neurons 
+are, and what they *do*? How can we *simulate* biological neurons and build 
+neural networks &mdash; called **Spiking Neural Networks** (SNNs) out of them? 
+How *learning* happens in brain, and how can we implement it? This topic covers 
+all these questions in the following chapters:
 
-This first part of the book starts from scratch and can be read by anyone familiar with :
-chapter [](#neuron) starts by explaining what we mean by a "neuron" and
-chapter [](#spiking) extends that to spiking neuron models.
-We then put several spiking neurons together into to *spiking neural networks* (SNNs) in "[](#snn) and, finally, discuss some modeling theories from computational neuroscience that are relevant when you think and work with SNNs.
+## What You'll Learn?
+
+1. **What is a neuron?**: Biological neurons and Glial cells
+2. **What is a spiking neuron?**: Spatial neurons, point neurons, and relation 
+of point neurons with conventional artificial neurons
+3. **What is Encoding & Decoding?**: Encode continuous values to discrete 
+spikes, and decode discrete spikes to meaningful information
+4. **What is an SNN?**: Build _Fully Connected_ and _Convolutional_ Spiking 
+Neural Network architectures with spiking neurons
+5. **What is plasticity?**: Long-Term Potentiation (LTP) and Long-Term 
+Depression (LTD) based on precise spike timings
+
+
+This first part of the book on the **Foundations of SNNs** is meant for complete 
+novice to help them start from scratch in the field of neuromorphic computing. 
