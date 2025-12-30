@@ -40,7 +40,8 @@ contributions** for more concrete opportunities to contribute to this book!
 
 ## How to contribute?
 
-Interested to contribute? Thank you! Please read the following instructions to
+Interested to contribute? Thank you! Please get in touch to access the GitHub
+repo, then read the following instructions to
 quickly set up your dev environment and push your first commit!
 
 ### Only two pedantic asks!
