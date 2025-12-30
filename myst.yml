@@ -10,16 +10,6 @@ project:
     - Python
     - machine learning
     - deep learning
-  authors:
-    - name: Guarav, Ramashish
-      affiliation: Virginia Tech, USA
-      email: ramashishgaurav@gmail.com
-    - name: Pedersen, Jens Egholm
-      affiliation: Technical University of Denmark
-      email: jens@jepedersen.dk
-    - name: Bogdan, Petrut
-      affiliation: Innatera
-      email: petrut.bogdan@innatera.com
   github: https://github.com/open-neuromorphic/snn-book
   license: CC-BY-4.0
   plugins:

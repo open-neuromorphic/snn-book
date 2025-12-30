@@ -24,13 +24,11 @@ propose new sections, please get in touch with us on the
 and appreciate all contributions to perfect this book, no matter their scale!
 
 ### Broad areas to contribute:
-* Finding and reporting typos -- as [issues](
-https://github.com/open-neuromorphic/snn-book/issues) on this repo
+* Finding and reporting typos -- as issues on this repo
 * Reviewing the existing content and reporting any conceptual mistakes on ONM's
   Discord channel: `#snn-book`
   * If validated there, a GitHub issue will be created to amend the content
-* Fixing existing [issues](https://github.com/open-neuromorphic/snn-book/issues)
-  on this repo
+* Fixing existing issues on this repo
   * Mention the issue number your are interested in, on the `#snn-book` channel
   and we will officially assign that issue to you
 * Adding new chapters, sections, or light-weight code/programs (in PyTorch, Jax)
@@ -61,8 +59,8 @@ great, otherwise, we can help you learn it during the review phase of your edits
 We suggest you begin with installing a python3 environment and activating it
 before executing the following steps.
 
-* Clone this repo: <br>
-`git clone git@github.com:open-neuromorphic/snn-book.git` <br> <br>
+* Clone the repo: <br>
+`git clone <repo URL>` <br> <br>
 
 * Install the required libraries: <br>
 `pip install -r requirements.txt` <br> <br>
