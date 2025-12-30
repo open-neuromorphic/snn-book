@@ -26,14 +26,15 @@ and [why spiking neurons are cool](/topics/why-snns).
 ::::
 
 
-SNNs are biologically-inspired neural networks that use discrete spikes for computation, making them more energy-efficient and expressive than conventional ANNs when deployed on neuromorphic hardware. This book bridges theory and practice with interactive examples, guiding you **from fundamentals through training methods to hardware deployment**.
+SNNs are biologically-inspired neural networks that use discrete spikes for computation, making them inherently _sparser_ and more _energy-efficient_ than conventional ANNs when deployed on neuromorphic hardware.
+Computationally, SNNs are more expressive because they combine numerical calculus (in the continuous domain $\mathbb{R}$) with discrete logic (in the discrete domain $\mathbb{N}$) [@Neumann2012].
+
+This **first ever community-driven and open-source** book on SNNs bridges _theory_ and _practice_ with _interactive_ examples, guiding you **from fundamentals through training methods to hardware deployment**.
 We cover three topics:
 
 1. **Foundations**: Theoretical introduction to SNNs
 2. **Training**: Implementing and training SNNs in Python
 3. **Hardware**: Running SNNs on neuromorphic chips
-
-Prerequisites: Basic calculus and linear algebra.
 
 ## Contributing
 ::::{aside}

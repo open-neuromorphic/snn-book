@@ -40,10 +40,9 @@ contributions** for more concrete opportunities to contribute to this book!
 
 ## How to contribute?
 
-Interested to contribute via _writing_ or _reviewing_? Thank you! Please get in 
-touch with us to access the GitHub repository, then read the following 
-instructions to quickly set up your development environment and push your first 
-commit!
+Interested to contribute? Thank you! Please get in touch to access the GitHub
+repo, then read the following instructions to
+quickly set up your dev environment and push your first commit!
 
 ### Only two pedantic asks!
 Please configure your favourite text editor (where you plan to add your edits to
