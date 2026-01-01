@@ -11,9 +11,9 @@ numbering: false
 A hands-on introduction to Spiking Neural Networks (SNNs) that teaches you to **design**, **build**, **train**, and **deploy** neuromorphic systems - both in simulation and on hardware.
 
 :::{warning icon=false} ✍️ Early Access - Draft Chapters Releasing Soon!
-This book is in its early stages. The first chapters will release in the beginning of 2026 🚀
+This book is in its early stages. The first chapters will release in the beginning of 2026 🚀!
 
-Return here or chat to us on our [Discord Channel](https://discord.gg/C9bzWgNmqk) 👋
+Return here or chat to us on our [Discord "practical-snnbook" Channel](https://discord.gg/C9bzWgNmqk) 👋.
 :::
 
 ## What is this about?
@@ -27,14 +27,16 @@ and [why spiking neurons are cool](/topics/why-snns).
 
 
 SNNs are biologically-inspired neural networks that use discrete spikes for computation, making them inherently _sparser_ and more _energy-efficient_ than conventional ANNs when deployed on neuromorphic hardware.
-Computationally, SNNs are more expressive because they combine numerical calculus (in the continuous domain $\mathbb{R}$) with discrete logic (in the discrete domain $\mathbb{N}$) [@Neumann2012].
+Computationally, SNNs are also more _expressive_ because they combine numerical calculus (in the continuous domain $\mathbb{R}$) with discrete logic (in the discrete domain $\mathbb{N}$) [@Neumann2012].
 
-This **first ever community-driven and open-source** book on SNNs bridges _theory_ and _practice_ with _interactive_ examples, guiding you **from fundamentals through training methods to hardware deployment**.
-We cover three topics:
+This _first ever_ **community-driven** and **open-source** book on SNNs bridges 
+_theory_ and _practice_ with _interactive_ examples, guiding you **from SNN 
+fundamentals through training and optimization methods to neuromorphic hardware 
+deployments**. We cover three topics:
 
-1. **Foundations**: Theoretical introduction to SNNs
-2. **Training**: Implementing and training SNNs in Python
-3. **Hardware**: Running SNNs on neuromorphic chips
+1. **Fundamentals**: Covered in the Topic 1: **Foundations of SNNs**
+2. **Training and Optimization**: Covered in the Topic 2: **Training SNNs**
+3. **Neuromorphic Hardware**: Covered in the Topic 3: **Deploying SNNs**
 
 ## Contributing
 ::::{aside}
@@ -44,15 +46,22 @@ Read more about [how you can contribute](/contributors).
 :::
 ::::
 
-The book is open source under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en). We welcome improvements and pull requests. Reach out to us on Discord and read more in the [contribution guidelines](/contributors).
+The book is open source under 
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en). Once the
+version 1.0 of the book is released, we will welcome improvements and pull 
+requests. However, if you are interested to contribute as of now, via _writing_ 
+or _reviewing_, reach out to us on the above-linked Open Neuromorphic Discord 
+and read more in the [contribution guidelines](/contributors).
 
 ## Citing
 
-You can cite individual chapters or the book as a whole. We recommend citing specific chapters to credit the contributors who helped your research.
+This book - as a whole - will be made citable. However, we very much encourage 
+citing specific chapters to credit the contributors who helped your research.
+Upon the release of version 1.0, the bibtex of the book and individual chapters
+will be made available.
 
 ## Editors
 
-* Ramashish Gaurav
-* Jens Egholm Pedersen
-* Petrut Bogdan
-
+* [Ramashish Gaurav](https://r-gaurav.github.io/)
+* [Jens Egholm Pedersen](https://jepedersen.dk/)
+* [Petrut Bogdan](https://pabogdan.github.io/)
