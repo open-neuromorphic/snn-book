@@ -50,8 +50,8 @@ The book is open source under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en). Once the
 version 1.0 of the book is released, we will welcome improvements and pull 
 requests. However, if you are interested to contribute as of now, via _writing_ 
-or _reviewing_, read the [contribution guidelines](/contributors) and reach out 
-to us on the above-linked Open Neuromorphic Discord.
+or _reviewing_, read more in the [contribution guidelines](/contributors) and 
+reach out to us on the above-linked Open Neuromorphic Discord.
 
 ## Citing
 
