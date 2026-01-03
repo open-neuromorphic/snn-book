@@ -2,17 +2,44 @@
 numbering: false
 ---
 (reader)=
-# How to read this book
+# How to read this book?
 
-**Format**: The book exists as both a static PDF and a live website. We strongly recommend using the website to interact with code examples and visualizations rather than just reading the solutions.
+## Format 
+This SNN book currently exists as a live website; it will also be 
+made downloadable as a staic PDF. The live website will have interactive code 
+examples that can be run on your browser. We strongly recommend using the live 
+website to interact with code examples and visualizations rather than just
+plainly reading the book.
 
-**Structure**: The book is organized into three topics:
-1. **Foundations**: Intuitive theoretical introduction to SNNs
-2. **Training**: Implementing and training SNNs in Python
-3. **Hardware**: Running SNNs on neuromorphic chips
+### Structure: 
+As mentioned before, this book is organized into three topics, each consisting 
+of multiple planned chapters.
 
-Each section is self-contained with interactive examples. You can read linearly or jump to specific topics as needed.
+1. **Foundations of SNNs**: Herein, the chapters introduce biological and 
+   spiking neurons, encoding and decoding, concepts of plasticity, and methods 
+   to build a typical Spiking Neural Network (SNN) architecture from scratch.
 
-**Prerequisites**: Basic calculus and linear algebra. If you're new to spiking neurons, start with Topic 1. If you're familiar with the concepts, use later sections on [training](/training) or [deployment](/hardware) as a practical reference.
+2. **Training SNNs**: Herein, the chapters introduce the concepts of training
+   and optimizing SNN architectures, including surrogate gradient descent, meta
+   learning, biologically inspired and evolutionary methods, and of course, the 
+   ANN-to-SNN conversion method, etc.
 
-**Learning approach**: Take time to run and modify the interactive examples. Understanding the semantics builds stronger intuition than memorizing solutions. The goal is to give you working knowledge you can apply immediately.
+3. **Deploying SNNs**: Herein, the chapters introduce neuromorphic hardware 
+   design principles, neuromorphic-deployment compilation toolchain,
+   platform-specific deployment examples and interoperability, and the 
+   neuromorphic sensors.
+
+Each topic is self-contained with interactive examples. You can read them up 
+linearly or jump to specific topics as needed.
+
+## Prerequisites: 
+To read this book, you only need a basic understanding of calculus and linear 
+algebra. If you're new to spiking neurons or SNNs, start with Topic 1. If you're 
+familiar with the foundational concepts, use the later topics on 
+[training](/training) or [deployment](/hardware) as a practical reference.
+
+### Learning approach: 
+Take time to read, and run and _modify_ the interactive code examples in your 
+browser; be curious! Understanding the semantics builds stronger intuition than 
+memorizing solutions. The goal of this book is to give you practical and working 
+knowledge of SNNs that you can apply immediately! Happy Reading!

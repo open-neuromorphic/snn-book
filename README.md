@@ -16,7 +16,7 @@ This book is in its early stages. The first chapters will release in the beginni
 Return here or chat to us on our [Discord "practical-snnbook" Channel](https://discord.gg/C9bzWgNmqk) 👋.
 :::
 
-## What is this about?
+## What is this book about?
 
 ::::{aside}
 :::{seealso} Curious about the book?
@@ -29,14 +29,21 @@ and [why spiking neurons are cool](/topics/why-snns).
 SNNs are biologically-inspired neural networks that use discrete spikes for computation, making them inherently _sparser_ and more _energy-efficient_ than conventional ANNs when deployed on neuromorphic hardware.
 Computationally, SNNs are also more _expressive_ because they combine numerical calculus (in the continuous domain $\mathbb{R}$) with discrete logic (in the discrete domain $\mathbb{N}$) [@Neumann2012].
 
-This _first ever_ **community-driven** and **open-source** book on SNNs bridges 
-_theory_ and _practice_ with _interactive_ examples, guiding you **from SNN 
-fundamentals through training and optimization methods to neuromorphic hardware 
-deployments**. We cover three topics:
+This _first_ of its kind, **community-driven** and **open-source** book on SNNs 
+bridges _theory_ and _practice_ with _interactive_ examples, guiding you **from 
+SNN fundamentals through training and optimization methods to neuromorphic 
+hardware deployments**. We cover three topics:
 
 1. **Fundamentals**: Covered in the Topic 1: **Foundations of SNNs**
 2. **Training and Optimization**: Covered in the Topic 2: **Training SNNs**
 3. **Neuromorphic Hardware**: Covered in the Topic 3: **Deploying SNNs**
+
+## How is this book written?
+As this book is completely open-source, it is freely available for everyone. It 
+is currently being actively written by a group of nearly 10 researchers, who 
+range from late stage PhD candidates to scientists with decades of neuromorphic 
+experience. The contents of this book will be reviewable by all, thus, vetted by 
+the wider neuromorphic community for correctness.
 
 ## Contributing
 ::::{aside}
