@@ -2,7 +2,7 @@
 numbering: false
 ---
 (why_snns)=
-# Why spiking neurons and spiking networks?
+# Why spiking networks?
 
 Artificial Neural Networks (ANNs) excel at pattern recognition and 
 decision-making, but biological brains are fundamentally more capable; and 
