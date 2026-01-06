@@ -3,7 +3,7 @@ numbering: false
 ---
 # Practical Spiking Neural Networks
 
-[![Discord](https://img.shields.io/discord/1044548629622439977)](https://discord.gg/C9bzWgNmqk)
+[![Discord](https://img.shields.io/discord/1044548629622439977)](https://discord.gg/aPFsSRA7Nf)
 [![Neuromorphic Computing](https://img.shields.io/badge/Collaboration_Network-Open_Neuromorphic-blue)](https://open-neuromorphic.org/neuromorphic-computing/)
 <!-- TODO: GitHub Stars and PDF repo
 -->
@@ -58,7 +58,7 @@ The book is open source under
 version 1.0 of the book is released, we will welcome improvements and pull 
 requests. However, if you are interested to contribute as of now, via _writing_ 
 or _reviewing_, read more in the [contribution guidelines](/contributors) and 
-reach out to us on the above-linked Open Neuromorphic Discord.
+reach out to us on the [Open Neuromorphic Discord server](https://discord.gg/aPFsSRA7Nf).
 
 ## Citing
 
