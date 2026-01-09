@@ -19,8 +19,7 @@ As of this writing (2025), this **Practical SNN** book (or just the "SNN book"
 informally) is in a nascent stage; a lot of contents are yet to be added -- from
 foudational theories to neuromorphic hardware deployments. Therefore, if you have
 some expertise on certain chapters/sections of this book and wish to write about 
-it, or propose new sections, get in touch with us in the `#practical-snnbook`
-channel on [Open Neuromorphic Discord](https://discord.gg/hUygPUdD8E). We invite
+it, or propose new sections, get in touch with us on the [Open Neuromorphic Discord](https://discord.gg/hUygPUdD8E). We invite
 and appreciate all contributions to perfect this book, no matter their scale!
 
 ### Broad areas to contribute:
@@ -137,8 +136,8 @@ book's editors deem necessary.
 (sec:call-for-contributions)=
 ## Call for planned contributions
 Following are the chapters/sections where we call for contributions. Please get 
-in touch with the editors of this SNN book in the `#practical-snnbook` channel 
-on [Open Neuromorphic Discord](https://discord.gg/hUygPUdD8E) to plan well, 
+in touch with the editors of this SNN book 
+on the [Open Neuromorphic Discord](https://discord.gg/hUygPUdD8E) to plan well, 
 before making any Git activity. 
 ```{note}
 We will populate the remainder of this section later.
