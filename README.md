@@ -13,7 +13,7 @@ A hands-on introduction to Spiking Neural Networks (SNNs) that teaches you to **
 :::{warning icon=false} ✍️ Early Access - Draft Chapters Releasing Soon!
 This book is in its early stages. The first chapters will release in the beginning of 2026 🚀!
 
-Return here or chat to us on [Discord](https://discord.gg/C9bzWgNmqk) 👋.
+Return here to check our progress and let us know what you think [on our Discord Channel 👋](https://discord.gg/wAKVddWE6p).
 :::
 
 ## What is this book about?
@@ -39,7 +39,7 @@ hardware deployments**. We cover three topics:
 3. **Neuromorphic Hardware**: Covered in the Topic 3: **Deploying SNNs**
 
 ## How is this book written?
-As this book is completely open-source, it is freely available for everyone. It 
+This book is completely open-source and is freely available for everyone. It 
 is currently being actively written by a group of nearly 10 researchers, who 
 range from late stage PhD candidates to scientists with decades of neuromorphic 
 experience. The contents of this book will be reviewable by all, thus, vetted by 
@@ -56,14 +56,14 @@ Read more about [how you can contribute](/contributors).
 The book is open source under 
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en). Once the
 version 1.0 of the book is released, we will welcome improvements and pull 
-requests. However, if you are interested to contribute as of now, via _writing_ 
+requests. If you are interested to contribute by _writing_ 
 or _reviewing_, read more in the [contribution guidelines](/contributors) and 
 reach out to us on the [Open Neuromorphic Discord server](https://discord.gg/aPFsSRA7Nf).
 
 ## Citing
 
-This book - as a whole - will be made citable. However, we very much encourage 
-citing specific chapters to credit the contributors who helped your research.
+This book will be made citable as a whole and as individual chapters.
+We very much encourage citing specific chapters to credit the contributors who helped your research.
 Upon the release of version 1.0, the bibtex of the book and individual chapters
 will be made available.
 

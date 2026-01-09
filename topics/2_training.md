@@ -1,5 +1,10 @@
-(engineering)=
+(training)=
 # Training SNNs
+
+```{note} Topic headline
+**Training SNNs** gives you the tools to train and optimize
+networks for certain tasks.
+```
 
 How do you train a neural network that communicates through discrete spikes
 across time? How do you handle the non-differentiable nature of spike
@@ -44,4 +49,3 @@ methods, and handling of various layer types.
 chapter covers hyperparameter tuning strategies, regularization techniques for
 temporal dynamics, batch normalization adaptations, and performance optimization
 for faster training.
-

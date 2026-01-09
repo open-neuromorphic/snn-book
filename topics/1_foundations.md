@@ -1,5 +1,10 @@
-(sec:foundations)=
+(foundations)=
 # Foundations of SNNs
+
+```{note} Topic headline
+**Foundations of SNNs** introduces you to the concepts
+of neuromorphic computing.
+```
 
 Have you wondered how the brain works as a *computer*? And what it "practically" 
 means... that the brain consists of **neurons**? What those biological neurons 
@@ -31,13 +36,9 @@ i.e., learn how to decode meaningful information back from discrete spikes.
 4. **What is an SNN?**: This chapter covers the foundations to build Fully 
 Connected SNN and Convolutional SNN architectures from scratch - using Spiking 
 Neurons and Deep Learning concepts. This chapter demonstrates only the forward 
-pass; the backward pass / training is covered in the next topic: "Training SNNs".
+pass; the backward pass / training is covered in the next topic "[Training SNNs](#training)".
 
 5. **What is plasticity?**: Our brain is plastic, but what are the underlying 
 neuroscience principles that facilitate learning in brain? This chapter covers 
 the foundational concepts of neuroplasticity, e.g., Long-Term Potentiation (LTP) 
 and Long-Term Depression (LTD) based on precise spike timings.
-
-
-This first part of the book on the **Foundations of SNNs** is meant for complete 
-novice to help them start from scratch in the field of neuromorphic computing. 
