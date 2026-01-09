@@ -5,18 +5,18 @@ numbering: false
 # Preface: Why this book?
 
 As interest in SNNs and neuromorphic hardware grows, so does the need for a
-practical entry-level textbook. We've all faced the question: "How do I learn
-about SNNs and neuromorphic systems?" Most literature focuses on either
-theoretical foundations or specialized research topics, and the material is
-scattered and disorganized. This leaves a gap for practitioners who want to
-learn, build, train, *and* deploy SNNs on neuromorphic hardware. This book
-fills that gap.
+practical entry-level textbook. Everyone in the community has faced the
+question: "How do I learn about SNNs and neuromorphic systems?" Most
+literature focuses on either theoretical foundations or specialized
+research topics, and the material is scattered and disorganized. This
+leaves a gap for practitioners who want to learn, build, train, *and*
+deploy SNNs on neuromorphic hardware. This book fills that gap.
 
 This book serves **three** purposes:
 
 1. It helps you *get stuff to work*. We gather the most important and useful
-**practical** insights. There's more advanced material out there, but here
-we want you to *hit the ground running*.
+**practical** insights. There's more advanced material out there.
+Here we want you to *hit the ground running*.
 
 2. It is a collection of (citable) **resources** that serve as your *gateway*
 into advanced topics in neuroscience, electrical engineering, physics,
@@ -48,6 +48,6 @@ then this book is for you.
 
 The field of SNNs and Neuromorphic Computing is rapidly evolving, and this book 
 provides you the _foundation_ you need to contribute to the _third generation_ 
-of neural networks (SNNs)! and build the next generation of AI systems.
+of neural networks, i.e. SNNs, and build the next generation of AI systems.
 Welcome!
 

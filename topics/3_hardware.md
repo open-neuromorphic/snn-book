@@ -1,6 +1,11 @@
 (deployment)=
 # Deploying SNNs
 
+```{note} Topic headline
+**Deploying SNNs** covers neuromorphic hardware constraints
+and lets you accelerate networks on various systems.
+```
+
 This topic covers
 (1) the various neuromorphic hardware types and the platforms available today,
 (2) the SNN deployment frameworks for each described hardware platform, and (3) 

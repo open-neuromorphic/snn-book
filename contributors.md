@@ -18,19 +18,19 @@ written in Python using [NumPy](https://numpy.org/).
 As of this writing (2025), this **Practical SNN** book (or just the "SNN book"
 informally) is in a nascent stage; a lot of contents are yet to be added -- from
 foudational theories to neuromorphic hardware deployments. Therefore, if you have
-some expertise on certain chapters/sections of this book and wish to write about 
-it, or propose new sections, get in touch with us on the [Open Neuromorphic Discord](https://discord.gg/hUygPUdD8E). We invite
+some expertise on certain chapters/sections of this book and wish to write about
+it, or propose new sections, get in touch with us in the `#snn-book`
+channel on [Open Neuromorphic Discord](https://discord.gg/wAKVddWE6p). We invite
 and appreciate all contributions to perfect this book, no matter their scale!
 
 ### Broad areas to contribute:
 * Finding and reporting typos -- as GitHub issues (repository will be made 
   public later)
-* Reviewing the existing content and reporting any conceptual mistakes on ONM's
-  Discord channel: `#practical-snnbook`
+* Reviewing the existing content and reporting any conceptual mistakes on the ONM
+  Discord.
   * If validated there, a GitHub issue will be created to amend the content
 * Fixing existing GitHub issues on this repository (will be made public later)
-  * Mention the issue number your are interested in, in the `#practical-snnbook` 
-  channel and we will officially assign that issue to you
+  * Mention the issue number your are interested on Discord and we will officially assign that issue to you
 * Adding new chapters, sections, or light-weight code/programs (in Python/NumPy)
 * Suggesting (classical) research papers providing in-depth coverage of certain 
   chapters/topics that we should include and refer the readers to 
@@ -99,7 +99,7 @@ directory is clean, i.e., all your files are committed and pushed to remote
 `git push origin <branch-name>` <br> <br>
 
 * File a pull request upon successful push, and choose a reviewer for your edits;
-consult in the `#practical-snnbook` channel for the same! <br> <br>
+consult in the `#snn-book` channel for the same! <br> <br>
 
 * Once you've addressed all the review comments and received approval from your
 reviewer(s), merge your branch to `main` (assuming no conflicts exist).
@@ -135,9 +135,9 @@ book's editors deem necessary.
 
 (sec:call-for-contributions)=
 ## Call for planned contributions
-Following are the chapters/sections where we call for contributions. Please get 
-in touch with the editors of this SNN book 
-on the [Open Neuromorphic Discord](https://discord.gg/hUygPUdD8E) to plan well, 
+Following are the chapters/sections where we call for contributions. Please get
+in touch with the editors of this SNN book in the `#snn-book` channel
+on [Open Neuromorphic Discord](https://discord.gg/wAKVddWE6p) to plan well,
 before making any Git activity. 
 ```{note}
 We will populate the remainder of this section later.
