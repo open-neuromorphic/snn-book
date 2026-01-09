@@ -29,17 +29,17 @@ spikes to get exact gradient information.
 explores meta-learning approaches for SNNs, including learning rate adaptation,
 architecture search, and learning optimization strategies.
 5. **Biologically Inspired Training**: How does the brain assign credit and learn
-without backpropagation? This chapter covers spike-timing-dependent plasticity (STDP),
-local learning rules, and biologically plausible training methods that work
-without global error signals.
+without backpropagation? This chapter covers Spike-Timing Dependent Plasticity 
+(STDP), local learning rules, and biologically plausible training methods that 
+work without global error signals.
 6. **Evolutionary Algorithms**: Can we evolve SNNs instead of training them with
 gradients? This chapter introduces evolutionary strategies, genetic algorithms,
 and neuroevolution techniques that can discover network parameters and
 architectures through simulated evolution.
-7. **ANN-to-SNN Conversion**: How can we leverage pre-trained artificial neural
-networks? This chapter covers conversion techniques that transform conventional
-ANNs into SNNs, including rate-based conversion, calibration methods, and
-handling of various layer types.
+7. **ANN-to-SNN Conversion**: How can we leverage pre-trained Artificial Neural
+Networks (ANNs)? This chapter covers conversion techniques that transform 
+conventional ANNs into SNNs, including rate-based conversion, calibration 
+methods, and handling of various layer types.
 8. **Optimization**: How do we make SNN training practical and efficient? This
 chapter covers hyperparameter tuning strategies, regularization techniques for
 temporal dynamics, batch normalization adaptations, and performance optimization
