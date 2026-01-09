@@ -13,7 +13,7 @@ A hands-on introduction to Spiking Neural Networks (SNNs) that teaches you to **
 :::{warning icon=false} ✍️ Early Access - Draft Chapters Releasing Soon!
 This book is in its early stages. The first chapters will release in the beginning of 2026 🚀!
 
-Return here or chat to us on our [Discord "practical-snnbook" Channel](https://discord.gg/C9bzWgNmqk) 👋.
+Return here or chat to us on [Discord](https://discord.gg/C9bzWgNmqk) 👋.
 :::
 
 ## What is this book about?
