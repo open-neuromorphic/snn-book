@@ -7,7 +7,7 @@ numbering: false
 ## Format 
 This SNN book currently exists as a live website; it will also be 
 made downloadable as a staic PDF. The live website will have interactive code 
-examples that can be run on your browser. We strongly recommend using the live 
+examples that can be run on your browser. We recommend using the live 
 website to interact with code examples and visualizations rather than just
 plainly reading the book.
 
@@ -15,22 +15,22 @@ plainly reading the book.
 As mentioned before, this book is organized into three topics, each consisting 
 of multiple planned chapters.
 
-1. **Foundations of SNNs**: Herein, the chapters introduce biological and 
+1. **Foundations of SNNs**: An introduction to biological and 
    spiking neurons, encoding and decoding, concepts of plasticity, and methods 
-   to build a typical Spiking Neural Network (SNN) architecture from scratch.
+   to build a typical Spiking Neural Network (SNN) from scratch.
 
-2. **Training SNNs**: Herein, the chapters introduce the concepts of training
+2. **Training SNNs**: An introduction to the concepts of training
    and optimizing SNN architectures, including surrogate gradient descent, meta
    learning, biologically inspired and evolutionary methods, and of course, the 
    ANN-to-SNN conversion method, etc.
 
-3. **Deploying SNNs**: Herein, the chapters introduce neuromorphic hardware 
+3. **Deploying SNNs**: An introduction to neuromorphic hardware 
    design principles, neuromorphic-deployment compilation toolchain,
    platform-specific deployment examples and interoperability, and the 
    neuromorphic sensors.
 
 Each topic is self-contained with interactive examples. You can read them up 
-linearly or jump to specific topics as needed.
+sequentially or jump to specific topics as needed.
 
 ## Prerequisites: 
 To read this book, you only need a basic understanding of calculus and linear 
