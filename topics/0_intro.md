@@ -6,8 +6,8 @@ numbering: false
 
 As interest in SNNs and neuromorphic hardware grows, so does the need for a
 practical entry-level textbook. Everyone in the community has faced the
-question: "How do I learn about SNNs and neuromorphic systems?" Most
-literature focuses on either theoretical foundations or specialized
+question: "How do I learn about SNNs and neuromorphic systems? Where do I start?" 
+Most literature focuses on either theoretical foundations or specialized
 research topics, and the material is scattered and disorganized. This
 leaves a gap for practitioners who want to learn, build, train, *and*
 deploy SNNs on neuromorphic hardware. This book fills that gap.

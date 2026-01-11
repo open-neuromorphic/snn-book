@@ -13,7 +13,8 @@ A hands-on introduction to Spiking Neural Networks (SNNs) that teaches you to **
 :::{warning icon=false} ✍️ Early Access - Draft Chapters Releasing Soon!
 This book is in its early stages. The first chapters will release in the beginning of 2026 🚀!
 
-Return here to check our progress and let us know what you think [on our Discord Channel 👋](https://discord.gg/wAKVddWE6p).
+Return here to check our progress and let us know what you think [on our Discord 
+Channel](https://discord.gg/wakvddwe5p): `#snnbook` 👋.
 :::
 
 ## What is this book about?
@@ -71,4 +72,4 @@ will be made available.
 
 * [Ramashish Gaurav](https://r-gaurav.github.io/)
 * [Jens Egholm Pedersen](https://jepedersen.dk/)
-* [Petrut Bogdan](https://pabogdan.github.io/)
+* [Petrut A. Bogdan](https://pabogdan.github.io/)
