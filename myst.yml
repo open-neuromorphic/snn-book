@@ -53,7 +53,7 @@ project:
     - file: topics/2_training.md
       children:
         - file: topics/2_1_credit_assignment.md
-        - file: topics/2_2_surrograte_gradients.md
+        - file: topics/2_2_surrogate_gradients.md
         - file: topics/2_3_exact_gradients.md
         - file: topics/2_4_meta_learning.md
         - file: topics/2_5_biologically_inspired_training.md
