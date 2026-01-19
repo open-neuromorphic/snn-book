@@ -44,9 +44,11 @@ the neuron's current voltage *subtracted* by its assumed voltage threshold. The
 difference between these two will be clear in the later sections.
 
 - **Entering into refractory state**: Spiking neurons simulate this behavior by
-generally _keeping_ their membrane potential/voltage at 0 (in case of soft-reset)
-or at a subtracted value (in case of hard-reset) for a certain number of
-time-steps.
+_keeping_ their membrane potential/voltage set at 0 (in case of hard-reset, the 
+most usual case) or at a subtracted value (in case of soft-reset) for a _certain 
+number_ of time-steps. This characteristic mimics the neurobiological behaviour
+of the neurons to discourage producing an action potential _immediately after_ 
+firing one.  
 
 - **Propagating the action-potential along axon**: Spiking neurons generally do
 *not* simulate this behaviour, except for the *spatial* spiking neuron models;
