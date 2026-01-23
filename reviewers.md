@@ -9,9 +9,9 @@ Networks** book. It also sets the reviewing standards, platforms, and how your
 reviews will be acknowledged; note that these details are subject to change. 
 
 ## What to review?
-**All** the contents of this SNN book are reviewable. You can review for 
-grammatical correctness, technical/scientific correctness, and the programming 
-examples. You can also suggest new topics/chapters for this book.
+**All** content in this SNN book is reviewable. You can review for grammatical 
+correctness, technical/scientific correctness, and the programming examples. 
+You can also suggest new topics/chapters for this book.
 
 ## How to review?
 Due to the nature of this SNN book, for the near future, it will simultaneously 
@@ -30,7 +30,7 @@ reflect this dynamic nature of the book.
 * All the review activites will happen on GitHub to facilitate easy response,
   addressal, and smooth development.
 
-* The link of any new (non-trivial) GitHub Pull Request will be posted on 
+* The link to any new (non-trivial) GitHub Pull Request will be posted on 
   [OpenReview](https://openreview.net/), such that the interested community 
   members there can join the review discussions happening on GitHub. 
 
