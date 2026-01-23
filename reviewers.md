@@ -61,5 +61,5 @@ procedure to acknowledge your reviews is as follows:
   acknowledged as _OpenReview_ in the **Reviewed By** section.
 
   - In case you wish to make your name known and the reviews are substantial
-    (subject to the authors of the relevant chapter and the editors), then your 
+    (subject to agreement from the authors of the relevant chapter and the editors), then your 
     name will mentioned in the **Reviewed By** section.
