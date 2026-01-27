@@ -55,10 +55,10 @@ will be viewable on this website (authorship will _not_ be shared). The
 procedure to acknowledge your reviews is as follows:
 
 * Your organized review of the chapters on GitHub during **Development** will be 
-  acknowledged in the **Reviewed By** section with your names visible.
+  (default) acknowledged in the **Reviewed By** section with your names visible.
 
 * Your (anonymous) reviews on OpenReview during **Production** will be
-  acknowledged as _OpenReview_ in the **Reviewed By** section.
+  (default) acknowledged as _OpenReview_ in the **Reviewed By** section.
 
   - In case you wish to make your name known and the reviews are substantial
     (subject to agreement from the authors of the relevant chapter and the 
