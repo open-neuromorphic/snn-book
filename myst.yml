@@ -22,6 +22,8 @@ project:
       email: petrut.bogdan@innatera.com
   github: https://github.com/open-neuromorphic/snn-book
   license: CC-BY-4.0
+  plugins:
+    - _plugins/dynamical-systems.mjs
   toc:
     - file: README.md
       numbering: false
@@ -76,6 +78,8 @@ project:
     - file: glossary.md
       numbering: false
     - file: contributors.md
+      children:
+      - file: dev/simulation.md
       numbering: false
     - file: reviewers.md
       numbering: false

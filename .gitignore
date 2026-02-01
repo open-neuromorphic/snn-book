@@ -69,3 +69,5 @@ coverage/
 # MyST build outputs
 _build
 .book-old
+
+uv.lock

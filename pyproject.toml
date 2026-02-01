@@ -1,0 +1,20 @@
+[project]
+name = "snn-book"
+version = "0.1.0"
+description = "Spiking Neural Networks Book"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jupyter-book==2.1.1",
+    "matplotlib",
+    "numpy",
+    "mystmd",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# This is a documentation/book project, not a Python package
+packages = []
