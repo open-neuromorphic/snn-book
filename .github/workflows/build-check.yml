@@ -13,16 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          apk add --no-cache python3 py3-pip nodejs npm
+          pip3 install --break-system-packages -r requirements.txt
       
       - name: Build PDF
-        run: jupyter-book build --pdf .
+        run: jupyter-book build --pdf
       
       - name: Verify PDF was created
         run: |
