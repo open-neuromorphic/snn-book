@@ -1,0 +1,35 @@
+name: Build Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/xu-cheng/texlive-full:latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Build PDF
+        run: jupyter-book build --pdf .
+      
+      - name: Verify PDF was created
+        run: |
+          if [ -f "_build/exports/"*.pdf ]; then
+            echo "✅ PDF built successfully"
+            ls -lh _build/exports/
+          else
+            echo "❌ PDF build failed - no PDF found"
+            exit 1
+          fi
