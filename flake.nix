@@ -19,16 +19,13 @@
                     pkgs.texliveFull
                     pkgs.inconsolata-lgc
                     pkgs.nodejs
-                    pypkgs.matplotlib
-                    pypkgs.numpy
+                    pkgs.uv
                 ];
 
                 shellHook = ''
-                    if [ ! -d .venv ]; then
-                        python3 -m venv .venv
-                    fi
+                    # Use uv to sync dependencies from pyproject.toml
+                    uv sync
                     source .venv/bin/activate
-                    pip install -r requirements.txt
                 '';
             };
         }
