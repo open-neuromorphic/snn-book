@@ -15,7 +15,7 @@ The system is defined by:
 - **Output**: `x_new = v` (output equals state)
 
 ```{dynsim}
-:params: [{"id": "tau", "label": "Time Constant (τ)", "min": 0.1, "max": 5, "step": 0.1, "value": 1}]
+:params: [{"id": "tau", "label": "Time Constant (τ)", "min": 0.01, "max": 10, "step": 0.1, "value": 1}]
 :plotType: timeseries
 :plotConfig: {"title": "Leaky Integrator", "xaxis": {"title": "Time Steps", "range": [0, 10]}, "yaxis": {"title": "State (v)", "range": [-3, 3]}}
 :initialState: {"v": 0}
