@@ -83,6 +83,8 @@ project:
       numbering: false
     - file: reviewers.md
       numbering: false
+    - file: lif_visual.md
+      numbering: false
   bibliography:
     - references.bib
   numbering:
