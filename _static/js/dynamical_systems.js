@@ -14,7 +14,7 @@
 window.pythonSystems = window.pythonSystems || {};
 window.dynSimConfigs = window.dynSimConfigs || {};
 
-window.registerPythonSystem = function(containerId, stepFunction, config) {
+window.registerPythonSystem = function (containerId, stepFunction, config) {
   console.log('[DynSim] Registering Python system:', containerId, config);
 
   try {
@@ -57,6 +57,7 @@ class DynamicalSystemsSimulator {
     this.plotConfig = pythonSystem.plotConfig;
     this.initialState = pythonSystem.initialState;
     this.initialX = pythonSystem.initialX;
+    this.isRunning = true;
 
     this.options = {
       height: pythonSystem.height,
@@ -138,11 +139,10 @@ class DynamicalSystemsSimulator {
         <span class="dynsim-param-value" style="background: #e9ecef; padding: 2px 8px; border-radius: 3px; font-size: 0.85em; min-width: 40px; text-align: center; font-family: monospace;">${param.value.toFixed(2)}</span>
     `).join('');
 
-    // Add restart button at end of second row
+    // Add pause button at end of second row
     html += `
-        <button class="dynsim-restart" style="background: transparent; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center;" title="Restart">
-          <svg width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.0441 5.70436C21.4402 5.41246 22 5.69531 22 6.1874V17.8126C22 18.3047 21.4402 18.5875 21.0441 18.2956L13.1555 12.483C12.8301 12.2432 12.8301 11.7568 13.1555 11.517L21.0441 5.70436Z" fill="#000000" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10.0441 5.70436C10.4402 5.41246 11 5.69531 11 6.1874V17.8126C11 18.3047 10.4402 18.5875 10.0441 18.2956L2.15555 12.483C1.8301 12.2432 1.8301 11.7568 2.15555 11.517L10.0441 5.70436Z" fill="#000000" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <button class="dynsim-pause" style="background: transparent; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center;" title="Pause">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pause-circle"><circle cx="12" cy="12" r="10"></circle><line x1="10" y1="15" x2="10" y2="9"></line><line x1="14" y1="15" x2="14" y2="9"></line></svg>
           </svg>
         </button>
       </div>
@@ -168,10 +168,10 @@ class DynamicalSystemsSimulator {
 
   setupEventListeners() {
     const resetBtn = this.container.querySelector('.dynsim-reset');
-    const restartBtn = this.container.querySelector('.dynsim-restart');
+    const pauseBtn = this.container.querySelector('.dynsim-pause');
 
     resetBtn.addEventListener('click', () => this.reset());
-    restartBtn.addEventListener('click', () => this.restart());
+    pauseBtn.addEventListener('click', () => this.togglePause());
   }
 
   initPlot() {
@@ -219,72 +219,79 @@ class DynamicalSystemsSimulator {
     this.initPlot();
   }
 
-  restart() {
-    this.x = this.initialX;
-    this.state = { ...this.initialState };
-    this.time = 0;
-    this.plotData = [];
-    this.initPlot();
+  togglePause() {
+    this.isRunning = !this.isRunning;
+    const pauseBtn = this.container.querySelector('.dynsim-pause');
+    if (this.isRunning) {
+      pauseBtn.title = 'Pause';
+      pauseBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pause-circle"><circle cx="12" cy="12" r="10"></circle><line x1="10" y1="15" x2="10" y2="9"></line><line x1="14" y1="15" x2="14" y2="9"></line></svg>`;
+    } else {
+      pauseBtn.title = 'Play';
+      pauseBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play-circle"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>`;
+    }
   }
 
   animate() {
-    const paramValues = this.getParameters();
+    // Only update the plot if the animation is running
+    // >>> If is running
+    if (this.isRunning) {
+      const paramValues = this.getParameters();
 
-    // Convert params array to dict object keyed by parameter ID
-    const paramNames = this.params.map(p => p.id);
-    const paramsDict = {};
-    paramNames.forEach((name, i) => paramsDict[name] = paramValues[i]);
+      // Convert params array to dict object keyed by parameter ID
+      const paramNames = this.params.map(p => p.id);
+      const paramsDict = {};
+      paramNames.forEach((name, i) => paramsDict[name] = paramValues[i]);
 
-    // Add dt constant to params (from config, default 0.02)
-    paramsDict.dt = this.options.dt;
+      // Add dt constant to params (from config, default 0.02)
+      paramsDict.dt = this.options.dt;
 
-    // Get current input value from slider
-    const inputSlider = this.container.querySelector('.dynsim-input');
-    const inputValue = parseFloat(inputSlider.value);
+      // Get current input value from slider
+      const inputSlider = this.container.querySelector('.dynsim-input');
+      const inputValue = parseFloat(inputSlider.value);
 
-    // Call Python step wrapper: step(x, state, params) -> (x_new, state_new)
-    try {
-      const result = this.pythonStep(inputValue, this.state, paramsDict);
-      this.x = result[0];  // New x (output from step)
-      this.state = result[1];  // New state
-    } catch (e) {
-      console.error('Python step function error:', e);
-      this.stopAnimation();
-      return;
-    }
-
-    // Increment time
-    this.time += this.options.dt;
-
-    // Collect data for plotting
-    if (this.plotType === '3d') {
-      // For 3D plots, assume state has x, y, z
-      this.plotData.push([this.state.x || this.x, this.state.y || 0, this.state.z || 0]);
-    } else if (this.plotType === 'timeseries') {
-      // For timeseries, plot (time, x)
-      this.plotData.push([this.time, this.x]);
-    } else {
-      // For 2D plots, plot (x, y) - need to think about what y is
-      // For now, assume state has y or we use some derivative
-      this.plotData.push([this.x, this.state.y || 0]);
-    }
-
-    // Buffer management
-    if (this.plotType === 'timeseries') {
-      const windowSize = this.plotConfig.xaxis?.range?.[1] || 50;
-      const pointsPerWindow = Math.ceil(windowSize / this.options.dt);
-      const bufferPoints = Math.ceil(pointsPerWindow * 0.5);
-      const targetPoints = pointsPerWindow + bufferPoints;
-
-      if (this.plotData.length > targetPoints * 2) {
-        this.plotData = this.plotData.slice(-targetPoints);
+      // Call Python step wrapper: step(x, state, params) -> (x_new, state_new)
+      try {
+        const result = this.pythonStep(inputValue, this.state, paramsDict);
+        this.x = result[0];  // New x (output from step)
+        this.state = result[1];  // New state
+      } catch (e) {
+        console.error('Python step function error:', e);
+        this.stopAnimation();
+        return;
       }
-    } else {
-      if (this.plotData.length > this.options.maxPoints) {
-        this.plotData.shift();
-      }
-    }
 
+      // Increment time
+      this.time += this.options.dt;
+
+      // Collect data for plotting
+      if (this.plotType === '3d') {
+        // For 3D plots, assume state has x, y, z
+        this.plotData.push([this.state.x || this.x, this.state.y || 0, this.state.z || 0]);
+      } else if (this.plotType === 'timeseries') {
+        // For timeseries, plot (time, x)
+        this.plotData.push([this.time, this.x]);
+      } else {
+        // For 2D plots, plot (x, y) - need to think about what y is
+        // For now, assume state has y or we use some derivative
+        this.plotData.push([this.x, this.state.y || 0]);
+      }
+
+      // Buffer management
+      if (this.plotType === 'timeseries') {
+        const windowSize = this.plotConfig.xaxis?.range?.[1] || 50;
+        const pointsPerWindow = Math.ceil(windowSize / this.options.dt);
+        const bufferPoints = Math.ceil(pointsPerWindow * 0.5);
+        const targetPoints = pointsPerWindow + bufferPoints;
+
+        if (this.plotData.length > targetPoints * 2) {
+          this.plotData = this.plotData.slice(-targetPoints);
+        }
+      } else {
+        if (this.plotData.length > this.options.maxPoints) {
+          this.plotData.shift();
+        }
+      }
+    } // <<< if is running
     this.updatePlot();
     this.animationId = requestAnimationFrame(() => this.animate());
   }
