@@ -82,6 +82,50 @@ def step(x, state, p):
 ```
 ````
 
+## Why return a tuple?
+
+The `step` function returns `(x_new, state_new)` — a tuple of two things:
+
+1. **`x_new`** — the output value that gets plotted.
+2. **`state_new`** — a dict with the updated state, fed back into the
+   next call as `state`.
+
+This separation exists because the plotted output and the internal state
+are not always the same thing. A neuron model, for example, might track
+a membrane voltage `v` and a recovery variable `u` internally, but only
+plot the voltage. Returning a tuple lets you choose what to display
+independently from what to remember.
+Note that the naming in the Tuple doesn't matter, so you can call
+your variables whatever you want, for instance `(y, s)`.
+
+## Example: from equation to code
+
+Say you want to simulate exponential decay:
+
+$$v[t+1] = v[t] \cdot (1 - \frac{dt}{\tau})$$
+
+To turn this into a `step` function:
+
+1. Read the current state from the `state` dict (`state['v']`).
+2. Read any parameters from `p` (`p['tau']`, `p['dt']`).
+3. Compute the next value using the equation.
+4. Return `(output, new_state)`.
+
+```python
+def step(x, state, p):
+    v_new = state['v'] * (1 - p['dt'] / p['tau'])
+    return (v_new, {'v': v_new})
+```
+
+Here `x` (the input slider) is unused — the system just decays on its
+own. If you wanted the input to drive the system, you could add it:
+
+```python
+def step(x, state, p):
+    v_new = state['v'] * (1 - p['dt'] / p['tau']) + x * p['dt']
+    return (v_new, {'v': v_new})
+```
+
 ## Directive Options
 
 - `:params:` - JSON array of parameter definitions with id, label, min, max, step, value

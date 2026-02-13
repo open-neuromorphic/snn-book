@@ -58,51 +58,36 @@ https://peps.python.org/pep-0008/) formatting. If you are aware of it, that's
 great, otherwise, we can help you learn it during the review phase of your edits.
 
 ### Next steps?
-We suggest you begin with installing a python3 environment and activating it
-before executing the following steps.
+We use [uv](https://docs.astral.sh/uv/) to manage dependencies. If you don't
+have it installed, see the
+[uv installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
 * Clone this repo: <br>
-`git clone git@github.com:open-neuromorphic/snn-book.git` <br> <br>
+`git clone git@github.com:open-neuromorphic/snn-book.git` <br>
+`cd snn-book` <br> <br>
 
-* Install the required libraries: <br>
-`pip install -r requirements.txt` <br> <br>
+* Create and activate a virtual environment, and install dependencies: <br>
+`uv venv` <br>
+`source .venv/bin/activate` <br>
+`uv sync` <br> <br>
 
-* Creating a branch (pertaining to an issue, say 17): <br>
-`git branch <branch-name>` <br>
-`git checkout <branch-name>` <br> <br>
-
-* Set your local branch to track **its own** remote: <br>
-`git push --set-upstream origin <branch-name>` <br> <br>
+* Create a branch for your changes: <br>
+`git checkout -b <branch-name>` <br> <br>
 
 * Make small edits, and compile the book: <br>
-`jupyter book start` <br>
-from within your python environment, and open <br>
+`dev/build_simulation.sh` <br>
+from within your virtual environment, and open <br>
 `http://localhost:3000/` <br>
 on your browser to see how it looks. <br> <br>
 
-* Once you have made your changes, push your commits: <br>
-`git push` <br>
-You will see that these will be pushed to your remote branch `<branch-name>` (not
-`main`). <br> <br>
-
-* Keep developing your branch as needed, and keep pushing your commits to remote.
-<br> <br>
-
-* Once all the necessary changes have been made, and your branch to ready to be
-merged to `main`, fetch `main` and rebase against it (make sure your working
-directory is clean, i.e., all your files are committed and pushed to remote
-`<branch-name>`); while rebasing, resolve the merge conflicts if any: <br>
+* Once your changes are ready, rebase on `main`, push, and open a pull
+request: <br>
 `git fetch origin main` <br>
-`git rebase origin/main` <br> <br>
+`git rebase origin/main` <br>
+`git push -u origin <branch-name>` <br> <br>
 
-* Once you have resolved all the merge conflicts, push your local branch: <br>
-`git push origin <branch-name>` <br> <br>
-
-* File a pull request upon successful push, and choose a reviewer for your edits;
-consult in the `#snn-book` channel for the same! <br> <br>
-
-* Once you've addressed all the review comments and received approval from your
-reviewer(s), merge your branch to `main` (assuming no conflicts exist).
+* Choose a reviewer for your pull request; consult in the `#snn-book`
+channel if unsure!
 
 **NOTE:** Unless already discussed with repo maintainers/reviewer(s) please do
 not add massive changes to review.

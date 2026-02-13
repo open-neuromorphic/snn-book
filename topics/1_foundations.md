@@ -1,4 +1,4 @@
-(sec:foundations)=
+(foundations)=
 # Foundations of SNNs
 
 Have you wondered how the brain works as a *computer*?
