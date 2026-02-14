@@ -39,4 +39,35 @@ V[t] = 0
 \end{equation}
 
 ### Code
+```{dynsim}
+:params: [{"id": "v_decay", "label": "Voltage Decay", "min": 0.0, "max": 1.0, 
+           "step": 0.1, "value": 0.2}]
+:plotType: timeseries
+:plotConfig: {"title": "Leaky Integrate & Fire Neuron", "xaxis": {"title": "Time-Steps", "range": [0, 10]}, "yaxis": {"title": "Voltage (V)", "range": [-0.5, 1.5]}}
+:initialState: {"V": 0}
+:initialX: 1.0
+:height: 400
+:dt: 0.01 RGASK: Do I need to use `dt` in my code? What I do not want to?  
+
+import numpy as np
+
+def step(I, state, p):
+  """ Leaky Integrate & Fire neuron.
+
+  Args:
+    I: Input current `I` from the slider. 
+    state: State variable dict, i.e., `state["V"]`.
+    p: Other parameters dict, i.e., `p[v_decay]`.
+  
+  Returns:
+    Tuple of (new `I` value, new `state["V"]` value).
+  """
+  V_new = (1 - p["v_decay"])*state["V"] + I # Update Voltage.
+
+  # Update the current `state` to the new Voltage for next iteration.
+  state["V"] = V_new # Update the current state to the new Voltage for next itr.
+
+  return (V_new, {"V": V_new}) # RGASK: Why same information `V_new` is returned twice? 
+```
+
 ### Interactive Visualization
