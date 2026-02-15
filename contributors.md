@@ -2,6 +2,7 @@
 numbering:
   title: false
 ---
+(contributors)=
 # Guidelines for Contributors
 
 This page explains _what_ and _how_ to contribute to this **Practical Spiking
