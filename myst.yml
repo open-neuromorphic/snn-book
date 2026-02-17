@@ -15,8 +15,8 @@ project:
       affiliation: Virginia Tech, USA
       email: ramashishgaurav@gmail.com
     - name: Pedersen, Jens Egholm
-      affiliation: Stanford University, USA
-      email: jens@jepedersen.dk
+      affiliation: Technical University of Denmark
+      email: jegpe@dtu.dk
     - name: Bogdan, Petrut
       affiliation: Innatera
       email: petrut.bogdan@innatera.com
@@ -24,6 +24,7 @@ project:
   license: CC-BY-4.0
   plugins:
     - _plugins/dynamical-systems.mjs
+    - _plugins/rubric.mjs
   toc:
     - file: README.md
       numbering: false
