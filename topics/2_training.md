@@ -3,7 +3,9 @@
 
 This topic covers the complete training workflow for SNNs: from understanding how credit assignment flows to practical and efficient training setups, tailored to your use case.
 
-## Why Training Matters
+```{rubric} Why Training Matters
+```
+
 The previous topic, [](#foundations), identifies the core elements of spiking neural networks.
 But, then what? Randomly putting spiking neurons together is rarely useful.
 The connections, time constants, and thresholds needs to *adapt* to a specific scenario: we need to **train** the parameters of the network to achieve the desired behavior.
@@ -22,7 +24,9 @@ SNNs, on the other hand, use state-dependent nonlinearities that unroll in time,
 What's more, the activations have jumps that are challenging to differentiate.
 But there are solutions to most scenarios, and this topic presents a set of ideas and methods to address these scenarios.
 
-## Background
+```{rubric} Background
+```
+
 If you think about a neural network as a system of equations, the search for good, even optimal, solutions reduces to a simple optimization process.
 If $x$ is the variable we would like to compute and $b$ is some  ...
 
@@ -31,7 +35,9 @@ TODO: Continue
 $$Ax = b$$
 
 
-## Contents in this Topic
+```{rubric} Contents in this Topic
+```
+
 The topic is organized around methods for solving the [credit assignment problem](#credit_assignment) for SNNs.
 We begin by discussing gradient methods in the chapters on [](#surrogate_gradients) and [](#exact_gradients) because they closely resemble the methods in classical neural networks and because they are popular in the present-day literature.
 The chapter on [meta learning](#meta_learning) teaches you how you can improve the learning mechanisms.
