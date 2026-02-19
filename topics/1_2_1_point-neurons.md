@@ -185,7 +185,7 @@ V[t] &= (1 - v_\text{decay})\times V[t-1] + I[t]  \tag{b} \\
 S_\text{out}[t] &= \Theta(V[t] - V_\text{thr})  \tag{c} \\
 V[t] &\leftarrow \begin{cases}
     V_\text{rest} \text{\quad\qquad\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{hard reset}} \\
-    V[t] - V_\text{rest}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
+    V[t] - V_\text{thr}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
 \end{cases} \tag{d}
 \label{eq:discrete-lif}
 \end{align}
