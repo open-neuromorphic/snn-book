@@ -1,12 +1,3 @@
-(deployment)=
-# Deploying SNNs
-
-This chapter covers
-(1) the various neuromorphic hardware types and the platforms available today,
-(2) the deployment frameworks for each hardware platform, and
-(3) quantization methods that lets you squeeze your model onto hardware. -->
-
-(deployment)=
 # Deploying SNNs to Neuromorphic Hardware
 
 This topic details the process of deploying Spiking Neural Networks onto specialized neuromorphic hardware. It moves from the motivating principles and core hardware design trade-offs to the practical compilation toolchain and platform-specific implementations.
