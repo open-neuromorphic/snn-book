@@ -65,9 +65,11 @@ project:
         - file: topics/2_8_optimization.md
     - file: topics/3_hardware.md
       children:
-        - file: topics/3_1_platforms.md
-        - file: topics/3_2_frameworks.md
-        - file: topics/3_3_quantization.md
+        - file: topics/3_1_motivation.md
+        - file: topics/3_2_hw_design_principles.md
+        - file: topics/3_3_toolchain.md
+        - file: topics/3_4_interoperability.md
+        - file: topics/3_5_performance_modelling.md
     - file: topics/appendices.md
       children:
         - file: topics/a_dynamics.md
@@ -128,9 +130,11 @@ project:
         - topics/2_7_ann-to-snn_conversion.md
         - topics/2_8_optimization.md
         - topics/3_hardware.md
-        - topics/3_1_platforms.md
-        - topics/3_2_frameworks.md
-        - topics/3_3_quantization.md
+        - topics/3_1_motivation.md
+        - topics/3_2_hw_design_principles.md
+        - topics/3_3_toolchain.md
+        - topics/3_4_interoperability.md
+        - topics/3_5_performance_modelling.md
         - topics/appendices.md
         - topics/a_dynamics.md
         - topics/a_modeling_theories.md
