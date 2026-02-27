@@ -34,8 +34,10 @@ operations that involve discrete spikes as input and continuous-values as output
 e.g., at the output layer of an SNN for classification or regression, we need to
 decode the spikes. In other words, when we need to extract some meaningful
 information from spikes, we decode them. Similar to encoding, there are multiple 
-decoding approaches that can broadly categorised in two: **Rate Decoding** and
-**Temporal Decoding**; in this chapter, we will discuss them both.  
+decoding approaches that can be broadly placed in two categories: **Rate 
+Decoding** and **Temporal Decoding**; we will discuss both of these in this
+chapter.
+
 
 ---
 ---
