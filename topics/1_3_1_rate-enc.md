@@ -90,8 +90,8 @@ Next step: Write this.
 Nest step: Write this.
 
 Note that in the research papers, it is common to mention all the above types of
-encoding methods as simply rate encoding, however, sometimes, methods under
-Population Rate Encoding are explicitly named.
+encoding methods as simply rate encoding, however, methods under Population Rate 
+Encoding are sometimes explicitly named and discussed in the literature.
 
 ```{warning} High Spike Count!
 Next step: Write this.
