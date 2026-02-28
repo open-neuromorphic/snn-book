@@ -12,10 +12,10 @@ popular methods of rate encoding: **Count Rate Encoding** (also commonly known a
 
 ## Count/Frequency Rate Encoding
 This encoding method is a standard approach used in most Spiking Neural Networks. 
-The idea is to have _one_ spike generator _per dimension_ of the input to encode 
-continuous values to binary spikes. That one spike generator can either be a 
-mathematical function (e.g., **Poisson Encoding**) or a neuron (e.g., **Neuron 
-Encoding**); we describe them next.
+The idea is to have **one** spike generator _per dimension_ of the input to 
+encode continuous values to binary spikes. That one spike generator can either 
+be a mathematical function (e.g., **Poisson Encoding**) or a neuron (e.g., 
+**Neuron Encoding**); these are described below in more detail.
 
 ### Poisson Encoding
 
@@ -72,15 +72,29 @@ $\textcolor{red}{start}$
 
 
 
-
-
 ## Population Rate Encoding
+This is another standard but relatively less common encoding approach used in
+SNNs. The idea is to have **a group** of encoders _per dimension_ of the input 
+to encode continuous values to binary spikes. Why so? A population of 
+_differently characterized_ encoders is required when you want to capture 
+_different characteristics_ of the input signal, e.g., if your signal is 
+composed of _positive_ and _negative_ values! In such a case, you would ideally 
+like your encoders to be _sensitive_ to the positive and negative 
+characteristics of your input signal! You can do this by specially tuning the 
+implementation of your encoders. We next describe a special case of Population 
+Rate Encoding, followed by the general case. 
 
 ### Two-Neuron Encoding
-
+Next step: Write this.
 ### Ensemble Encoding
+Nest step: Write this.
 
+Note that in the scientific literature it is common to refer to all these 
+encoding methods simply as rate encoding. However, some authors explicitly 
+distinguish between _rate encoding_, where the firing rate of a single neuron is 
+used as a proxy for real-valued input, and _population rate encoding_, which 
+employs more than one neuron to capture different characteristics of the input.
 
-Note that in the research papers, it is common to mention all the above types of
-encoding methods as simply rate encoding, however, sometimes, methods under
-Population Rate Encoding are explicitly named.
+```{warning} High Spike Count!
+Next step: Write this.
+```
