@@ -85,7 +85,8 @@ implementation of your encoders. We next describe a special case of Population
 Rate Encoding, followed by the general case. 
 
 ### Two-Neuron Encoding
-Next step: Write this.
+Two-neuron encoding is 
+
 ### Ensemble Encoding
 Nest step: Write this.
 
