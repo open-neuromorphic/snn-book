@@ -60,8 +60,8 @@ or any other hyper-parameter of the encoding neuron (e.g., voltage decay
 $\tau_\text{vol}$ in $\texttt{LIF}$ neuron, i.e., in Eq {eq}`eq:discrete-lif`). 
 
 ```{note}
-It's highly recommended to check the spiking profile of your encondig neurons (in
-the input layer of your SNN) on a few samples to ensure the input $x[t]$ is 
+It's highly recommended to check the spiking profile of your encondig neurons 
+(in the input layer of your SNN) on a few samples to ensure the input $x[t]$ is 
 properly represented and the information doesn't get lost.
 ```
 
@@ -85,7 +85,29 @@ implementation of your encoders. We next describe a special case of Population
 Rate Encoding, followed by the general case. 
 
 ### Two-Neuron Encoding
-Two-neuron encoding is 
+Two-Neuron Encoding is the simplest and a special case of Population Rate
+Encoding, where one uses only two neurons in their encoder design. As hinted
+above, such an encoding system is commonly used when one has to encode an input
+signal composed of positive and negative values over time. If you use only one
+neuron sensitive to positive values, only the positive part of the signal will
+be encoded to spikes, and you will lose the information available from the
+negative part of the signal; and vice-versa if you use only one neuron sensitive
+to negative values. To illustrate this, we take the following example of rate 
+encoding a Sine wave (oscillating between -1 and 1) using the abovementioned 
+**Neuron Encoding** approach -- first by using a _single_ neuron, then by _two_
+neurons. For the same, consider the $\texttt{IF}$ neuron's current $J[t]$ Eq 
+{eq}`eq:enc-nrn-jt` and voltage Eq {eq}`eq:discrete-if`($\textsf{b}$, 
+$\textsf{c}$, $\textsf{d}$),  below:
+
+\begin{equation}
+J[t] = \alpha \times e \times x[t] + J_\text{bias} \\
+V[t] = V[t-1] + J[t] \\
+S[t] = \Theta(V[t] - V_\text{thr}) \\
+V[t] \leftarrow V_\text{rest}
+\end{equation}
+
+
+
 
 ### Ensemble Encoding
 Nest step: Write this.
