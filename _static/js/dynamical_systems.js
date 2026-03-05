@@ -378,15 +378,15 @@ function initializePythonSimulator(containerId) {
 
 // Auto-initialize simulators when DOM, Plotly, and PyScript are ready
 let initAttempts = 0;
-const MAX_INIT_ATTEMPTS = 20; // 10 seconds max wait
+const MAX_INIT_ATTEMPTS = 40; // 20 seconds max wait (40 x 500ms)
 
 function initializeSimulators() {
   initAttempts++;
 
   // Check if Plotly is loaded
   if (typeof Plotly === 'undefined') {
-    console.warn('Plotly not loaded yet, retrying in 50ms...');
-    setTimeout(initializeSimulators, 50);
+    console.warn('Plotly not loaded yet, retrying in 500ms...');
+    setTimeout(initializeSimulators, 500);
     return;
   }
 
@@ -401,8 +401,8 @@ function initializeSimulators() {
   if (containerIds.length === 0) {
     // No systems registered yet, wait a bit
     if (initAttempts < MAX_INIT_ATTEMPTS) {
-      console.warn(`PyScript systems not registered yet (attempt ${initAttempts}/${MAX_INIT_ATTEMPTS}), retrying in 50ms...`);
-      setTimeout(initializeSimulators, 50);
+      console.warn(`PyScript systems not registered yet (attempt ${initAttempts}/${MAX_INIT_ATTEMPTS}), retrying in 500ms...`);
+      setTimeout(initializeSimulators, 500);
     } else {
       console.error('Timeout waiting for PyScript systems to register. Check that PyScript is loading correctly.');
       console.log('Available configs:', window.dynSimConfigs);
