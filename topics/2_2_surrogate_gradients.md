@@ -7,7 +7,7 @@ authors:
 (surrogate_gradients)=
 # Surrogate Gradient Training
 
-In [](#credit_assignment), we established that training a neural network requires assigning credit to each component: which weights contributed to an error, and how should they change?
+In [](#credit_assignment), we established that training a neural network requires assigning credit to each component: which weight or neuron contributed to an error, and how should they change?
 For classical neural networks, the backpropagation algorithm solves this by flowing gradients backward through the network.
 For spiking neural networks, the same idea applies — but with a critical obstacle.
 
@@ -34,9 +34,16 @@ S[t] = \Theta(V[t] - V_\text{thr})
 
 where $\Theta(\cdot)$ is the Heaviside step function: it outputs $1$ when its argument is positive, and $0$ otherwise.
 
+```{aside} Chain rule for function composition
+In calculus, when you want to differentiate two composed functions $z$ and $y$ with respect to $x$, you take the derivative of $z$ evaluated at $y(x)$ and multiply by the derivative of $y$.
+That is
+$$\frac{d}{dx} z(y(x)) = z'(y(x)) \cdot y'(x)$$
+For more, [see Wikipedia](https://en.wikipedia.org/wiki/Chain_rule).
+```
+
 Now consider training a single weight $W$ using gradient descent.
 The loss $\mathcal{L}$ depends on the spike $S$, which depends on the membrane potential $V$, which depends on the input current $I = WX$.
-The chain rule gives:
+The [chain rule](https://en.wikipedia.org/wiki/Chain_rule) gives:
 
 ```{math}
 :label: eq:sg-chain-rule
@@ -99,7 +106,8 @@ Here are several common choices:
 | Name | Surrogate derivative $\partial \tilde{S} / \partial V$ |
 |---|---|
 | **Arctangent** | $\frac{1}{\pi}\frac{1}{1+(\pi V)^2}$ |
-| **Fast sigmoid** | $\frac{1}{(1 + \lvert V \rvert)^2}$ |
+| **SuperSpike** [@zenke2018superspike] | $\frac{1}{(\alpha \lvert V \rvert + 1)^2}$ |
+| **Fast sigmoid** | $\frac{1}{(1 + \lvert V \rvert)^2}$ (SuperSpike with $\alpha = 1$) |
 | **Sigmoid** | $\sigma(V)(1 - \sigma(V))$ where $\sigma(V) = \frac{1}{1+e^{-V}}$ |
 | **Rectangular** (boxcar) | $\frac{1}{2} \mathbb{1}(\lvert V \rvert < 1)$ |
 | **Triangular** | $\max(0, 1 - \lvert V \rvert)$ |
@@ -122,8 +130,12 @@ def atan_surrogate(v, alpha=np.pi):
     """Backward pass: arctangent surrogate gradient."""
     return 1.0 / (alpha * (1 + (alpha * v) ** 2))
 
+def superspike_surrogate(v, alpha=100.0):
+    """Backward pass: SuperSpike surrogate gradient (Zenke & Ganguli, 2018)."""
+    return 1.0 / (alpha * np.abs(v) + 1.0) ** 2
+
 def fast_sigmoid_surrogate(v):
-    """Backward pass: fast sigmoid surrogate gradient."""
+    """Backward pass: fast sigmoid surrogate gradient (SuperSpike with alpha=1)."""
     return 1.0 / (1 + np.abs(v)) ** 2
 
 def sigmoid_surrogate(v):
