@@ -383,9 +383,10 @@ const MAX_INIT_ATTEMPTS = 40; // 20 seconds max wait (40 x 500ms)
 function initializeSimulators() {
   initAttempts++;
 
-  // Check if Plotly is loaded
+  // Check if Plotly is loaded (doesn't count against system registration budget)
   if (typeof Plotly === 'undefined') {
     console.warn('Plotly not loaded yet, retrying in 500ms...');
+    initAttempts = 0; // Reset so the full budget applies to system registration
     setTimeout(initializeSimulators, 500);
     return;
   }
@@ -519,6 +520,54 @@ async function setupPyScriptContainers() {
 
   console.log('[DynSim] Finished setting up PyScript containers. Registered systems:', Object.keys(window.pythonSystems).length);
 }
+
+// Initialize a single container that was dynamically added to the DOM
+async function initializeContainer(container) {
+  const containerId = container.id;
+  if (!containerId || !window.dynSimSystemsData) return;
+
+  const systemData = window.dynSimSystemsData[containerId];
+  if (!systemData) return;
+
+  // Skip if already initialized or already registered
+  if (container.querySelector('.dynsim-container')) return;
+  if (window.pythonSystems[containerId]) return;
+
+  // Wait for PyScript bootstrap if not ready yet
+  let attempts = 0;
+  while (!window.executeDynSimCode && attempts < 40) {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    attempts++;
+  }
+  if (!window.executeDynSimCode) return;
+
+  console.log('[DynSim] Late-initializing container:', containerId);
+
+  try {
+    const { pythonCode, config } = systemData;
+    window.dynSimConfigs[containerId] = config;
+    window.executeDynSimCode(pythonCode, containerId, config);
+  } catch (e) {
+    console.error('[DynSim] Error late-initializing container:', containerId, e);
+  }
+}
+
+// Watch for dynamically added containers (SPA/client-side navigation)
+const observer = new MutationObserver((mutations) => {
+  for (const mutation of mutations) {
+    for (const node of mutation.addedNodes) {
+      if (node.nodeType !== Node.ELEMENT_NODE) continue;
+      // Check the node itself and any descendants
+      const containers = node.matches?.('.dynsim-python-container')
+        ? [node]
+        : Array.from(node.querySelectorAll?.('.dynsim-python-container') || []);
+      for (const container of containers) {
+        initializeContainer(container);
+      }
+    }
+  }
+});
+observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
 
 // Start initialization when DOM is ready
 if (document.readyState === 'loading') {
