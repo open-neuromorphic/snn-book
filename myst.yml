@@ -46,6 +46,7 @@ project:
           children:
             - file: topics/1_3_1_rate-enc.md
             - file: topics/1_3_2_temp-enc.md
+            - file: topics/1_3_2_1_rank-order-enc.md
             - file: topics/1_3_3_decoding.md
         - file: topics/1_4_event_representations.md
         - file: topics/1_4_snn.md
