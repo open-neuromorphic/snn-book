@@ -86,49 +86,122 @@ app.use((req, res, next) => {
   function injectScripts(html) {
     let customScripts = '';
 
-    // Add PyScript first (CSS + JS) for Python-powered visualizations
+    // Add PyScript (CSS + JS) for Python-powered visualizations
     customScripts += '\n  <link rel="stylesheet" href="https://pyscript.net/releases/2026.1.1/core.css" />';
     customScripts += '\n  <script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>';
 
-    // Add PyScript bootstrap that will execute user dynamical systems code
+    // Add Plotly.js (peer dependency of dynsim)
+    customScripts += '\n  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>';
+
+    // Add dynsim from CDN — handles simulator UI, Python bridge, and auto-init
+    customScripts += '\n  <script src="https://unpkg.com/dynsim@0.2.0" defer></script>';
+
+    // Minimal PyScript bootstrap: exec user Python code and register systems
+    // (type conversion is handled by dynsim's built-in Python bridge)
     const pyBootstrap = `
   <script type="py" config='{"packages":["numpy"]}'>
 import numpy as np
 from pyscript import window
 from pyscript.ffi import create_proxy
 
-# Global function to execute user Python code and register systems
-def execute_dynsim_code(python_code_str, container_id, config_js):
-    """Execute user's Python code and register the system."""
-    # Create namespace for user code with numpy
+def execute_dynsim_code(python_code_str, container_id, config):
     user_namespace = {"np": np, "numpy": np}
-
-    # Execute user code to get step function
     exec(python_code_str, user_namespace)
     step = user_namespace["step"]
+    window.registerPythonSystem(container_id, create_proxy(step), config)
 
-    # Wrapper to convert JsProxy to Python dicts
-    def step_wrapper(x, state_js, p_js):
-        # Convert JS objects to Python dicts
-        state = state_js.to_py() if hasattr(state_js, 'to_py') else dict(state_js)
-        p = p_js.to_py() if hasattr(p_js, 'to_py') else dict(p_js)
-
-        # Call user's step function with plain dicts
-        x_new, state_new = step(x, state, p)
-
-        return (x_new, state_new)
-
-    # Register with JavaScript
-    window.registerPythonSystem(container_id, create_proxy(step_wrapper), config_js)
-
-# Expose to JavaScript
 window.executeDynSimCode = create_proxy(execute_dynsim_code)
-print("[PyScript Bootstrap] Dynamical systems executor ready")
   </script>`;
     customScripts += pyBootstrap;
 
-    // Then add Plotly.js with defer to ensure it loads before dependent scripts
-    customScripts += '\n  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>';
+    // MutationObserver for SPA navigation: initialize dynsim containers added after page load
+    // Only triggers when a .dynsim-python-container is actually found in added nodes
+    const spaObserver = `
+  <script>
+  (function() {
+    console.log('[DynSim SPA] Observer script loaded');
+    var pending = {};
+
+    async function initializeContainer(container) {
+      var id = container.id;
+      if (!id || !window.dynSimSystemsData) return;
+      var systemData = window.dynSimSystemsData[id];
+      if (!systemData) return;
+      if (container.querySelector('.dynsim-container')) return;
+      if (pending[id]) return;
+      pending[id] = true;
+
+      var attempts = 0;
+      while (!window.executeDynSimCode && attempts < 40) {
+        await new Promise(function(r) { setTimeout(r, 500); });
+        attempts++;
+      }
+      if (!window.executeDynSimCode) {
+        console.error('[DynSim SPA] executeDynSimCode not available after waiting');
+        return;
+      }
+
+      console.log('[DynSim SPA] Initializing container:', id);
+      try {
+        window.executeDynSimCode(systemData.pythonCode, id, systemData.config);
+      } catch (e) {
+        console.error('[DynSim SPA] Error initializing container:', id, e);
+      }
+    }
+
+    function checkNode(node) {
+      if (node.nodeType !== Node.ELEMENT_NODE) return;
+      var containers = [];
+      if (node.matches && node.matches('.dynsim-python-container')) {
+        containers.push(node);
+      }
+      if (node.querySelectorAll) {
+        var found = node.querySelectorAll('.dynsim-python-container');
+        for (var i = 0; i < found.length; i++) containers.push(found[i]);
+      }
+      for (var j = 0; j < containers.length; j++) {
+        // Small delay to let React finish the current commit
+        (function(c) { setTimeout(function() { initializeContainer(c); }, 100); })(containers[j]);
+      }
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      for (var i = 0; i < mutations.length; i++) {
+        var added = mutations[i].addedNodes;
+        for (var j = 0; j < added.length; j++) {
+          checkNode(added[j]);
+        }
+      }
+    });
+
+    // Polling fallback: scan for uninitialized containers every second
+    // Catches containers that the MutationObserver misses (e.g. SPA navigation
+    // where React's client-side render doesn't trigger addedNodes for type:'html')
+    function pollForContainers() {
+      // Clear pending flags for containers no longer in the DOM (SPA navigated away)
+      for (var key in pending) {
+        if (!document.getElementById(key)) delete pending[key];
+      }
+      var containers = document.querySelectorAll('.dynsim-python-container');
+      for (var i = 0; i < containers.length; i++) {
+        var c = containers[i];
+        if (c.id && !c.querySelector('.dynsim-container')) {
+          initializeContainer(c);
+        }
+      }
+    }
+    setInterval(pollForContainers, 1000);
+
+    function startObserving() {
+      console.log('[DynSim SPA] MutationObserver started');
+      observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
+    }
+
+    if (document.body) startObserving();
+    else document.addEventListener('DOMContentLoaded', startObserving);
+  })();
+  </script>`;
+    customScripts += spaObserver;
 
     // Add custom CSS from _static/css
     if (fs.existsSync(customStaticPath)) {
@@ -144,15 +217,15 @@ print("[PyScript Bootstrap] Dynamical systems executor ready")
       }
     }
 
-    // Add custom scripts from _static/js with defer to maintain execution order
+    // Add auto-generated dynsim systems data file
     if (fs.existsSync(customStaticPath)) {
       const jsPath = path.join(customStaticPath, 'js');
       if (fs.existsSync(jsPath)) {
-        const staticFiles = fs.readdirSync(jsPath, { withFileTypes: true })
-          .filter(dirent => dirent.isFile() && dirent.name.endsWith('.js'))
+        const dataFiles = fs.readdirSync(jsPath, { withFileTypes: true })
+          .filter(dirent => dirent.isFile() && dirent.name.startsWith('0-dynsim') && dirent.name.endsWith('.js'))
           .map(dirent => dirent.name);
 
-        staticFiles.forEach(file => {
+        dataFiles.forEach(file => {
           customScripts += `\n  <script src="/_static/js/${file}" defer></script>`;
         });
       }

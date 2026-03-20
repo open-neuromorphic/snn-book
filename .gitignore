@@ -71,3 +71,5 @@ _build
 .book-old
 
 uv.lock
+
+.claude/

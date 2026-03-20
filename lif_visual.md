@@ -4,13 +4,48 @@ numbering:
 ---
 # Interactive Visualizations
 Here, we present one of the key strengths of this online SNN book -
-**Interactive Visualizations**!. Such interactive visualizations - _accompanied 
+**Interactive Visualizations**! Such interactive visualizations - _accompanied 
 with their code_ - can help you build a clear and thorough understanding of the 
 core SNN concepts. You can engage with these visualizations / demonstrations -
 _right on the spot_ - to quickly learn the presented concept's _intricacies_ and 
-the _effects_ of its variable parameters. The code runs on _your browser_, thus, 
-there is **no** need to spawn a separate `jupyter notebook` or any IDE to 
-programmatically study those concepts! You can study them right here!
+the _effects_ of its variable parameters.
+Try to move the sliders below!
+
+```{dynsim}
+:params: [{"id": "v_decay", "label": "Voltage Decay", "min": 0.0, "max": 0.12, "step": 0.01, "value": 0.09}]
+:plotType: timeseries
+:plotConfig: {"title": "Leaky Integrate & Fire Neuron", "xaxis": {"title": "Time-Steps", "range": [0, 1]}, "yaxis": {"title": "Voltage (V)", "range": [-0.5, 1.5]}}
+:initialState: {"V": 0, "S": 0}
+:initialX: 0.1
+:input: {"label": "Input Current (I)", "min": -0.5, "max": 1, "step": 0.01, "value": 0.1}
+:height: 400
+:dt: 0.001
+:spikes: S
+:spikeThreshold: 1.0
+
+import numpy as np
+
+def step(x, state, p):
+  """ Leaky Integrate & Fire neuron.
+
+  Args:
+    x: Input current `I` from the slider.
+    state: State variable dict, i.e., `state["V"]`.
+    p: Other parameters dict, i.e., `p[v_decay]`.
+
+  Returns:
+    Tuple of (new `I` value, new `state` dict).
+  """
+  V_new = (1 - p["v_decay"])*state["V"] + x # Update Voltage.
+
+  S = 0
+  if V_new > 1.0:
+    S = 1
+    V_new = 0.0
+
+  return (V_new, {"V": V_new, "S": S})
+```
+
 
 ## Example of Leaky Integrate & Fire neuron
 We take the example of simulating a [Leaky Integrate &
@@ -39,16 +74,23 @@ V[t] = 0
 \end{equation}
 
 ### Code
+Our visualization relis on the [DynSim library](https://github.com/Jegp/dynsim/), developed by the editors of the SNN book.
+It works as a Plugin to the platform we used to build this book, [Jupyter Book](https://jupyterbook.org/).
+Users and contributors can simply type down the Python code in a `step` function as below.
+Here is the example for the visualization above.
 
 ````markdown
 ```{dynsim}
 :params: [{"id": "v_decay", "label": "Voltage Decay", "min": 0.0, "max": 0.12, "step": 0.01, "value": 0.09}]
 :plotType: timeseries
-:plotConfig: {"title": "Leaky Integrate & Fire Neuron", "xaxis": {"title": "Time-Steps", "range": [0, 10]}, "yaxis": {"title": "Voltage (V)", "range": [-0.5, 1.5]}}
-:initialState: {"V": 0}
+:plotConfig: {"title": "Leaky Integrate & Fire Neuron", "xaxis": {"title": "Time-Steps", "range": [0, 1]}, "yaxis": {"title": "Voltage (V)", "range": [-0.5, 1.5]}}
+:initialState: {"V": 0, "S": 0}
 :initialX: 0.1
+:input: {"label": "Input Current (I)", "min": -0.4, "max": 0.2, "step": 0.01, "value": 0.1}
 :height: 400
-:dt: 0.001 #This controls the simulation speed in real-time, its unit is in sec.
+:dt: 0.001
+:spikes: S
+:spikeThreshold: 1.0
 
 import numpy as np
 
@@ -56,49 +98,23 @@ def step(x, state, p):
   """ Leaky Integrate & Fire neuron.
 
   Args:
-    x: Input current `I` from the slider. 
+    x: Input current `I` from the slider.
     state: State variable dict, i.e., `state["V"]`.
     p: Other parameters dict, i.e., `p[v_decay]`.
-  
+
   Returns:
-    Tuple of (new `I` value, new `state["V"]` value).
+    Tuple of (new `I` value, new `state` dict).
   """
   V_new = (1 - p["v_decay"])*state["V"] + x # Update Voltage.
-  
+
+  S = 0
   if V_new > 1.0:
+    S = 1
     V_new = 0.0
 
-  return (V_new, {"V": V_new})
+  return (V_new, {"V": V_new, "S": S})
 ```
 ````
 
-### Interactive Visualization
-```{dynsim}
-:params: [{"id": "v_decay", "label": "Voltage Decay", "min": 0.0, "max": 0.12, "step": 0.01, "value": 0.09}]
-:plotType: timeseries
-:plotConfig: {"title": "Leaky Integrate & Fire Neuron", "xaxis": {"title": "Time-Steps", "range": [0, 10]}, "yaxis": {"title": "Voltage (V)", "range": [-0.5, 1.5]}}
-:initialState: {"V": 0}
-:initialX: 0.1
-:height: 400
-:dt: 0.001 #This controls the simulation speed in real-time, its unit is in sec.
-
-import numpy as np
-
-def step(x, state, p):
-  """ Leaky Integrate & Fire neuron.
-
-  Args:
-    x: Input current `I` from the slider. 
-    state: State variable dict, i.e., `state["V"]`.
-    p: Other parameters dict, i.e., `p[v_decay]`.
-  
-  Returns:
-    Tuple of (new `I` value, new `state["V"]` value).
-  """
-  V_new = (1 - p["v_decay"])*state["V"] + x # Update Voltage.
-  
-  if V_new > 1.0:
-    V_new = 0.0
-
-  return (V_new, {"V": V_new})
-```
+And that is it!
+We cannot wait to see what you will build with it.

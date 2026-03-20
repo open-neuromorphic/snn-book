@@ -71,6 +71,10 @@ const plugin = {
           type: Number,
           doc: 'Initial input/output value (default: 0)'
         },
+        input: {
+          type: String,
+          doc: 'JSON object for input slider config: {label, min, max, step, value}'
+        },
         height: {
           type: Number,
           doc: 'Height in pixels (default: 400)'
@@ -78,6 +82,14 @@ const plugin = {
         dt: {
           type: Number,
           doc: 'Timestep for integration (default: 0.02)'
+        },
+        spikes: {
+          type: String,
+          doc: 'State variable name to check for spikes (e.g. "S"). Falsy = no spikes.'
+        },
+        spikeThreshold: {
+          type: Number,
+          doc: 'Threshold value for spike visualization line (default: null)'
         }
       },
       run(data) {
@@ -98,8 +110,11 @@ const plugin = {
           plotConfig: data.options?.plotConfig || '{}',
           initialState: data.options?.initialState || '{"t": 0}',
           initialX: data.options?.initialX ?? 0,
+          input: data.options?.input || null,
           height: data.options?.height || 400,
-          dt: data.options?.dt || 0.02
+          dt: data.options?.dt || 0.02,
+          spikes: data.options?.spikes || null,
+          spikeThreshold: data.options?.spikeThreshold ?? null
         };
 
         // Store system data in registry
