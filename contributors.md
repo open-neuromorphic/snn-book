@@ -119,7 +119,8 @@ git log.
 
 * Your _organized_ review of the chapters will be acknowledged in the **Reviewed 
 By** section of those particular chapters; it will be viewable on this website,
-although, the authorship will _not_ be shared. 
+although, the authorship will _not_ be shared. Please check [Guidelines for
+Reviewers](/reviewers).
 
 * Significant contributions of large chunks of work, e.g., adding an important
 section(s) in a chapter, writing a chapter, etc., will be acknowledged as sharing 
