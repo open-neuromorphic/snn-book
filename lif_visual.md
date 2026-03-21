@@ -37,7 +37,36 @@ V[t] = 0
 \end{equation}
 
 ### LIF neuron visualization
-Try to move the sliders below!
+Try to move the sliders in the animation below! 
+
+Keeping **Input Current (I)** fixed:
+- If you _decrease_ **Voltage Decay**, you will find that the frequency of 
+  spikes _increases_; this is because:
+  - the **Voltage (V)** does _not_ decay rapidly, and 
+  - it quickly crosses the voltage threshold (i.e., 1.0). 
+
+- If you _increase_ **Voltage Decay**, you will find that either the frequency 
+  of spikes _decreases_ or the neuron does _not_ spike at all!; this is because:
+  - the **Voltage (V)** either crosses the threshold _late_ (due to increased 
+  decay), or 
+  - it _never_ crosses the threshold (due to the decay being too much), thus, no
+    spikes!
+
+Similarly, keeping the **Voltage Decay** fixed:
+- If you _increase_ the **Input Current (I)**, you will observe that the 
+  frequency of spikes _increases_; this is because:
+  - a higher **Current (I)** value is fed to the neuron, and
+  - its **Voltage (V)** is updated by a large value, 
+  - thus, **V** _quickly_ crosses the threshold
+
+- If you _decrease_ the **Input Current (I)**, you will observe that either the 
+  frequency of spikes _decreases_ or the neuron does _not_ spike at all!; this 
+  is because:
+  - a smaller **Current (I)** value is fed to the neuron, and
+  - its **Voltage (V)** is updated by a small value,
+  - thus, **V** either takes _longer_ to cross the threshold, or
+  - the update in **V** is too small to overcome the voltage decaying effect, 
+    thus no spikes!
 
 ```{dynsim}
 :params: [{"id": "v_decay", "label": "Voltage Decay", "min": 0.0, "max": 0.12, "step": 0.01, "value": 0.09}]
@@ -75,10 +104,11 @@ def step(x, state, p):
 ```
 
 ### Code
-Our visualization relis on the [DynSim library](https://github.com/Jegp/dynsim/), developed by the editors of the SNN book.
-It works as a Plugin to the platform we used to build this book, [Jupyter Book](https://jupyterbook.org/).
-Users and contributors can simply type down the Python code in a `step` function as below.
-Here is the example for the visualization above.
+Our visualization relies on the [DynSim library](https://github.com/Jegp/dynsim/), 
+developed by the editors of the SNN book. It works as a Plugin to the platform 
+we used to build this book, [Jupyter Book](https://jupyterbook.org/). Users and 
+contributors can simply type down the Python code in a `step()` function as 
+below. Following is the example code for the visualization above.
 
 ```python
 import numpy as np
