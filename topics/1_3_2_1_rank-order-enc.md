@@ -4,7 +4,7 @@
 
 Rank Order Encoding (ROE)[@Thorpe.Gautrais-1998-RankOrder] is an alternative
 to temporal and rate encoding schemes, providing a balanced compromise between information capacity,
-richness of representation and interpretability. The core tenet of ROE is that the important
+richness of representation, and interpretability. The core tenet of ROE is that the important
 aspect of spikes is the _order_ in which they are emitted, regardless of the exact
 timing of spike generation at the source neuron or arrival time at the target neuron.
 
