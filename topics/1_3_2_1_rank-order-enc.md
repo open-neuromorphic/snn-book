@@ -2,7 +2,7 @@
 
 # Rank order encoding
 
-Rank order encoding (ROE)[@Thorpe.Gautrais-1998-RankOrder] is an alternative
+Rank Order Encoding (ROE)[@Thorpe.Gautrais-1998-RankOrder] is an alternative
 to temporal and rate encoding schemes, providing a balanced compromise between information capacity,
 richness of representation and interpretability. The core tenet of ROE is that the important
 aspect of spikes is the _order_ in which they are emitted, regardless of the exact
