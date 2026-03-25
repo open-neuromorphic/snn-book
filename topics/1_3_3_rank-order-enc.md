@@ -11,6 +11,15 @@ period of time. While this is similar to some timing-based encoding schemes
 which spikes arrive at the post-synaptic neuron, rather than the exact
 arrival time.
 
+One of the advantages of ROE is that the timing of spikes does not need
+to be stored, thus simplifying the bookkeeping associated with
+spike generation. Despite this simplification, a post-synaptic neuron using ROE
+is still capable of encoding continuous inputs as $N!$ different patterns
+(the number of permutations of $N$ elements), where $N$ is the number of
+pre-synaptic neurons. Perhaps a useful approach might be to think of ROE as a
+sophisticated input quantisation scheme neuron to be more or less
+sensitive to the *similarity* between its input and some 'ideal' input.
+
 ## Formulation
 
 Consider a post-synaptic neuron connected to $m$ pre-synaptic neurons.
