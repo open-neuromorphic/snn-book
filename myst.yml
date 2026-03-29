@@ -27,8 +27,6 @@ project:
     - file: glossary.md
       numbering: false
     - file: contributors.md
-      children:
-      - file: dev/simulation.md
       numbering: false
     - file: reviewers.md
       numbering: false
