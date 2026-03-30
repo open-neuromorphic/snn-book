@@ -6,11 +6,12 @@ numbering:
 Here, we present one of the key strengths of this online SNN book -
 **Interactive Visualizations**! Such interactive visualizations - _accompanied 
 with their code_ - can help you build a clear and thorough understanding of the 
-core SNN concepts. You can engage with these visualizations / demonstrations -
-_right on the spot_ - to quickly learn the presented concept's _intricacies_ and 
+core concepts of SNNs. You can engage with these visualizations / demonstrations 
+-_right on the spot_ - to quickly learn the presented concept's _intricacies_ and 
 the _effects_ of its variable parameters.
 
-Try to move the sliders in the animation!
+Try to move the sliders of the animation of [Leaky Integrate \& 
+Fire](https://neuronaldynamics.epfl.ch/online/Ch1.S3.html) (LIF) neuron below!
 
 ```{dynsim}
 :params: [{"id": "v_decay", "label": "Voltage Decay", "min": 0.0, "max": 0.12, "step": 0.01, "value": 0.09}]
@@ -46,11 +47,12 @@ def step(x, state, p):
 
   return (V_new, {"V": V_new, "S": S})
 ```
+---
 
 ## Example of Leaky Integrate & Fire neuron
-We take the example of simulating a [Leaky Integrate &
-Fire](https://neuronaldynamics.epfl.ch/online/Ch1.S3.html) (LIF) neuron to
-demonstrate its interactive visualization. Following is the discrete-time 
+
+In the example above, we simulate a LIF neuron to demonstrate its interactive 
+visualization. We now describe its dynamics; following is the discrete-time 
 voltage equation of a typical LIF neuron:
 
 \begin{equation}
@@ -59,13 +61,13 @@ V[t] = (1-v_\text{decay})V[t-1] + I[t]
 
 where $V[t]$ is LIF's voltage state, $I[t]$ is its input current, and
 $v_\text{decay}$ is its voltage decay parameter. When $V[t]$ reaches or 
-crosses a voltage threshold (say $v_\text{thr}$), the LIF neuron:
+crosses a voltage threshold (say $V_\text{thr}$), the LIF neuron:
 
 * produces a spike $S[t]$, which can be modeled as a [Heaviside Step
   Function](https://mathworld.wolfram.com/HeavisideStepFunction.html) 
 $\Theta(.)$, i.e.,
 \begin{equation}
-S[t] = \Theta(V[t] - v_\text{thr})
+S[t] = \Theta(V[t] - V_\text{thr})
 \end{equation}
 
 * and its voltage $V[t]$ is hard reset to $0$, i.e., 
@@ -74,7 +76,8 @@ V[t] = 0
 \end{equation}
 
 ### LIF neuron visualization
-Try to move the sliders in the animation above!
+If you move the sliders in the animation above, you will observe the following
+behaviours:
 
 Keeping **Input Current (I)** fixed:
 - If you _decrease_ **Voltage Decay**, you will find that the frequency of 
@@ -107,10 +110,10 @@ Similarly, keeping the **Voltage Decay** fixed:
 
 ### Code
 Our visualization relies on the [DynSim library](https://github.com/Jegp/dynsim/), 
-developed by the editors of the SNN book. It works as a Plugin to the platform 
-we used to build this book, [Jupyter Book](https://jupyterbook.org/). Users and 
-contributors can simply type down the Python code in a `step()` function as 
-below. Following is the example code for the visualization above.
+developed by the editors of the SNN book. It works as a Plugin to the platform
+that we have used to build this book: [Jupyter Book](https://jupyterbook.org/). 
+Users and contributors using DynSim can simply write the Python code in a `step()` 
+function as below. Following is the example code for the LIF visualization above.
 
 ```python
 import numpy as np
@@ -138,5 +141,4 @@ def step(x, state, p):
   return (V_new, {"V": V_new, "S": S})
 ```
 
-And that is it!
-We cannot wait to see what you will build with it.
+And that is it! We cannot wait to see what you will build with it.
