@@ -17,9 +17,9 @@ the _precision_ of digital computation and the _efficiency_ of analog processing
 
 **Spiking Neurons** are computational models that capture this dual nature. They 
 integrate incoming signals over _time_ and emit discrete spikes when certain 
-conditions are met; this is unlike the artificial neurons (e.g.,
-$\texttt{ReLU}$). When networks of spiking neurons are deployed on specialized 
-neuromorphic hardware, they achieve:
+conditions are met; this is unlike the artificial neurons (e.g., ReLU). When 
+networks of spiking neurons are deployed on specialized neuromorphic hardware, 
+they achieve:
 
 - **Higher computational expressivity**: Time-based encoding and processing 
   carries more information

@@ -40,11 +40,10 @@ on neuromorphic chips
 
 % - **Self-contained**: Each section works independently with minimal prerequisites
 
-This book is for beginners interested in SNNs,
-for researchers exploring and advancing SNNs,
-and for engineers building and deploying neuromorphic systems.
-In other words, if you want to _build_ SNNs, and not only read about them,
-then this book is for you. 
+This book is for beginners interested in SNNs, for researchers exploring and 
+advancing SNNs, and for engineers building and deploying neuromorphic systems.
+In other words, if you want to _build_ SNNs, and not just read about them, then 
+this book is for you. 
 
 The field of SNNs and Neuromorphic Computing is rapidly evolving, and this book 
 provides you the _foundation_ you need to contribute to the _third generation_ 

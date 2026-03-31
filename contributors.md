@@ -37,8 +37,8 @@ appreciate all contributions to perfect this book, no matter their scale!
   chapters/topics that we should include and refer the readers to 
 
 **NOTE:** Please check the following **[Sec. %s](#sec:call-for-contributions) 
-Call for planned contributions** for more concrete opportunities to contribute 
-to this book!
+Call for planned contributions** on this page for more concrete opportunities to 
+contribute to this book!
 
 ## How to contribute?
 

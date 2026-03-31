@@ -2,8 +2,8 @@
 # Deploying SNNs
 
 ```{note} Topic headline
-**Deploying SNNs** covers neuromorphic hardware constraints
-and lets you accelerate networks on various systems.
+**Deploying SNNs** covers neuromorphic hardware constraints and lets you 
+accelerate spiking networks on various systems.
 ```
 
 This topic covers

@@ -16,7 +16,7 @@ Fire](https://neuronaldynamics.epfl.ch/online/Ch1.S3.html) (LIF) neuron below!
 ```{dynsim}
 :params: [{"id": "v_decay", "label": "Voltage Decay", "min": 0.0, "max": 0.12, "step": 0.01, "value": 0.09}]
 :plotType: timeseries
-:plotConfig: {"title": "Leaky Integrate & Fire Neuron", "xaxis": {"title": "Time-Steps", "range": [0, 0.3]}, "yaxis": {"title": "Voltage (V)", "range": [-0.5, 1.5]}}
+:plotConfig: {"title": "Leaky Integrate & Fire Neuron", "xaxis": {"title": "Time-Steps", "range": [0, 0.2]}, "yaxis": {"title": "Voltage (V)", "range": [-0.5, 1.5]}}
 :initialState: {"V": 0, "S": 0}
 :initialX: 0.1
 :input: {"label": "Input Current (I)", "min": 0.0, "max": 0.5, "step": 0.01, "value": 0.1}
