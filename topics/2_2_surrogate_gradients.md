@@ -1,5 +1,8 @@
 ---
 authors:
+- name: Eshraghian, Jason
+  affiliation: University of California, Santa Cruz
+  email: jeshragh@ucsc.edu
 - name: Pedersen, Jens Egholm
   affiliation: Technical University of Denmark
   email: jegpe@dtu.dk
@@ -20,6 +23,7 @@ This chapter explains the idea, derives the math, and walks through a complete t
 
 ```{note}
 This chapter assumes familiarity with the $\texttt{LIF}$ neuron model from [](#sec:spk-nrn-lif) and the credit assignment problem from [](#credit_assignment).
+Familiarity with the Spike Response Model ([](#srm)) is helpful but not required — we introduce the relevant ideas as needed.
 ```
 
 ## The non-differentiability problem
@@ -179,10 +183,16 @@ This means the Gaussian provides gradient signal to a narrower band of neurons a
 The arctangent has heavier tails and provides a weaker but longer-range gradient signal.
 ```
 
-## Recurrent representation and BPTT
+## The neuron as a filter: from the SRM to a training model
 
 Before we can train a spiking neural network, we need to understand how gradient information flows through time.
 A spiking neuron is a recurrent system: its state at time $t$ depends on its state at time $t-1$.
+
+Recall from [](#srm) that the Spike Response Model decomposes a neuron into **linear filters** followed by a **threshold nonlinearity** [@gerstner2014neuronal].
+The membrane potential is a sum of two convolutions: input filtered through the membrane kernel $\kappa$, plus the spike afterpotential $\eta$ that captures reset and refractoriness after each output spike.
+The only nonlinearity is the threshold crossing that produces a spike.
+
+This decomposition is exactly what makes surrogate gradients principled: the filters $\kappa$ and $\eta$ are already differentiable, so we only need to approximate the derivative of **one** nonlinearity — the Heaviside at the threshold.
 
 ### The simplified LIF neuron
 
@@ -207,7 +217,8 @@ S[t] &= \Theta(V[t] - V_\text{thr}) \tag{b}
 \label{eq:sg-simplified-lif}
 \end{align}
 
-This formulation has only one hyperparameter to tune: $\beta$.
+In the language of the SRM, the decay term $\beta V[t]$ implements the membrane filter $\kappa$ (exponential integration of past inputs), while the reset term $-S[t]V_\text{thr}$ implements the spike afterpotential $\eta$ (reset by subtraction).
+The only free hyperparameter is $\beta$.
 
 ```{note}
 The reset term $S[t]V_\text{thr}$ in Eq {eq}`eq:sg-simplified-lif`$\textsf{a}$ implements *reset by subtraction*: each time a spike is emitted, the threshold value is subtracted from the membrane potential.
@@ -257,6 +268,8 @@ Consider the contribution from one step back, $s = t-1$:
 ```
 
 The temporal derivative $\partial V[t] / \partial V[t-1] = \beta$ comes directly from Eq {eq}`eq:sg-simplified-lif`$\textsf{a}$.
+In the SRM picture, this is the derivative through the membrane filter $\kappa$ — it is exact, not approximated.
+The surrogate only enters at the $\partial \tilde{S} / \partial V$ term, i.e., the threshold crossing.
 Going further back in time, each additional step multiplies by another factor of $\beta$, so the gradient contribution from $k$ steps in the past is proportional to $\beta^k$.
 Since $0 < \beta < 1$, contributions from the distant past decay exponentially — which is why the choice of $\beta$ matters.
 
@@ -643,6 +656,7 @@ It is well suited when:
 - **Accuracy is the priority**: Surrogate gradients leverage the full power of gradient-based optimization, typically achieving the highest accuracy among SNN training methods
 - **Offline training is acceptable**: Training happens in batch mode on a GPU, not on the target hardware
 - **The task is supervised**: Labeled data is available and a differentiable loss can be defined
+- **Beyond the simple LIF**: The SRM perspective shows that surrogate gradients work for any neuron model that decomposes into linear filters plus a threshold — including adaptive neurons with multiple spike afterpotential kernels $\eta$, or neurons with synaptic current dynamics
 
 The main limitations are:
 
@@ -657,6 +671,7 @@ For alternatives that address some of these limitations, see [](#exact_gradients
 Here is a list of resources sorted by topic ([please help expand the list](#contributors)):
 
 - Foundational: [@neftci2019surrogate], [@zenke2018superspike], [@eshraghian2023training]
+- SRM and filter perspective: [@gerstner2014neuronal] (Ch. 1, 6)
 - Surrogate function comparisons: [@zenke2021remarkable]
 - BPTT for SNNs: [@werbos1990backpropagation], [@bellec2018long]
 - Applications: [@bellec2020solution]
