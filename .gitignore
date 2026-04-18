@@ -73,4 +73,7 @@ _build
 uv.lock
 
 .claude/
+
 node_modules/
+package-lock.json
+package.json
