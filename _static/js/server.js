@@ -93,8 +93,8 @@ app.use((req, res, next) => {
     // Add Plotly.js (peer dependency of dynsim)
     customScripts += '\n  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>';
 
-    // Add dynsim — handles simulator UI, Python bridge, and auto-init
-    customScripts += '\n  <script src="/_static/js/dynsim.umd.js" defer></script>';
+    // Add dynsim from CDN — handles simulator UI, Python bridge, and auto-init
+    customScripts += '\n  <script src="https://unpkg.com/dynsim@0.3.0" defer></script>';
 
     // PyScript bootstrap: exec user Python code and register systems.
     // We wrap the step function ourselves with to_js conversion, then call
