@@ -73,3 +73,4 @@ _build
 uv.lock
 
 .claude/
+node_modules/
