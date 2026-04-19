@@ -30,7 +30,7 @@ project:
       numbering: false
     - file: reviewers.md
       numbering: false
-    - file: lif_visual.md
+    - file: visualization.md
       numbering: false
   bibliography:
     - references.bib

@@ -17,6 +17,11 @@ Return here to check our progress and let us know what you think [on our Discord
 Channel](https://discord.gg/wAKVddWE6p): `#snnbook` 👋.
 :::
 
+::::{note} New feature: interactive visualizations 📈 (April 2026)
+Curious about how neurons evolve? Now you can see for yourself!
+Visit our @visualization page to watch a leaky integrate-and-fire neuron evolve. Play around: what happens if you change the decay?
+::::
+
 ## What is this book about?
 
 ::::{aside}
