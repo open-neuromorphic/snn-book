@@ -86,7 +86,7 @@ Rate Encoding, followed by the general case.
 
 ### Two-Neuron Encoding
 Two-Neuron Encoding is the simplest and a special case of Population Rate
-Encoding, where one uses only two neurons in their encoder design. As hinted
+Encoding, where one uses only _two_ neurons in their encoder design. As hinted
 above, such an encoding system is commonly used when one has to encode an input
 signal composed of positive and negative values over time. If you use only one
 neuron sensitive to positive values, only the positive part of the signal will
@@ -110,14 +110,61 @@ where $\alpha (=1)$ is gain of the $\texttt{IF}$ neuron, $J_\text{bias} (=0)$ is
 the bias and $e$ is the neuron's encoder value determining it's _sensitivity_;
 $x[t]$ is signal input (i.e., Sine wave in our example) to our $\texttt{IF}$
 neuron – the above rate-encoding equation is taken from the Neural Engineering
-Framework theory [4]. The encoding neuron produces a binary spike when V [t] > Vthr and it’s voltage
-V [t] is reset to 0 upon spiking. Note that V [t] is constrained to be always > 0; there is no reason for it go negative –
-as for the neuron to spike, it’s V [t] should increase towards the positive Vthr. Following Fig 1a shows the Sine wave
-and Fig 1b shows its rate-encoded spikes when only single encoding neuron is used with ϵ = 1:
+Framework theory [@eliasmith2003neural, @stewart2012technical]. The encoding
+neuron produces a binary spike when $V[t]$ > $V_\text{thr}$ and its voltage
+$V[t]$ is reset to 0 upon spiking. Note that $V[t]$ is constrained to be always
+$> 0$; there is _no_ reason for it go negative – as for the neuron to spike,
+its $V[t]$ should increase towards the positive $V_\text{thr}$. Following code
+demonstrates the Sine wave $x[t]$ and its rate-encoded spikes when only _one_
+encoding neuron is used with $e = 1$:
 
+<span style="color:red">Write code later</span>
+
+As you can see, the neuron is sensitive to only the positive part of the Sine
+wave and encodes it to spikes, however, the information from the negative part
+is lost! If one does decide to implement negative $V[t]$, and set another
+$V_\text{thr}$ in the negative direction - to produce spikes for the negative
+part of Sine wave, then such a contraption will go against the convention of
+$V[t]$ and $V_\text{thr}$ being $\geq 0$; and will also complicate the neuron
+design and hardware design for the same.
+
+One may cleverly plan to pre-process the Sine wave by taking its absolute value,
+thus, its negative part will then be in the positive domain (as shown in Figure
+below):
+
+
+Let's call this $|x[t]|$ signal as $u_1[t]$ and encode it with a single neuron
+(again with $e = 1$), as done for $x[t]$. Then, the following spike train
+(in Fig 2b) is produced:
+
+It can be easily inferred from the above that if another signal, say $u_2[t]$,
+_originally_ of the same wave-form as $u_1[t]$ is encoded, then it will produce
+the same spike train as in the Fig 2b for $|x[t]|$. Note that pre-processing
+$u_2[t]$ by taking its absolute value will have no effect on it, as $u_2[t]$ is
+already all positive. Thus, there would be **no** difference between the spike
+trains obtained from the original Sine wave $x[t]$ and another all positive
+signal $u_2[t]$ (after applying the same pre-processing step).
+
+Therefore, let us use another encoding neuron with $e = −1$ to encode the
+original Sine wave x[t]; analogous to case of $e = 1$, this will encode only the
+negative part of the Sine wave, as can be seen in the Figs 3a & 3b below:
+
+Thus, if one uses _two_ neurons - one with $e = 1$ and another with $e = −1$,
+then both the positive and negative parts of the Sine wave $x[t]$ are encoded
+faithfully and no information is lost. Following Fig 4 shows it:
+
+It is also easy to note that if the signal $u_2[t]$ is encoded via such a system
+of two neurons, then the neuron with $e = −1$ will _not_ spike at all, while the
+neuron with $e = 1$ will spike and produce the spike train as in the Fig 2b,
+thereby differentiating between the inputs $x[t]$ and $u_2[t]$.
+
+```{tip} Encoding a real-valued signal
+A real-valued signal is typically composed of positive and negative values,
+therefore, always consider employing a Two-Neuron Encoding system.
+```
 
 ### Ensemble Encoding
-Nest step: Write this.
+Next step: Write this.
 
 Note that in the scientific literature it is common to refer to all these
 encoding methods simply as rate encoding. However, some authors explicitly
