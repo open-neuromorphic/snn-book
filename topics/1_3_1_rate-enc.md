@@ -118,6 +118,17 @@ its $V[t]$ should increase towards the positive $V_\text{thr}$. Following code
 demonstrates the Sine wave $x[t]$ and its rate-encoded spikes when only _one_
 encoding neuron is used with $e = 1$:
 
+```{figure}../assets/topic_1/chapter_1_3/original-sine.png
+:name: ch1_3_sine_wave
+:alt: Sine Wave
+:align: center
+:width: 100%
+```
+
+```{figure}../assets/topic_1/chapter_1_3/positive-spikes.png
+:width: 100%
+```
+
 <span style="color:red">Write code later</span>
 
 As you can see, the neuron is sensitive to only the positive part of the Sine
@@ -132,10 +143,17 @@ One may cleverly plan to pre-process the Sine wave by taking its absolute value,
 thus, its negative part will then be in the positive domain (as shown in Figure
 below):
 
+```{figure}../assets/topic_1/chapter_1_3/mod-sine.png
+:width: 100%
+```
 
 Let's call this $|x[t]|$ signal as $u_1[t]$ and encode it with a single neuron
 (again with $e = 1$), as done for $x[t]$. Then, the following spike train
 (in Fig 2b) is produced:
+
+```{figure}../assets/topic_1/chapter_1_3/mod-spikes.png
+:width: 100%
+```
 
 It can be easily inferred from the above that if another signal, say $u_2[t]$,
 _originally_ of the same wave-form as $u_1[t]$ is encoded, then it will produce
@@ -149,14 +167,27 @@ Therefore, let us use another encoding neuron with $e = −1$ to encode the
 original Sine wave x[t]; analogous to case of $e = 1$, this will encode only the
 negative part of the Sine wave, as can be seen in the Figs 3a & 3b below:
 
+```{figure}../assets/topic_1/chapter_1_3/original-sine.png
+:width: 100%
+```
+
+```{figure}../assets/topic_1/chapter_1_3/negative-spikes.png
+:width: 100%
+```
+
 Thus, if one uses _two_ neurons - one with $e = 1$ and another with $e = −1$,
 then both the positive and negative parts of the Sine wave $x[t]$ are encoded
 faithfully and no information is lost. Following Fig 4 shows it:
 
-It is also easy to note that if the signal $u_2[t]$ is encoded via such a system
-of two neurons, then the neuron with $e = −1$ will _not_ spike at all, while the
-neuron with $e = 1$ will spike and produce the spike train as in the Fig 2b,
-thereby differentiating between the inputs $x[t]$ and $u_2[t]$.
+```{figure}../assets/topic_1/chapter_1_3/positive-negative-spikes.png
+:width: 100%
+```
+
+It is also easy to note that if the signal $u_2[t]$ (of same waveform as
+$|x[t]|$) is encoded via such a system of two neurons, then the neuron with
+$e = −1$ will _not_ spike at all, while the neuron with $e = 1$ will spike and
+produce the spike train as in the Fig 2b, thereby differentiating the inputs
+$x[t]$ and $u_2[t]$.
 
 ```{tip} Encoding a real-valued signal
 A real-valued signal is typically composed of positive and negative values,
@@ -166,7 +197,7 @@ therefore, always consider employing a Two-Neuron Encoding system.
 ### Ensemble Encoding
 Next step: Write this.
 
-Note that in the scientific literature it is common to refer to all these
+<!--Note that in the scientific literature it is common to refer to all these
 encoding methods simply as rate encoding. However, some authors explicitly
 distinguish between _rate encoding_, where the firing rate of a single neuron is
 used as a proxy for real-valued input, and _population rate encoding_, which
@@ -175,3 +206,4 @@ employs more than one neuron to capture different characteristics of the input.
 ```{warning} High Spike Count!
 Next step: Write this.
 ```
+-->
