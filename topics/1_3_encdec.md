@@ -34,11 +34,32 @@ operations that involve discrete spikes as input and continuous-values as output
 e.g., at the output layer of an SNN for classification or regression, we need to
 decode the spikes. In other words, when we need to extract some meaningful
 information from spikes, we decode them. Similar to encoding, there are multiple 
-decoding approaches that can broadly categorised in two: **Rate Decoding** and
-**Temporal Decoding**; in this chapter, we will discuss them both.  
+decoding approaches that can be broadly placed in two categories: **Rate 
+Decoding** and **Temporal Decoding**; we will discuss both of these in this
+chapter.
 
-## Introduce the concept of spike generators here.
-Note that the spike generators are mere *programming constructs* (that follow a
-desired implementation) to generate spikes and stimulate the connected 
-neuron(s). We will learn about a popular spike generator called **Poisson
-Encoder** later in the Chapter [1.3](./1_3_encdec.md) 
+
+---
+---
+
+Before we begin with this chapter, we here introduce the concept of a **Spike
+Generator**:
+
+```{seealso}Spike Generator
+A Spike Generator is a mere *programming construct* (that follows a desired 
+implementation) to generate a binary/graded spike train. Note that it may _not_
+necessarily receive an input!
+```
+
+Spike Generators are used for various tasks, e.g.,
+* to stimulate/inhibit connected neuron(s)
+* to study the implemented spiking behaviour
+* to encode an input signal to binary/graded spikes
+
+This bring us to define the term **Encoder**: 
+
+```{seealso}
+An Encoder is a Spike Generator that is specifically designed to accept an input
+signal and encode it to generate binary/graded spikes, i.e., it _represents_ the 
+_dense_ continuous valued signal through a _sparse_ sequence of discrete values. 
+```

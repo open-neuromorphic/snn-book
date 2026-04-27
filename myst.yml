@@ -86,6 +86,8 @@ project:
       numbering: false
     - file: reviewers.md
       numbering: false
+    - file: lif_visual.md
+      numbering: false
   bibliography:
     - references.bib
   numbering:
@@ -102,7 +104,6 @@ project:
         - topics/0_reader.md
         - topics/0_why_snns.md
         - topics/1_foundations.md
-        - topics/1_computing.md
         - topics/1_1_neuron.md
         - topics/1_1_1_bio-neurons.md
         - topics/1_1_2_glial-cells.md

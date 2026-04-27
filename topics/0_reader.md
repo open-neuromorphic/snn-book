@@ -2,15 +2,44 @@
 numbering: false
 ---
 (reader)=
-# How to read this book
+# How to read this book?
 
-This book is primarily designed for Master of Science and PhD students who have a fundamental interest in neuromorphic computing but may possess minimal background in machine learning and little to no experience with hardware design. We aim to bridge the gap between algorithmic theory and physical implementation, providing a holistic view of the field.
+## Format
+This SNN book currently exists as a live website; it will also be
+made downloadable as a staic PDF. The live website will have interactive code
+examples that can be run on your browser. We recommend using the live
+website to interact with code examples and visualizations rather than just
+plainly reading the book.
 
-For those new to the field, we recommend reading the chapters sequentially. {ref}`foundations` introduces the core concepts of spiking neural networks, biological inspiration, and information encoding, laying the necessary groundwork for the subsequent chapters.
+### Structure:
+As mentioned before, this book is organized into three topics, each consisting
+of multiple planned chapters.
 
-**For the advanced neuromorphic reader:**
+1. **Foundations of SNNs**: An introduction to biological and
+   spiking neurons, encoding and decoding, concepts of plasticity, and methods
+   to build a typical Spiking Neural Network (SNN) from scratch.
 
-If you are already familiar with the basics of spiking neuron models and encoding schemes, the first topic is likely redundant.
-- You can jump directly to **Topic 2** ({ref}`engineering`) to explore modern approaches to training, optimization and learning in SNNs.
-- Alternatively, if your interest lies in the physical realization of these networks, **Topic 3** ({ref}`deployment`) delves into hardware design principles, toolchains, and performance modeling.
+2. **Training SNNs**: An introduction to the concepts of training
+   and optimizing SNN architectures, including surrogate gradient descent, meta
+   learning, biologically inspired and evolutionary methods, and of course, the
+   ANN-to-SNN conversion method, etc.
 
+3. **Deploying SNNs**: An introduction to neuromorphic hardware
+   design principles, neuromorphic-deployment compilation toolchain,
+   platform-specific deployment examples and interoperability, and the
+   neuromorphic sensors.
+
+Each topic is self-contained with interactive examples. You can read them up
+sequentially or jump to specific topics as needed.
+
+## Prerequisites:
+To read this book, you only need a basic understanding of calculus and linear
+algebra. If you're new to spiking neurons or SNNs, start with Topic 1. If you're
+familiar with the foundational concepts, use the later topics on
+[training](/training) or [deployment](/hardware) as a practical reference.
+
+### Learning approach:
+Take time to read, and run and _modify_ the interactive code examples in your
+browser; be curious! Understanding the semantics builds stronger intuition than
+memorizing solutions. The goal of this book is to give you practical and working
+knowledge of SNNs that you can apply immediately! Happy Reading!
