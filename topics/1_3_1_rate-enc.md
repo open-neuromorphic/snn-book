@@ -80,7 +80,7 @@ _differently characterized_ encoders is required when you want to capture
 _different characteristics_ of the input signal, e.g., if your signal is
 composed of _positive_ and _negative_ values! In such a case, you would ideally
 like your encoders to be _sensitive_ to the positive and negative
-characteristics of your input signal! You can do this by specially tuning the
+characteristics of your input signal. You can do this by specially tuning the
 implementation of your encoders. We next describe a special case of Population
 Rate Encoding, followed by the general case.
 
@@ -90,14 +90,14 @@ Encoding, where one uses only _two_ neurons in their encoder design. As hinted
 above, such an encoding system is commonly used when one has to encode an input
 signal composed of positive and negative values over time. If you use only one
 neuron sensitive to positive values, only the positive part of the signal will
-be encoded to spikes, and you will lose the information available from the
+be encoded into spikes, and you will lose the information available from the
 negative part of the signal; and vice-versa if you use only one neuron sensitive
 to negative values. To illustrate this, we take the following example of rate
 encoding a Sine wave (oscillating between -1 and 1) using the abovementioned
 **Neuron Encoding** approach -- first by using a _single_ neuron, then by _two_
 neurons. For the same, consider the $\texttt{IF}$ neuron's current $J[t]$ Eq
 {eq}`eq:enc-nrn-jt` and voltage Eq {eq}`eq:discrete-if`($\textsf{b}$,
-$\textsf{c}$, $\textsf{d}$),  below:
+$\textsf{c}$, $\textsf{d}$), below:
 
 \begin{equation}
 J[t] &= \alpha \times e \times x[t] + J_\text{bias} \\
@@ -107,7 +107,7 @@ V[t] &\leftarrow V_\text{rest}
 \end{equation}
 
 where $\alpha (=1)$ is gain of the $\texttt{IF}$ neuron, $J_\text{bias} (=0)$ is
-the bias and $e$ is the neuron's encoder value determining it's _sensitivity_;
+the bias and $e$ is the neuron's encoder value determining its _sensitivity_;
 $x[t]$ is signal input (i.e., Sine wave in our example) to our $\texttt{IF}$
 neuron – the above rate-encoding equation is taken from the Neural Engineering
 Framework theory [@eliasmith2003neural, @stewart2012technical]. The encoding
