@@ -22,6 +22,8 @@ project:
       email: petrut.bogdan@innatera.com
   github: https://github.com/open-neuromorphic/snn-book
   license: CC-BY-4.0
+  plugins:
+    - _plugins/dynamical-systems.mjs
   toc:
     - file: README.md
       numbering: false
@@ -50,10 +52,11 @@ project:
           children:
             - file: topics/1_4_1_why-snns.md
             - file: topics/1_4_2_snn-basics.md
-    - file: topics/2_engineering.md
+        - file: topics/1_5_plasticity.md
+    - file: topics/2_training.md
       children:
         - file: topics/2_1_credit_assignment.md
-        - file: topics/2_2_surrograte_gradients.md
+        - file: topics/2_2_surrogate_gradients.md
         - file: topics/2_3_exact_gradients.md
         - file: topics/2_4_meta_learning.md
         - file: topics/2_5_biologically_inspired_training.md
@@ -62,9 +65,11 @@ project:
         - file: topics/2_8_optimization.md
     - file: topics/3_hardware.md
       children:
-        - file: topics/3_1_platforms.md
-        - file: topics/3_2_frameworks.md
-        - file: topics/3_3_quantization.md
+        - file: topics/3_1_motivation.md
+        - file: topics/3_2_hw_design_principles.md
+        - file: topics/3_3_toolchain.md
+        - file: topics/3_4_interoperability.md
+        - file: topics/3_5_performance_modelling.md
     - file: topics/appendices.md
       children:
         - file: topics/a_dynamics.md
@@ -76,6 +81,12 @@ project:
     - file: glossary.md
       numbering: false
     - file: contributors.md
+      children:
+      - file: dev/simulation.md
+      numbering: false
+    - file: reviewers.md
+      numbering: false
+    - file: lif_visual.md
       numbering: false
   bibliography:
     - references.bib
@@ -88,6 +99,50 @@ project:
     - format: pdf
       template: arxiv_nips
       article_type: book
+      articles:
+        - topics/0_intro.md
+        - topics/0_reader.md
+        - topics/0_why_snns.md
+        - topics/1_foundations.md
+        - topics/1_1_neuron.md
+        - topics/1_1_1_bio-neurons.md
+        - topics/1_1_2_glial-cells.md
+        - topics/1_2_spiking.md
+        - topics/1_2_1_point-neurons.md
+        - topics/1_2_2_spatial-neurons.md
+        - topics/1_2_3_spk-vs-artfcl.md
+        - topics/1_3_encdec.md
+        - topics/1_3_1_rate-enc.md
+        - topics/1_3_2_temp-enc.md
+        - topics/1_3_3_decoding.md
+        - topics/1_3_snn.md
+        - topics/1_4_event_representations.md
+        - topics/1_4_snn.md
+        - topics/1_4_1_why-snns.md
+        - topics/1_4_2_snn-basics.md
+        - topics/1_5_frameworks.md
+        - topics/2_training.md
+        - topics/2_1_credit_assignment.md
+        - topics/2_2_surrogate_gradients.md
+        - topics/2_3_exact_gradients.md
+        - topics/2_4_meta_learning.md
+        - topics/2_5_biologically_inspired_training.md
+        - topics/2_6_evolutionary_algorithms.md
+        - topics/2_7_ann-to-snn_conversion.md
+        - topics/2_8_optimization.md
+        - topics/3_hardware.md
+        - topics/3_1_motivation.md
+        - topics/3_2_hw_design_principles.md
+        - topics/3_3_toolchain.md
+        - topics/3_4_interoperability.md
+        - topics/3_5_performance_modelling.md
+        - topics/appendices.md
+        - topics/a_dynamics.md
+        - topics/a_modeling_theories.md
+        - topics/a_datasets.md
+        - topics/a_tools.md
+        - topics/a_point_neurons_discretization.md
+
 parse:
   myst_enable_extensions:
     - amsmath

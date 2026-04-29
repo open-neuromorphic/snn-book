@@ -1,0 +1,36 @@
+name: Build Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/xu-cheng/texlive-full:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apk add --no-cache python3 nodejs npm curl
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "/root/.local/bin" >> $GITHUB_PATH
+
+      - name: Install Python dependencies
+        run: uv sync
+
+      - name: Build PDF
+        run: uv run jupyter-book build --pdf
+      
+      - name: Verify PDF was created
+        run: |
+          if [ -f "_build/exports/"*.pdf ]; then
+            echo "✅ PDF built successfully"
+            ls -lh _build/exports/
+          else
+            echo "❌ PDF build failed - no PDF found"
+            exit 1
+          fi

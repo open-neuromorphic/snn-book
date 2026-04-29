@@ -69,3 +69,9 @@ coverage/
 # MyST build outputs
 _build
 .book-old
+
+uv.lock
+
+node_modules/
+package-lock.json
+package.json

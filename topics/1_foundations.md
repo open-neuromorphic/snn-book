@@ -1,13 +1,44 @@
-(sec:foundations)=
+(foundations)=
 # Foundations of SNNs
 
-Have you wondered how the brain works as a *computer*?
-What it means *practically* that the brain consists of neurons?
-Not only what they are, but what they *do*?
-This chapter defines what a "spiking neuron" means, and what *computations* they are capable of.
-It turns out that biological, spiking, neurons are extremely expressive&mdash;much more so than the kind of neurons we are familiar with from deep learning.
+```{note} Topic headline
+**Foundations of SNNs** introduces you to the concepts
+of neuromorphic computing.
+```
 
-This first part of the book starts from scratch and can be read by anyone familiar with :
-chapter [](#neuron) starts by explaining what we mean by a "neuron" and
-chapter [](#spiking) extends that to spiking neuron models.
-We then put several spiking neurons together into to *spiking neural networks* (SNNs) in "[](#snn) and, finally, discuss some modeling theories from computational neuroscience that are relevant when you think and work with SNNs.
+Have you wondered how the brain works as a *computer*? And what it "practically"
+means... that the brain consists of **neurons**? What those biological neurons
+are, and what they *do*? How can we *simulate* biological neurons and build
+neural networks &mdash; called **Spiking Neural Networks** (SNNs) out of them?
+How *learning* happens in the brain, and how can we implement it? This topic
+covers the Computational Neuroscience basics - _relevant_ to the SNNs, and
+answers all these questions in the following chapters:
+
+## What You'll Learn?
+
+1. **What is a Neuron?**: What are biological neruons and how do they function?
+What role do the glial cells play? What biological characteristics of these
+neurons and cells should we simulate to build an SNN? This chapter follows
+through all these fundamental questions.
+
+2. **What is a Spiking Neuron?**: Once you have learned about the biological
+neurons, the next step is to learn how to mathematically / programmatically
+simulate them and build Spiking Neuron models. This chapter covers spatial neuron
+models, point neuron models, and the relation of point neurons with conventional
+artificial neurons.
+
+3. **What is Encoding & Decoding?**: Real-world data is almost always
+continuous-valued, and to work with SNNs, we need to represent / convert them
+to discrete integers. This chapter introduces the concept of Encoding, i.e.,
+learn how to encode continuous values to spikes; and the concept of Decoding,
+i.e., learn how to decode meaningful information back from discrete spikes.
+
+4. **What is an SNN?**: This chapter covers the foundations to build Fully
+Connected SNN and Convolutional SNN architectures from scratch - using Spiking
+Neurons and Deep Learning concepts. This chapter demonstrates only the forward
+pass; the backward pass / training is covered in the next topic "[Training SNNs](#training)".
+
+5. **What is plasticity?**: Our brain is plastic, but what are the underlying
+neuroscience principles that facilitate learning in brain? This chapter covers
+the foundational concepts of neuroplasticity, e.g., Long-Term Potentiation (LTP)
+and Long-Term Depression (LTD) based on precise spike timings.

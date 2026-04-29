@@ -41,53 +41,48 @@ In the first generation of the technology, BrainScaleS was produced at wafer-sca
 (deployment)=
 # Deploying SNNs
 
-This chapter covers
+```{note} Topic headline
+**Deploying SNNs** covers neuromorphic hardware constraints and lets you
+accelerate spiking networks on various systems.
+```
+
+This topic covers
 (1) the various neuromorphic hardware types and the platforms available today,
-(2) the deployment frameworks for each hardware platform, and
-(3) quantization methods that lets you squeeze your model onto hardware. -->
+(2) the SNN deployment frameworks for each described hardware platform, and (3)
+the quantization methods that lets you squeeze your model onto the neuromorphic
+hardware. It begins with the motivating principles and the core hardware-design
+trade-offs, followed by the practical compilation toolchain and the examples of
+platform-specific SNN implementations; all covered in the chapters as follows:
 
-(deployment)=
-# Deploying SNNs to Neuromorphic Hardware
+## What You'll Learn?
 
-This topic details the process of deploying Spiking Neural Networks onto specialized neuromorphic hardware. It moves from the motivating principles and core hardware design trade-offs to the practical compilation toolchain and platform-specific implementations.
+1. **Motivation and Performance Metrics**: Why should you start with considering
+the hardware, on which your solution would run, before writing a single line of
+code? This chapter will help you develop an intuition for why and how to relate
+expected key performance indicators of your application with ideal hardware
+platforms.
 
-The topic is organized as follows:
+2. **Hardware Design Principles and Deployment Consequences**: Different design
+decisions lead to different performance and ability. This chapter will reveal
+the breadth of widely employed implementation possibilities, and their
+consequences.
 
-1. Motivation and Performance Metrics: This chapter talks about system level benchamrks and figures of merit of neuromorphic computing systems. It contrasts the event-driven paradigm with synchronous processing in GPUs, focusing on key performance indicators relevant to SNNs:
-    - Beyond energy consumption per synaptic operation.
-    - Inference latency and real-time processing capabilities.
-    - Trade-offs in computational precision and bandwidth, drawing from application examples like sensor-edge control systems.
-    - 
-    
-    # Benchmarking SNNs
-    Metrics beyond accuracy: sparsity, energy, latency
-    Temporal performance evaluation
-    Robustness testing and adversarial examples
-    Comparing SNN performance to ANN baselines
-    Standardized benchmarks and datasets
-    SNN suitable datasets vs ANN suitable datasets
-    
+3. **The Neuromorphic Compilation Toolchain**: What are the general
+transformations that may have to be performed in order to deploy an SNN onto the
+physical neuromorphic devices? This chapter will introduce the popular
+compilation practices.
 
-2. Hardware Design Principles and Deployment Consequences: An overview of the fundamental design decisions that differentiate neuromorphic platforms. Each principle is directly tied to its practical consequences for the ML engineer during model deployment, with accompanying examples.
+4. **Platform-Specific Deployment Examples**: How do different platforms tackle
+the tasks of representing, training, and deploying SNN onto neuromorphic
+hardware? This chapter will cover Large-Scale Asynchronous Systems (e.g.,
+SpiNNaker/Loihi) and Microcontroller-based or Edge-Focused Systems (e.g.
+Synsense/Innatera).
 
-    - Analog vs. Digital Neuron Circuits: Discusses the implications of analog's efficiency versus digital's precision on model quantization and noise robustness.
-    - Neuron and Synapse Model Flexibility: Explores the spectrum from highly configurable models to fixed-function hardware, and how this constrains the translation of a software-defined SNN.
-    - On-Chip Communication and Scalability: Covers different {term}`NoC` strategies and their impact on how a large SNN graph must be partitioned and routed across the hardware.
+5. **Platform interoperability**: How could a neuromorphic algorithm be run on
+different hardware platforms? This chapter would cover how networks should be
+described and transformed to run on different systems with minimal loss in
+accuracy.
 
-3. The Neuromorphic Compilation Toolchain: This section details the sequence of steps required to map a software-based SNN to a physical hardware target
-    - Quantize-aware training and post-training quantization
-    - Partition, place and route
-    - Runtimes
-
-
-4. Platform-Specific Deployment Examples: This final section provides practical, end-to-end case studies for deploying a simple SNN on representative hardware platforms. Each subsection will walk through the process using the platform's native deployment framework, highlighting how the concepts from the previous sections apply.
-    - Case Study 1: Deployment to a Large-Scale Asynchronous System (e.g., SpiNNaker/Loihi).
-    - Case Study 2: Deployment to a Microcontroller-based or Edge-Focused System (e.g. Synsense/Innatera)
-
-5. Platform interoperability
-    - Intermediate representation: NIR
-    - Network descriptions with multiple backends: PyNN
-
-6. Data, datasets and sensors
-    - Traditional sensors
-    - Neuromorphic sensors
+6. **Event-based sensors**: SNNs are natively compatible with event-based data;
+this chapter will explore various event-based sensors that generate event data,
+and how those sensors interface with neuromorphic hardware.
