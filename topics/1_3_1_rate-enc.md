@@ -4,25 +4,25 @@
 spikes, and is quite easy to work with. This is because it relates well to the
 Deep Learning networks and training methodologies (that the researchers leverage
 to train SNNs – discussed in the later chapters). The core idea behind Rate
-Encoding is to represent the continuous values via a spike _rate_ over time
-(i.e., number of spikes averaged over time), e.g., 20Hz, 25Hz, etc. – such that
-the spike rate is _proportional_ to the input value. Here, we discuss two
-popular methods of rate encoding: **Count Rate Encoding** (also commonly known as
+Encoding is to represent continuous values via a spike _rate_ over time (i.e.,
+number of spikes averaged over time), e.g., 20Hz, 25Hz, etc. – such that the
+spike rate is _proportional_ to the input value. Here, we discuss two popular
+methods of rate encoding: **Count Rate Encoding** (also commonly known as
 **Frequency Rate Encoding**) and **Population Rate Encoding**.
 
 ## Count/Frequency Rate Encoding
 This encoding method is a standard approach used in most Spiking Neural Networks.
-The idea is to have **one** spike generator _per dimension_ of the input to
-encode continuous values to binary spikes. That one spike generator can either
-be a mathematical function (e.g., **Poisson Encoding**) or a neuron (e.g.,
-**Neuron Encoding**); these are described below in more detail.
+The idea is to have **one** spike generator _per input dimension_ to encode
+continuous values to binary spikes. That one spike generator can either be a
+mathematical function (e.g., **Poisson Encoding**) or a neuron (e.g., **Neuron
+Encoding**); these are described below in more detail.
 
 ### Poisson Encoding
 
 ### Neuron Encoding
 In the **Neuron Encoding** method, continuous values are encoded to spikes via
 a _spiking neuron_ stimulation. Consider a continuous-valued scalar input $x[t]$
-that is to be encoded, the idea is to obtain a _current_ $J[t]$ from $x[t]$ and
+that is to be encoded; the idea is to obtain a _current_ $J[t]$ from $x[t]$ and
 use $J[t]$ to stimulate a neuron (can be a $\texttt{LIF}$ or an $\texttt{IF}$)
 corresponding to $x[t]$ to produce spikes. This method is popularly used in the
 Neural Engineering Framework (NEF) [@eliasmith2003neural],
@@ -37,7 +37,7 @@ J[t] = \alpha \times e \times x[t] + J_\text{bias} \label{eq:enc-nrn-jt}
 where $\alpha$ is the encoding neuron’s _gain_, $e$ is the encoding neuron’s
 _encoder_ coefficient, $x[t]$ is the scalar input, and $J_\text{bias}$ is the
 _bias current_ to the encoding neuron. Note that $e$ determines the _sensitivity_
-(of the enoding neuron) to input values; we will provide more details in the NEF
+of the enoding neuron to input values; we will provide more details in the NEF
 appendix. After obtaining $J[t]$, one can use Eqs.
 {eq}`eq:discrete-if`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$) or Eqs.
 {eq}`eq:discrete-lif`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$) to encode a
@@ -46,18 +46,18 @@ $\texttt{LIF}$ neuron, respectively; note that $I[t]$ in these equations is
 replaced by $J[t]$.
 
 
-Coming to the values of the hyper-parameters in Eq {eq}`eq:enc-nrn-jt` above,
-one can set their values as $\alpha\in\mathbb{R}^+$ and
-$J_\text{bias}\in\mathbb{R}^+_0$. However the value of $e$ depends not only on
+Looking at the values of the hyper-parameters in Eq. {eq}`eq:enc-nrn-jt` above,
+one can set their values to $\alpha\in\mathbb{R}^+$ and
+$J_\text{bias}\in\mathbb{R}^+_0$. However, the value of $e$ depends not only on
 its intended sensitivity, but also on the dimensionality of the input (more in
 the NEF Appendix). For now, let us consider only scalar input, i.e.,
-$x[t]\in\mathbb{R}$. This implies that $e$ should be scalar too; coming to its
-sensitivity, it should be set $e=1$ if one wants to encode _only_ positive
-values, and $e=-1$ for encoding _only_ negative values. Overall, one should be
-careful in choosing appropriate values of $\alpha$, $e$, $J_\text{bias}$ in
-accordance with in the input $x[t]$ and the chosen $V_\text{thr}\in\mathbb{R}^+$
-or any other hyper-parameter of the encoding neuron (e.g., voltage decay
-$\tau_\text{vol}$ in $\texttt{LIF}$ neuron, i.e., in Eq {eq}`eq:discrete-lif`).
+$x[t]\in\mathbb{R}$. This implies that $e$ should also be a scalar with $e=1$
+_or_ $e=-1$ if the input values that need to be encoded are _only_ positive _or_
+negative, respectively. Overall, one should be careful in choosing appropriate
+values of $\alpha$, $e$, $J_\text{bias}$ in accordance with in the input $x[t]$
+and the chosen $V_\text{thr}\in\mathbb{R}^+$ or any other hyperparameter of the
+encoding neuron (e.g., voltage decay $\tau_\text{vol}$ in $\texttt{LIF}$ neuron,
+i.e., in Eq. {eq}`eq:discrete-lif`).
 
 ```{note}
 It's highly recommended to check the spiking profile of your encondig neurons
@@ -65,8 +65,8 @@ It's highly recommended to check the spiking profile of your encondig neurons
 properly represented and the information doesn't get lost.
 ```
 
-Following code demonstrates how to encode an example signal $x[t]$ using the Eq
-{eq}`eq:enc-nrn-jt` via an $\texttt{IF}$ neuron (Eq {eq}`eq:discrete-if`).
+Following code demonstrates how to encode an example signal $x[t]$ using the Eq.
+{eq}`eq:enc-nrn-jt` via an $\texttt{IF}$ neuron (Eq. {eq}`eq:discrete-if`).
 $\textcolor{red}{start}$
 
 
@@ -74,15 +74,15 @@ $\textcolor{red}{start}$
 
 ## Population Rate Encoding
 This is another standard but relatively less common encoding approach used in
-SNNs. The idea is to have **a group** of encoders _per dimension_ of the input
-to encode continuous values to binary spikes. Why so? A population of
-_differently characterized_ encoders is required when you want to capture
-_different characteristics_ of the input signal, e.g., if your signal is
-composed of _positive_ and _negative_ values! In such a case, you would ideally
-like your encoders to be _sensitive_ to the positive and negative values of your
-input signal. You can do this by specially tuning the implementation of your
-encoders. We next describe a special case of Population Rate Encoding, followed
-by the general case.
+SNNs. The idea is to have **a group** of encoders _per input dimension_ to
+encode continuous values to binary spikes. Why so? A population of _differently
+characterized_ encoders is required when you want to capture _different
+characteristics_ of the input signal, e.g., if your signal is composed of
+_positive_ and _negative_ values! In such a case, you would ideally like your
+encoders to be _sensitive_ to the positive and negative values of your input
+signal. You can do this by specially tuning the implementation of your encoders.
+We next describe a special case of Population Rate Encoding, followed by the
+general case.
 
 ### Two-Neuron Encoding
 Two-Neuron Encoding is the simplest version and a special case of Population
@@ -91,13 +91,13 @@ hinted above, such an encoding system is commonly used when one has to encode an
 input signal composed of positive and negative values over time. If you use only
 one neuron sensitive to positive values, only the positive part of the signal
 will be encoded into spikes, and you will lose the information available from
-the negative part of the signal; and vice-versa if you use only one neuron
+the negative part of the signal, and vice eversa if you use only one neuron
 sensitive to negative values. To illustrate this, we take the following example
 of rate encoding a sine wave (oscillating between -1 and 1) using the
 abovementioned **Neuron Encoding** approach -- first by using a _single_ neuron,
-then with _two_ neurons. For the same, consider the $\texttt{IF}$ neuron's
-current $J[t]$ Eq {eq}`eq:enc-nrn-jt` and voltage Eq
-{eq}`eq:discrete-if`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$), below:
+then with _two_ neurons. Consider the $\texttt{IF}$ neuron's current $J[t]$ Eq.
+{eq}`eq:enc-nrn-jt` and voltage Eq. {eq}`eq:discrete-if`($\textsf{b}$,
+$\textsf{c}$, $\textsf{d}$) below:
 
 \begin{equation}
 J[t] &= \alpha \times e \times x[t] + J_\text{bias} \\
@@ -107,7 +107,7 @@ V[t] &\leftarrow V_\text{rest}
 \end{equation}
 
 where $\alpha (=1)$ is the gain of the $\texttt{IF}$ neuron, $J_\text{bias}
-(=0)$ is the bias and $e$ is the neuron's encoder value determining its
+(=0)$ is the bias and $e$ is the neuron's encoder coefficient determining its
 _sensitivity_; $x[t]$ is the input signal (i.e., sine wave in our example) to
 our $\texttt{IF}$ neuron – the above rate-encoding equation is taken from the
 Neural Engineering Framework theory [@eliasmith2003neural,
@@ -148,8 +148,8 @@ would ensure that the input is always non-negative (as shown in the Fig x)
 ```
 
 Let's call this $|x[t]|$ signal $u_1[t]$ and encode it with a single neuron
-(again with $e = 1$), as done for $x[t]$. Then, the following spike train
-(in Fig 2b) is produced:
+(again with $e = 1$), as done for $x[t]$. Then, the following spike train would
+be produced (Fig. 2b)
 
 ```{figure}../assets/topic_1/chapter_1_3/mod-spikes.png
 :width: 100%
