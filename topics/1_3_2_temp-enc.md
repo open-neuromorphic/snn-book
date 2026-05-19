@@ -27,7 +27,11 @@ formulation, the precision of rate encoding could be limited by the
 fact that the spiking rate of a neuron is integral
 (neurons do not produce partial spikes; see, however, the discussion on
 graded spikes in Section [#]).
-Latency-based temporal encoding schemes aim to mitigate some of these problems.
+Latency-based temporal encoding schemes aim to mitigate these problems
+by mapping real-valued inputs to the time domain. With some mild assumptions,
+this mapping can be done with minimal overhead and no loss of precision
+since time is continuous and can therefore be used to represent
+continuous-valued input stimuli.
 
 ## Latency-based Encoding Schemes
 
