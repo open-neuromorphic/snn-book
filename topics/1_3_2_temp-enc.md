@@ -46,19 +46,13 @@ The implementation of TTFS is fairly straightforward. The delay can be computed
 either by numerical integration or by directly mapping the values to the time
 domain. The integration method is based on the membrane dynamics of the neuron,
 whereby the speed of depolarisation of the membrane depends on the strength
-of the stimulus. Specifically, if the membrane is characterised by a time
-constant $\tau$, the evolution of the potential follows:
-
-\begin{equation}
-\frac{dV}{dt} = \frac{1}{\tau}(V_{l} - V + I).
-\end{equation}
-
-Here, $V$ is the membrane potential, $V_{l}$ is the leak voltage and $I$ is the
-input current, which corresponds to the value that is being encoded.
+of the stimulus. Specifically, assuming a LIF neuron (cf. @sec:spk-nrn-lif), the
+the evolution of the membrane potential follows Eq. @eq:continuous-lif,
+where $I$ is the input current corresponding to the value being encoded.
 The stronger the stimulus $I$, the faster the membrane potential reaches the
 threshold, producing a spike.
 
-If numerical integration is undesirable,
+If numerical integration is undesirable or impractical,
 the input can also be mapped directly to a discretised version of the time
 domain by normalising the input values and applying a simple
 direct linear mapping:
