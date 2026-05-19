@@ -10,17 +10,29 @@ and the way the brain processes information, which is
 inherently discrete and heavily reliant on temporal information.
 
 One of the core advantages of SNNs is that they can take into account
-the temporal dynamics of their stimulus.
-To harness this advantage, it makes sense to convert graded real-valued
+the temporal dynamics of their stimuli.
+To harness this advantage, it makes sense to convert graded real-valued input
 stimuli into sequences of spikes that encode the characteristics of the input
 into the time domain [@Bian.Donati.ea-2024-EvaluationEncoding].
-This chapter outlines several techniques for temporal encoding based on
+
+This chapter outlines two techniques for temporal encoding based on
 the *timing* of the spikes produced by the encoding neurons.
+While @chapter:rate-enc introduced methods for converting continuous input
+into spikes by using the spiking rate of the encoding neurons, that approach has
+certain limitations. For instance, rate encoding requires a certain
+integration time in order to gather statistics about the (mean) spiking rates
+of the encoding neurons, which can introduce a non-trivial overhead in terms of
+processing time, memory and  power consumption. Furthermore, depending on the
+formulation, the precision of rate encoding could be limited by the
+fact that the spiking rate of a neuron is integral
+(neurons do not produce partial spikes; see, however, the discussion on
+graded spikes in Section [#]).
+Latency-based temporal encoding schemes aim to mitigate some of these problems.
 
 ## Latency-based Encoding Schemes
 
 Latency-based schemes translate real-valued stimuli into spike _delays_
-(or _latencies_). In principle, there is no limit to the delay.
+(or _latencies_). In principle, there is no limit to the magnitude of the delay.
 However, in practice, most encoding schemes employ a cutoff
 time beyond which inputs are considered to have
 an infinite delay, meaning that the corresponding encoding neurons
