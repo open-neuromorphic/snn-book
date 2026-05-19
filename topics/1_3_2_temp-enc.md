@@ -100,9 +100,9 @@ The Gaussian Receptive Field (GRF) encoding scheme
 operating principle of the cochlea, where different sound frequencies are
 mapped to different physical locations. The GRF encoding mechanism is
 somewhat different to the ones introduced above in that it
-uses a population of neurons with overlapping receptive fields,
-whereby any real-valued input is encoded as a
-spiking pattern of several encoding neurons.
+uses a _population_ of neurons with overlapping receptive fields, whereby
+a real-valued input is encoded into a (potentially sparse) train of spikes
+with different delays.
 
 In the GRF encoding scheme, *each* real-valued input variable $I$ is encoded by
 a population of $M$ equidistant neurons covering the interval
