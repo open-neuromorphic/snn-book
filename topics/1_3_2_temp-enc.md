@@ -57,9 +57,10 @@ the input can also be mapped directly to a discretised version of the time
 domain by normalising the input values and applying a simple
 direct linear mapping:
 
-\begin{equation}
+```{math}
+:label: eq:ttfs-logarithmic
 l_{t} = \max(\tau(1- I_{t}), \tau(1 - \theta)),
-\end{equation}
+```
 
 where
 
@@ -75,10 +76,13 @@ l_{t} = \tau~\log(\frac{I}{I - \theta}).
 \end{equation}
 
 The notation is the same as in the linear case.
-Logarithmic mapping places a stronger emphasis on larger values, where weaker
-stimuli induce spikes with an exponentially longer delay. In all cases,
-neurons are allowed to spike only **once** - if multiple spikes are produced,
-any spikes after the first are ignored.
+Logarithmic mapping places a stronger emphasis on larger input values, where
+the delay decreases faster than the difference between the raw input values.
+In other words, the delays corresponding to two small input values would be
+closer to each other than the delays corresponding to two relatively larger
+values.
+In all cases, neurons are allowed to spike only **once** - if multiple spikes
+are produced, any spikes after the first are ignored.
 
 ```{figure} assets/chapter1/plots/ttfs.png
 :alt: TTFS encoding
