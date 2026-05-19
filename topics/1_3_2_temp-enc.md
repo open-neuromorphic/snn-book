@@ -15,7 +15,7 @@ To harness this advantage, it makes sense to convert graded real-valued
 stimuli into sequences of spikes that encode the characteristics of the input
 into the time domain [@Bian.Donati.ea-2024-EvaluationEncoding].
 This chapter outlines several techniques for temporal encoding based on
-the *timing* of the spikes produced by the input (encoding) neurons.
+the *timing* of the spikes produced by the encoding neurons.
 
 ## Latency-based Encoding Schemes
 
