@@ -40,7 +40,7 @@ In TTFS [@Eshraghian.Ward.ea-2023-TrainingSpiking], the first (and only) spike
 produced by a neuron is generated with a
 delay that is inversely proportional to the magnitude of the input.
 In other words, a strong stimulus (a large input value)
-translates into a short delay ([Fig. 1](#fig-TTFS)).
+translates into a spike with a short delay ([Fig. 1](#fig-TTFS)).
 
 The implementation of TTFS is fairly straightforward. The delay can be computed
 either by numerical integration or by directly mapping the values to the time
