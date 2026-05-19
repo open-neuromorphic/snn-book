@@ -19,7 +19,7 @@ the *timing* of the spikes produced by the encoding neurons.
 
 ## Latency-based Encoding Schemes
 
-Latency-based schemes translate real-valued stimuli into spike delays
+Latency-based schemes translate real-valued stimuli into spike _delays_
 (or _latencies_). In principle, there is no limit to the delay.
 However, in practice, most encoding schemes employ a cutoff
 time beyond which inputs are considered to have
