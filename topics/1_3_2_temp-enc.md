@@ -104,9 +104,9 @@ uses a _population_ of neurons with overlapping receptive fields, whereby
 a real-valued input is encoded into a (potentially sparse) train of spikes
 with different delays.
 
-In the GRF encoding scheme, *each* real-valued input variable $I$ is encoded by
+In the GRF encoding scheme, *each* real-valued input variable $u$ is encoded by
 a population of $M$ equidistant neurons covering the interval
-$[I_{min}, I_{max}]$ of possible values that the variable can take.
+$[u_{min}, u_{max}]$ of possible values that the variable can take.
 Each neuron is located at the peak of
 a Gaussian receptive field, and the distances between the
 peaks is chosen such that the receptive fields have significant overlap
@@ -117,18 +117,20 @@ could take.
 The parameters (mean and standard deviation) of each Gaussian are
 chosen as follows:
 
-\begin{equation}
-\mu_{i} = I_{min} + \frac{(2i + 1)(I_{max} - I_{min})}{2M}
-\end{equation}
+```{math}
+:label: eq:grf-mean
+\mu_{i} = u_{min} + \frac{(2i + 1)(u_{max} - u_{min})}{2M}
+```
 
-\begin{equation}
-\sigma = \frac{I_{max} - I_{min}}{\beta M}
-\end{equation}
+```{math}
+:label: eq:grf-sigma
+\sigma = \frac{u_{max} - u_{min}}{\beta M}
+```
 
 Here, the parameter $\beta\in(1,2)$ directly controls the width of the
 Gaussian receptive fields.
 
-The input stimulus is mapped to the encoded interval $(I_{min}, I_{max})$.
+The input stimulus is mapped to the encoded interval $(u_{min}, u_{max})$.
 The vertical line originating at the point corresponding to the input stimulus
 ($0.72$ in [Fig. 3](#fig-GRF)) crosses the GRF for each encoding neuron.
 The vertical offset of the crossing point determines the delay for the
