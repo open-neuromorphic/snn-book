@@ -114,7 +114,7 @@ peaks is chosen such that the receptive fields have significant overlap
 should cover the entire range of values that the input for this channel
 could take.
 
-The parameters (mean and standard deviation) of each Gaussian are
+The parameters ($\mu$ and standard deviation $\sigma$) of each Gaussian are
 chosen as follows:
 
 ```{math}
@@ -140,9 +140,13 @@ A threshold (denoted as $\theta$ here) can be used to sparsify the spike train,
 whereby if the delay is longer than the
 threshold, the neuron does not produce a spike.
 
+```{note}
 This encoding method requires that the input range be known in advance.
 In practice, it makes sense to normalise each input channel so that its
-stimulus range falls between $0$ and $1$.
+stimulus range falls between $0$ and $1$. This has the added advantage
+that each input channel can be encoded with the same number of GRFs with
+the same mean $\mu$ and standard deviation $\sigma$.
+```
 
 ```{figure} assets/chapter1/plots/grf.png
 :alt: GRF encoding
