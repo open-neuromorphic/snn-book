@@ -2,7 +2,7 @@
 # Rate Encoding
 **Rate Encoding** is a prevalent form of encoding continuous values to discrete
 spikes, and is quite easy to work with. This is because it relates well to the
-Deep Learning networks and training methodologies (that the researchers leverage
+Deep Learning networks and training methodologies (that researchers leverage
 to train SNNs – discussed in the later chapters). The core idea behind Rate
 Encoding is to represent continuous values via a spike _rate_ over time (i.e.,
 number of spikes averaged over time), e.g., 20Hz, 25Hz, etc. – such that the
@@ -41,9 +41,8 @@ of the enoding neuron to input values; we will provide more details in the NEF
 appendix. After obtaining $J[t]$, one can use Eqs.
 {eq}`eq:discrete-if`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$) or Eqs.
 {eq}`eq:discrete-lif`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$) to encode a
-continuous valued signal $x[t]$ to spikes by using an $\texttt{IF}$ or a
-$\texttt{LIF}$ neuron, respectively; note that $I[t]$ in these equations is
-replaced by $J[t]$.
+continuous signal $x[t]$ to spikes by using an $\texttt{IF}$ or a $\texttt{LIF}$
+neuron, respectively; note that $I[t]$ in these equations is replaced by $J[t]$.
 
 
 Looking at the values of the hyper-parameters in Eq. {eq}`eq:enc-nrn-jt` above,
@@ -54,8 +53,8 @@ the NEF Appendix). For now, let us consider only scalar input, i.e.,
 $x[t]\in\mathbb{R}$. This implies that $e$ should also be a scalar with $e=1$
 _or_ $e=-1$ if the input values that need to be encoded are _only_ positive _or_
 negative, respectively. Overall, one should be careful in choosing appropriate
-values of $\alpha$, $e$, $J_\text{bias}$ in accordance with in the input $x[t]$
-and the chosen $V_\text{thr}\in\mathbb{R}^+$ or any other hyperparameter of the
+values of $\alpha$, $e$, $J_\text{bias}$ in accordance with the input $x[t]$ and
+the chosen $V_\text{thr}\in\mathbb{R}^+$ or any other hyperparameter of the
 encoding neuron (e.g., voltage decay $\tau_\text{vol}$ in $\texttt{LIF}$ neuron,
 i.e., in Eq. {eq}`eq:discrete-lif`).
 
@@ -65,7 +64,7 @@ It's highly recommended to check the spiking profile of your encondig neurons
 properly represented and the information doesn't get lost.
 ```
 
-Following code demonstrates how to encode an example signal $x[t]$ using the Eq.
+The following code demonstrates how to encode an example signal $x[t]$ using Eq.
 {eq}`eq:enc-nrn-jt` via an $\texttt{IF}$ neuron (Eq. {eq}`eq:discrete-if`).
 $\textcolor{red}{start}$
 
@@ -97,7 +96,7 @@ of rate encoding a sine wave (oscillating between -1 and 1) using the
 abovementioned **Neuron Encoding** approach -- first by using a _single_ neuron,
 then with _two_ neurons. Consider the $\texttt{IF}$ neuron's current $J[t]$ Eq.
 {eq}`eq:enc-nrn-jt` and voltage Eq. {eq}`eq:discrete-if`($\textsf{b}$,
-$\textsf{c}$, $\textsf{d}$) below:
+$\textsf{c}$, and $\textsf{d}$) below:
 
 \begin{equation}
 J[t] &= \alpha \times e \times x[t] + J_\text{bias} \\
@@ -132,16 +131,16 @@ $e = 1$:
 
 <span style="color:red">Write code later</span>
 
-As can be clearly seen in the Fig x, the neuron is sensitive to only the
-positive part of the sine wave and encodes it to spikes, however, the
-information from the negative part is lost. If we allow negative $V[t]$, and set
-another $V_\text{thr}$ in the negative direction - to produce spikes for the
-negative part of the sine wave, then that would go against the convention of
-$V[t]$ and $V_\text{thr}$ being $\geq 0$. It would also complicate both the
-neuron design and hardware implementations thereof.
+As can be clearly seen in Fig. x, the neuron is sensitive to only the positive
+part of the sine wave and encodes it to spikes, however, the information from
+the negative part is lost. If we allow negative $V[t]$, and set another
+$V_\text{thr}$ in the negative direction - to produce spikes for the negative
+part of the sine wave, then that would go against the convention of $V[t]$ and
+$V_\text{thr}$ being $\geq 0$. It would also complicate both the neuron design
+and hardware implementations thereof.
 
 One option is to pre-process the sine wave by taking its absolute value, which
-would ensure that the input is always non-negative (as shown in the Fig x)
+would ensure that the input is always non-negative (as shown in Fig. x)
 
 ```{figure}../assets/topic_1/chapter_1_3/mod-sine.png
 :width: 100%
@@ -157,7 +156,7 @@ be produced (Fig. 2b)
 
 It can be easily inferred from the above that if another signal $u_2[t]$ with
 the same wave-form as the original signal $u_1[t]$ is encoded, then it would
-produce the same spike train as for $|x[t]|$ in Fig 2b. Note that pre-processing
+produce the same spike train as for $|x[t]|$ in Fig. 2b. Note that pre-processing
 $u_2[t]$ by taking its absolute value will have no effect as $u_2[t]$ is
 already non-negative. Thus, there would be **no** difference between the spike
 trains obtained from the original sine wave $x[t]$ and another non-negative
@@ -188,7 +187,7 @@ encoded faithfully, and no information would be lost, as shown in Fig. 4:
 It is also noteworthy that if the signal $u_2[t]$ (of the same waveform as
 $|x[t]|$) is encoded via such a system of two neurons, then the neuron with
 $e = −1$ would _not_ spike at all, while the neuron with $e = 1$ would spike and
-produce the spike train seen in Fig 2b, thereby differentiating between the
+produce the spike train seen in Fig. 2b, thereby differentiating between the
 inputs $x[t]$ and $u_2[t]$.
 
 ```{tip} Encoding a real-valued signal
