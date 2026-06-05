@@ -22,9 +22,9 @@ into spikes by using the spiking rate of the encoding neurons, that approach has
 certain limitations. For instance, rate encoding requires a certain
 integration time in order to gather statistics about the (mean) spiking rates
 of the encoding neurons, which can introduce a non-trivial overhead in terms of
-processing time, memory and  power consumption. Furthermore, depending on the
+processing time, memory and power consumption. Furthermore, depending on the
 formulation, the precision of rate encoding could be limited by the
-fact that the spiking rate of a neuron is integral
+fact that the spike count is an integer
 (neurons do not produce partial spikes; see, however, the discussion on
 graded spikes in Section [#]).
 Latency-based temporal encoding schemes aim to mitigate these problems
