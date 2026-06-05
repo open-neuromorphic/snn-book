@@ -49,11 +49,11 @@ project:
             - file: topics/1_3_3_rank-order-enc.md
             - file: topics/1_3_4_decoding.md
         - file: topics/1_4_event_representations.md
-        - file: topics/1_4_snn.md
+        - file: topics/1_5_snn.md
           children:
-            - file: topics/1_4_1_why-snns.md
-            - file: topics/1_4_2_snn-basics.md
-        - file: topics/1_5_plasticity.md
+            - file: topics/1_5_1_why-snns.md
+            - file: topics/1_5_2_snn-basics.md
+        - file: topics/1_6_plasticity.md
     - file: topics/2_training.md
       children:
         - file: topics/2_1_credit_assignment.md
@@ -84,6 +84,8 @@ project:
       - file: dev/simulation.md
       numbering: false
     - file: reviewers.md
+      numbering: false
+    - file: lif_visual.md
       numbering: false
   bibliography:
     - references.bib
