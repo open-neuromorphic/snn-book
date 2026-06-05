@@ -28,10 +28,12 @@ fact that the spike count is an integer
 (neurons do not produce partial spikes; see, however, the discussion on
 graded spikes in Section [#]).
 Latency-based temporal encoding schemes aim to mitigate these problems
-by mapping real-valued inputs to the time domain. With some mild assumptions,
-this mapping can be done with minimal overhead and no loss of precision
-since time is continuous and can therefore be used to represent
-continuous-valued input stimuli.
+by mapping real-valued inputs to the time domain. Theoretically, under some mild
+assumptions, this mapping can be done with minimal overhead and no loss of
+precision since time is continuous and can therefore be used to represent
+continuous-valued input stimuli. However, implementations can run into practical
+limitations due to the discretisation of time in simulations
+(see @a_point_neurons_discretization).
 
 ## Latency-based Encoding Schemes
 
