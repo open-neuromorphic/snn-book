@@ -92,11 +92,11 @@ async function ensureDynSim(packages) {
   if (!dynsimPromise) {
     dynsimPromise = (async () => {
       loadStylesheet(PYSCRIPT_CSS_URL);
+      injectExecuteBridge(packages);
       await loadScript(PYSCRIPT_URL, { type: 'module' });
       await loadScript(PLOTLY_URL, { defer: '' });
       const dynsim = await import(DYNSIM_URL);
       await dynsim.autoInit();
-      injectExecuteBridge(packages);
       await waitFor(
         () => typeof window.executeDynSimCode === 'function',
         'DynSim Python execution bridge did not initialize',

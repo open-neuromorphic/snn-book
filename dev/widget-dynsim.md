@@ -7,7 +7,7 @@ title: DynSim Widget Test
 This page validates the MyST `{anywidget}` path for interactive simulators without the
 custom `server.js` injection.
 
-```{anywidget} ../_static/widgets/dynsim-widget.mjs
+```{anywidget} /_widgets/dynsim-widget.mjs
 {
   "params": [
     {
