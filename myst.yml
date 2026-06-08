@@ -81,6 +81,7 @@ project:
     - file: contributors.md
       children:
       - file: dev/simulation.md
+      - file: dev/widget-dynsim.md
       numbering: false
     - file: reviewers.md
       numbering: false
