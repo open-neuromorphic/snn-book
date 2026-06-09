@@ -1,5 +1,29 @@
 const WIDGET_PATH = '/_widgets/dynsim-widget.mjs';
 
+/**
+ * MyST Plugin for Dynamical Systems Simulator with PyScript
+ *
+ * Usage:
+ *
+ * ```{dynsim}
+ * :params: [{"id": "tau", "label": "τ", "min": 0.1, "max": 2, "step": 0.1, "value": 1}]
+ * :plotType: timeseries
+ * :plotConfig: {"title": "My System", "xaxis": {"title": "Time", "range": [0, 50]}}
+ * :initialState: {"v": 0, "t": 0}
+ * :initialX: 0
+ * :height: 400
+ * :dt: 0.02
+ * :packages: ["numpy"]
+ *
+ * import numpy as np
+ *
+ * def step(x, state, p):
+ *     dv = (-state["v"] + x) / p["tau"]
+ *     v_new = state["v"] + p["dt"] * dv
+ *     return (v_new, {"v": v_new})
+ * ```
+ */
+
 function parseJsonOption(value, fallback, optionName) {
   if (value == null) return fallback;
   if (typeof value !== 'string') return value;
@@ -18,53 +42,53 @@ const plugin = {
       doc: 'Embed an interactive dynamical systems simulator with Python',
       body: {
         type: 'string',
-        required: true,
+        required: true
       },
       options: {
         params: {
           type: String,
-          doc: 'JSON array of parameter definitions [{id, label, min, max, step, value}, ...]',
+          doc: 'JSON array of parameter definitions [{id, label, min, max, step, value}, ...]'
         },
         plotType: {
           type: String,
-          doc: 'Plot type: 2d, 3d, or timeseries (default: timeseries)',
+          doc: 'Plot type: 2d, 3d, or timeseries (default: timeseries)'
         },
         plotConfig: {
           type: String,
-          doc: 'JSON object for Plotly configuration',
+          doc: 'JSON object for Plotly configuration'
         },
         initialState: {
           type: String,
-          doc: 'JSON object for initial state (default: {"t": 0})',
+          doc: 'JSON object for initial state (default: {"t": 0})'
         },
         initialX: {
           type: Number,
-          doc: 'Initial input/output value (default: 0)',
+          doc: 'Initial input/output value (default: 0)'
         },
         input: {
           type: String,
-          doc: 'JSON object for input slider configuration',
+          doc: 'JSON object for input slider configuration'
         },
         height: {
           type: Number,
-          doc: 'Height in pixels (default: 400)',
+          doc: 'Height in pixels (default: 400)'
         },
         dt: {
           type: Number,
-          doc: 'Timestep for integration (default: 0.02)',
+          doc: 'Timestep for integration (default: 0.02)'
         },
         spikes: {
           type: String,
-          doc: 'State key that marks spikes for raster/marker overlays',
+          doc: 'State key that marks spikes for raster/marker overlays'
         },
         spikeThreshold: {
           type: Number,
-          doc: 'Y-value used to draw a spike threshold line',
+          doc: 'Y-value used to draw a spike threshold line'
         },
         packages: {
           type: String,
-          doc: 'JSON array of Pyodide/PyScript packages required by the Python code',
-        },
+          doc: 'JSON array of Pyodide/PyScript packages required by the Python code'
+        }
       },
       run(data) {
         return [
@@ -83,13 +107,13 @@ const plugin = {
               spikes: data.options?.spikes || null,
               spikeThreshold: data.options?.spikeThreshold ?? null,
               packages: parseJsonOption(data.options?.packages, ['numpy'], 'packages'),
-              pythonCode: data.body || '',
-            },
-          },
+              pythonCode: data.body || ''
+            }
+          }
         ];
-      },
-    },
-  ],
+      }
+    }
+  ]
 };
 
 export default plugin;
