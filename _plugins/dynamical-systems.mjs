@@ -3,8 +3,7 @@ const WIDGET_PATH = '/_widgets/dynsim-widget.mjs';
 /**
  * MyST Plugin for Dynamical Systems Simulator with PyScript
  *
- * Usage:
- *
+ * Usage in markdown:
  * ```{dynsim}
  * :params: [{"id": "tau", "label": "τ", "min": 0.1, "max": 2, "step": 0.1, "value": 1}]
  * :plotType: timeseries
@@ -12,17 +11,27 @@ const WIDGET_PATH = '/_widgets/dynsim-widget.mjs';
  * :initialState: {"v": 0, "t": 0}
  * :initialX: 0
  * :height: 400
- * :dt: 0.02
- * :packages: ["numpy"]
  *
+ * from typing import NamedTuple
  * import numpy as np
  *
+ * class State(NamedTuple):
+ *     v: float  # membrane potential
+ *     t: float  # time
+ *
  * def step(x, state, p):
- *     dv = (-state["v"] + x) / p["tau"]
- *     v_new = state["v"] + p["dt"] * dv
- *     return (v_new, {"v": v_new})
+ *     # x: current input/output (feedback)
+ *     # state: State namedtuple with internal variables
+ *     # p: parameters as SimpleNamespace
+ *
+ *     dv = (-state.v + x + p.current) / p.tau
+ *     v_new = state.v + 0.02 * dv
+ *     x_new = np.tanh(p.weight * v_new)
+ *
+ *     return (x_new, State(v=v_new, t=state.t + 0.02))
  * ```
  */
+
 
 function parseJsonOption(value, fallback, optionName) {
   if (value == null) return fallback;
