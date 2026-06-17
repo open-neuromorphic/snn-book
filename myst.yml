@@ -138,8 +138,6 @@ project:
         - topics/a_datasets.md
         - topics/a_tools.md
         - topics/a_point_neurons_discretization.md
-  jupyter:
-    lite: true
 
 parse:
   myst_enable_extensions:
