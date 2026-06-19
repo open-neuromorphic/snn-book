@@ -25,5 +25,9 @@ Many hardware platforms are of the scale that they can support multiple users si
 
 After an appropriate hardware unit is allocated, the elements of the hardware can now be selected for each of the sub units of the partitioning.  This is generally known as placement.  It is possible to allow the user to constrain the placement specifically, so that certain partitions are placed on specific elements.  This is more often used in testing to arrange things in a way to test a case without having to make the problem too big.  More advanced user might also want to do this if they have some theories they would like to test out.
 
-Placement may also have to account for some problem-specific constraints also.  This could include elements of resource-sharing between partitions.  For example, on SpiNNaker, this is used where two or more partitions communicate using the SDRAM of a chip, and so must be placed on the same chip.  SpiNNaker 2 has a quad arrangement in addition to this, so this could be a placement constraint also.
+Placement may also have to account for some problem-specific constraints.  This could include elements of resource-sharing between partitions.  For example, on SpiNNaker, this is used where two or more partitions communicate using the SDRAM of a chip, and so must be placed on the same chip.  SpiNNaker 2 has a quad arrangement in addition to this, so this could also be a placement constraint.
+
+Once it has been decided where things are going to be, it is then possible to ensure that elements that need to communicate are set up to do so.  Depending on the architecture, this may require some form of routing algorithm to run to work out how the traffic is moved from one place to another.  Once this is complete, the mapping will be done and the toolchain can next look at loading things on to the machine in preparation for execution.
+
+Before we move on, it is worth considering that, although the mapping has been described like a sequence of events
 
