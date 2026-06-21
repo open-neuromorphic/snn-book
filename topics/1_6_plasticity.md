@@ -212,7 +212,7 @@ p.title.text_font_size = "14px"
 p.xaxis.axis_label = r"$$\Delta{t} [s]$$"
 p.yaxis.axis_label = r"$$\Delta{W} [a.u.]$$"
 
-text = r"$$\Delta{W} = -A_{-} e^{\Delta{t} / \tau_{+}}, \Delta{t} < 0$$"
+text = r"$$\Delta{W} = -A_{-} e^{\Delta{t} / \tau_{-}}, \Delta{t} < 0$$"
 frame_left = Node(target="frame", symbol="left", offset=10)
 frame_bottom = Node(target="frame", symbol="bottom", offset=-10)
 
