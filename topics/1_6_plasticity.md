@@ -44,16 +44,7 @@ where:
 
 Because $\tau_+$ appears in the denominator of the exponential term in Eq {numref}`eq:ltp`, it sets the rate at which the curve decays.
 A small $\tau_+$ means only spikes that occur very close together strengthen the synapse, while a larger $\tau_+$ makes the rule more tolerant to longer delays between pre- and post-synaptic spikes.
-This behavior is illustrated in {numref}`fig-stdp-ltp-tau`.
-
-```{figure} /assets/images/stdp_ltp_tau.pdf
-:width: 60%
-:name: fig-stdp-ltp-tau
-
-Example of LTP curve for different $\tau_+$ values.
-```
-
-### Interactive visualisation
+This behavior is illustrated in the plot below.
 
 ```{code-cell} python
 :tags: [remove-input]
@@ -175,16 +166,8 @@ where:
 - $A_-$ is a learning rate controlling the strength of the weight decrease,
 - $\tau_-$ is a time constant controlling how quickly the effect fades.
 
-{numref}`fig-stdp-ltd-tau` illustrates how $\tau_-$ shapes the width of the LTD window.
-
-```{figure} /assets/images/stdp_ltd_tau.pdf
-:width: 60%
-:name: fig-stdp-ltd-tau
-
-Example of LTD curve for different $\tau_-$ values.
-```
-
-### Interactive visualisation
+The following plot illustrates how $\tau_{-}$ and $A_{-}$ influence
+the relation between $\Delta{W}$ and $\Delta{t}$.
 
 ```{code-cell} python
 :tags: [remove-input]
