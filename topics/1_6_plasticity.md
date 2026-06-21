@@ -82,7 +82,7 @@ p = figure(
 )
 
 p.line("x", "y", source=source, line_width=3, line_alpha=0.6)
-p.title.text = "Magnitude of weight update depending on relative spike timing"
+p.title.text = "LTP strength depending on relative spike timing"
 p.title.align = "center"
 p.title.text_font_size = "14px"
 
@@ -205,7 +205,7 @@ p = figure(
 )
 
 p.line("x", "y", source=source, line_width=3, line_alpha=0.6)
-p.title.text = "Magnitude of weight update depending on relative spike timing"
+p.title.text = "LTD strength depending on relative spike timing"
 p.title.align = "center"
 p.title.text_font_size = "14px"
 
