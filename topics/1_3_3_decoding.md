@@ -25,22 +25,55 @@ r_{i} = \frac{\sum\limits_{t=1}^{T} S_{i}[t]}{T}
 where $i$ is the index of the neuron, and $T$ is the discrete-time duration of
 the simulation.
 
-Therefore, if Rate Encoding is used in the SNNs to encode continuous-valued
-input data as binary spikes, each output neuron of the SNN can be assigned the
-meaning of a _class_, and the average firing rate $r_{i}$ of each output neuron
-can be computed as in the Eq {eq}`eq:rate-dec-1`. The neuron with the highest
-firing rate can be considered to denote the final/predicted output class.
+Therefore, for classification tasks, if Rate Encoding is used in the SNNs to
+encode continuous-valued input data as binary spikes, each output neuron of the
+SNN can be assigned the meaning of a _class_, and the average firing rate
+$r_{i}$ of each output neuron can be computed as in the Eq {eq}`eq:rate-dec-1`.
+The neuron with the highest firing rate can be considered to denote the final /
+predicted output class.
 
 Note that to train such an SNN for classification tasks, it's typical to use the
-Cross Entropy loss function, where ... [start from here].
+Cross Entropy loss function, where, e.g., in PyTorch's [CrossEntropyLoss](https://docs.pytorch.org/docs/2.12/generated/torch.nn.CrossEntropyLoss.html#crossentropyloss),
+we pass two arguments: **mean firing rate** of output spikes (over time) and the
+**class** markers (e.g., $[0, \cdots, 9]$ for MNIST). One can also compute other
+functions of the mean firing rate to compute their desired loss.
 
-https://glaringlee.github.io/generated/torch.nn.CrossEntropyLoss.html#torch.nn.CrossEntropyLoss
+## Spike Trace
+Computing **Spike Trace** is a popular method to _smooth_ out the spike trains,
+thereby obtaining continuous values from discrete (binary) spikes. This method
+is also called synaptic filtering, as it is conceptually similar to first-order
+Low-Pass Filter (LFP). Synaptic filtering is grounded in neuroscience, where
+upon arrival of action potentials (a.k.a. spikes) at a synapse, it triggers the
+release of neurotransmitters, causing a sudden jump in the postsynaptic current,
+which then decays exponentially over time. This behavior is perfectly modeled by
+a first-order linear differential equation:
 
-https://sebastianraschka.com/faq/docs/pytorch-crossentropy.html
+\begin{equation}
+\label{eq:spk-trace-cont}
+\tau_{s}\frac{dy(t)}{dt} = -y(t) + w.S(t)
+\end{equation}
+where $y(t)$ is the filtered synaptic output, i.e., **spike trace**, $\tau_{s}$
+is the synaptic time-constant that dictates how fast the trace decays, and $w$
+is the weight (the amplitude of the jump caused by a single spike). Discretizing
+the Eq. {eq}`eq:spk-trace-cont` gives the following:
 
+\begin{equation}
+\label{eq:spk-trace-dsct}
+y[t] = \alpha y[t-1] + (1-\alpha) w S[t]
+\end{equation}
+where $\alpha = e^{-\frac{\Delta t}{\tau_{s}}} \in [0, 1)$.
 
+Note that when spikes $S[t]$ arrive at high frequency, i.e., faster than the
+time-constant $\tau_{s}$ can decay the trace, the incoming spikes accumulate.
+That is, the high-frequency "switching" noise of the 0-and-1 binary events is
+filtered out, leaving a smooth, high-amplitude analog signal that reflects the
+_mean firing rate_ of the neuron. On the contrary, if the spikes arrive far
+apart, i.e., at low frequency, the trace has the time to decay (possibly to
+zero) between the events; although, the sporadically arriving spikes can cause
+a sharp bump in the trace. Since the spike trace is representative of mean
+firing rate, it can also be used to compute loss, and infer meaning, i.e.,
+decode the SNN's output.
 
 ## Temporal Decoding
-## Traces
 ## Hybrid
 ### WTA
