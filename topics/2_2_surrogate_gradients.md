@@ -3,9 +3,6 @@ authors:
 - name: Eshraghian, Jason
   affiliation: University of California, Santa Cruz
   email: jeshragh@ucsc.edu
-- name: Kembay, Assel
-  affiliation: University of California, Santa Cruz
-  email: kembay.assel@gmail.com
 - name: Pedersen, Jens Egholm
   affiliation: Technical University of Denmark
   email: jegpe@dtu.dk
