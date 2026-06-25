@@ -3,6 +3,9 @@ authors:
 - name: Eshraghian, Jason
   affiliation: University of California, Santa Cruz
   email: jeshragh@ucsc.edu
+- name: Kembay, Assel
+  affiliation: University of California, Santa Cruz
+  email: kembay.assel@gmail.com
 - name: Pedersen, Jens Egholm
   affiliation: Technical University of Denmark
   email: jegpe@dtu.dk
@@ -72,7 +75,12 @@ This is known as the **dead neuron problem**.
 <img src='https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial3/3_2_spike_descrip.png?raw=true' width="600">
 </center>
 
-<!-- TODO: add visualization à la Zenke for varying surrogates -->
+```{sgplot} sg-atan-plot
+:height: 340
+:slider_id: sg-atan-slider
+:val_id: sg-atan-val
+:caption: Try moving the &#945; slider! Larger &#945; brings the smooth approximation closer to the true Heaviside step function — each new value is drawn in a fresh color so you can compare shapes directly.
+```
 
 :::{aside} Why not just use a smooth activation?
 One might ask: why not replace the Heaviside with a smooth sigmoid everywhere?
@@ -118,6 +126,28 @@ Here are several common choices:
 
 In practice, the choice of surrogate function has a relatively minor effect on training performance [@zenke2021remarkable].
 What matters more is that the surrogate is smooth, peaked near the threshold, and decays away from it.
+The choice of surrogate function remains an empirical one, as no theoretical proof establishes which is best. ArcTan is a common default due to its smooth, bounded derivative.
+
+```{sgplot} sg-fwd-plot
+:height: 360
+:slider_id: sg-fwd-slider
+:val_id: sg-fwd-val
+:caption: Try moving the &#945; slider! Each curve is a different smooth approximation of the Heaviside step function — larger &#945; sharpens all of them toward the true step. Click a name in the legend to show or hide individual curves.
+```
+
+```{sgplot} sg-dual-plot
+:height: 400
+:slider_id: sg-dual-slider
+:val_id: sg-dual-val
+:caption: Try moving the &#945; slider! Each curve shows the surrogate gradient ∂S̃/∂V for a different surrogate function — the gradient signal is always concentrated near the threshold and decays away from it.
+```
+
+```{sgplot} sg-v3-plot
+:height: 420
+:slider_id: sg-v3-slider
+:val_id: sg-v3-val
+:caption: Try moving the &#945; slider! Left panel shows the smooth forward approximations; right panel shows the corresponding surrogate gradients. Click a surrogate name in the legend to show or hide it in both panels simultaneously.
+```
 
 ### Implementation
 
@@ -285,9 +315,12 @@ In practice, if $\beta^K$ is small enough, the truncated gradient is a good appr
 
 ### Implementation
 
-The following code implements a single $\texttt{LIF}$ neuron with surrogate gradient training.
-The forward pass computes the membrane dynamics and spikes; the backward pass uses the arctangent surrogate:
+The code below shows how to implement the same $\texttt{LIF}$ neuron with surrogate gradient support across three frameworks.
+In each case the forward pass computes the true Heaviside step; the surrogate replaces its derivative in the backward pass:
 
+::::{tab-set}
+
+:::{tab-item} NumPy
 ```python
 import numpy as np
 
@@ -321,7 +354,7 @@ class LIFNeuron:
         return spikes, membrane
 
     def surrogate_grad(self, membrane):
-        """Compute surrogate gradients using the arctangent function.
+        """Arctangent surrogate gradient — called manually in the backward pass.
 
         Args:
             membrane: array of shape (num_steps,), membrane potential values
@@ -332,6 +365,94 @@ class LIFNeuron:
         v = membrane - self.threshold
         return 1.0 / (np.pi * (1 + (np.pi * v) ** 2))
 ```
+:::
+
+:::{tab-item} PyTorch
+```python
+import torch
+import torch.nn as nn
+
+class SpikeFunction(torch.autograd.Function):
+    """Heaviside forward pass; arctangent surrogate in the backward pass.
+
+    Subclassing torch.autograd.Function lets PyTorch's autograd engine
+    call our custom backward whenever .backward() flows through a spike.
+    """
+
+    @staticmethod
+    def forward(ctx, v, threshold):
+        ctx.save_for_backward(v - threshold)
+        return (v > threshold).float()
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        (v_shifted,) = ctx.saved_tensors
+        surrogate = 1.0 / (torch.pi * (1 + (torch.pi * v_shifted) ** 2))
+        return grad_output * surrogate, None
+
+
+class LIFNeuron(nn.Module):
+    def __init__(self, beta=0.9, threshold=1.0):
+        super().__init__()
+        self.beta = beta
+        self.threshold = threshold
+
+    def forward(self, inputs):
+        """
+        Args:
+            inputs: tensor of shape (num_steps, ...)
+        Returns:
+            spikes: tensor of shape (num_steps, ...)
+        """
+        mem = torch.zeros_like(inputs[0])
+        spike_list = []
+
+        for inp in inputs:
+            mem = self.beta * mem + inp
+            spk = SpikeFunction.apply(mem, self.threshold)
+            mem = mem - spk * self.threshold
+            spike_list.append(spk)
+
+        return torch.stack(spike_list)
+```
+:::
+
+:::{tab-item} JAX
+```python
+import jax
+import jax.numpy as jnp
+
+@jax.custom_vjp
+def spike_fn(v, threshold):
+    """Heaviside forward pass; arctangent surrogate in the backward pass.
+
+    jax.custom_vjp lets us define the vector-Jacobian product (VJP)
+    separately from the forward computation, so jax.grad flows through
+    our surrogate instead of the true (undefined) Heaviside derivative.
+    """
+    return jnp.where(v > threshold, 1.0, 0.0)
+
+def spike_fn_fwd(v, threshold):
+    return spike_fn(v, threshold), (v - threshold,)
+
+def spike_fn_bwd(res, g):
+    (v_shifted,) = res
+    surrogate = 1.0 / (jnp.pi * (1 + (jnp.pi * v_shifted) ** 2))
+    return g * surrogate, None
+
+spike_fn.defvjp(spike_fn_fwd, spike_fn_bwd)
+
+
+def lif_step(mem, inp, beta, threshold):
+    """Single LIF time step — differentiable via spike_fn above."""
+    mem = beta * mem + inp
+    spk = spike_fn(mem, threshold)
+    mem = mem - spk * threshold
+    return spk, mem
+```
+:::
+
+::::
 
 ## Loss functions and output decoding
 
@@ -354,14 +475,14 @@ The softmax of the membrane potential for $C$ output classes gives:
 
 ```{math}
 :label: eq:sg-softmax
-p_i[t] = \frac{e^{V_i[t]}}{\sum_{j=0}^{C} e^{V_j[t]}}
+p_i[t] = \frac{e^{V_i[t]}}{\sum_{j=0}^{C-1} e^{V_j[t]}}
 ```
 
 The cross-entropy between $p_i$ and the one-hot target $y_i \in \{0,1\}^C$ is:
 
 ```{math}
 :label: eq:sg-ce-loss
-\mathcal{L}_\text{CE}[t] = -\sum_{i=0}^{C} y_i \log(p_i[t])
+\mathcal{L}_\text{CE}[t] = -\sum_{i=0}^{C-1} y_i \log(p_i[t])
 ```
 
 The effect is that the membrane potential of the correct class is encouraged to stay above threshold (producing spikes), while incorrect classes are suppressed below threshold.
@@ -609,12 +730,6 @@ def train(train_images, train_labels, num_epochs=1, batch_size=128,
             loss_history.append(loss)
 
     return W1, W2, loss_history
-```
-
-```{note}
-This implementation prioritizes clarity over performance.
-A production implementation would use a framework like PyTorch or JAX for automatic differentiation and GPU acceleration, avoiding the need to manually implement the backward pass.
-The surrogate gradient trick integrates seamlessly with these frameworks by overriding the backward pass of the spike function.
 ```
 
 ```{exercise} Evaluate the trained network
