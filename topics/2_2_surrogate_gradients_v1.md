@@ -7,8 +7,8 @@ authors:
   affiliation: Technical University of Denmark
   email: jegpe@dtu.dk
 ---
-(surrogate_gradients)=
-# Surrogate Gradient Training
+(surrogate_gradients_v1)=
+# Surrogate Gradient Training (original, for comparison)
 
 In [](#credit_assignment), we established that training a neural network requires assigning credit to each component: which weight or neuron contributed to an error, and how should they change?
 For classical neural networks, the backpropagation algorithm solves this by flowing gradients backward through the network.
