@@ -68,9 +68,17 @@ This evaluates to $0$ everywhere except at $V = V_\text{thr}$, where it is undef
 In practice, this means the gradient is almost always zero, and the weight $W$ receives no learning signal.
 This is known as the **dead neuron problem**.
 
-<center>
-<img src='https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial3/3_2_spike_descrip.png?raw=true' width="600">
-</center>
+:::{margin}
+When $V[t]$ exceeds the threshold $V_\text{thr}$, the neuron emits a spike: $S[t] = 1$.
+Otherwise, $S[t] = 0$.
+:::
+
+:::{figure} ../_static/img/spike_heaviside.png
+:width: 420px
+:align: center
+The Heaviside step function $\Theta$ maps membrane potential $V[t]$ to a binary spike $S[t]$.
+The open circle at $V_\text{thr}$ indicates $S[t] = 0$ exactly at threshold; the filled circle indicates $S[t] = 1$ just above it.
+:::
 
 ```{sgplot} sg-atan-plot
 :height: 340

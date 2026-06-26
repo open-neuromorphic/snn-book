@@ -25,6 +25,7 @@ project:
   plugins:
     - _plugins/dynamical-systems.mjs
     - _plugins/rubric.mjs
+    - _plugins/sg-plot.mjs
   toc:
     - file: README.md
       numbering: false
@@ -57,6 +58,7 @@ project:
       children:
         - file: topics/2_1_credit_assignment.md
         - file: topics/2_2_surrogate_gradients.md
+        - file: topics/2_2_surrogate_gradients_v1.md
         - file: topics/2_3_exact_gradients.md
         - file: topics/2_4_meta_learning.md
         - file: topics/2_5_biologically_inspired_training.md
@@ -140,6 +142,7 @@ project:
 parse:
   myst_enable_extensions:
     - amsmath
+  allowDangerousHtml: true
 site:
   template: book-theme
   options:
