@@ -8,7 +8,7 @@ Encoding schemes, providing a balanced compromise
 between information capacity, richness of representation and interpretability.
 In ROE, neurons are assumed to produce at most a single spike during a unit
 period of time. While this is similar to some timing-based encoding schemes
-(such as latency-based encoding), in ROE the key aspect is the _order_ in
+(such as latency-based encoding), in ROE the key aspect is the **order** in
 which spikes arrive at the post-synaptic neuron, rather than the exact
 arrival time.
 
@@ -17,10 +17,11 @@ to be stored, thus simplifying the bookkeeping associated with
 spike generation. Despite this simplification, a post-synaptic neuron using ROE
 is still capable of encoding continuous inputs as $N!$ different patterns
 (the number of permutations of $N$ elements), where $N$ is the number of
-pre-synaptic neurons. Perhaps a useful approach might be to think of ROE as a
-sophisticated **quantisation scheme**, where each encoding neuron is
-more or less sensitive to the **similarity** between its input and some
-'ideal' input.
+pre-synaptic neurons. It might be useful to think about ROE as a
+**quantisation scheme**, where a real-valued input falls into one of
+$N!$ bins. The threshold then determines how sensitive the encoding neuron is
+to the **similarity** between this quantised input and some 'ideal' input
+determined by the synaptic weights.
 
 ## Formulation
 
@@ -29,7 +30,7 @@ ROE employs a two-stage encoding process, where the raw stimulus is first
 encoded with [TTFS](#), followed by a secondary encoding dependent on the
 order of the incoming spikes.
 The activation of the post-synaptic neuron $i$ at time $t$ (denoted as
-$A_{i}(t)$ below) depends on the weighted _order_ of arrival of input
+$A_{i}(t)$ below) depends on the weighted order of arrival of input
 spikes from the pre-synaptic neurons:
 
 \begin{equation}\label{eq:roe-spike}
@@ -83,8 +84,8 @@ when the spike order is close to the optimal.
 For instance, a permutation that swaps the order of
 two input spikes could substantially reduce the respective contributions
 of those spikes towards the activation of the post-synaptic neuron.
-Conversely, a lower threshold would allow the
-neuron to 'admit' inputs that are further from the optimal order.
+Conversely, a lower threshold would allow the post-synaptic neuron to spike
+even if the input is further from the optimal.
 
 The formulation of the threshold might seem unintuitive at first since it is set
 as a fraction of the maximal activation, which in turn depends on the input
@@ -100,8 +101,8 @@ corresponding weights have been activated.
 Therefore, this neuron would be considered very sensitive to the
 order of its input spikes because the order in which the weights are activated
 must be very close to the optimal for it to spike.
-The post-synaptic neuron would often need to wait until the very last
-input spike in order to make a 'decision' about whether to produce a spike.
+In other words, the post-synaptic neuron would often need to wait until the very
+last input spike in order to make a 'decision' about whether to produce a spike.
 
 ```{figure} chapter1/assets/plots/rank-order-encoding.png
 :alt: Rank Order Encoding
@@ -113,8 +114,8 @@ The green line represents the maximal activation achievable
 when the input spikes arrive exactly in the order of decreasing synaptic
 weights (i.e., when the largest weight is activated first, the next largest
 weight is activated second, and so forth). The faint lines represent
-10k random inputs that are encoded into spikes with the ROE procedure in
-Eqs. [@eq:roe-spike] and [@eq:roe-activation].
+10,000 random inputs that are encoded with the ROE procedure in
+Eqs. @eq:roe-spike and @eq:roe-activation.
 The solid red line and bars represent the mean and standard deviation of
 those random inputs. The dashed orange line is the threshold,
 which is set to 90% of the maximal activation.
