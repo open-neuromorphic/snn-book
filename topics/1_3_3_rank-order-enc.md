@@ -98,10 +98,10 @@ make the activation cross the threshold, and even then the threshold would be
 reached towards the end, when most of the input spikes have arrived and the
 corresponding weights have been activated.
 Therefore, this neuron would be considered very sensitive to the
-order of its input spikes. In this case, the order in which the weights
-are activated must be very close to the optimal, and often the post-synaptic
-neuron would need to wait until the very last input spike in order to
-make a 'decision' about whether to produce spike.
+order of its input spikes because the order in which the weights are activated
+must be very close to the optimal for it to spike.
+The post-synaptic neuron would often need to wait until the very last
+input spike in order to make a 'decision' about whether to produce a spike.
 
 ```{figure} chapter1/assets/plots/rank-order-encoding.png
 :alt: Rank Order Encoding
