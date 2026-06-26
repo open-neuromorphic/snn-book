@@ -3,7 +3,8 @@
 # Rank order encoding
 
 Rank Order Encoding (ROE)[@Thorpe.Gautrais-1998-RankOrder] is an alternative
-to the Temporal and Rate Encoding schemes, providing a balanced compromise
+to the [Rate](#chapter:rate-enc) and [Temporal](#chapter:temp-enc)
+Encoding schemes, providing a balanced compromise
 between information capacity, richness of representation and interpretability.
 In ROE, neurons are assumed to produce at most a single spike during a unit
 period of time. While this is similar to some timing-based encoding schemes
