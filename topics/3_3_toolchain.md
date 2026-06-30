@@ -29,5 +29,9 @@ Placement may also have to account for some problem-specific constraints.  This 
 
 Once it has been decided where things are going to be, it is then possible to ensure that elements that need to communicate are set up to do so.  Depending on the architecture, this may require some form of routing algorithm to run to work out how the traffic is moved from one place to another.  Once this is complete, the mapping will be done and the toolchain can next look at loading things on to the machine in preparation for execution.
 
-Before we move on, it is worth considering that, although the mapping has been described like a sequence of events
+Before we move on, it is worth considering that, although the mapping has been described like a sequence of events with no consequences, the way in which one algorithm works can clearly have an effect on those that follow it.  This is quite pronounced in the relationship between placement and routing, since the placement will determine, to some extent, how efficient routing can be.  This has been seen on SpiNNaker, where routing remains one of the biggest challenges in terms of speed of operation.  Thus it was decided to make a multi-stage routing algorithm, which can route between areas of the machine.  However this depends on the placement putting elements on adjacent chips, reducing the choices that the placement algorithm can make.  This did reduce the routing time for a particularly large example from over three days to around one hour.
+
+## Machine Control
+
+
 
