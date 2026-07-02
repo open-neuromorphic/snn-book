@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="90 -12 540 302" shape-rendering="geometricPrecision"
+  text-rendering="geometricPrecision">
+  <defs>
+    <marker id="ah" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"
+      markerUnits="userSpaceOnUse">
+      <polygon points="0,0 11,4.5 0,9" fill="#3f5787" />
+    </marker>
+    <marker id="ah-red" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"
+      markerUnits="userSpaceOnUse">
+      <polygon points="0,0 11,4.5 0,9" fill="#c0392b" />
+    </marker>
+  </defs>
+
+  <style><![CDATA[
+    :root { --cycle: 16s; }
+    text { font-family: system-ui, -apple-system, sans-serif; }
+    .val { font-size: 20px; fill: #3f5787; font-weight: 600; }
+    .lbl { font-size: 13px; fill: #8e9bae; }
+    .tlbl { font-size: 13px; fill: #6b7fa3; font-weight: 600; }
+    .err { fill: #c0392b; }
+    .feedback { stroke-dasharray: 6 3; }
+    .q { font-size: 24px; fill: #c0392b; font-weight: 700; }
+
+    /* staged reveal: each group fades in, holds, then resets at end of cycle */
+    .r1 { opacity: 0; animation: r1 var(--cycle) ease infinite; }
+    @keyframes r1 { 0%,6%{opacity:0} 11%,96%{opacity:1} 100%{opacity:0} }
+    .r2 { opacity: 0; animation: r2 var(--cycle) ease infinite; }
+    @keyframes r2 { 0%,14%{opacity:0} 19%,96%{opacity:1} 100%{opacity:0} }
+    .r3 { opacity: 0; animation: r3 var(--cycle) ease infinite; }
+    @keyframes r3 { 0%,22%{opacity:0} 27%,96%{opacity:1} 100%{opacity:0} }
+    .r4 { opacity: 0; animation: r4 var(--cycle) ease infinite; }
+    @keyframes r4 { 0%,32%{opacity:0} 37%,96%{opacity:1} 100%{opacity:0} }
+    .r5 { opacity: 0; animation: r5 var(--cycle) ease infinite; }
+    @keyframes r5 { 0%,42%{opacity:0} 47%,96%{opacity:1} 100%{opacity:0} }
+    .r6 { opacity: 0; animation: r6 var(--cycle) ease infinite; }
+    @keyframes r6 { 0%,52%{opacity:0} 57%,96%{opacity:1} 100%{opacity:0} }
+    .r7 { opacity: 0; animation: r7 var(--cycle) ease infinite; }
+    @keyframes r7 { 0%,62%{opacity:0} 67%,96%{opacity:1} 100%{opacity:0} }
+    .r8 { opacity: 0; animation: r8 var(--cycle) ease infinite; }
+    @keyframes r8 { 0%,74%{opacity:0} 79%,96%{opacity:1} 100%{opacity:0} }
+  ]]></style>
+
+  <!-- ===== t = 0 ===== -->
+  <!-- Input t=0 (from below) -->
+  <line x1="165" y1="248" x2="165" y2="162" stroke="#3f5787" stroke-width="2" marker-end="url(#ah)"
+    class="r1" />
+  <text x="148" y="210" text-anchor="end" class="val r1">1</text>
+  <text x="165" y="268" text-anchor="middle" class="lbl r1">input</text>
+
+  <!-- Neuron at t=0 -->
+  <text x="165" y="64" text-anchor="middle" class="tlbl r2">t = 0</text>
+  <rect x="110" y="78" width="110" height="84" rx="8" fill="#d2dbed" stroke="#3f5787"
+    stroke-width="2"
+    class="r2" />
+  <text x="165" y="104" text-anchor="middle" font-size="20" fill="#6b7fa3"
+    font-family="system-ui, -apple-system, sans-serif" class="r2">Neuron</text>
+  <text x="165" y="127" text-anchor="middle" class="val r2">w = 2</text>
+  <text x="165" y="150" text-anchor="middle" class="val r3">V = 2</text>
+
+  <!-- Voltage arrow t=0 -> t=1 -->
+  <line x1="220" y1="120" x2="330" y2="120" stroke="#3f5787" stroke-width="2" marker-end="url(#ah)"
+    class="r3" />
+  <text x="275" y="103" text-anchor="middle" class="val r3">2</text>
+  <text x="275" y="147" text-anchor="middle" class="lbl r3">voltage</text>
+
+  <!-- ===== t = 1 ===== -->
+  <!-- Input t=1 (from below) -->
+  <line x1="385" y1="248" x2="385" y2="162" stroke="#3f5787" stroke-width="2" marker-end="url(#ah)"
+    class="r4" />
+  <text x="368" y="210" text-anchor="end" class="val r4">1</text>
+  <text x="385" y="268" text-anchor="middle" class="lbl r4">input</text>
+
+  <!-- Neuron at t=1 (same weight) -->
+  <text x="385" y="64" text-anchor="middle" class="tlbl r4">t = 1</text>
+  <rect x="330" y="78" width="110" height="84" rx="8" fill="#d2dbed" stroke="#3f5787"
+    stroke-width="2"
+    class="r4" />
+  <text x="385" y="104" text-anchor="middle" font-size="20" fill="#6b7fa3"
+    font-family="system-ui, -apple-system, sans-serif" class="r4">Neuron</text>
+  <text x="385" y="127" text-anchor="middle" class="val r4">w = 2</text>
+  <text x="385" y="150" text-anchor="middle" class="val r5">V = 4</text>
+
+  <!-- Voltage arrow out of t=1 -->
+  <line x1="440" y1="120" x2="505" y2="120" stroke="#3f5787" stroke-width="2" marker-end="url(#ah)"
+    class="r5" />
+  <text x="472" y="103" text-anchor="middle" class="val r5">4</text>
+  <text x="472" y="147" text-anchor="middle" class="lbl r5">voltage</text>
+
+  <!-- Comparison node -->
+  <circle cx="532" cy="120" r="22" fill="#fff" stroke="#3f5787" stroke-width="2" class="r6" />
+  <text x="532" y="128" text-anchor="middle" font-size="26" fill="#3f5787" font-weight="600"
+    font-family="system-ui, -apple-system, sans-serif" class="r6">&#x2212;</text>
+
+  <!-- Goal arrow from below -->
+  <line x1="532" y1="248" x2="532" y2="142" stroke="#3f5787" stroke-width="2" marker-end="url(#ah)"
+    class="r6" />
+  <text x="554" y="200" text-anchor="start" class="val r6">2</text>
+  <text x="554" y="217" text-anchor="start" class="lbl r6">goal</text>
+
+  <!-- Error straight arrow -->
+  <line x1="554" y1="120" x2="624" y2="120" stroke="#c0392b" stroke-width="2"
+    marker-end="url(#ah-red)"
+    class="r7" />
+  <text x="590" y="103" text-anchor="middle" class="val err r7">-2</text>
+  <text x="590" y="147" text-anchor="middle" class="lbl err r7">error</text>
+
+  <!-- Feedback to t=1 (dashed, with ?) -->
+  <path d="M 610,120 L 610,60 Q 610,48 598,48 L 397,48 Q 385,48 385,60 L 385,78"
+    stroke="#c0392b" stroke-width="2" fill="none" marker-end="url(#ah-red)" class="feedback r8" />
+  <text x="470" y="43" text-anchor="middle" class="q r8">?</text>
+
+  <!-- Feedback to t=0 (dashed, with ?) -->
+  <path
+    d="M 622,120 L 622,34 Q 622,22 610,22 L 177,22 Q 165,22 165,34 L 165,78"
+    stroke="#c0392b" stroke-width="2" fill="none" marker-end="url(#ah-red)" class="feedback r8" />
+  <text x="382" y="17" text-anchor="middle" class="q r8">?</text>
+</svg>
