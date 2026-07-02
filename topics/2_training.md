@@ -120,35 +120,35 @@ network components when dealing with both spatial connectivity and temporal
 dynamics? This chapter explores the fundamental challenge of credit assignment
 in SNNs, including backpropagation through time for spiking networks.
 
-1. **Surrogate Gradients**: How can we train spiking neurons despite being
+2. **Surrogate Gradients**: How can we train spiking neurons despite being
 non-differentiable? This chapter introduces surrogate gradient methods that
 approximate gradients during the backward pass while maintaining spike-based
 computation in the forward pass.
 
-1. **Exact Gradients**: Are there methods to compute exact gradients through
+3. **Exact Gradients**: Are there methods to compute exact gradients through
 spiking neurons? This chapter covers ways to leverage the precise timing of
 spikes to get exact gradient information.
 
-1. **Meta Learning**: Can networks learn how to learn better? This chapter
+4. **Meta Learning**: Can networks learn how to learn better? This chapter
 explores meta-learning approaches for SNNs, including learning rate adaptation,
 architecture search, and learning optimization strategies.
 
-1. **Biologically Inspired Training**: How does the brain assign credit and learn
+5. **Biologically Inspired Training**: How does the brain assign credit and learn
 without backpropagation? This chapter covers Spike-Timing Dependent Plasticity
 (STDP), local learning rules, and biologically plausible training methods that
 work without global error signals.
 
-1. **Evolutionary Algorithms**: Can we evolve SNNs instead of training them with
+6. **Evolutionary Algorithms**: Can we evolve SNNs instead of training them with
 gradients? This chapter introduces evolutionary strategies, genetic algorithms,
 and neuroevolution techniques that can discover network parameters and
 architectures through simulated evolution.
 
-1. **ANN-to-SNN Conversion**: How can we leverage pre-trained Artificial Neural
+7. **ANN-to-SNN Conversion**: How can we leverage pre-trained Artificial Neural
 Networks (ANNs)? This chapter covers conversion techniques that transform
 conventional ANNs into SNNs, including rate-based conversion, calibration
 methods, and handling of various layer types.
 
-1. **Optimization**: How do we make SNN training practical and efficient? This
+8. **Optimization**: How do we make SNN training practical and efficient? This
 chapter covers hyperparameter tuning strategies, regularization techniques for
 temporal dynamics, batch normalization adaptations, and performance optimization
 for faster training.
