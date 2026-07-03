@@ -39,12 +39,17 @@
     return 1.0 / Math.pow(a * Math.abs(v) + 1.0, 2);
   }
 
-  // Colors match the notebook (superspike=indianred, circ=cadetblue, tanh=orange, erfc=midnightblue)
+  // Typeface matched to the static figures (matplotlib DejaVu Sans).
+  var FONT = 'DejaVu Sans, Verdana, Geneva, Tahoma, sans-serif';
+
+  // Categorical palette aligned with Figures 2 & 3 and validated for
+  // colorblind separation (dataviz validate_palette.js, light + dark):
+  //   steel blue = the figures' beta color; orange = the gradient color.
   var SURROGATES = [
-    { name: 'superspike', color: 'indianred',    fwd: fwd_superspike, bwd: bwd_superspike },
-    { name: 'circular',   color: 'cadetblue',    fwd: fwd_circ, bwd: bwd_circ       },
-    { name: 'tanh',       color: '#e07b00',      fwd: fwd_tanh, bwd: bwd_tanh       },
-    { name: 'erfc',       color: 'midnightblue', fwd: fwd_erfc, bwd: bwd_erfc       }
+    { name: 'superspike', color: '#3e7cb1', fwd: fwd_superspike, bwd: bwd_superspike },
+    { name: 'circular',   color: '#e85838', fwd: fwd_circ, bwd: bwd_circ       },
+    { name: 'tanh',       color: '#4f9d6c', fwd: fwd_tanh, bwd: bwd_tanh       },
+    { name: 'erfc',       color: '#9c5ba6', fwd: fwd_erfc, bwd: bwd_erfc       }
   ];
 
   function buildSlider(wrapId, sliderId, valId, initVal, min, max, step) {
@@ -53,14 +58,16 @@
     step = (step !== undefined) ? step : 0.5;
     var wrap = document.getElementById(wrapId);
     if (!wrap) return null;
+    // Label + value on top row; the slider itself spans the FULL width below,
+    // so its length matches the plot above it.
     wrap.innerHTML = [
-      '<div style="display:flex;align-items:center;gap:10px;">',
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">',
       '<span style="font-weight:600;white-space:nowrap;">α (sharpness):</span>',
-      '<input id="' + sliderId + '" type="range" min="' + min + '" max="' + max + '" step="' + step + '" value="' + initVal + '"',
-      ' style="flex:1;height:6px;accent-color:#2196f3;">',
       '<span id="' + valId + '" style="background:#e9ecef;padding:2px 10px;',
       'border-radius:3px;font-family:monospace;min-width:40px;text-align:center;">' + initVal.toFixed(1) + '</span>',
-      '</div>'
+      '</div>',
+      '<input id="' + sliderId + '" type="range" min="' + min + '" max="' + max + '" step="' + step + '" value="' + initVal + '"',
+      ' style="display:block;width:100%;height:6px;accent-color:#3e7cb1;">'
     ].join('');
     return document.getElementById(sliderId);
   }
@@ -93,11 +100,12 @@
     var valEl  = document.getElementById(valId);
 
     var LAYOUT = {
-      xaxis: { title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font: {size:14} },
+      font: { family: FONT, size: 14, color: '#222' },
+      xaxis: { title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font: {size:16} },
                range: [-3, 3], zeroline: true, zerolinecolor: '#bbb' },
-      yaxis: { title: { text: 'S̃(<i>V</i>)', font: {size:14} }, range: [-0.05, 1.05] },
+      yaxis: { title: { text: 'S̃(<i>V</i>)', font: {size:16} }, range: [-0.05, 1.05] },
       legend: { x:0.02, y:0.98, bgcolor:'rgba(255,255,255,0.85)',
-                bordercolor:'#ccc', borderwidth:1, font:{size:12} },
+                bordercolor:'#ccc', borderwidth:1, font:{size:13} },
       margin: { l:60, r:20, t:20, b:50 },
       plot_bgcolor: '#fafafa', paper_bgcolor: '#fff', hovermode: false
     };
@@ -108,7 +116,7 @@
       traces.push({
         x: [-3, -0.001, 0, 0.001, 3], y: [0, 0, 0.5, 1, 1],
         mode: 'lines', name: 'Heaviside',
-        line: { color: '#aaa', width: 1.5, dash: 'dot' }, hoverinfo: 'skip'
+        line: { color: '#333', width: 1.6, dash: 'dot' }, hoverinfo: 'skip'
       });
       SURROGATES.forEach(function(s) {
         traces.push({
@@ -144,11 +152,12 @@
     var valEl  = document.getElementById(valId);
 
     var LAYOUT = {
-      xaxis: { title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font: {size:14} },
+      font: { family: FONT, size: 14, color: '#222' },
+      xaxis: { title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font: {size:16} },
                range: [-3, 3], zeroline: true, zerolinecolor: '#bbb' },
-      yaxis: { title: { text: '∂S̃/∂<i>V</i>', font: {size:14} }, autorange: true },
+      yaxis: { title: { text: '∂S̃/∂<i>V</i>', font: {size:16} }, autorange: true },
       legend: { x:0.02, y:0.98, bgcolor:'rgba(255,255,255,0.85)',
-                bordercolor:'#ccc', borderwidth:1, font:{size:12} },
+                bordercolor:'#ccc', borderwidth:1, font:{size:13} },
       margin: { l:60, r:20, t:20, b:50 },
       plot_bgcolor: '#fafafa', paper_bgcolor: '#fff', hovermode: false
     };
@@ -201,11 +210,12 @@
                opacity: bold ? 1.0 : 0.45 };
     }
     var LAYOUT = {
-      xaxis: { title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font: {size:14} },
+      font: { family: FONT, size: 14, color: '#222' },
+      xaxis: { title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font: {size:16} },
                range: [-3, 3], zeroline: true, zerolinecolor: '#bbb' },
-      yaxis: { title: { text: 'S̃(<i>V</i>)', font: {size:14} }, range: [-0.05, 1.05] },
+      yaxis: { title: { text: 'S̃(<i>V</i>)', font: {size:16} }, range: [-0.05, 1.05] },
       legend: { x:0.02, y:0.98, bgcolor:'rgba(255,255,255,0.85)',
-                bordercolor:'#ccc', borderwidth:1, font:{size:12} },
+                bordercolor:'#ccc', borderwidth:1, font:{size:13} },
       margin: { l:60, r:20, t:20, b:50 },
       plot_bgcolor: '#fafafa', paper_bgcolor: '#fff', hovermode: false
     };
@@ -220,7 +230,7 @@
       traces.push({
         x: [-3, -0.001, 0, 0.001, 3], y: [0, 0, 0.5, 1, 1],
         mode: 'lines', name: 'Heaviside',
-        line: { color: '#aaa', width: 1.5, dash: 'dot' }, hoverinfo: 'skip'
+        line: { color: '#333', width: 1.6, dash: 'dot' }, hoverinfo: 'skip'
       });
       traces.push(mkTrace(alpha, SWEEP_COLORS[colorIdx % SWEEP_COLORS.length], true));
       Plotly.react(plotId, traces, LAYOUT);
@@ -250,19 +260,20 @@
     var visMap = null;
 
     var LAYOUT = {
+      font: { family: FONT, size: 13, color: '#222' },
       xaxis:  { domain: [0, 0.45], range: [-3,3], zeroline: true, zerolinecolor: '#bbb',
-                title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font:{size:13} } },
-      yaxis:  { title: { text: 'S̃(<i>V</i>)', font:{size:13} }, range: [-0.05, 1.05] },
+                title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font:{size:15} } },
+      yaxis:  { title: { text: 'S̃(<i>V</i>)', font:{size:15} }, range: [-0.05, 1.05] },
       xaxis2: { domain: [0.55, 1], anchor: 'y2', range: [-3,3], zeroline: true, zerolinecolor: '#bbb',
-                title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font:{size:13} } },
-      yaxis2: { anchor: 'x2', title: { text: '∂S̃/∂<i>V</i>', font:{size:13} }, autorange: true },
+                title: { text: '<i>V</i> − <i>V</i><sub>thr</sub>', font:{size:15} } },
+      yaxis2: { anchor: 'x2', title: { text: '∂S̃/∂<i>V</i>', font:{size:15} }, autorange: true },
       legend: { x:0.02, y:0.98, bgcolor:'rgba(255,255,255,0.85)',
-                bordercolor:'#ccc', borderwidth:1, font:{size:12} },
+                bordercolor:'#ccc', borderwidth:1, font:{size:13} },
       annotations: [
         { text: '<b>Forward pass</b>', xref:'paper', yref:'paper',
-          x: 0.225, y: 1.04, xanchor:'center', yanchor:'bottom', showarrow: false, font:{size:13} },
+          x: 0.225, y: 1.04, xanchor:'center', yanchor:'bottom', showarrow: false, font:{size:14} },
         { text: '<b>Surrogate gradient</b>', xref:'paper', yref:'paper',
-          x: 0.775, y: 1.04, xanchor:'center', yanchor:'bottom', showarrow: false, font:{size:13} }
+          x: 0.775, y: 1.04, xanchor:'center', yanchor:'bottom', showarrow: false, font:{size:14} }
       ],
       margin: { l:55, r:20, t:40, b:50 },
       plot_bgcolor: '#fafafa', paper_bgcolor: '#fff', hovermode: false
@@ -278,7 +289,7 @@
         x: [-3,-0.001,0,0.001,3], y: [0,0,0.5,1,1],
         mode: 'lines', name: 'Heaviside',
         xaxis: 'x', yaxis: 'y', legendgroup: 'heaviside',
-        line: { color: '#aaa', width: 1.5, dash: 'dot' }, hoverinfo: 'skip'
+        line: { color: '#333', width: 1.6, dash: 'dot' }, hoverinfo: 'skip'
       });
       SURROGATES.forEach(function(s) {
         traces.push({
@@ -327,5 +338,15 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     setInterval(keepAlive, 300);
+    // once the bundled DejaVu Sans web font has loaded, clear the plots so
+    // keepAlive re-renders them with the real font (correct text metrics)
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () {
+        ['sg-atan-plot', 'sg-fwd-plot', 'sg-dual-plot', 'sg-v3-plot'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el && el.children.length > 0) el.innerHTML = '';
+        });
+      });
+    }
   });
 })();

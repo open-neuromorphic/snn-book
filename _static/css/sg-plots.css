@@ -1,0 +1,11 @@
+/* Constrain the single-panel interactive plots to roughly Figure 3's width
+   (~650px) and center them, instead of spanning the full page.
+   The side-by-side V3 plot (sg-v3-plot) is left full-width — it needs the room. */
+
+#sg-atan-plot,        #sg-atan-slider-wrap,
+#sg-fwd-plot,         #sg-fwd-slider-wrap,
+#sg-dual-plot,        #sg-dual-slider-wrap {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}

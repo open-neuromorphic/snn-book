@@ -2,7 +2,7 @@
 authors:
 - name: Kembay, Assel
   affiliation: University of California, Santa Cruz
-  email: kembay.assel@gmail.com
+  email: akembay@ucsc.edu
 - name: Eshraghian, Jason
   affiliation: University of California, Santa Cruz
   email: jeshragh@ucsc.edu
@@ -26,7 +26,7 @@ This chapter explains the idea, derives the math, and walks through a complete t
 
 ```{note}
 This chapter assumes familiarity with the $\texttt{LIF}$ neuron model from [](#sec:spk-nrn-lif) and the credit assignment problem from [](#credit_assignment).
-Familiarity with the Spike Response Model ([](#srm)) is helpful but not required — we introduce the relevant ideas as needed.
+Familiarity with the Spike Response Model is helpful but not required — we introduce the relevant ideas as needed.
 ```
 
 ## The non-differentiability problem
@@ -79,6 +79,7 @@ Otherwise, $S[t] = 0$.
 :::{figure} ../_static/img/spike_heaviside.png
 :width: 420px
 :align: center
+:name: fig-spike-heaviside
 The Heaviside step function $\Theta$ maps membrane potential $V[t]$ to a binary spike $S[t]$.
 The open circle at $V_\text{thr}$ indicates $S[t] = 0$ exactly at threshold; the filled circle indicates $S[t] = 1$ just above it.
 :::
@@ -226,7 +227,7 @@ The arctangent has heavier tails and provides a weaker but longer-range gradient
 Before we can train a spiking neural network, we need to understand how gradient information flows through time.
 A spiking neuron is a recurrent system: its state at time $t$ depends on its state at time $t-1$.
 
-Recall from [](#srm) that the Spike Response Model decomposes a neuron into **linear filters** followed by a **threshold nonlinearity** [@gerstner2014neuronal].
+Recall that the Spike Response Model decomposes a neuron into **linear filters** followed by a **threshold nonlinearity** [@gerstner2014neuronal].
 The membrane potential is a sum of two convolutions: input filtered through the membrane kernel $\kappa$, plus the spike afterpotential $\eta$ that captures reset and refractoriness after each output spike.
 The only nonlinearity is the threshold crossing that produces a spike.
 
@@ -268,9 +269,14 @@ This is the soft reset mechanism described in [](#sec:spk-nrn-lif).
 Equation {eq}`eq:sg-simplified-lif` describes a recurrence: $V[t+1]$ depends on $V[t]$, which depends on $V[t-1]$, and so on.
 We can visualize this by *unrolling* the computation graph across time steps:
 
-<center>
-<img src='https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial5/unrolled_2.png?raw=true' width="800">
-</center>
+:::{figure} ../_static/img/unrolled_lif.png
+:width: 800px
+:align: center
+:name: fig-unrolled-lif
+Recurrent representation of spiking neurons.
+**(a)** A spiking neuron with implicit recurrence ($\beta$, membrane decay) and explicit recurrence (the feedback path from the output spike back into the membrane).
+**(b)** The equivalent spiking neuron illustrated as an unrolled computational graph across time steps $t=0,1,2$ (explicit recurrence omitted); $\beta$ connections carry the membrane $V[t]$ forward, $W$ injects the input $I_\text{in}[t]$, and $-V_\text{thr}$ is the reset term subtracted from the membrane after each output spike $S_\text{out}[t]$.
+:::
 
 Each column represents one time step.
 The horizontal connections (weighted by $\beta$) represent the membrane potential decay.
@@ -317,9 +323,14 @@ For long sequences, full BPTT can be expensive in both compute and memory, becau
 In practice, if $\beta^K$ is small enough, the truncated gradient is a good approximation.
 :::
 
-<center>
-<img src='https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial5/bptt.png?raw=true' width="600">
-</center>
+:::{figure} ../_static/img/bptt.png
+:width: 650px
+:align: center
+:name: fig-bptt
+Backpropagation through time (BPTT) for the unrolled LIF neuron.
+Solid arrows show the forward pass; dashed orange arrows show gradient flow backward through time.
+Gradients of earlier time steps (prior influence) require more steps of backward propagation, each multiplying by $\beta$.
+:::
 
 ### Implementation
 
