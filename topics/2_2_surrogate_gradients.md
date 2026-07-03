@@ -26,7 +26,7 @@ This chapter explains the idea, derives the math, and walks through a complete t
 
 ```{note}
 This chapter assumes familiarity with the $\texttt{LIF}$ neuron model from [](#sec:spk-nrn-lif) and the credit assignment problem from [](#credit_assignment).
-Familiarity with the Spike Response Model is helpful but not required — we introduce the relevant ideas as needed.
+Familiarity with the [Spike Response Model](https://neuronaldynamics.epfl.ch/online/Ch6.S4.html) is helpful but not required — we introduce the relevant ideas as needed.
 ```
 
 ## The non-differentiability problem
