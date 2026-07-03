@@ -22,7 +22,7 @@ app.disable('x-powered-by');
 // Serve custom static files from project root _static directory
 const customStaticPath = path.join(PROJECT_ROOT, '_static');
 if (fs.existsSync(customStaticPath)) {
-  app.use('/_static', express.static(customStaticPath, { maxAge: '1h' }));
+  app.use('/_static', express.static(customStaticPath, { maxAge: 0, etag: false, lastModified: false }));
   console.log('Custom static files enabled from:', customStaticPath);
 }
 
