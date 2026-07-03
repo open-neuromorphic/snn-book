@@ -1,0 +1,32 @@
+/* Bundle DejaVu Sans (the exact font matplotlib bakes into the static figures)
+   so the interactive Plotly plots render in the same typeface on every machine
+   — macOS in particular ships no DejaVu Sans, so a font-stack alone can't match. */
+
+@font-face {
+  font-family: 'DejaVu Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/_static/fonts/DejaVuSans.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DejaVu Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: url('/_static/fonts/DejaVuSans-Bold.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DejaVu Sans';
+  font-style: italic;
+  font-weight: normal;
+  src: url('/_static/fonts/DejaVuSans-Oblique.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DejaVu Sans';
+  font-style: italic;
+  font-weight: bold;
+  src: url('/_static/fonts/DejaVuSans-BoldOblique.ttf') format('truetype');
+  font-display: swap;
+}

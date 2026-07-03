@@ -23,7 +23,7 @@ This chapter explains the idea, derives the math, and walks through a complete t
 
 ```{note}
 This chapter assumes familiarity with the $\texttt{LIF}$ neuron model from [](#sec:spk-nrn-lif) and the credit assignment problem from [](#credit_assignment).
-Familiarity with the Spike Response Model ([](#srm)) is helpful but not required — we introduce the relevant ideas as needed.
+Familiarity with the Spike Response Model is helpful but not required — we introduce the relevant ideas as needed.
 ```
 
 ## The non-differentiability problem
@@ -215,7 +215,7 @@ The arctangent has heavier tails and provides a weaker but longer-range gradient
 Before we can train a spiking neural network, we need to understand how gradient information flows through time.
 A spiking neuron is a recurrent system: its state at time $t$ depends on its state at time $t-1$.
 
-Recall from [](#srm) that the Spike Response Model decomposes a neuron into **linear filters** followed by a **threshold nonlinearity** [@gerstner2014neuronal].
+Recall that the Spike Response Model decomposes a neuron into **linear filters** followed by a **threshold nonlinearity** [@gerstner2014neuronal].
 The membrane potential is a sum of two convolutions: input filtered through the membrane kernel $\kappa$, plus the spike afterpotential $\eta$ that captures reset and refractoriness after each output spike.
 The only nonlinearity is the threshold crossing that produces a spike.
 
