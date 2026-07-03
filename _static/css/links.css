@@ -1,0 +1,8 @@
+/* Hide MyST's external-link "↗" icon so external links read as plain text
+   (matches the look of the hover-preview links like the Wikipedia ones).
+   !important is needed to beat the theme's own .link-icon display rule. */
+.link-icon,
+svg.link-icon,
+a .link-icon {
+  display: none !important;
+}
