@@ -57,7 +57,7 @@ The [chain rule](https://en.wikipedia.org/wiki/Chain_rule) gives:
 \frac{\partial \mathcal{L}}{\partial W} =
 \frac{\partial \mathcal{L}}{\partial S}
 \underbrace{\frac{\partial S}{\partial V}}_{\{0, \infty\}}
-\frac{\partial V}{\partial I}\
+\frac{\partial V}{\partial I}
 \frac{\partial I}{\partial W}
 ```
 
@@ -135,7 +135,7 @@ Here are several common choices:
 
 In practice, the choice of surrogate function has a relatively minor effect on training performance [@zenke2021remarkable].
 What matters more is that the surrogate is smooth, peaked near the threshold, and decays away from it.
-The choice of surrogate function remains an empirical one, as no theoretical proof establishes which is best. ArcTan is a common default due to its smooth, bounded derivative.
+The choice of surrogate function remains an empirical one, as no theoretical proof establishes which is best. Arctangent is a common default due to its smooth, bounded derivative.
 
 ```{sgplot} sg-fwd-plot
 :height: 360
@@ -512,7 +512,7 @@ Since the network runs for $T$ time steps, we compute the loss at every step and
 
 ```{math}
 :label: eq:sg-total-loss
-\mathcal{L} = \sum_{t=0}^{T} \mathcal{L}_\text{CE}[t]
+\mathcal{L} = \sum_{t=0}^{T-1} \mathcal{L}_\text{CE}[t]
 ```
 
 This is the objective that BPTT differentiates through, as described in Eq {eq}`eq:sg-bptt-total`.
