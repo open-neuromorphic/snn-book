@@ -42,12 +42,12 @@ Finally, understanding **implementation inefficiencies** allows you to reason mo
 
 Even a hardware-compatible model still has to pass through a toolchain. Partitioning, placement, routing, compilation, and machine control determine whether the model can actually be deployed efficiently, and sometimes whether it can be deployed at all. This is why the toolchain is not a post-processing detail; it is part of the design space, as discussed in {ref}`chapter:toolchain`.
 
-As soon as interoperability is more completely supported, then it is likely that some of the above reasons become not so strictly important (see {ref}`chapter:interoperability`). Until that day comes, the burden of ensuring efficiency and correctness lies heavily with the algorithm designer. To navigate this implementation gap effectively, we cannot rely on intuition alone; we need a concrete language to describe the cost of our design decisions. We need specific **performance metrics**.
+As soon as interoperability is more completely supported, then it is likely that some of the above reasons become not so strictly important (see {ref}`chapter:interoperability`). Until that day comes, hardware constraints are part of the design conversation. A failed mapping, a routing bottleneck, a memory overflow, or an unexpectedly high energy trace is not only a deployment problem; it is feedback about the model, encoding, precision, preprocessing, and target platform. A practical deployment flow is therefore a hardware-software co-design loop: choose a model, map it, measure it, revise the model or the deployment assumptions, and repeat. To make that loop useful, we cannot rely on intuition alone; we need a concrete language to describe the cost of our design decisions. We need specific **performance metrics**.
 
 (sec:motivation-performance-metrics)=
 ## Performance metrics 
 
-Performance metrics should make the deployment contract explicit. NeuroBench is useful here because its systems track treats a benchmark result as a property of the deployed system, not only the trained network [@yik2025neurobench]. This matches the broader systems view used in traditional TinyML: accuracy is only meaningful when it is reported together with the memory, latency, energy, numerical precision, and tooling constraints that made the result possible [@mlsysbook2026].
+Performance metrics should make the deployment contract explicit. NeuroBench is useful here because its systems track treats a benchmark result as a property of the deployed system, not only the trained network [@yik2025neurobench]. This matches the broader systems view used in traditional TinyML: accuracy is only meaningful when it is reported together with the memory, latency, energy, numerical precision, and tooling constraints that made the result possible [@mlsysbook2026]. It also means that the right metrics depend on the deployment mode. An edge device processing one sensor stream at a time should usually be judged by serial latency and energy per inference, while a server serving many users may care about throughput and latency under batching, because batching can amortize host, memory-transfer, and scheduling overheads.
 
 For a neuromorphic deployment, the most useful first-pass metrics are:
 
@@ -67,8 +67,8 @@ For a neuromorphic deployment, the most useful first-pass metrics are:
   - Always-on systems spend much of their life waiting. Reporting idle and active power separately prevents a low-energy result from hiding leakage or wake-up costs, while dynamic power shows what changes with activity.
 * - Memory and state footprint
   - Neuromorphic models carry weights, neuron state, routing state, and toolchain-specific buffers. This decides whether the mapped network fits and how much data movement the design will induce.
-* - Throughput or workload size at fixed quality
-  - For streaming or optimization workloads, a single latency number is incomplete. A useful report says how performance scales with input rate, sequence length, network size, or quality target.
+* - Serial latency, throughput, and workload size
+  - For edge devices, inferences are often serial, so latency and energy per inference should be reported in that regime, as in TinyML benchmarks such as MLPerf Tiny [@banbury2021mlperftiny]. For server deployments, a single latency number is incomplete: report how throughput and tail latency change with batch size, input rate, sequence length, network size, or quality target.
 :::
 
 The important rule is to define the measurement boundary before comparing systems. If wavelet preprocessing, sensor formatting, host-side scheduling, or data movement is required for the deployed product, it belongs in the performance budget. NeuroBench makes this discipline explicit by defining system metrics per benchmark and by separating idle, active, and dynamic power [@yik2025neurobench]. The practical takeaway for this chapter is simple: do not choose a network because it is accurate in isolation. Choose the smallest mapped system that satisfies the application's quality, latency, energy, memory, and tooling constraints.
