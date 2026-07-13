@@ -5,11 +5,11 @@ As described in the preface of [Chp. %s](chapter:encdec), **Decoding** is about
 extracting meaningful information from spikes. Depending on the context of the
 problem statement and the information required, one can employ different
 decoding methodologies, or even _design_ their own. The two most common decoding
-approaches in SNN literature are: **Rate Decoding** and **Temporal Decoding**.
+approaches in SNN literature are **Rate Decoding** and **Temporal Decoding**.
 Note that when it comes to training SNNs, the choice of decoding methodology is
 strongly interrelated with the choice of loss function for training SNNs; we
-expand on this in the sections below; although, SNN training methodologies are
-covered in greater details later in the chapters of Topic 2.
+expand on this in the sections below. However, SNN training methodologies are
+covered in greater detail later in the chapters of Topic 2.
 
 
 ## Rate Decoding
@@ -67,10 +67,10 @@ synaptic time-constant that dictates how fast the trace decays, and $w$ is the
 weight (the amplitude of the jump caused by a single spike); note the similarity
 of Eq. {eq}`eq:spk-trace-cont` to the Eq. {eq}`eq:continuous-lif` of LIF neuron.
 Also note that in the context of decoding output layer spikes - by means of
-computing spike traces - the contribution of weight $w$ is typically ignored
-(i.e., set to $1$). Although, $w$ can also be accounted as a static / tunable /
-trainable parameter - in a context _different_ from synaptic weight; this is
-because there are no "synapses" post the output layer (where decoding happens).
+computing spike traces - the contribution of the weight $w$ is typically ignored
+(i.e., set to $1$). Although $w$ can also be accounted for as a static / tunable
+/ trainable parameter, in this context it is _different_ from a synaptic weight
+because there are no synapses past the output layer (where decoding happens).
 
 
 Discretizing
@@ -85,15 +85,16 @@ where $\alpha = e^{-\frac{\Delta t}{\tau_{z}}} \in [0, 1)$ ($w$ from Eq.
 {eq}`eq:spk-trace-cont` is assumed to be $1$).
 
 In the context of Eq. {eq}`eq:spk-trace-dsct`, note that when spikes $S[t]$
-arrive at high frequency, i.e., faster than the time-constant $\tau_{z}$ can
+arrive at a high frequency, i.e., faster than the time constant $\tau_{z}$ can
 decay the trace $z[t]$, the incoming spikes accumulate. That is, the
 high-frequency "switching" noise of the 0-or-1 binary events is filtered out,
 leaving a smooth analog signal $z[t]$ that reflects the _mean firing rate_ of
-the neuron. Conversely, if the spikes arrive far apart, i.e., at low frequency,
-the trace $z[t]$ has the time to decay (possibly to zero) between the events;
-however, even sporadic incoming spikes can cause a sharp bump in the trace.
-Since the spike trace $z[t]$ is representative of the mean firing rate, it can
-also be used to compute loss, and infer meaning, i.e., decode the SNN's output.
+the neuron. Conversely, if the spikes arrive far apart, i.e., at a low
+frequency, the trace $z[t]$ has the time to decay (possibly to zero) between the
+events; however, even sporadic incoming spikes can cause a sharp bump in the
+trace. Since the spike trace $z[t]$ is representative of the mean firing rate,
+it can also be used to compute loss and infer meaning, i.e., decode the SNN's
+output.
 
 ## Temporal Decoding
 ## Hybrid

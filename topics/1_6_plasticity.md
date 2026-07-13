@@ -10,7 +10,7 @@ kernelspec:
 In the previous chapters, we saw how spikes travel across synapses and how synaptic weights control the flow of information in SNNs.
 Up to now, those weights were _static_, i.e., set once, used forever.
 But in biological systems, and often in SNNs, weights can evolve over time.
-This ability to change is called _synaptic plasticity_.
+This ability to change weights is called _synaptic plasticity_.
 
 In biology, _plastic_ means malleable, i.e., capable of being reshaped.
 A synapse is said to be plastic when its strength changes based on neural activity.
