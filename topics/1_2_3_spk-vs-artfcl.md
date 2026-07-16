@@ -20,12 +20,19 @@ artificial neuron represents the instantaneous firing rate of a spiking neuron.
 This factual observation enables us to build rate-coding based SNNs and train
 them using deep learning based methods. In fact, one of the earliest and most
 effective methods to build SNNs: **ANN-to-SNN** conversion (as we will see in
-later chapters) is foudationally based on artificial neurons being the rate
+later chapters) is foundationally based on artificial neurons being the rate
 approximation of spiking neurons. We next demonstrate this _rate approximation_
 of an artificial neuron with a LIF neuron.
 
-### Computing the firing rates
-Let us consider a LIF neuron described by the Eqs.
+## Simulating a LIF neuron
+For a detailed understanding of this _rate approximation_, we need to refer to a
+resource **outside** of this book: the static webpage [From Spiking Neurons To Artificial Neurons](https://r-gaurav.github.io/2020/05/08/From-Spiking-Neurons-To-Artificial-Neurons.html). This resource simulates a LIF neuron by discretizing its continuous
+time first-order differential equation:
+
+
+
+
+is statLet us consider a LIF neuron described by the Eqs.
 {eq}`eq:discrete-lif`$\textsf{a}$, $\textsf{b}$, $\textsf{c}$, and $\textsf{d}$,
 mentioned below for reference:
 
