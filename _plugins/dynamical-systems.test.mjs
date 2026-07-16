@@ -1,30 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { writeFileSync, mkdirSync } from 'fs';
+import { describe, expect, it } from 'vitest';
 
-// Mock fs so the plugin doesn't write files during tests
-vi.mock('fs', () => ({
-  writeFileSync: vi.fn(),
-  mkdirSync: vi.fn(),
-}));
-
-// Fresh import per test file (module-level systemsData is shared)
-let plugin;
-beforeEach(async () => {
-  vi.resetModules();
-  vi.mocked(writeFileSync).mockClear();
-  const mod = await import('./dynamical-systems.mjs');
-  plugin = mod.default;
-});
+import plugin from './dynamical-systems.mjs';
 
 function getDirective() {
   return plugin.directives.find(d => d.name === 'dynsim');
-}
-
-function getLastWrittenData() {
-  const written = vi.mocked(writeFileSync).mock.calls.at(-1)[1];
-  const match = written.match(/window\.dynSimSystemsData = ({[\s\S]*?});/);
-  expect(match).not.toBeNull();
-  return JSON.parse(match[1]);
 }
 
 describe('dynsim plugin structure', () => {
@@ -46,94 +25,100 @@ describe('dynsim plugin structure', () => {
     expect(opts).toContain('dt');
     expect(opts).toContain('spikes');
     expect(opts).toContain('spikeThreshold');
+    expect(opts).toContain('packages');
   });
 });
 
 describe('dynsim directive run()', () => {
-  it('returns an html node with a container div', () => {
+  it('returns an AnyWidget node using the DynSim widget adapter', () => {
     const result = getDirective().run({
       body: 'def step(x, state, p): return (x, state)',
       options: {},
     });
 
     expect(result).toHaveLength(1);
-    expect(result[0].type).toBe('html');
-    expect(result[0].value).toMatch(/class="dynsim-python-container"/);
-    expect(result[0].value).toMatch(/id="dynsim-/);
+    expect(result[0].type).toBe('anywidget');
+    expect(result[0].esm).toBe('/_widgets/dynsim-widget.mjs');
   });
 
   it('applies default config values', () => {
-    getDirective().run({
+    const [widget] = getDirective().run({
       body: 'def step(x, state, p): return (x, state)',
       options: {},
     });
 
-    const data = getLastWrittenData();
-    const system = Object.values(data)[0];
-
-    expect(system.config.plotType).toBe('timeseries');
-    expect(system.config.initialState).toBe('{"t": 0}');
-    expect(system.config.initialX).toBe(0);
-    expect(system.config.height).toBe(400);
-    expect(system.config.dt).toBe(0.02);
-    expect(system.config.params).toBe('[]');
-    expect(system.config.plotConfig).toBe('{}');
-    expect(system.config.spikes).toBeNull();
-    expect(system.config.spikeThreshold).toBeNull();
-    expect(system.config.input).toBeNull();
+    expect(widget.model).toMatchObject({
+      params: [],
+      plotType: 'timeseries',
+      plotConfig: {},
+      initialState: { t: 0 },
+      initialX: 0,
+      input: null,
+      height: 400,
+      dt: 0.02,
+      spikes: null,
+      spikeThreshold: null,
+      packages: ['numpy'],
+    });
   });
 
   it('passes through spike options', () => {
-    getDirective().run({
+    const [widget] = getDirective().run({
       body: 'def step(x, state, p): return (x, state)',
       options: { spikes: 'S', spikeThreshold: 1.0 },
     });
 
-    const data = getLastWrittenData();
-    const system = Object.values(data)[0];
-
-    expect(system.config.spikes).toBe('S');
-    expect(system.config.spikeThreshold).toBe(1.0);
+    expect(widget.model.spikes).toBe('S');
+    expect(widget.model.spikeThreshold).toBe(1.0);
   });
 
-  it('passes through input slider config', () => {
+  it('parses input slider config', () => {
     const inputConfig = '{"label": "I", "min": -0.5, "max": 1, "step": 0.01, "value": 0.1}';
-    getDirective().run({
+    const [widget] = getDirective().run({
       body: 'def step(x, state, p): return (x, state)',
       options: { input: inputConfig },
     });
 
-    const data = getLastWrittenData();
-    const system = Object.values(data)[0];
-
-    expect(system.config.input).toBe(inputConfig);
+    expect(widget.model.input).toEqual({
+      label: 'I',
+      min: -0.5,
+      max: 1,
+      step: 0.01,
+      value: 0.1,
+    });
   });
 
-  it('respects custom height in container style', () => {
-    const result = getDirective().run({
+  it('passes custom display and package options to the widget model', () => {
+    const [widget] = getDirective().run({
       body: 'def step(x, state, p): return (x, state)',
-      options: { height: 600 },
+      options: { height: 600, packages: '["numpy", "scipy"]' },
     });
 
-    expect(result[0].value).toContain('min-height: 600px');
+    expect(widget.model.height).toBe(600);
+    expect(widget.model.packages).toEqual(['numpy', 'scipy']);
   });
 
-  it('stores python code in the data file', () => {
+  it('stores Python code in the widget model', () => {
     const code = 'def step(x, state, p):\n    return (x * 2, state)';
-    getDirective().run({ body: code, options: {} });
+    const [widget] = getDirective().run({ body: code, options: {} });
 
-    const data = getLastWrittenData();
-    const system = Object.values(data)[0];
-
-    expect(system.pythonCode).toBe(code);
+    expect(widget.model.pythonCode).toBe(code);
   });
 
-  it('generates unique IDs for each invocation', () => {
-    const r1 = getDirective().run({ body: 'def step(x, s, p): return (x, s)', options: {} });
-    const r2 = getDirective().run({ body: 'def step(x, s, p): return (x, s)', options: {} });
+  it('reports which JSON option is invalid', () => {
+    expect(() => getDirective().run({
+      body: 'def step(x, state, p): return (x, state)',
+      options: { params: 'not-json' },
+    })).toThrow('Invalid JSON for dynsim option "params"');
+  });
 
-    const id1 = r1[0].value.match(/id="(dynsim-[^"]+)"/)[1];
-    const id2 = r2[0].value.match(/id="(dynsim-[^"]+)"/)[1];
-    expect(id1).not.toBe(id2);
+  it('accepts already-parsed model options', () => {
+    const params = [{ id: 'decay', value: 0.1 }];
+    const [widget] = getDirective().run({
+      body: 'def step(x, state, p): return (x, state)',
+      options: { params },
+    });
+
+    expect(widget.model.params).toBe(params);
   });
 });

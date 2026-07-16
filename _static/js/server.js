@@ -1,3 +1,8 @@
+/**
+ * @deprecated The supported development path is `jupyter-book start` with the
+ * AnyWidget adapter in `_widgets/dynsim-widget.mjs`. This server remains only
+ * for compatibility with the legacy injected-script build.
+ */
 const path = require('path');
 const express = require('express');
 const getPort = require('get-port');
@@ -113,11 +118,6 @@ from js import Object
 def execute_dynsim_code(python_code_str, container_id, config):
     user_namespace = {"np": np, "numpy": np}
     exec(python_code_str, user_namespace)
-<<<<<<< HEAD
-    step = user_namespace["step"]
-    window.registerPythonSystem(container_id, create_proxy(step), config)
-
-=======
     raw_step = user_namespace["step"]
 
     def wrapped_step(x, state, params):
@@ -129,14 +129,10 @@ def execute_dynsim_code(python_code_str, container_id, config):
     # Always use _dynsimJsRegister (set by dynsim autoInit synchronously)
     # instead of registerPythonSystem (set by Python bridge, may not exist yet)
     window._dynsimJsRegister(container_id, create_proxy(wrapped_step), config)
-
->>>>>>> release-visualization
 window.executeDynSimCode = create_proxy(execute_dynsim_code)
   </script>`;
     customScripts += pyBootstrap;
 
-<<<<<<< HEAD
-=======
     // SPA navigation handler: re-initialize dynsim containers after React
     // hydration rebuilds the DOM or SPA navigation renders new pages.
     // Uses DynSim.initializeContainer (singleton — destroys old controller
@@ -190,8 +186,6 @@ window.executeDynSimCode = create_proxy(execute_dynsim_code)
   })();
   </script>`;
     customScripts += spaObserver;
-
->>>>>>> release-visualization
     // Add custom CSS from _static/css
     if (fs.existsSync(customStaticPath)) {
       const cssPath = path.join(customStaticPath, 'css');

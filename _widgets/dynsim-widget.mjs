@@ -1,4 +1,4 @@
-const DYNSIM_URL = 'https://unpkg.com/dynsim@0.1.0/dist/dynsim.esm.js';
+const DYNSIM_URL = 'https://unpkg.com/dynsim@0.3.0/dist/dynsim.esm.js';
 const PLOTLY_URL = 'https://cdn.plot.ly/plotly-2.27.0.min.js';
 const PYSCRIPT_CSS_URL = 'https://pyscript.net/releases/2026.1.1/core.css';
 const PYSCRIPT_URL = 'https://pyscript.net/releases/2026.1.1/core.js';
@@ -96,7 +96,16 @@ async function ensureDynSim(packages) {
       await loadScript(PYSCRIPT_URL, { type: 'module' });
       await loadScript(PLOTLY_URL, { defer: '' });
       const dynsim = await import(DYNSIM_URL);
-      await dynsim.autoInit();
+
+      // AnyWidget owns the controller lifecycle. DynSim's autoInit() also
+      // creates a controller when a system is registered, which would race
+      // the controller below and leave Plotly with two stacked SVGs.
+      const registerSystem = (containerId, stepFunction, config) => {
+        dynsim.registry.register(containerId, stepFunction, config);
+      };
+      window._dynsimJsRegister = registerSystem;
+      window.registerPythonSystem = registerSystem;
+
       await waitFor(
         () => typeof window.executeDynSimCode === 'function',
         'DynSim Python execution bridge did not initialize',
@@ -107,19 +116,71 @@ async function ensureDynSim(packages) {
   return dynsimPromise;
 }
 
-function buildConfig(model) {
+export function buildConfig(model) {
+  const initialX = readModel(model, 'initialX', 0);
+  const configuredInput = readModel(model, 'input', null);
+  const input = configuredInput == null
+    ? { label: 'Input (x)', min: -2, max: 2, step: 0.1, value: initialX }
+    : { ...configuredInput, value: configuredInput.value ?? initialX };
+
   return {
     params: readModel(model, 'params', []),
     plotType: readModel(model, 'plotType', 'timeseries'),
     plotConfig: readModel(model, 'plotConfig', {}),
     initialState: readModel(model, 'initialState', { t: 0 }),
-    initialX: readModel(model, 'initialX', 0),
+    initialX,
+    input,
     height: readModel(model, 'height', 400),
     dt: readModel(model, 'dt', 0.02),
     pauseTime: readModel(model, 'pauseTime', null),
     spikes: readModel(model, 'spikes', null),
     spikeThreshold: readModel(model, 'spikeThreshold', null),
   };
+}
+
+/**
+ * DynSim 0.3 stops a controller when document.contains(plotDiv) is false.
+ * Elements inside an AnyWidget shadow root are connected, but are not
+ * descendants of document, so use Node.isConnected for that one check.
+ */
+export function createShadowDomController(dynsim, options) {
+  const controller = new dynsim.SimulationController(options);
+
+  controller.animate = function animate() {
+    if (!this.view.plotDiv?.isConnected) {
+      this.stop();
+      return;
+    }
+
+    if (this.isRunning && !this.simulation.paused) {
+      const inputValue = this.view.getInput();
+      const paramValues = this.view.getParameters();
+      try {
+        this.simulation.step(inputValue, paramValues);
+      } catch (error) {
+        console.error('[DynSim] Step error:', error);
+        this.stop();
+        return;
+      }
+
+      if (this.simulation.paused) {
+        this.isRunning = false;
+        this.view.setPauseState(false);
+      }
+    }
+
+    const plotArrays = this.simulation.getPlotArrays();
+    const xRange = this.simulation.plotType === 'timeseries'
+      ? this.simulation.getTimeseriesRange()
+      : undefined;
+    const spikeTimes = this.simulation.spikes
+      ? this.simulation.spikeTimes
+      : undefined;
+    this.view.updatePlot(plotArrays, xRange, spikeTimes);
+    this.animationId = requestAnimationFrame(() => this.animate());
+  };
+
+  return controller;
 }
 
 function renderLoading(el, text) {
@@ -173,13 +234,13 @@ function render({ model, el }) {
       await window.executeDynSimCode(pythonCode, containerId, window.dynSimSystemsData[containerId].config);
       if (!active) return;
       const config = dynsim.registry.getConfig(containerId);
-      const controller = new dynsim.SimulationController({
+      const controller = createShadowDomController(dynsim, {
         container,
         config,
         stepProvider: () => dynsim.registry.getStep(containerId),
       });
       controllers.set(containerId, controller);
-      controller.start();
+      await controller.start();
       loading.remove();
     } catch (error) {
       if (active) renderError(el, error);

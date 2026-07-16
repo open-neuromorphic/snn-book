@@ -22,27 +22,6 @@ project:
         - file: topics/0_reader.md
         - file: topics/0_why_snns.md
     - file: topics/1_foundations.md
-      children:
-        - file: topics/1_1_neuron.md
-          children:
-            - file: topics/1_1_1_bio-neurons.md
-            - file: topics/1_1_2_glial-cells.md
-        - file: topics/1_2_spiking.md
-          children:
-            - file: topics/1_2_1_point-neurons.md
-            - file: topics/1_2_2_spatial-neurons.md
-            - file: topics/1_2_3_spk-vs-artfcl.md
-        - file: topics/1_3_encdec.md
-          children:
-            - file: topics/1_3_1_rate-enc.md
-            - file: topics/1_3_2_temp-enc.md
-            - file: topics/1_3_3_decoding.md
-        - file: topics/1_4_event_representations.md
-        - file: topics/1_5_snn.md
-          children:
-            - file: topics/1_5_1_why-snns.md
-            - file: topics/1_5_2_snn-basics.md
-        - file: topics/1_6_plasticity.md
     - file: topics/2_training.md
     - file: topics/3_hardware.md
     - file: glossary.md
@@ -54,7 +33,7 @@ project:
       numbering: false
     - file: reviewers.md
       numbering: false
-    - file: lif_visual.md
+    - file: visualization.md
       numbering: false
   bibliography:
     - references.bib
@@ -72,23 +51,6 @@ project:
         - topics/0_reader.md
         - topics/0_why_snns.md
         - topics/1_foundations.md
-        - topics/1_1_neuron.md
-        - topics/1_1_1_bio-neurons.md
-        - topics/1_1_2_glial-cells.md
-        - topics/1_2_spiking.md
-        - topics/1_2_1_point-neurons.md
-        - topics/1_2_2_spatial-neurons.md
-        - topics/1_2_3_spk-vs-artfcl.md
-        - topics/1_3_encdec.md
-        - topics/1_3_1_rate-enc.md
-        - topics/1_3_2_temp-enc.md
-        - topics/1_3_3_decoding.md
-        - topics/1_3_snn.md
-        - topics/1_4_event_representations.md
-        - topics/1_4_snn.md
-        - topics/1_4_1_why-snns.md
-        - topics/1_4_2_snn-basics.md
-        - topics/1_5_frameworks.md
         - topics/2_training.md
         - topics/3_hardware.md
 
