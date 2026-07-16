@@ -6,9 +6,11 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "jupyter-book==2.1.5",
+    "jupyter-cache",
     "matplotlib",
     "numpy",
     "mystmd",
+    "bokeh",
 ]
 
 [build-system]

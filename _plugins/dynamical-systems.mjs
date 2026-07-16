@@ -76,7 +76,7 @@ const plugin = {
         },
         input: {
           type: String,
-          doc: 'JSON object for input slider configuration'
+          doc: 'JSON object for input slider config: {label, min, max, step, value}'
         },
         height: {
           type: Number,

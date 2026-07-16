@@ -1,2 +1,0 @@
-(dynamics)=
-# Dynamical systems simulation

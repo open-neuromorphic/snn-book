@@ -1,3 +1,0 @@
-(chapter:platforms)=
-# Hardware platforms
-

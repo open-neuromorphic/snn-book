@@ -1,3 +1,8 @@
+/**
+ * @deprecated The supported development path is `jupyter-book start` with the
+ * AnyWidget adapter in `_widgets/dynsim-widget.mjs`. This server remains only
+ * for compatibility with the legacy injected-script build.
+ */
 const path = require('path');
 const express = require('express');
 const getPort = require('get-port');
@@ -94,26 +99,93 @@ app.use((req, res, next) => {
     customScripts += '\n  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>';
 
     // Add dynsim from CDN — handles simulator UI, Python bridge, and auto-init
-    customScripts += '\n  <script src="https://unpkg.com/dynsim@0.1.0" defer></script>';
+    customScripts += '\n  <script src="https://unpkg.com/dynsim@0.3.0" defer></script>';
 
-    // Minimal PyScript bootstrap: exec user Python code and register systems
-    // (type conversion is handled by dynsim's built-in Python bridge)
+    // PyScript bootstrap: exec user Python code and register systems.
+    // We wrap the step function ourselves with to_js conversion, then call
+    // _dynsimJsRegister directly. This avoids a race condition where
+    // dynsim's Python bridge may not have set up registerPythonSystem yet
+    // (it wraps step with to_js; without it, Pyodide proxies leak through
+    // and state["S"] spike detection breaks).
     const pyBootstrap = `
   <script type="py" config='{"packages":["numpy"]}'>
 import numpy as np
 from pyscript import window
 from pyscript.ffi import create_proxy
+from pyodide.ffi import to_js
+from js import Object
 
 def execute_dynsim_code(python_code_str, container_id, config):
     user_namespace = {"np": np, "numpy": np}
     exec(python_code_str, user_namespace)
-    step = user_namespace["step"]
-    window.registerPythonSystem(container_id, create_proxy(step), config)
+    raw_step = user_namespace["step"]
 
+    def wrapped_step(x, state, params):
+        s = state.to_py() if hasattr(state, 'to_py') else state
+        p = params.to_py() if hasattr(params, 'to_py') else params
+        result = raw_step(float(x), s, p)
+        return to_js(result, dict_converter=Object.fromEntries)
+
+    # Always use _dynsimJsRegister (set by dynsim autoInit synchronously)
+    # instead of registerPythonSystem (set by Python bridge, may not exist yet)
+    window._dynsimJsRegister(container_id, create_proxy(wrapped_step), config)
 window.executeDynSimCode = create_proxy(execute_dynsim_code)
   </script>`;
     customScripts += pyBootstrap;
 
+    // SPA navigation handler: re-initialize dynsim containers after React
+    // hydration rebuilds the DOM or SPA navigation renders new pages.
+    // Uses DynSim.initializeContainer (singleton — destroys old controller
+    // before creating a new one) to avoid overlapping Plotly calls.
+    const spaObserver = `
+  <script>
+  (function() {
+    // Poll for uninitialized containers every second.
+    // Uses DynSim.initializeContainer (singleton — destroys old controller
+    // before creating a new one) to avoid overlapping Plotly calls.
+    async function pollForContainers() {
+      if (!window.DynSim || !window.dynSimSystemsData) return;
+      if (typeof Plotly === 'undefined') return;
+
+      var containers = document.querySelectorAll('.dynsim-python-container');
+      for (var i = 0; i < containers.length; i++) {
+        var container = containers[i];
+        var id = container.id;
+        if (!id) continue;
+
+        var systemData = window.dynSimSystemsData[id];
+        if (!systemData) continue;
+
+        // Skip if this exact DOM element already has a live controller
+        if (container.querySelector('.dynsim-container')) continue;
+
+        // System not registered yet — need to run Python code first
+        if (!window.DynSim.registry.has(id)) {
+          if (!window.executeDynSimCode) continue; // PyScript not ready yet
+          console.log('[DynSim SPA] Registering new system:', id);
+          try {
+            window.executeDynSimCode(systemData.pythonCode, id, systemData.config);
+          } catch (e) {
+            console.error('[DynSim SPA] Error registering:', id, e);
+            continue;
+          }
+          // executeDynSimCode → _dynsimJsRegister → initializeContainer (singleton)
+          // Controller already created, done.
+          continue;
+        }
+
+        // System registered but no controller on this element
+        // (React hydration destroyed the old element, this is the new one)
+        console.log('[DynSim SPA] Re-initializing:', id);
+        window.DynSim.initializeContainer(id);
+      }
+    }
+    setInterval(pollForContainers, 1000);
+
+    if (document.body || document.readyState !== 'loading') pollForContainers();
+  })();
+  </script>`;
+    customScripts += spaObserver;
     // Add custom CSS from _static/css
     if (fs.existsSync(customStaticPath)) {
       const cssPath = path.join(customStaticPath, 'css');
@@ -142,6 +214,10 @@ window.executeDynSimCode = create_proxy(execute_dynsim_code)
       }
     }
 
+    // Note: injecting into </head> or </body> both cause React hydration errors (#418/#423)
+    // because the pre-compiled Remix theme doesn't expect these elements. This is cosmetic —
+    // React recovers by re-rendering. The real fix is upstream support for custom scripts in
+    // the MyST book-theme template. Injecting in </head> is conventional and allows `defer`.
     return html.replace('</head>', `  ${customScripts}\n</head>`);
   }
 

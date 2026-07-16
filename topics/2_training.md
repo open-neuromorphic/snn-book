@@ -23,7 +23,6 @@ as follows:
 network components when dealing with both spatial connectivity and temporal
 dynamics? This chapter explores the fundamental challenge of credit assignment
 in SNNs, including backpropagation through time for spiking networks.
-
 2. **Surrogate Gradients**: How can we train spiking neurons despite being
 non-differentiable? This chapter introduces surrogate gradient methods that
 approximate gradients during the backward pass while maintaining spike-based

@@ -4,9 +4,9 @@ numbering:
 ---
 # Guidelines for Contributors
 
-This page explains _what_ and _how_ to contribute to this **Practical Spiking
-Neural Networks** book. It also sets the writing/programming standards, as well
-as, how your contributions will be acknowledged and the criteria for it; note
+This page explains _what_ and _how_ to contribute to this **Practical Spiking 
+Neural Networks** book. It also sets the writing/programming standards, as well 
+as, how your contributions will be acknowledged and the criteria for it; note 
 that these details are subject to change.
 
 This open-source book is primarily written in
