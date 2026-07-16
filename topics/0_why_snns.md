@@ -28,6 +28,7 @@ they achieve:
 - **Lower latency**: Asynchronous processing enables real-time responses, aided
   by locality of memory and compute
 
+<<<<<<< HEAD
 **The challenge**: SNNs are harder to understand and train than the conventional
 ANNs. Working with and leveraging the temporal dynamics and discrete spike
 events require different mathematical tools and training methods. Moreover,
@@ -38,4 +39,16 @@ neuromorphic chips/systems is another complex task.
 **Our goal**: Give you the intuition and practical skills to design, build,
 train, and deploy SNNs on neuromorphic hardware effectively. In this book, we
 start with the fundamentals and build toward real-world applications with
+=======
+**The challenge**: SNNs are harder to understand and train than the conventional 
+ANNs. Working with and leveraging the temporal dynamics and discrete spike 
+events require different mathematical tools and training methods. Moreover,
+adapting and implementing the SNNs on emerging neuromorphic hardware is also not
+straightforward and standardized; not to mention, designing and building 
+neuromorphic chips/systems is another complex task.
+
+**Our goal**: Give you the intuition and practical skills to design, build, 
+train, and deploy SNNs on neuromorphic hardware effectively. In this book, we 
+start with the fundamentals and build toward real-world applications with 
+>>>>>>> release-visualization
 neuromorphic systems.

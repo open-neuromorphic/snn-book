@@ -20,7 +20,11 @@ Here we want you to *hit the ground running*.
 
 2. It is a collection of (citable) **resources** that serve as your *gateway*
 into advanced topics in neuroscience, electrical engineering, physics,
+<<<<<<< HEAD
 computer science, and other SNN-related fields.
+=======
+computer science, and other SNN-related fields. 
+>>>>>>> release-visualization
 
 3. It is _community-driven_ and written by experts across specialized topics.
 We want it to be a **living book** that is developed openly, by the
@@ -29,7 +33,11 @@ community and for the community. [You can participate](/contributors)!
 
 ### What makes this book different?
 
+<<<<<<< HEAD
 - **Hands-on and interactive**: Every concept is accompanied by a working code
+=======
+- **Hands-on and interactive**: Every concept is accompanied by a working code 
+>>>>>>> release-visualization
 example that you can run locally and modify
 
 - **Bridges theory and practice**: We explain the theory and intuition, then show
@@ -40,6 +48,7 @@ on neuromorphic chips
 
 % - **Self-contained**: Each section works independently with minimal prerequisites
 
+<<<<<<< HEAD
 This book is for beginners interested in SNNs, for researchers exploring and
 advancing SNNs, and for engineers building and deploying neuromorphic systems.
 In other words, if you want to _build_ SNNs, and not just read about them, then
@@ -49,3 +58,15 @@ The field of SNNs and Neuromorphic Computing is rapidly evolving, and this book
 provides you the _foundation_ you need to contribute to the _third generation_
 of neural networks, i.e. SNNs, and build the next generation of AI systems.
 Welcome!
+=======
+This book is for beginners interested in SNNs, for researchers exploring and 
+advancing SNNs, and for engineers building and deploying neuromorphic systems.
+In other words, if you want to _build_ SNNs, and not just read about them, then 
+this book is for you. 
+
+The field of SNNs and Neuromorphic Computing is rapidly evolving, and this book 
+provides you the _foundation_ you need to contribute to the _third generation_ 
+of neural networks, i.e. SNNs, and build the next generation of AI systems.
+Welcome!
+
+>>>>>>> release-visualization

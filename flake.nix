@@ -28,6 +28,16 @@
                     source .venv/bin/activate
                 '';
             };
+
+            devShells.test = pkgs.mkShell {
+                buildInputs = [
+                    pkgs.nodejs
+                ];
+
+                shellHook = ''
+                    npm install
+                '';
+            };
         }
     );
 }
