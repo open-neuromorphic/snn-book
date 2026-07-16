@@ -9,12 +9,12 @@ kernelspec:
 
 In the previous chapters, we saw how spikes travel across synapses and how synaptic weights control the flow of information in SNNs.
 Up to now, those weights were _static_, i.e., set once, used forever.
-But in biological systems, and often in SNN, weights can evolve over time.
+But in biological systems, and often in SNNs, weights can evolve over time.
 This ability to change is called _synaptic plasticity_.
 
 In biology, _plastic_ means malleable, i.e., capable of being reshaped.
 A synapse is said to be plastic when its strength changes based on neural activity.
-Two of the most studied complementary mechanisms of these synaptic changes are Long-Term Potentiation (LTP) and Long-Term Depression (LTD).
+Two of the most studied complementary mechanisms of these synaptic changes are **Long-Term Potentiation (LTP)** and **Long-Term Depression (LTD)**.
 In the next sections, we look at how each mechanism works and why they matter for SNNs.
 
 ## Long-Term Potentiation
@@ -67,8 +67,8 @@ output_notebook(verbose=False, hide_banner=True)
 
 x = np.linspace(0.0, 0.5, 100)
 
-A_init = 0.5
-tau_init = 0.1
+A_init = 1.0
+tau_init = 0.05
 
 y = A_init * np.exp(-x / tau_init)
 
@@ -190,8 +190,8 @@ output_notebook(verbose=False, hide_banner=True)
 
 x = np.linspace(-0.5, 0.0, 100)
 
-A_init = 0.5
-tau_init = 0.1
+A_init = 1.0
+tau_init = 0.05
 
 y = -A_init * np.exp(x / tau_init)
 
@@ -267,14 +267,7 @@ show(layout)
 
 ## From plasticity to learning
 
-LTP and LTD capture both causal (input before output) and non-causal (output before input) spike relationships.
-By combining these two mechanisms,
-Taken together, they form the basis of timing-dependent learning rules such as Spike Timing-Dependent Plasticity (STDP), which we will cover in the next chapter.
-
-## TODOs
-
-- [ ] Correctly link the images
-- [x] Add LTP/LTD plots
-- [ ] Other forms of LTP/LTD (weight dependent, constant)
-- [x] Add code to vizualize their effect
-- [x] Runnable code to see effect of LTP/LTD based on value of tau
+We have seen how LTP and LTD capture two complementary relationships between pre- and post-synaptic activity.
+LTP strengthens a synapse when a pre-synaptic spike occurs shortly before a post-synaptic spike, while LTD weakens it when the order is reversed.
+Taken together, they form the basis of learning rules such as **Spike Timing-Dependent Plasticity (STDP)**, which can be used to train SNNs.
+We will explore such bio-inspired learning rules in more detail in the next topic.
