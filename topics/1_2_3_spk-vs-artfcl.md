@@ -27,7 +27,16 @@ of an artificial neuron with a LIF neuron.
 ## Simulating a LIF neuron
 For a detailed understanding of this _rate approximation_, we need to refer to a
 resource **outside** of this book: the static webpage [From Spiking Neurons To Artificial Neurons](https://r-gaurav.github.io/2020/05/08/From-Spiking-Neurons-To-Artificial-Neurons.html). This resource simulates a LIF neuron by discretizing its continuous
-time first-order differential equation:
+time first-order differential equation Eq {eq}`eq:continuous-lif` (written in a
+different arrangement) and developing the intuition behind activation functions
+in traditional (i.e., second generation of) neural networks. Note that the
+discretization of LIF neuron in [From Spiking Neurons To Artificial Neurons](https://r-gaurav.github.io/2020/05/08/From-Spiking-Neurons-To-Artificial-Neurons.html) is
+much more nuanced than presented in this book (i.e., Eqs {eq}`eq:discrete-lif`);
+however, the findings with respect to _rate approximation_ will remain unchanged
+irrespective of the discretization assumptions. Readers are welcome to gain
+their understanding from   [From Spiking Neurons To Artificial Neurons], but we
+briefly present the learnings and findings here as well for completeness. For
+execution, refer to the blog.
 
 
 
