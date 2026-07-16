@@ -17,12 +17,6 @@ Return here to check our progress and let us know what you think [on our Discord
 Channel](https://discord.gg/wAKVddWE6p): `#snnbook` 👋.
 :::
 
-::::{note} New feature: interactive visualizations 📈 (April 2026)
-Curious about how neurons evolve? Now you can see for yourself!
-Visit our @visualization page to watch a leaky integrate-and-fire neuron evolve.
-Play around: what happens if you change the decay?
-::::
-
 ## What is this book about?
 
 ::::{aside}
@@ -72,6 +66,7 @@ or _reviewing_, read more in the [contribution guidelines](/contributors) and
 reach out to us on the [Open Neuromorphic Discord server](https://discord.gg/aPFsSRA7Nf).
 
 ## Citing
+
 This book will be made citable as a whole and as individual chapters.
 We very much encourage citing specific chapters to credit the contributors who helped your research.
 Upon the release of version 1.0, the bibtex of the book and individual chapters

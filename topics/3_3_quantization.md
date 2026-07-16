@@ -1,0 +1,2 @@
+(chapter:quantization)=
+# Hardware quantization
