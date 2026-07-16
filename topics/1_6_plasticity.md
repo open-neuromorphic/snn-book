@@ -270,4 +270,4 @@ show(layout)
 We have seen how LTP and LTD capture two complementary relationships between pre- and post-synaptic activity.
 LTP strengthens a synapse when a pre-synaptic spike occurs shortly before a post-synaptic spike, while LTD weakens it when the order is reversed.
 Taken together, they form the basis of learning rules such as **Spike Timing-Dependent Plasticity (STDP)**, which can be used to train SNNs.
-We will explore this learning rule in more detail in the next topic.
+We will explore such bio-inspired learning rules in more detail in the next topic.
