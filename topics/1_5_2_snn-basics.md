@@ -1,4 +1,10 @@
 (chapter:snn-basics)=
 # Basics of building SNNs
 
-## Some topic.
+### Basic Types of SNNs
+
+## Feed-Forward Networks
+
+## Convolutional Networks
+
+## Recurrent Networks
