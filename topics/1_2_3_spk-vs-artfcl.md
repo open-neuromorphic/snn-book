@@ -24,33 +24,39 @@ later chapters) is foundationally based on artificial neurons being the rate
 approximation of spiking neurons. We next demonstrate this _rate approximation_
 of an artificial neuron with a LIF neuron.
 
-## Simulating a LIF neuron
-For a detailed understanding of this _rate approximation_, we need to refer to a
-resource **outside** of this book: the static webpage [From Spiking Neurons To Artificial Neurons](https://r-gaurav.github.io/2020/05/08/From-Spiking-Neurons-To-Artificial-Neurons.html). This resource simulates a LIF neuron by discretizing its continuous
-time first-order differential equation Eq {eq}`eq:continuous-lif` (written in a
-different arrangement) and developing the intuition behind activation functions
-in traditional (i.e., second generation of) neural networks. Note that the
-discretization of LIF neuron in [From Spiking Neurons To Artificial Neurons](https://r-gaurav.github.io/2020/05/08/From-Spiking-Neurons-To-Artificial-Neurons.html) is
-much more nuanced than presented in this book (i.e., Eqs {eq}`eq:discrete-lif`);
-however, the findings with respect to _rate approximation_ will remain unchanged
-irrespective of the discretization assumptions. Readers are welcome to gain
-their understanding from   [From Spiking Neurons To Artificial Neurons], but we
-briefly present the learnings and findings here as well for completeness. For
-execution, refer to the blog.
+## Rate Approximation
+For a detailed understanding of this _rate approximation_, we refer to a
+resource (a blog article) **outside** of this book: the static webpage [From
+Spiking Neurons To Artificial Neurons](https://r-gaurav.github.io/2020/05/08/From-Spiking-Neurons-To-Artificial-Neurons.html). Feel free to copy-paste the code there in
+a local jupyter notebook and execute for a thorough understanding of the
+following explanation. This article simulates a LIF neuron by discretizing its
+continuous time first-order differential equation Eq {eq}`eq:continuous-lif`
+(written in an arrangement different than this book) and develops the intuition
+behind activation functions in traditional (i.e., the second generation of)
+neural networks. Note that the discretization of LIF neuron in the article is
+more nuanced than the one in this book (thus, another resource to learn LIF
+dynamics!). Also note that even if the LIF neuron in [From Spiking Neurons To
+Artificial Neurons](https://r-gaurav.github.io/2020/05/08/From-Spiking-Neurons-To-Artificial-Neurons.html) article is written and discretized differently, the findings
+with respect to _rate approximation_ remains unchanged.
 
+In the article, the $V(t)$ and $J(t)$ denote the membrane potential and static
+input current to the LIF neuron. Under the **Experiments** section, the first
+two plots show that when $J(t)=0$, the neuron's $V(t)$ expectedly remains at
+$0$. However, in the immediately next two plots, it can be seen that even if
+$J(t)=1$, $V(t)$ does not reach threshold, and thus no spikes are produced. In
+the further plots, we see that for $J(t)=1.1$, $V(t)$ demonstrates the spiking
+dynamics, and $20$ spikes (in a simulation period of $1$s) are produced, i.e.,
+for $J(t)=1$, the simulated LIF neuron fires at $20Hz$. To develop the intuition
+of rate approximation, the article then simulates the LIF neuron for $J(t) \in
+[0, 1, 2, \cdots, 10]$, and plots the firing rate profile in first subplot of
+the last plot. Upon comparing the LIF's firing rate profile with (the first half
+of) $\texttt{sigmoid}$ and $\texttt{ReLU}$ activation functions in last two
+subplots of the last plot, we see that the firing rate profile quite closely
+matches to that of the $\texttt{sigmoid}$. Note that by adjusting the refractory
+period ($\tau_{ref}$) and membrane time-constant ($\tau_{RC}$) of the simulated
+LIF neuron, one can very closely match its firing rate profile to
+$\texttt{ReLU}$ (or of $\texttt{sigmoid}$) functions.
 
-
-
-is statLet us consider a LIF neuron described by the Eqs.
-{eq}`eq:discrete-lif`$\textsf{a}$, $\textsf{b}$, $\textsf{c}$, and $\textsf{d}$,
-mentioned below for reference:
-
-and stimulate it with a _static_ input $J[t]$ for a period of $1$s. Note that we
-employ a static instead of time-varying input for straightforward analysis; and
-the analysis will remain unchanged for any time-varying input. Upon stimulation,
-the LIF neuron produces binary spikes; we can then compute its firing rate by
-dividing the total number of spikes produced with $1$s.
-
-Consider $J[t]=1$, the firing rate of our LIF neuron for $v_\text{dcy}=0.1$ is
-$X1$Hz, similarly, for $J[t]\in \{1.1, 1.2, 1.3, \cdots, 2.0\}$ we obtain the
-corresponding firing rates: $X2$, $X3$, $X4$
+Thus, emprirically, we see that spiking neurons "rate approximate" the
+artificial neurons! Note that this analysis will remain unchanged for
+time-varying input $J(t)$ as well.
