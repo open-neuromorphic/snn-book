@@ -34,9 +34,9 @@ the simulation.
 
 Therefore, for classification tasks, if Rate Encoding is used in an SNN to
 encode continuous-valued input data as binary spikes, each output neuron of the
-(output layer of) SNN can be assigned to a _class_, and the average firing rate
-$r_{i}$ of each output neuron can be computed as in Eq {eq}`eq:rate-dec-1`. The
-neuron with the highest firing rate can be considered to denote the final /
+(output layer of an) SNN can be assigned to a _class_, and the average firing
+rate $r_{i}$ of each output neuron can be computed as in Eq {eq}`eq:rate-dec-1`.
+The neuron with the highest firing rate can be considered to denote the final /
 predicted output class.
 
 Note that to train such an SNN for classification tasks, it's typical to use the
