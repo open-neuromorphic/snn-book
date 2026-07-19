@@ -1,3 +1,7 @@
+---
+numbering:
+  headings: true
+---
 (chapter:rate-enc)=
 # Rate Encoding
 **Rate Encoding** is a prevalent form of encoding continuous values to discrete
