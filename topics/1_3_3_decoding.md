@@ -39,11 +39,15 @@ rate $r_{i}$ of each output neuron can be computed as in Eq {eq}`eq:rate-dec-1`.
 The neuron with the highest firing rate can be considered to denote the final /
 predicted output class.
 
-Note that to train such an SNN for classification tasks, it's typical to use the
-Cross Entropy loss function, where, e.g., in PyTorch's [CrossEntropyLoss](https://docs.pytorch.org/docs/2.12/generated/torch.nn.CrossEntropyLoss.html#crossentropyloss),
-we pass two arguments: the **mean firing rate** of output spikes (over time) and
-the **class** markers (e.g., $[0, \cdots, 9]$ for MNIST). One can also compute
-other functions of the mean firing rate to compute their desired loss.
+::::{aside}
+:::{seealso} Topic {ref}`training`.
+Note that to train SNNs for classification tasks, it's typical to use the Cross
+Entropy loss function, where, e.g., in PyTorch's [CrossEntropyLoss](https://docs.pytorch.org/docs/2.12/generated/torch.nn.CrossEntropyLoss.html#crossentropyloss),
+two arguments can be passed: the decoded **mean firing rate** of output spikes
+(over time) and the **class** markers (e.g., $[0, \cdots, 9]$ for MNIST).
+:::
+::::
+
 
 
 ## Spike Trace
