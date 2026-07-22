@@ -6,5 +6,3 @@
 ## Feed-Forward Networks
 
 ## Convolutional Networks
-
-## Recurrent Networks
