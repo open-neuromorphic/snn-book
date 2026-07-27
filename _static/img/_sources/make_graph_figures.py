@@ -239,8 +239,8 @@ def draw_bptt(path):
         dots(ax, xd, y)
 
     # right curly brackets (sit just outside the dashed box); vertical labels
-    curly(ax, 9.65, yV - BH / 2 - 0.3, yS + BH / 2 + 0.3, "snn.Leaky", rot=270)
-    curly(ax, 9.65, yX - BH / 2 - 0.15, yI + BH / 2 + 0.15, "nn.Linear", rot=270)
+    curly(ax, 9.65, yV - BH / 2 - 0.3, yS + BH / 2 + 0.3, "Leaky Integrator", rot=270)
+    curly(ax, 9.65, yX - BH / 2 - 0.15, yI + BH / 2 + 0.15, "Linearity", rot=270)
 
     # bottom gradient labels (sit just below the arrowheads)
     for i, cx in enumerate(cols):

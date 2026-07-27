@@ -42,7 +42,7 @@ S[t] = \Theta(V[t] - V_\text{thr})
 where $\Theta(\cdot)$ is the Heaviside step function: it outputs $1$ when its argument is positive, and $0$ otherwise.
 
 ```{aside} Chain rule for function composition
-In calculus, when you want to differentiate two composed functions $z$ and $y$ with respect to $x$, you take the derivative of $z$ evaluated at $y(x)$ and multiply by the derivative of $y$.
+In calculus, when you want to differentiate two composed functions $z$ and $y$ with respect to $x$, you take the derivative of $z$ evaluated at $y(x)$ and multiply by the derivative of $y$ with respect to $x$.
 That is
 $$\frac{d}{dx} z(y(x)) = z'(y(x)) \cdot y'(x)$$
 For more, [see Wikipedia](https://en.wikipedia.org/wiki/Chain_rule).
@@ -61,7 +61,7 @@ The [chain rule](https://en.wikipedia.org/wiki/Chain_rule) gives:
 \frac{\partial I}{\partial W}
 ```
 
-The terms $\partial I / \partial W = X$ and $\partial V / \partial I = 1$ are straightforward.
+The last two terms are straightforward: $\partial I / \partial W = X$, and, if the membrane resistance is set to $1$, $\partial V / \partial I = 1$.
 The loss derivative $\partial \mathcal{L} / \partial S$ depends on the choice of loss function and has an analytical form.
 But $\partial S / \partial V$ — the derivative of the Heaviside function — is the Dirac delta function:
 
@@ -69,7 +69,7 @@ $$\frac{\partial S}{\partial V} = \delta(V - V_\text{thr})$$
 
 This evaluates to $0$ everywhere except at $V = V_\text{thr}$, where it is undefined (tending to infinity).
 In practice, this means the gradient is almost always zero, and the weight $W$ receives no learning signal.
-This is known as the **dead neuron problem**.
+This is known as the **non-differentiability problem**.
 
 :::{margin}
 When $V[t]$ exceeds the threshold $V_\text{thr}$, the neuron emits a spike: $S[t] = 1$.
@@ -80,8 +80,8 @@ Otherwise, $S[t] = 0$.
 :width: 420px
 :align: center
 :name: fig-spike-heaviside
-The Heaviside step function $\Theta$ maps membrane potential $V[t]$ to a binary spike $S[t]$.
-The open circle at $V_\text{thr}$ indicates $S[t] = 0$ exactly at threshold; the filled circle indicates $S[t] = 1$ just above it.
+The Heaviside step function $\Theta$ maps the membrane potential $V[t]$ to a binary spike $S[t]$.
+The open circle at $V_\text{thr}$ indicates $S[t] = 0$ exactly at the threshold; the filled circle indicates $S[t] = 1$ just above it.
 :::
 
 ```{sgplot} sg-atan-plot
@@ -99,7 +99,7 @@ The surrogate gradient is a training-time trick that preserves the discrete natu
 
 ## Surrogate gradient functions
 
-The surrogate gradient approach resolves the dead neuron problem by decoupling the forward and backward passes:
+The surrogate gradient approach resolves the non-differentiability problem by decoupling the forward and backward passes:
 
 - **Forward pass**: Use the Heaviside step function $\Theta$ as-is. Spikes remain discrete.
 - **Backward pass**: Replace the Dirac delta $\partial S / \partial V$ with a smooth surrogate derivative $\partial \tilde{S} / \partial V$.
@@ -135,7 +135,7 @@ Here are several common choices:
 
 In practice, the choice of surrogate function has a relatively minor effect on training performance [@zenke2021remarkable].
 What matters more is that the surrogate is smooth, peaked near the threshold, and decays away from it.
-The choice of surrogate function remains an empirical one, as no theoretical proof establishes which is best. Arctangent is a common default due to its smooth, bounded derivative.
+The choice of surrogate function remains an empirical one, as no theoretical proof establishes which one is the best. Arctangent is a common default due to its smooth, bounded derivative.
 
 ```{sgplot} sg-fwd-plot
 :height: 360
@@ -155,7 +155,7 @@ The choice of surrogate function remains an empirical one, as no theoretical pro
 :height: 420
 :slider_id: sg-v3-slider
 :val_id: sg-v3-val
-:caption: Try moving the &#945; slider! Left panel shows the smooth forward approximations; right panel shows the corresponding surrogate gradients. Click a surrogate name in the legend to show or hide it in both panels simultaneously.
+:caption: Try moving the &#945; slider! The left panel shows the smooth forward approximations, and the right panel shows the corresponding surrogate gradients. Click on a surrogate name in the legend to show or hide it in both panels simultaneously.
 ```
 
 ### Implementation
@@ -227,16 +227,16 @@ The arctangent has heavier tails and provides a weaker but longer-range gradient
 Before we can train a spiking neural network, we need to understand how gradient information flows through time.
 A spiking neuron is a recurrent system: its state at time $t$ depends on its state at time $t-1$.
 
-Recall that the Spike Response Model decomposes a neuron into **linear filters** followed by a **threshold nonlinearity** [@gerstner2014neuronal].
+The Spike Response Model decomposes a neuron into **linear filters** followed by a **threshold nonlinearity** [@gerstner2014neuronal].
 The membrane potential is a sum of two convolutions: input filtered through the membrane kernel $\kappa$, plus the spike afterpotential $\eta$ that captures reset and refractoriness after each output spike.
 The only nonlinearity is the threshold crossing that produces a spike.
 
-This decomposition is exactly what makes surrogate gradients principled: the filters $\kappa$ and $\eta$ are already differentiable, so we only need to approximate the derivative of **one** nonlinearity — the Heaviside at the threshold.
+This decomposition is exactly what makes surrogate gradients principled: the filters $\kappa$ and $\eta$ are already differentiable, so we only need to approximate the derivative of **one** nonlinearity — the Heaviside function at the threshold.
 
 ### The simplified LIF neuron
 
 The full $\texttt{LIF}$ neuron derived in [](#sec:spk-nrn-lif) has several hyperparameters ($R_\text{m}$, $C_\text{m}$, $\Delta t$).
-For deep learning, we simplify by introducing the decay rate $\beta$, which collapses the time constant into a single parameter.
+For deep learning, we simplify this by introducing the decay rate $\beta$, which collapses the time constant into a single parameter.
 Starting from the discrete $\texttt{LIF}$ equation and setting $\Delta t = 1$ and $R_\text{m} = 1$:
 
 ```{math}
@@ -296,7 +296,7 @@ The weight $W$ influences the loss at every time step, so the total gradient is 
 \frac{\partial \mathcal{L}}{\partial W} = \sum_t \sum_{s \leq t} \frac{\partial \mathcal{L}[t]}{\partial W[s]}
 ```
 
-The constraint $s \leq t$ enforces causality: only present and past influences of $W$ on the loss are considered.
+The constraint $s \leq t$ enforces causality: we consider the contributions of $W$ only for past and present inputs.
 Because $W$ is shared across time ($W[0] = W[1] = \ldots = W$), a change to $W$ at any step affects all steps equally.
 
 Consider the contribution from one step back, $s = t-1$:
@@ -312,13 +312,13 @@ Consider the contribution from one step back, $s = t-1$:
 ```
 
 The temporal derivative $\partial V[t] / \partial V[t-1] = \beta$ comes directly from Eq {eq}`eq:sg-simplified-lif`$\textsf{a}$.
-In the SRM picture, this is the derivative through the membrane filter $\kappa$ — it is exact, not approximated.
+In the SRM figure, this is the derivative through the membrane filter $\kappa$ — it is exact, not approximated.
 The surrogate only enters at the $\partial \tilde{S} / \partial V$ term, i.e., the threshold crossing.
-Going further back in time, each additional step multiplies by another factor of $\beta$, so the gradient contribution from $k$ steps in the past is proportional to $\beta^k$.
+Going further back in time, each additional step multiplies the current value by another factor of $\beta$, so the gradient contribution from $k$ steps in the past is proportional to $\beta^k$.
 Since $0 < \beta < 1$, contributions from the distant past decay exponentially — which is why the choice of $\beta$ matters.
 
 :::{aside} Truncated BPTT
-For long sequences, full BPTT can be expensive in both compute and memory, because every intermediate state must be stored.
+For long sequences, full BPTT can be expensive in both compute and memory because every intermediate state must be stored.
 **Truncated BPTT** limits the backward pass to the most recent $K$ time steps, reducing memory from $\mathcal{O}(T)$ to $\mathcal{O}(K)$ at the cost of ignoring long-range temporal dependencies.
 In practice, if $\beta^K$ is small enough, the truncated gradient is a good approximation.
 :::
@@ -328,14 +328,14 @@ In practice, if $\beta^K$ is small enough, the truncated gradient is a good appr
 :align: center
 :name: fig-bptt
 Backpropagation through time (BPTT) for the unrolled LIF neuron.
-Solid arrows show the forward pass; dashed orange arrows show gradient flow backward through time.
+Solid arrows show the forward pass; dashed orange arrows show the gradient flowing backward through time.
 Gradients of earlier time steps (prior influence) require more steps of backward propagation, each multiplying by $\beta$.
 :::
 
 ### Implementation
 
 The code below shows how to implement the same $\texttt{LIF}$ neuron with surrogate gradient support across three frameworks.
-In each case the forward pass computes the true Heaviside step; the surrogate replaces its derivative in the backward pass:
+In each case, the forward pass computes the true Heaviside step and the backward pass replaces its derivative with a surrogate:
 
 ::::{tab-set}
 
@@ -481,13 +481,13 @@ We need a way to interpret these spike trains as predictions and compare them to
 
 ### Rate coding
 
-The most common approach for classification is **rate coding**: the predicted class is the output neuron with the highest total spike count (or equivalently, the highest firing rate) over the simulation:
+The most common approach for classification is **rate coding** (see [](#chapter:rate-enc)): the predicted class is the output neuron with the highest total spike count (or equivalently, the highest firing rate) over the simulation:
 
 $$\hat{y} = \arg\max_i \sum_t S_i[t]$$
 
 This is analogous to taking the neuron with the highest activation in a classical neural network.
 
-### Cross-entropy loss on membrane potential
+### Cross-entropy loss on the membrane potential
 
 To create a differentiable loss, we apply the cross-entropy loss to the membrane potential $V$ rather than to the discrete spikes.
 The softmax of the membrane potential for $C$ output classes gives:
@@ -504,7 +504,7 @@ The cross-entropy between $p_i$ and the one-hot target $y_i \in \{0,1\}^C$ is:
 \mathcal{L}_\text{CE}[t] = -\sum_{i=0}^{C-1} y_i \log(p_i[t])
 ```
 
-The effect is that the membrane potential of the correct class is encouraged to stay above threshold (producing spikes), while incorrect classes are suppressed below threshold.
+The effect is that the membrane potential of the correct class is encouraged to stay above the threshold (producing spikes), while incorrect classes are suppressed below the threshold.
 
 ### Summing over time
 
@@ -529,7 +529,7 @@ Let's put this together and train a feedforward SNN on the MNIST handwritten dig
 
 ### Network architecture
 
-We build a two-layer fully-connected spiking neural network:
+We build a two-layer fully connected spiking neural network:
 - **Input**: 784 neurons (28$\times$28 pixel images, flattened)
 - **Hidden layer**: 1000 $\texttt{LIF}$ neurons
 - **Output layer**: 10 $\texttt{LIF}$ neurons (one per digit class)
@@ -608,10 +608,10 @@ def forward(x, W1, W2, beta, threshold, num_steps):
         mem2 = beta * mem2 + cur2 - spk2 * threshold        # membrane update
         spk2 = (mem2 > threshold).astype(np.float64)         # spike
 
-        mem1_rec.append(mem1.copy())
-        spk1_rec.append(spk1.copy())
-        mem2_rec.append(mem2.copy())
-        spk2_rec.append(spk2.copy())
+        mem1_rec.append(mem1)
+        spk1_rec.append(spk1)
+        mem2_rec.append(mem2)
+        spk2_rec.append(spk2)
 
     cache = {
         'x': x,
@@ -625,7 +625,7 @@ def forward(x, W1, W2, beta, threshold, num_steps):
 
 ### Backward pass with surrogate gradients
 
-The backward pass flows gradients back through time, using the arctangent surrogate in place of the Heaviside derivative:
+The backward pass flows gradients back through the states for each time step, using the arctangent surrogate in place of the Heaviside derivative:
 
 ```python
 def backward(cache, targets, W1, W2, beta, threshold, num_steps):
@@ -651,7 +651,7 @@ def backward(cache, targets, W1, W2, beta, threshold, num_steps):
     dW2 = np.zeros_like(W2)
     total_loss = 0.0
 
-    # Gradient flowing back into membrane potential from future time steps
+    # Gradient flowing back into the membrane potential from future time steps
     d_mem2_future = np.zeros_like(mem2_rec[0])
     d_mem1_future = np.zeros_like(mem1_rec[0])
 
@@ -660,33 +660,33 @@ def backward(cache, targets, W1, W2, beta, threshold, num_steps):
         loss_t, d_logits = cross_entropy_loss(mem2_rec[t], targets)
         total_loss += loss_t
 
-        # Gradient into mem2: from loss + from future time step (decay)
+        # Gradient into mem2: from the loss + from future time steps (decay)
         d_mem2 = d_logits + d_mem2_future
 
-        # Surrogate gradient: dS/dV for output layer
+        # Surrogate gradient: dS/dV for the output layer
         v2 = mem2_rec[t] - threshold
         sg2 = 1.0 / (np.pi * (1 + (np.pi * v2) ** 2))
 
         # Gradient through spike -> weight2
         d_spk2 = d_mem2 * sg2  # not used further here, but would be for deeper nets
 
-        # dW2: spk1^T @ d_mem2 (input to layer 2 is spk1)
+        # dW2: Matrix multiplication of spk1^T and d_mem2 (input to layer 2 is spk1)
         dW2 += spk1_rec[t].T @ d_mem2
 
-        # Propagate gradient back to spk1
+        # Propagate the gradient back to spk1
         d_spk1_from_layer2 = d_mem2 @ W2.T
 
-        # Surrogate gradient: dS/dV for hidden layer
+        # Surrogate gradient: dS/dV for the hidden layer
         v1 = mem1_rec[t] - threshold
         sg1 = 1.0 / (np.pi * (1 + (np.pi * v1) ** 2))
 
-        # Gradient into mem1: from layer2 (through surrogate) + from future
+        # Gradient into mem1: from layer2 (through the surrogate) + from future time steps
         d_mem1 = d_spk1_from_layer2 * sg1 + d_mem1_future
 
-        # dW1: x^T @ d_mem1
+        # dW1: Matrix multiplication of x^T and d_mem1
         dW1 += x.T @ d_mem1
 
-        # Propagate membrane gradient back in time (decay connection)
+        # Propagate the membrane gradient back in time (decay connection)
         d_mem2_future = d_mem2 * beta
         d_mem1_future = d_mem1 * beta
 
@@ -718,14 +718,14 @@ def train(train_images, train_labels, num_epochs=1, batch_size=128,
     """
     num_samples = train_images.shape[0]
 
-    # Initialize weights (Xavier initialization)
+    # Initialize all weights (Xavier initialization)
     W1 = np.random.randn(784, 1000) * np.sqrt(2.0 / 784)
     W2 = np.random.randn(1000, 10) * np.sqrt(2.0 / 1000)
 
     loss_history = []
 
     for epoch in range(num_epochs):
-        # Shuffle data
+        # Shuffle the data
         perm = np.random.permutation(num_samples)
         train_images = train_images[perm]
         train_labels = train_labels[perm]
@@ -756,11 +756,11 @@ def train(train_images, train_labels, num_epochs=1, batch_size=128,
 
 Write an `evaluate` function that:
 1. Runs the forward pass on test data
-2. Counts total spikes per output neuron per sample (rate coding)
+2. Counts the total spikes per output neuron per sample (rate coding)
 3. Predicts the class with the highest spike count
 4. Reports the classification accuracy
 
-How does accuracy change when you vary $\beta$ between 0.5 and 0.99?
+How does the accuracy change when you vary $\beta$ between 0.5 and 0.99?
 ```
 
 ```{solution} 2_2_exercise_eval
@@ -777,9 +777,9 @@ def evaluate(test_images, test_labels, W1, W2, beta, threshold, num_steps):
     return accuracy
 ~~~
 
-Higher $\beta$ (e.g. 0.95–0.99) typically gives better accuracy because the neuron retains more information across time steps, effectively integrating over a longer window.
+Higher $\beta$ (e.g. 0.95–0.99) typically gives better accuracy because the neuron retains more information across time steps, effectively integrating over a longer time window.
 Lower $\beta$ (e.g. 0.5) causes the membrane potential to decay quickly, making it harder for the neuron to accumulate enough charge to spike meaningfully.
-However, very high $\beta$ can also slow convergence because the reset mechanism becomes less effective.
+However, very high $\beta$ can also result in slow convergence because the reset mechanism becomes less effective.
 ```
 
 ## When to use surrogate gradients
@@ -787,10 +787,10 @@ However, very high $\beta$ can also slow convergence because the reset mechanism
 Surrogate gradient training is the most widely used method for training SNNs today.
 It is well suited when:
 
-- **Accuracy is the priority**: Surrogate gradients leverage the full power of gradient-based optimization, typically achieving the highest accuracy among SNN training methods
+- **Accuracy is the priority**: Surrogate gradients leverage the full power of gradient-based optimization, typically outperforming non-gradient-based SNN training methods, though exact-gradient approaches (see [](#exact_gradients)) can match or exceed them at greater computational cost
 - **Offline training is acceptable**: Training happens in batch mode on a GPU, not on the target hardware
-- **The task is supervised**: Labeled data is available and a differentiable loss can be defined
-- **Beyond the simple LIF**: The SRM perspective shows that surrogate gradients work for any neuron model that decomposes into linear filters plus a threshold — including adaptive neurons with multiple spike afterpotential kernels $\eta$, or neurons with synaptic current dynamics
+- **A teaching signal is available**: Labels, self-supervised targets, or any other differentiable loss signal can be used — surrogate gradients aren't limited to strictly supervised setups
+- **More complex neuron models**: The SRM perspective shows that surrogate gradients work for any neuron model more complex than the simple LIF, as long as it decomposes into linear filters plus a threshold — including adaptive neurons with multiple spike afterpotential kernels $\eta$, or neurons with synaptic current dynamics
 
 The main limitations are:
 
