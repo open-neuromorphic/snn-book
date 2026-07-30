@@ -15,8 +15,8 @@ project:
       affiliation: Virginia Tech, USA
       email: ramashishgaurav@gmail.com
     - name: Pedersen, Jens Egholm
-      affiliation: Stanford University, USA
-      email: jens@jepedersen.dk
+      affiliation: Technical University of Denmark
+      email: jegpe@dtu.dk
     - name: Bogdan, Petrut
       affiliation: Innatera
       email: petrut.bogdan@innatera.com
@@ -24,6 +24,8 @@ project:
   license: CC-BY-4.0
   plugins:
     - _plugins/dynamical-systems.mjs
+    - _plugins/rubric.mjs
+    - _plugins/sg-plot.mjs
   toc:
     - file: README.md
       numbering: false
@@ -48,11 +50,11 @@ project:
             - file: topics/1_3_2_temp-enc.md
             - file: topics/1_3_3_decoding.md
         - file: topics/1_4_event_representations.md
-        - file: topics/1_4_snn.md
+        - file: topics/1_5_snn.md
           children:
-            - file: topics/1_4_1_why-snns.md
-            - file: topics/1_4_2_snn-basics.md
-        - file: topics/1_5_plasticity.md
+            - file: topics/1_5_1_why-snns.md
+            - file: topics/1_5_2_snn-basics.md
+        - file: topics/1_6_plasticity.md
     - file: topics/2_training.md
       children:
         - file: topics/2_1_credit_assignment.md
@@ -115,12 +117,11 @@ project:
         - topics/1_3_1_rate-enc.md
         - topics/1_3_2_temp-enc.md
         - topics/1_3_3_decoding.md
-        - topics/1_3_snn.md
         - topics/1_4_event_representations.md
-        - topics/1_4_snn.md
-        - topics/1_4_1_why-snns.md
-        - topics/1_4_2_snn-basics.md
-        - topics/1_5_frameworks.md
+        - topics/1_5_snn.md
+        - topics/1_5_1_why-snns.md
+        - topics/1_5_2_snn-basics.md
+        - topics/1_6_plasticity.md
         - topics/2_training.md
         - topics/2_1_credit_assignment.md
         - topics/2_2_surrogate_gradients.md
@@ -146,6 +147,7 @@ project:
 parse:
   myst_enable_extensions:
     - amsmath
+  allowDangerousHtml: true
 site:
   template: book-theme
   options:

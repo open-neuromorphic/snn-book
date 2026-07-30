@@ -73,5 +73,7 @@ _build
 uv.lock
 
 node_modules/
+.nodeenv/
 package-lock.json
 package.json
+.claude/
