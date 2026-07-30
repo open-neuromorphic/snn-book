@@ -50,7 +50,7 @@ dynamics!). Also note that even if the LIF neuron in [From Spiking Neurons To Ar
 Neurons](https://r-gaurav.github.io/2020/05/08/From-Spiking-Neurons-To-Artificial-Neurons.html) article is written and discretized differently, the findings with
 respect to _rate approximation_ remains unchanged.
 
-The article idevelops the intuition behind activation functions in traditional
+The article develops the intuition behind activation functions in traditional
 (i.e., the second generation of) neural networks by conducting a series of
 experiments, where the LIF neuron is simulated for variying values of $J(t)$. In
 the article, under the **Experiments** section, the first plot (shown below):
