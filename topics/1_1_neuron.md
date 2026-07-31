@@ -5,8 +5,8 @@
 Artificial intelligence (AI) as a field was born from the drive to understand
 and model key functions of biological nervous systems.
 The neuromorphic field draws inspiration from the same source, with the added
-goal of modelling aspects of the brain much more closely than the currently
-dominant AI approach - deep learning.
+goal of modelling the computational aspects of the brain much more closely
+than the currently dominant AI approach - deep learning.
 
 The core functional element of a nervous system is the **neuron**, which
 Wikipedia defines as follows [@enwiki:1362551640]:
@@ -14,7 +14,7 @@ Wikipedia defines as follows [@enwiki:1362551640]:
 `An excitable cell that fires electric signals called action potentials across a
 neural network in the nervous system.`
 
-Neurons are cells that specialise in processing input stimuli from the
+Neurons are cells that specialize in processing input stimuli from the
 environment and producing signals of their own (known as **action potentials**
 or **spikes**).
 These processes, known as **encoding** and
@@ -27,7 +27,7 @@ patterns.
 At the sensory (or **afferent**) end of the nervous system,
 biosensors (such as the eye and the ear) serve as interfaces to the world,
 allowing an organism to perceive and manipulate its environment.
-Inside those biosensors, populations of specialised neurons inside serve
+Inside those biosensors, populations of specialized neurons inside serve
 the function of converting raw stimuli into spikes that the rest of the
 nervous system can understand.
 For instance, in the eyes of most mammals, this function is carried out by
@@ -36,7 +36,8 @@ convert light into spikes.
 Similarly, the **cochlea** inside the ear contains neurons that convert
 sound into spikes.
 All biological organisms have some mechanisms of sensing their
-environment, although this does not require a nervous system.
+environment, although those mechanisms do not necessarily involve
+a nervous system.
 For instance, while single-celled organisms can sense the presence
 of chemicals (such as food or toxins), they do so without the help
 of a any neurons.
@@ -51,10 +52,10 @@ In contrast, neurons in the **central** nervous system are responsible for
 higher-order processing of all incoming spikes and producing other spikes
 that can be interpreted as commands by different organs and tissues, such as
 muscles, glands and internal organs.
-This makes the central nervous system the 'control centre' of the body.
+This makes the central nervous system the "control center" of the body.
 
-Altogether, our brain has more than **80 billion neurons**, which communicate
-with each other via electrically conductive connections known as
+Altogether, the human brain has more than **80 billion neurons**, which
+communicate with each other via electrically conductive connections known as
 **synapses**, which are in excess of **100 trillion** in the human brain
 [@Azevedo-2013-AutomaticIsotropic].
 On average, each neuron connects to about **7000** other neurons,
@@ -64,10 +65,10 @@ networks are modelled after.
 Apart from neurons, our brain also has a number of other
 types of cells, such as **glial cells**, which perform
 various maintenance functions necessary to maintain a healthy brain.
-Whereas neurons are excitable cells that enable thought, sensation, perception,
-movement, reasoning, speech, vision and other functions, glial
-cells support, protect, and nourish neurons by forming **myelin** and
-participating in the brain's immune defense.
+Neurons are excitable cells that enable thought, sensation, perception,
+movement, reasoning, speech, vision and other functions.
+In contrast, glial cells support, protect, and nourish neurons by
+forming **myelin** and participating in the brain's immune defense.
 
 In this chapter, we will cover different types of  biological neurons and
 glial cells. Also, as this is the first chapter, we will define

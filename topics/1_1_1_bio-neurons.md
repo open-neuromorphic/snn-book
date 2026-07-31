@@ -7,24 +7,32 @@ kernelspec:
 (chapter:bio-neurons)=
 # Biological Neurons
 
-Biological neurons are specialised cells that play a central role in sensing,
+Biological neurons are specialized cells that play a central role in sensing,
 information processing, cognition and learning, controlling essential
-functions of the body (such as breathing, heart rate and hormone regulation),
-as well as fine and coarse motor control that allow animals to move
+involuntary
+functions of the body (such as breathing, heart rate, and hormone regulation),
+as well as voluntary functions (such as fine and coarse motor control)
+that allow animals to move
 in space and manipulate their environment.
 A peculiar feature of neurons is that they lack the key cellular
 structures responsible for mitosis, and therefore neurons are unable
-to divide like other cells.
+to divide like other cells. Nevertheless, new neurons are still generated in
+in certain certain parts of the nervous system, such as in the olfactory bulb
+and the hippocampus (@Appleby.Kempermann.ea-2011-RoleAdditive).
 
-The physical architecture of a neuron is highly specialised for communication.
-Neurons in our brain are structurally composed of a **soma** (or cell body),
-**dendrites**, **axon** and **axon terminals** (or synaptic endings). These
+The physical architecture of a neuron is highly specialized for communication.
+The main structural components of a neuron are the **soma** (or cell body),
+**dendrites**, the **axon**, and **axon terminals** (or synaptic endings). These
 are the primary components of interest to us with respect to simulating a
-spiking neuron. Other components of a biological neuron include
-the **nucleus**, the **axon hillock**, **myelin sheathing**,
-**nodes of Ranvier**, **ion channels** and so forth.
+biological neuron. Other components of a biological neuron include
+the **nucleus**, the **axon hillock**, **myelin sheath**,
+**nodes of Ranvier**, **ion channels** and so forth. Note that the computational
+complexity of simulating a biological neuron depends on the desired fidelity.
+That is, a simulation that takes into account only the dynamics of the soma
+is computationally simpler and more efficient than one that also includes
+axonal and myelin-related dynamics.
 
-The general structure of a neuron is shown in @fig:bio-neuron.
+The anatomical structure of a neuron is shown in @fig:bio-neuron.
 
 ```{figure} ../assets/topic_1/chapter_1_1/bio_neuron.png
 :label: fig:bio-neuron
@@ -40,28 +48,48 @@ public domain, Wikimedia Commons.
 
 The cell body of the neuron, known as the soma, contains the nucleus and
 essential organelles (such as ribosomes and mitochondria), which are necessary
-for maintaining the neuron's functions.
-The soma serves as the primary site for integrating
-incoming excitatory and inhibitory postsynaptic potentials (EPSPs and IPSPs;
-see @neurotransmitters). This integration occurs across the
-neuronal membrane, where the collective electrical influence of synaptic
-inputs (@synapses) determines whether the soma reaches the threshold
-required to trigger an action potential (action-potential)
-at the axon hillock (@axon).
+for maintaining the neuron's physiological functions.
 
 A fundamental characteristic of neurons is that they are
 electrically **charged**.
 This charge arises from a difference in ionic concentrations across the cell
 membrane in the soma, which induces a potential difference known as the
-**membrane potential**. The membrane potential of human neurons is
-generally around $−70~mV$, which means that in the absence of any
-external stimulation, the neuron lies at _rest_ at $−70~mV$,
-also known as the **resting potential**.
+**membrane potential**. In humans, the membrane potential of most neurons
+in the absence of any external stimulation is around $−70~mV$.
+This is known as the **resting potential**.
+
+The soma serves as the primary site for integrating incoming excitatory
+and inhibitory postsynaptic potentials (EPSPs and IPSPs;
+see @neurotransmitters). This integration occurs across the
+neuron's cell membrane, where the collective electrical influence of synaptic
+inputs (@synapses) determines whether the membrane potential in the soma
+reaches the threshold required to trigger an action potential
+(@action-potential) at the axon hillock (@axon).
 
 The membrane potential is dynamic, meaning that it fluctuates depending on
-two inherent physical quantities of the membrane: its resistance $R_{m}$
-and its capacitance $C_{m}$.
-In fact, its dynamics can be modelled in simple terms
+two inherent physical quantities of the membrane:
+its capacitance $C_{m}$ and resistance $R_{m}$.
+
+Like most cells in the body, the membrane of the neuron is composed of a double
+lipid layer, which is an excellent electrical insulator.
+This allows the membrane to function as a capacitor, where the interior and
+exterior of the cells function as the electrodes.
+The capacitance $C_{m}$ is a measure of the amount of charge that the membrane
+can maintain.
+
+While the membrane facilitates the accumulation and maintenance of
+electrical charge, the process of _charging_ the membrane depends on
+special protein structures known as **ion channels**.
+As the membrane itself is impermeable, ion channels serve as tunnels for
+transporting specific types of ions across the membrane.
+For instance, there are $Na^{+}$, $K^{+}$ and $Ca^{2+}$ channels that transport
+exclusively the respective ions across the membrane, either from the interior
+towards the intercellular space or vice versa. The concentration imbalance of
+ions on both sides of the membrane gives rise to a charge imbalance, which
+in turn gives rise to the membrane potential. The resistance $R_{m}$ of the
+membrane is a measure of the permeability of these ion channels.
+
+The dynamics of the membrane potential can be modelled in simple terms
 by using a simple RC circuit model (@fig:rc-circuit):
 
 ```{figure} ../assets/topic_1/chapter_1_1/RC_circuit.png
@@ -77,7 +105,7 @@ Wikimedia Commons.
 ```
 
 Together, $R_{m}$ and $C_{m}$ determine
-the speed at which the membrane can charge or discharge as the neuron
+the rate at which the membrane can charge or discharge as the neuron
 reacts to stimuli.
 Specifically, the product of $R_{m}$ and $C_{m}$ is known as
 the **time constant** $\tau_{m}$ of the membrane:
@@ -235,8 +263,8 @@ Neurons can receive input in the form of raw external stimuli (in the case
 of biosensors) or in the form of action potentials generated by other neurons.
 For example, in the retina, light is absorbed by a special type of cell called
 a **photoreceptor**, which triggers a series of chemical reactions and
-electric connections that ultimately translate the intensity of the absorbed
-light into an electric current. This current flows into other neurons,
+electrical connections that ultimately translate the intensity of the absorbed
+light into electric current. This current flows into other neurons,
 ultimately generating action potentials that travel down the optic nerve and
 become input stimuli for other neurons in the brain.
 
@@ -244,14 +272,14 @@ become input stimuli for other neurons in the brain.
 
 Neurons communicate with each other via **synapses**, which are channels
 that propagate electric pulses between two neurons.
-There are two distinct types of synapses: electrical and chemical.
+There are two distinct types of biological synapses: electrical and chemical.
 Electrical synapses, also known as **gap junctions**
 [@Shimizu.Stopfer-2013-GapJunctions], are conductive channels that allow
 ions to flow directly from one cell to another, enabling
-almost instantaneous, synchronised communication.
+almost instantaneous, synchronized communication.
 Importantly, this communication is **bidirectional**,
 meaning that ions can flow from either neuron into
-the other, so there are no distinct 'source' and 'target' neurons.
+the other, so there are no distinct "source" and "target" neurons.
 This mechanism is critical for ensuring rapid responses that are more or less
 automatic. For instance, gap junctions exist between two types of neurons
 (photoreceptors and horizontal cells) in the very first layers of the
@@ -260,7 +288,7 @@ changes in illumination.
 Gap junctions also play an important role in the
 synchronisation of brain waves [@Bennett.Zukin-2004-ElectricalCoupling].
 
-In contrast, chemical synapses are characterised by the presence
+In contrast, chemical synapses are characterized by the presence
 of a physical gap (known as the **synaptic cleft**) between
 the transmitting and receiving ends.
 Chemical synapses contain multiple tiny capsules called **vesicles** that are
@@ -284,7 +312,7 @@ can have hundreds or thousands of dendrites, it typically has only one axon.
 
 At the base of the axon lies the axon hillock, a crucial junction where
 the neuron integrates the influx of current received via dendrites.
-This current causes the membrane to *de*polarise, shifting the state
+This current causes the membrane to *de*polarize, shifting the state
 of the neuron away from the resting potential. If the membrane depolarisation
 reaches a certain critical level known as the **threshold**, the neuron enters
 a regime of cascading excitation that ultimately results in an
@@ -318,7 +346,7 @@ by the dendrites is _excitatory_ and the resulting potential change causes
 sufficient depolarization to push the membrane potential beyond a certain
 **threshold** (generally around $−55~mV$ ), the membrane enters a process of
 rapid depolarization, reaching a level of up to $+40~mV$.
-Immediately after that, the membrane *re*polarises and falls _below_ the resting
+Immediately after that, the membrane *re*polarizes and falls _below_ the resting
 potential. It eventually recovers to the resting potential after a certain
 amount of time (generally less than $2~ms$). This process results in the
 initiation of an **action potential** at the axon hillock
@@ -345,12 +373,12 @@ When the action potential reaches the axon terminals, it triggers the release
 of neurotransmitters into the **synaptic cleft**, thereby enabling
 communication with the next synaptically connected neuron.
 
-Neurotransmitters are broadly categorised into **excitatory** and
+Neurotransmitters are broadly categorized into **excitatory** and
 **inhibitory**. Excitatory neurotransmitters, such as glutamate, induce a
 depolarisation of the membrane of the receiving neuron known as an
-**excitatory post-synaptic potential (EPSP)**, making it more likely
+**Excitatory Post-Synaptic Potential (EPSP)**, making it more likely
 to produce an action potential. In contrast, inhibitory neurotransmitters,
-such as GABA, induce an **inhibitory post-synaptic potential (IPSP)**
+such as GABA, induce an **Inhibitory Post-Synaptic Potential (IPSP)**
 which leads to the **hyperpolarisation** of the membrane of the
 receiving neuron and makes an action potential _less_ likely.
 These opposing effects play a crucial role in learning
@@ -361,10 +389,10 @@ of neurotransmitter they release, and in biological neural networks they never
 spontaneously switch from one type into the other. The ratio of inhibitory
 to excitatory synapses in the human brain is about $1:4$, meaning that about
 $20%$ of all synaptic connections in the brain are inhibitory. This is known
-as Dale's principle. Note that in general spiking neural networks (cf. @snn)
+as Dale's principle. Note that in general Spiking Neural Networks (cf. @snn)
 _do not_ follow Dale's principle in at least two ways,
 unless special care is taken to ensure that they do. First, SNNs are rarely
-initialised in a way that ensures a $1:4$ ratio of inhibitory to excitatory
+initialized in a way that ensures a $1:4$ ratio of inhibitory to excitatory
 connections. Second, learning rules such as backpropagation can turn an
 excitatory connection into an inhibitory one.
 
