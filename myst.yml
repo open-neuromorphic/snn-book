@@ -36,7 +36,8 @@ project:
         - file: topics/1_1_neuron.md
           children:
             - file: topics/1_1_1_bio-neurons.md
-            - file: topics/1_1_2_glial-cells.md
+            - file: topics/1_1_2_comp-neurosci.md
+            - file: topics/1_1_3_glial-cells.md
         - file: topics/1_2_spiking.md
           children:
             - file: topics/1_2_1_point-neurons.md

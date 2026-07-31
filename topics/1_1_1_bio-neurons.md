@@ -58,6 +58,22 @@ membrane in the soma, which induces a potential difference known as the
 in the absence of any external stimulation is around $−70~mV$.
 This is known as the **resting potential**.
 
+Like most cells in the body, the membrane of the neuron is composed of a double
+lipid layer, which is an excellent electrical insulator.
+This allows the membrane to function as a capacitor, where the interior and
+exterior of the cells function as the electrodes.
+
+While the membrane facilitates the accumulation and maintenance of
+electrical charge, the _process_ of charging and discharging the membrane
+depends on special protein structures known as **ion channels**.
+As the membrane itself is impermeable, ion channels serve as tunnels for
+transporting specific types of ions across the membrane.
+For instance, there are $Na^{+}$, $K^{+}$ and $Ca^{2+}$ channels that transport
+exclusively the respective ions across the membrane, either from the interior
+towards the intercellular space or vice versa. The concentration imbalance of
+ions on both sides of the membrane gives rise to a charge imbalance, which
+in turn gives rise to the membrane potential.
+
 The soma serves as the primary site for integrating incoming excitatory
 and inhibitory postsynaptic potentials (EPSPs and IPSPs;
 see @neurotransmitters). This integration occurs across the
@@ -65,187 +81,6 @@ neuron's cell membrane, where the collective electrical influence of synaptic
 inputs (@synapses) determines whether the membrane potential in the soma
 reaches the threshold required to trigger an action potential
 (@action-potential) at the axon hillock (@axon).
-
-The membrane potential is dynamic, meaning that it fluctuates depending on
-two inherent physical quantities of the membrane:
-its capacitance $C_{m}$ and resistance $R_{m}$.
-
-Like most cells in the body, the membrane of the neuron is composed of a double
-lipid layer, which is an excellent electrical insulator.
-This allows the membrane to function as a capacitor, where the interior and
-exterior of the cells function as the electrodes.
-The capacitance $C_{m}$ is a measure of the amount of charge that the membrane
-can maintain.
-
-While the membrane facilitates the accumulation and maintenance of
-electrical charge, the process of _charging_ the membrane depends on
-special protein structures known as **ion channels**.
-As the membrane itself is impermeable, ion channels serve as tunnels for
-transporting specific types of ions across the membrane.
-For instance, there are $Na^{+}$, $K^{+}$ and $Ca^{2+}$ channels that transport
-exclusively the respective ions across the membrane, either from the interior
-towards the intercellular space or vice versa. The concentration imbalance of
-ions on both sides of the membrane gives rise to a charge imbalance, which
-in turn gives rise to the membrane potential. The resistance $R_{m}$ of the
-membrane is a measure of the permeability of these ion channels.
-
-The dynamics of the membrane potential can be modelled in simple terms
-by using a simple RC circuit model (@fig:rc-circuit):
-
-```{figure} ../assets/topic_1/chapter_1_1/RC_circuit.png
-:label: fig:rc-circuit
-:align: center
-
-An RC circuit with a capacitor and a resistor. Here, $I$ denotes current
-flowing from one of the capacitor's electrodes into the other via a
-resistance $R$. Credit:
-[Ismaelteodoro](https://commons.wikimedia.org/w/index.php?title=User:Ismaelteodoro),
-[CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/),
-Wikimedia Commons.
-```
-
-Together, $R_{m}$ and $C_{m}$ determine
-the rate at which the membrane can charge or discharge as the neuron
-reacts to stimuli.
-Specifically, the product of $R_{m}$ and $C_{m}$ is known as
-the **time constant** $\tau_{m}$ of the membrane:
-
-\begin{equation}
-    \tau_{m}=R_{m}C_{m}
-\end{equation}
-
-The time constant represents the characteristic timescale on
-which a neuron's membrane potential responds to input currents
-or changes in conductance, effectively defining the temporal
-lag or integration window of the cell.
-Conceptually, the dynamics of the membrane potential is akin to that of a
-low-pass filter, meaning that it attenuates high-frequency inputs and only
-'tracks' the exponential moving average of the input.
-Physiologically, $\tau_{m}$ dictates how quickly the membrane potential
-$V(t)$ approaches its new steady-state value following a stimulus.
-
-In the absence of stimuli, the voltage across a capacitor in an RC circuit
-evolves according to
-
-\begin{equation}
-    \frac{dV(t)}{dt} = - \frac{V(t)}{\tau}
-\end{equation}
-
-The solution to this equation is
-
-\begin{equation}
-    V(t) = V_{0} e^{−t/\tau}
-\end{equation}
-
-An interactive plot of the temporal evolution of the
-membrane potential is shown below.
-
-```{code-cell} python
-:tags: [remove-input]
-:label: membrane-evolution
-
-import numpy as np
-from bokeh.layouts import column, row, gridplot
-from bokeh.models import ColumnDataSource, CustomJS, Slider
-from bokeh.plotting import figure, output_notebook, show
-from bokeh.models import (
-    BoxZoomTool,
-    ResetTool,
-    PanTool,
-    WheelZoomTool,
-    SaveTool,
-    Label,
-    Node,
-)
-
-output_notebook(verbose=False, hide_banner=True)
-
-x = np.linspace(0.0, 30.0, 200)
-
-V0 = 0.5
-tau_init = 5
-
-y = V0 * np.exp(-x / tau_init)
-
-source = ColumnDataSource(data=dict(x=x, y=y))
-
-p = figure(
-    height=400,
-    x_range=(0, 30.0),
-    y_range=(0, 1),
-    tools=[PanTool(), WheelZoomTool(), BoxZoomTool(), ResetTool(), SaveTool()],
-)
-
-p.line("x", "y", source=source, line_width=3, line_alpha=0.6)
-p.title.text = "Temporal evolution of the membrane potential"
-p.title.align = "center"
-p.title.text_font_size = "14px"
-
-p.xaxis.axis_label = r"$$t [s]$$"
-p.yaxis.axis_label = r"$$V(t) [mV]$$"
-
-text = r"$$V(t) = V_{0} e^{-t / \tau}$$"
-frame_right = Node(target="frame", symbol="right", offset=-10)
-frame_top = Node(target="frame", symbol="top", offset=10)
-
-label = Label(
-    x=frame_right,
-    y=frame_top,
-    anchor="top_right",
-    text=text,
-    padding=10,
-)
-p.add_layout(label)
-
-slider_V = Slider(
-    start=0.001,
-    end=1,
-    value=V0,
-    step=0.001,
-    title=r"$$V_{0}$$",
-    width_policy="max",
-)
-slider_tau = Slider(
-    start=0.01,
-    end=10,
-    value=tau_init,
-    step=0.01,
-    title=r"$$\tau$$",
-    width_policy="max",
-)
-
-callback = CustomJS(
-    args=dict(
-        source=source,
-        slider_V=slider_V,
-        slider_tau=slider_tau,
-    ),
-    code="""
-    const tau = slider_tau.value
-    const V = slider_V.value
-    const x = source.data.x
-    const y = Array.from(x, (x) => V * Math.exp(- x / tau))
-    source.data = { x, y }
-""",
-)
-
-slider_V.js_on_change("value", callback)
-slider_tau.js_on_change("value", callback)
-
-layout = column(slider_tau, slider_V, p)
-
-show(layout)
-```
-
-Here, $V(t)$ is the membrane potential as a function of time, $V_{0}$ is the
-initial potential, and $t$ is time.
-A larger time constant resulting from either high resistance (low ion leakage)
-or high capacitance (large surface area) allows the neuron to integrate inputs
-over longer durations, facilitating temporal summation,
-whereas a smaller $\tau_{m}$ enables a more rapid, transient response.
-
-The membrane potential will be revisited in @axon below in the context
-of action potential integration.
 
 ## Dendrites
 
@@ -325,7 +160,7 @@ neuron state, particularly the membrane depolarisation level, the amount of
 incoming current from the dendrites, the time constant of the membrane and
 so forth.
 
-In many neurons, the axon is wrapped in a fatty
+In many neurons, the axon is wrapped in a lipid-rich
 myelin sheath, which allows the electrical signal to "jump"
 between gaps called nodes of Ranvier, vastly increasing conduction velocity
 through a process known as **saltatory conduction**.
