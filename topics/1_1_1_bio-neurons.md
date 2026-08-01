@@ -142,8 +142,12 @@ source and target neurons.
 
 ## Axon
 
-The axon is the primary output channel of the neuron. While a single neuron
-can have hundreds or thousands of dendrites, it typically has only one axon.
+The axon is a wire-like structure that extends from the soma to other neurons.
+It the primary output channel of the neuron.
+In some cases, the axon can reach a length of more than one meter
+[@bear2025neuroscience].
+While a single neuron can have hundreds or thousands of dendrites,
+it typically has only one axon.
 
 At the base of the axon lies the axon hillock, a crucial junction where
 the neuron integrates the influx of current received via dendrites.
