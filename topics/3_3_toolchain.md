@@ -10,7 +10,7 @@ authors:
 
 If you were making your own neuromorphic (or any) hardware, an important consideration for user adoption is the software that goes with it.  Most users will not want to have to think about the low level details of how their problems map on to hardware.  Additionally, they may not know enough of those details to make the best use of the hardware.  The neuromorphic toolchain that you provide gives you the opportunity to apply your own deep knowledge to optimise the use of the hardware on the users' problems.  This is akin to providing a code compiler for a given hardware architecture, which can take the user's higher level description and convert it into optimised machine code.
 
-In this chapter we will look at some of the common features of the toolchains that are provided for neuromorphic computing devices.  Examples will be drawn from two systems that the author is most familiar with; one being the digital system SpiNNaker, and the other being the analogy system BrainScaleS.  There are, of course, many different systems, but these have been chosen as archetypes due to being some of the first such systems to demonstrate the potential to scale up the size of the networks that can be run on the hardware.  Operating at scale is where a toolchain becomes particularly critical, as it becomes increasingly hard to manually manage all parts of the hardware as the amount of it you need to use gets bigger.  In the description I will often mention processing, which is slightly biased towards digital systems; analog systems could still be considered to be processing the inputs though, just in a different form.  In any case I ask for forgiveness in advance for this terminology, but it will also reduce the verbosity somewhat.
+In this chapter we will look at some of the common features of the toolchains that are provided for neuromorphic computing devices.  Examples will be drawn from two systems that the author is most familiar with; one being the digital system SpiNNaker, and the other being the analog system BrainScaleS.  There are, of course, many different systems, but these have been chosen as archetypes due to being some of the first such systems to demonstrate the potential to scale up the size of the networks that can be run on the hardware.  Operating at scale is where a toolchain becomes particularly critical, as it becomes increasingly hard to manually manage all parts of the hardware as the amount of it you need to use gets bigger.  In the description I will often mention processing, which is slightly biased towards digital systems; analog systems could still be considered to be processing the inputs though, just in a different form.  In any case I ask for forgiveness in advance for this terminology, but it will also reduce the verbosity somewhat.
 
 We begin by looking at the mapping of general problems on to the hardware.
 
@@ -33,11 +33,30 @@ Once it has been decided where things are going to be, it is then possible to en
 
 Before we move on, it is worth considering that, although the mapping has been described like a sequence of events with no consequences, the way in which one algorithm works can clearly have an effect on those that follow it.  This is quite pronounced in the relationship between placement and routing, since the placement will determine, to some extent, how efficient routing can be.  This has been seen on SpiNNaker, where routing remains one of the biggest challenges in terms of speed of operation.  Thus it was decided to make a multi-stage routing algorithm, which can route between areas of the machine.  However this depends on the placement putting partitions on adjacent chips, reducing the choices that the placement algorithm can make.  This did reduce the routing time for a particularly large example from over three days to around one hour.
 
+
+## Data Conversion
+
+Having completed mapping, the process of converting the data into an appropriate form and loading it on to the machine can begin.  This is likely to be a combination of machine-specific elements and, where there is on-hardware-execution of software, additionally down to decisions made in that software.  The critical objective here is to translate from concepts easy for the user to understand into representations that work well on the hardware.
+
+To give some examples, on SpiNNaker it is necessary to convert the routing information calculated during mapping into the binary representation used by the routers themselves.  Once this has been done correctly, it will always be the same since the routers will never change.  In contrast, the representation of neurons is purely software, so the data conversion has to be similarly fluid.  To this end, the user representation, conversion code and machine representation are also kept close to each other in the SpiNNaker code base.
+
+
+## Loading
+
+
+
 ## Machine Control
 
 Once it has been determined how the hardware is to be used, the software can now also be used to communicate with the hardware and control the simulation of the neural network.  This is a useful part of an integrated toolkit that handles all aspects of the hardware and avoids most users from having to consider the low level details.
 
 As has already been mentioned, machine control may be required during the mapping process, in the form of allocating some hardware to be used.  This step is most useful if the actual current state of the hardware is read by the software, so that the exact elements available at this time are known.  Once this has been done, it may be possible to power down the machine to to perform the mapping process, and so save some additional power.  This will only work if the machine that comes back up when the power is restored is identical, as otherwise it is possible that partitions will be mapped to elements that are no longer available, requiring at best a correction, and at worst a restart of the whole mapping process.
 
+In addition to getting a machine representation, the machine control will also be involved in loading the data.  Following these steps, the software can now start the simulation on the machine.  This may require some careful coordination; for example, analogue hardware could require that the initial voltages are set all at once, since the neurons will start emulation immediately.  On digital systems, it may be necessary to synchronise the start of the simulation to ensure (or attempt to ensure) the the neurons move to the same time step at the same time and avoid odd looking output data.
 
+Machine control may then also go deeper than just commands from the outside, and additionally require some control processes to be implemented on the hardware.  Again using SpiNNaker as an example, synchronization between SpiNNaker boards is critical to avoid effects caused by drifting clock generators.  This is handled at startup by delaying synchronisation signals on elements closer to the host vs. those further away having less of a delay, in an attempt to have the signal reach all elements simultaneously.  In addition, during simulation, elements continually fine-tune the duration of a time-step to a reference signal generated on one of the boards.
+
+After the simulation has been started, the software should interact less with the machine to avoid interference with the running processes that might affect the outcome.  Of course if the hardware allows, some monitoring could take place here to pick up errors that might happen and stop the simulation.  If this is not possible, the software can wait for the hardware to finish the simulation.  If the expected duration is known, the wait can be matched to this before any checks are done to determine completion.  If the completion does not happen, additional data can then be read to hopefully determine the cause and allow some level of debugging data to be generated.
+
+
+## Data Extraction 
 
