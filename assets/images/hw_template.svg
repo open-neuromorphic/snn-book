@@ -1,1023 +1,595 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
-  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="393.84pt" height="313.776pt" viewBox="0 0 393.84 313.776" xmlns="http://www.w3.org/2000/svg" version="1.1">
- <metadata>
-  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-   <cc:Work>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-06-17T16:53:27.042104</dc:date>
-    <dc:format>image/svg+xml</dc:format>
-    <dc:creator>
-     <cc:Agent>
-      <dc:title>Matplotlib v3.10.9, https://matplotlib.org/</dc:title>
-     </cc:Agent>
-    </dc:creator>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <defs>
-  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
- </defs>
- <g id="figure_1">
-  <g id="patch_1">
-   <path d="M 0 313.776 
-L 393.84 313.776 
-L 393.84 0 
-L 0 0 
-z
-" style="fill: #ffffff"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="608" viewBox="0 0 1000 608" role="img" aria-labelledby="title desc">
+  <title id="title">A three-layer spiking neural network mapped onto a tiled neuromorphic processor</title>
+  <desc id="desc">The left panel expands one core into compute, local memory, and a lower-right network router. The right panel maps Layer 1 onto three cores, Layer 2 onto six cores, and Layer 3 onto three cores in a twelve-core mesh. Large circular routers mark every mesh intersection, so packets visibly traverse a router at each horizontal or vertical hop. One red input port cycles packets through the three Layer 1 cores, and packets from the three Layer 3 cores converge on one gold output port. Every Layer 1 core sends blue packets to all six Layer 2 cores, and every Layer 2 core sends purple packets to all three Layer 3 cores, using repeating shuffled destination orders.</desc>
+
+  <defs>
+    <linearGradient id="coreFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#e8f1fb"/>
+    </linearGradient>
+    <linearGradient id="memoryFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7fbf9"/>
+      <stop offset="1" stop-color="#e6f4ec"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#1a202c" flood-opacity="0.10"/>
+    </filter>
+
+    <marker id="arrowBlueSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2b6cb0"/>
+    </marker>
+    <marker id="arrowGreenSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2f855a"/>
+    </marker>
+    <marker id="arrowInputSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#c53030"/>
+    </marker>
+    <marker id="arrowOutputSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#b7791f"/>
+    </marker>
+    <marker id="arrowOrangeSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dd6b20"/>
+    </marker>
+
+    <style>
+      text { font-family: "DejaVu Sans", Arial, sans-serif; fill: #2d3748; }
+      .stage { font-size: 19px; font-weight: 700; letter-spacing: 1.2px; }
+      .kicker { font-size: 17px; font-weight: 700; letter-spacing: 1px; }
+      .label { font-size: 24px; font-weight: 700; }
+      .body { font-size: 18px; }
+      .small { font-size: 17px; }
+      .layer-id { font-size: 15px; font-weight: 700; }
+      .moving-packets { pointer-events: none; }
+      @media (prefers-reduced-motion: reduce), print {
+        .moving-packets { display: none; }
+      }
+    </style>
+
+    <!-- Every compact core keeps compute and memory clear of the bottom/right NoC channels. -->
+    <g id="compactCore">
+      <rect x="0" y="0" width="105" height="80" rx="12" fill="url(#coreFill)" stroke="#2b6cb0" stroke-width="2.2"/>
+      <path d="M101 0 V80 M0 74 H105" fill="none" stroke="#a0aec0" stroke-width="3"/>
+      <rect x="12" y="9" width="81" height="23" rx="6" fill="#ffffff" stroke="#2b6cb0" stroke-width="1.5"/>
+      <rect x="12" y="44" width="81" height="25" rx="6" fill="#e6f4ec" stroke="#2f855a" stroke-width="1.5"/>
+    </g>
+
+    <!-- A router sits directly on each row/column intersection and separates adjacent NoC hops. -->
+    <g id="compactRouter">
+      <circle r="11.5" fill="#fffaf5" stroke="#dd6b20" stroke-width="2.4"/>
+      <circle r="6" fill="#dd6b20"/>
+      <circle r="2.3" fill="#ffffff"/>
+    </g>
+
+    <!-- Packet colors distinguish external input, layer traffic, and external output. -->
+    <g id="packetL1">
+      <rect x="-9" y="-5" width="18" height="10" rx="4" fill="#2b6cb0" stroke="#ffffff" stroke-width="1.7"/>
+      <circle cx="-3.5" cy="0" r="1.35" fill="#ffffff"/>
+      <circle cx="2" cy="0" r="1.35" fill="#ffffff"/>
+    </g>
+    <g id="packetL2">
+      <rect x="-9" y="-5" width="18" height="10" rx="4" fill="#6b46c1" stroke="#ffffff" stroke-width="1.7"/>
+      <circle cx="-3.5" cy="0" r="1.35" fill="#ffffff"/>
+      <circle cx="2" cy="0" r="1.35" fill="#ffffff"/>
+    </g>
+    <g id="packetInput">
+      <rect x="-9" y="-5" width="18" height="10" rx="4" fill="#c53030" stroke="#ffffff" stroke-width="1.7"/>
+      <circle cx="-3.5" cy="0" r="1.35" fill="#ffffff"/>
+      <circle cx="2" cy="0" r="1.35" fill="#ffffff"/>
+    </g>
+    <g id="packetOutput">
+      <rect x="-9" y="-5" width="18" height="10" rx="4" fill="#b7791f" stroke="#ffffff" stroke-width="1.7"/>
+      <circle cx="-3.5" cy="0" r="1.35" fill="#ffffff"/>
+      <circle cx="2" cy="0" r="1.35" fill="#ffffff"/>
+    </g>
+
+    <!-- Relative routes begin and end at routers; longer paths cross every intermediate router. -->
+    <path id="routeNextUp2" d="M0 0 H130 V-210"/>
+    <path id="routeNextUp1" d="M0 0 H130 V-105"/>
+    <path id="routeNextSame" d="M0 0 H130"/>
+    <path id="routeNextDown1" d="M0 0 H130 V105"/>
+    <path id="routeNextDown2" d="M0 0 H130 V210"/>
+
+    <path id="routeTwoUp2" d="M0 0 H260 V-210"/>
+    <path id="routeTwoUp1" d="M0 0 H260 V-105"/>
+    <path id="routeTwoSame" d="M0 0 H260"/>
+    <path id="routeTwoDown1" d="M0 0 H260 V105"/>
+    <path id="routeTwoDown2" d="M0 0 H260 V210"/>
+
+    <path id="routeInputTop" d="M0 0 H157 V-105"/>
+    <path id="routeInputMiddle" d="M0 0 H157"/>
+    <path id="routeInputBottom" d="M0 0 H157 V105"/>
+    <path id="routeOutputFromTop" d="M0 0 V105 H59"/>
+    <path id="routeOutputMiddle" d="M0 0 H59"/>
+    <path id="routeOutputFromBottom" d="M0 0 V-105 H59"/>
+  </defs>
+
+  <rect width="1000" height="608" fill="#ffffff"/>
+
+  <!-- Section headings -->
+  <g>
+    <circle cx="46" cy="43" r="15" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.6"/>
+    <text x="46" y="49" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">1</text>
+    <text x="73" y="49" class="stage" fill="#2b6cb0">ONE LOCAL CORE</text>
+    <line x1="34" y1="72" x2="356" y2="72" stroke="#90cdf4" stroke-width="2"/>
+
+    <circle cx="405" cy="43" r="15" fill="#fdf0e4" stroke="#dd6b20" stroke-width="1.6"/>
+    <text x="405" y="49" text-anchor="middle" class="small" font-weight="700" fill="#9c4221">2</text>
+    <text x="432" y="49" class="stage" fill="#9c4221">MAPPED THREE-LAYER SNN</text>
+    <line x1="393" y1="72" x2="966" y2="72" stroke="#f6ad55" stroke-width="2"/>
   </g>
-  <g id="axes_1">
-   <g id="line2d_1">
-    <path d="M 94.227523 259.225714 
-L 109.892477 259.225714 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_2">
-    <path d="M 64.638165 233.259429 
-L 64.638165 219.512571 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_3">
-    <path d="M 169.071193 259.225714 
-L 184.736147 259.225714 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_4">
-    <path d="M 139.481835 233.259429 
-L 139.481835 219.512571 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_5">
-    <path d="M 243.914862 259.225714 
-L 259.579817 259.225714 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_6">
-    <path d="M 214.325505 233.259429 
-L 214.325505 219.512571 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_7">
-    <path d="M 289.169174 233.259429 
-L 289.169174 219.512571 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_8">
-    <path d="M 94.227523 193.546286 
-L 109.892477 193.546286 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_9">
-    <path d="M 64.638165 167.58 
-L 64.638165 153.833143 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_10">
-    <path d="M 169.071193 193.546286 
-L 184.736147 193.546286 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_11">
-    <path d="M 139.481835 167.58 
-L 139.481835 153.833143 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_12">
-    <path d="M 243.914862 193.546286 
-L 259.579817 193.546286 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_13">
-    <path d="M 214.325505 167.58 
-L 214.325505 153.833143 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_14">
-    <path d="M 289.169174 167.58 
-L 289.169174 153.833143 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_15">
-    <path d="M 94.227523 127.866857 
-L 109.892477 127.866857 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_16">
-    <path d="M 64.638165 101.900571 
-L 64.638165 88.153714 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_17">
-    <path d="M 169.071193 127.866857 
-L 184.736147 127.866857 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_18">
-    <path d="M 139.481835 101.900571 
-L 139.481835 88.153714 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_19">
-    <path d="M 243.914862 127.866857 
-L 259.579817 127.866857 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_20">
-    <path d="M 214.325505 101.900571 
-L 214.325505 88.153714 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_21">
-    <path d="M 289.169174 101.900571 
-L 289.169174 88.153714 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_22">
-    <path d="M 94.227523 62.187429 
-L 109.892477 62.187429 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_23">
-    <path d="M 169.071193 62.187429 
-L 184.736147 62.187429 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_24">
-    <path d="M 243.914862 62.187429 
-L 259.579817 62.187429 
-" clip-path="url(#pa364a8fc17)" style="fill: none; stroke: #dd6b20; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="patch_2">
-    <path d="M 37.137468 285.802971 
-L 92.138862 285.802971 
-Q 94.923743 285.802971 94.923743 283.359086 
-L 94.923743 235.092343 
-Q 94.923743 232.648457 92.138862 232.648457 
-L 37.137468 232.648457 
-Q 34.352587 232.648457 34.352587 235.092343 
-L 34.352587 283.359086 
-Q 34.352587 285.802971 37.137468 285.802971 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_3">
-    <path d="M 43.40345 252.810514 
-L 85.872881 252.810514 
-Q 88.657761 252.810514 88.657761 250.366629 
-L 88.657761 241.202057 
-Q 88.657761 238.758171 85.872881 238.758171 
-L 43.40345 238.758171 
-Q 40.618569 238.758171 40.618569 241.202057 
-L 40.618569 250.366629 
-Q 40.618569 252.810514 43.40345 252.810514 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_4">
-    <path d="M 43.40345 279.693257 
-L 85.872881 279.693257 
-Q 88.657761 279.693257 88.657761 277.249371 
-L 88.657761 268.0848 
-Q 88.657761 265.640914 85.872881 265.640914 
-L 43.40345 265.640914 
-Q 40.618569 265.640914 40.618569 268.0848 
-L 40.618569 277.249371 
-Q 40.618569 279.693257 43.40345 279.693257 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_5">
-    <path d="M 111.981138 285.802971 
-L 166.982532 285.802971 
-Q 169.767413 285.802971 169.767413 283.359086 
-L 169.767413 235.092343 
-Q 169.767413 232.648457 166.982532 232.648457 
-L 111.981138 232.648457 
-Q 109.196257 232.648457 109.196257 235.092343 
-L 109.196257 283.359086 
-Q 109.196257 285.802971 111.981138 285.802971 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_6">
-    <path d="M 118.247119 252.810514 
-L 160.71655 252.810514 
-Q 163.501431 252.810514 163.501431 250.366629 
-L 163.501431 241.202057 
-Q 163.501431 238.758171 160.71655 238.758171 
-L 118.247119 238.758171 
-Q 115.462239 238.758171 115.462239 241.202057 
-L 115.462239 250.366629 
-Q 115.462239 252.810514 118.247119 252.810514 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_7">
-    <path d="M 118.247119 279.693257 
-L 160.71655 279.693257 
-Q 163.501431 279.693257 163.501431 277.249371 
-L 163.501431 268.0848 
-Q 163.501431 265.640914 160.71655 265.640914 
-L 118.247119 265.640914 
-Q 115.462239 265.640914 115.462239 268.0848 
-L 115.462239 277.249371 
-Q 115.462239 279.693257 118.247119 279.693257 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_8">
-    <path d="M 186.824807 285.802971 
-L 241.826202 285.802971 
-Q 244.611083 285.802971 244.611083 283.359086 
-L 244.611083 235.092343 
-Q 244.611083 232.648457 241.826202 232.648457 
-L 186.824807 232.648457 
-Q 184.039927 232.648457 184.039927 235.092343 
-L 184.039927 283.359086 
-Q 184.039927 285.802971 186.824807 285.802971 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_9">
-    <path d="M 193.090789 252.810514 
-L 235.56022 252.810514 
-Q 238.345101 252.810514 238.345101 250.366629 
-L 238.345101 241.202057 
-Q 238.345101 238.758171 235.56022 238.758171 
-L 193.090789 238.758171 
-Q 190.305908 238.758171 190.305908 241.202057 
-L 190.305908 250.366629 
-Q 190.305908 252.810514 193.090789 252.810514 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_10">
-    <path d="M 193.090789 279.693257 
-L 235.56022 279.693257 
-Q 238.345101 279.693257 238.345101 277.249371 
-L 238.345101 268.0848 
-Q 238.345101 265.640914 235.56022 265.640914 
-L 193.090789 265.640914 
-Q 190.305908 265.640914 190.305908 268.0848 
-L 190.305908 277.249371 
-Q 190.305908 279.693257 193.090789 279.693257 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_11">
-    <path d="M 261.668477 285.802971 
-L 316.669872 285.802971 
-Q 319.454752 285.802971 319.454752 283.359086 
-L 319.454752 235.092343 
-Q 319.454752 232.648457 316.669872 232.648457 
-L 261.668477 232.648457 
-Q 258.883596 232.648457 258.883596 235.092343 
-L 258.883596 283.359086 
-Q 258.883596 285.802971 261.668477 285.802971 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_12">
-    <path d="M 267.934459 252.810514 
-L 310.40389 252.810514 
-Q 313.188771 252.810514 313.188771 250.366629 
-L 313.188771 241.202057 
-Q 313.188771 238.758171 310.40389 238.758171 
-L 267.934459 238.758171 
-Q 265.149578 238.758171 265.149578 241.202057 
-L 265.149578 250.366629 
-Q 265.149578 252.810514 267.934459 252.810514 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_13">
-    <path d="M 267.934459 279.693257 
-L 310.40389 279.693257 
-Q 313.188771 279.693257 313.188771 277.249371 
-L 313.188771 268.0848 
-Q 313.188771 265.640914 310.40389 265.640914 
-L 267.934459 265.640914 
-Q 265.149578 265.640914 265.149578 268.0848 
-L 265.149578 277.249371 
-Q 265.149578 279.693257 267.934459 279.693257 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_14">
-    <path d="M 37.137468 220.123543 
-L 92.138862 220.123543 
-Q 94.923743 220.123543 94.923743 217.679657 
-L 94.923743 169.412914 
-Q 94.923743 166.969029 92.138862 166.969029 
-L 37.137468 166.969029 
-Q 34.352587 166.969029 34.352587 169.412914 
-L 34.352587 217.679657 
-Q 34.352587 220.123543 37.137468 220.123543 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_15">
-    <path d="M 43.40345 187.131086 
-L 85.872881 187.131086 
-Q 88.657761 187.131086 88.657761 184.6872 
-L 88.657761 175.522629 
-Q 88.657761 173.078743 85.872881 173.078743 
-L 43.40345 173.078743 
-Q 40.618569 173.078743 40.618569 175.522629 
-L 40.618569 184.6872 
-Q 40.618569 187.131086 43.40345 187.131086 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_16">
-    <path d="M 43.40345 214.013829 
-L 85.872881 214.013829 
-Q 88.657761 214.013829 88.657761 211.569943 
-L 88.657761 202.405371 
-Q 88.657761 199.961486 85.872881 199.961486 
-L 43.40345 199.961486 
-Q 40.618569 199.961486 40.618569 202.405371 
-L 40.618569 211.569943 
-Q 40.618569 214.013829 43.40345 214.013829 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_17">
-    <path d="M 111.981138 220.123543 
-L 166.982532 220.123543 
-Q 169.767413 220.123543 169.767413 217.679657 
-L 169.767413 169.412914 
-Q 169.767413 166.969029 166.982532 166.969029 
-L 111.981138 166.969029 
-Q 109.196257 166.969029 109.196257 169.412914 
-L 109.196257 217.679657 
-Q 109.196257 220.123543 111.981138 220.123543 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_18">
-    <path d="M 118.247119 187.131086 
-L 160.71655 187.131086 
-Q 163.501431 187.131086 163.501431 184.6872 
-L 163.501431 175.522629 
-Q 163.501431 173.078743 160.71655 173.078743 
-L 118.247119 173.078743 
-Q 115.462239 173.078743 115.462239 175.522629 
-L 115.462239 184.6872 
-Q 115.462239 187.131086 118.247119 187.131086 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_19">
-    <path d="M 118.247119 214.013829 
-L 160.71655 214.013829 
-Q 163.501431 214.013829 163.501431 211.569943 
-L 163.501431 202.405371 
-Q 163.501431 199.961486 160.71655 199.961486 
-L 118.247119 199.961486 
-Q 115.462239 199.961486 115.462239 202.405371 
-L 115.462239 211.569943 
-Q 115.462239 214.013829 118.247119 214.013829 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_20">
-    <path d="M 186.824807 220.123543 
-L 241.826202 220.123543 
-Q 244.611083 220.123543 244.611083 217.679657 
-L 244.611083 169.412914 
-Q 244.611083 166.969029 241.826202 166.969029 
-L 186.824807 166.969029 
-Q 184.039927 166.969029 184.039927 169.412914 
-L 184.039927 217.679657 
-Q 184.039927 220.123543 186.824807 220.123543 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_21">
-    <path d="M 193.090789 187.131086 
-L 235.56022 187.131086 
-Q 238.345101 187.131086 238.345101 184.6872 
-L 238.345101 175.522629 
-Q 238.345101 173.078743 235.56022 173.078743 
-L 193.090789 173.078743 
-Q 190.305908 173.078743 190.305908 175.522629 
-L 190.305908 184.6872 
-Q 190.305908 187.131086 193.090789 187.131086 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_22">
-    <path d="M 193.090789 214.013829 
-L 235.56022 214.013829 
-Q 238.345101 214.013829 238.345101 211.569943 
-L 238.345101 202.405371 
-Q 238.345101 199.961486 235.56022 199.961486 
-L 193.090789 199.961486 
-Q 190.305908 199.961486 190.305908 202.405371 
-L 190.305908 211.569943 
-Q 190.305908 214.013829 193.090789 214.013829 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_23">
-    <path d="M 261.668477 220.123543 
-L 316.669872 220.123543 
-Q 319.454752 220.123543 319.454752 217.679657 
-L 319.454752 169.412914 
-Q 319.454752 166.969029 316.669872 166.969029 
-L 261.668477 166.969029 
-Q 258.883596 166.969029 258.883596 169.412914 
-L 258.883596 217.679657 
-Q 258.883596 220.123543 261.668477 220.123543 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_24">
-    <path d="M 267.934459 187.131086 
-L 310.40389 187.131086 
-Q 313.188771 187.131086 313.188771 184.6872 
-L 313.188771 175.522629 
-Q 313.188771 173.078743 310.40389 173.078743 
-L 267.934459 173.078743 
-Q 265.149578 173.078743 265.149578 175.522629 
-L 265.149578 184.6872 
-Q 265.149578 187.131086 267.934459 187.131086 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_25">
-    <path d="M 267.934459 214.013829 
-L 310.40389 214.013829 
-Q 313.188771 214.013829 313.188771 211.569943 
-L 313.188771 202.405371 
-Q 313.188771 199.961486 310.40389 199.961486 
-L 267.934459 199.961486 
-Q 265.149578 199.961486 265.149578 202.405371 
-L 265.149578 211.569943 
-Q 265.149578 214.013829 267.934459 214.013829 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_26">
-    <path d="M 37.137468 154.444114 
-L 92.138862 154.444114 
-Q 94.923743 154.444114 94.923743 152.000229 
-L 94.923743 103.733486 
-Q 94.923743 101.2896 92.138862 101.2896 
-L 37.137468 101.2896 
-Q 34.352587 101.2896 34.352587 103.733486 
-L 34.352587 152.000229 
-Q 34.352587 154.444114 37.137468 154.444114 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_27">
-    <path d="M 43.40345 121.451657 
-L 85.872881 121.451657 
-Q 88.657761 121.451657 88.657761 119.007771 
-L 88.657761 109.8432 
-Q 88.657761 107.399314 85.872881 107.399314 
-L 43.40345 107.399314 
-Q 40.618569 107.399314 40.618569 109.8432 
-L 40.618569 119.007771 
-Q 40.618569 121.451657 43.40345 121.451657 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_28">
-    <path d="M 43.40345 148.3344 
-L 85.872881 148.3344 
-Q 88.657761 148.3344 88.657761 145.890514 
-L 88.657761 136.725943 
-Q 88.657761 134.282057 85.872881 134.282057 
-L 43.40345 134.282057 
-Q 40.618569 134.282057 40.618569 136.725943 
-L 40.618569 145.890514 
-Q 40.618569 148.3344 43.40345 148.3344 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_29">
-    <path d="M 111.981138 154.444114 
-L 166.982532 154.444114 
-Q 169.767413 154.444114 169.767413 152.000229 
-L 169.767413 103.733486 
-Q 169.767413 101.2896 166.982532 101.2896 
-L 111.981138 101.2896 
-Q 109.196257 101.2896 109.196257 103.733486 
-L 109.196257 152.000229 
-Q 109.196257 154.444114 111.981138 154.444114 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_30">
-    <path d="M 118.247119 121.451657 
-L 160.71655 121.451657 
-Q 163.501431 121.451657 163.501431 119.007771 
-L 163.501431 109.8432 
-Q 163.501431 107.399314 160.71655 107.399314 
-L 118.247119 107.399314 
-Q 115.462239 107.399314 115.462239 109.8432 
-L 115.462239 119.007771 
-Q 115.462239 121.451657 118.247119 121.451657 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_31">
-    <path d="M 118.247119 148.3344 
-L 160.71655 148.3344 
-Q 163.501431 148.3344 163.501431 145.890514 
-L 163.501431 136.725943 
-Q 163.501431 134.282057 160.71655 134.282057 
-L 118.247119 134.282057 
-Q 115.462239 134.282057 115.462239 136.725943 
-L 115.462239 145.890514 
-Q 115.462239 148.3344 118.247119 148.3344 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_32">
-    <path d="M 186.824807 154.444114 
-L 241.826202 154.444114 
-Q 244.611083 154.444114 244.611083 152.000229 
-L 244.611083 103.733486 
-Q 244.611083 101.2896 241.826202 101.2896 
-L 186.824807 101.2896 
-Q 184.039927 101.2896 184.039927 103.733486 
-L 184.039927 152.000229 
-Q 184.039927 154.444114 186.824807 154.444114 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_33">
-    <path d="M 193.090789 121.451657 
-L 235.56022 121.451657 
-Q 238.345101 121.451657 238.345101 119.007771 
-L 238.345101 109.8432 
-Q 238.345101 107.399314 235.56022 107.399314 
-L 193.090789 107.399314 
-Q 190.305908 107.399314 190.305908 109.8432 
-L 190.305908 119.007771 
-Q 190.305908 121.451657 193.090789 121.451657 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_34">
-    <path d="M 193.090789 148.3344 
-L 235.56022 148.3344 
-Q 238.345101 148.3344 238.345101 145.890514 
-L 238.345101 136.725943 
-Q 238.345101 134.282057 235.56022 134.282057 
-L 193.090789 134.282057 
-Q 190.305908 134.282057 190.305908 136.725943 
-L 190.305908 145.890514 
-Q 190.305908 148.3344 193.090789 148.3344 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_35">
-    <path d="M 261.668477 154.444114 
-L 316.669872 154.444114 
-Q 319.454752 154.444114 319.454752 152.000229 
-L 319.454752 103.733486 
-Q 319.454752 101.2896 316.669872 101.2896 
-L 261.668477 101.2896 
-Q 258.883596 101.2896 258.883596 103.733486 
-L 258.883596 152.000229 
-Q 258.883596 154.444114 261.668477 154.444114 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_36">
-    <path d="M 267.934459 121.451657 
-L 310.40389 121.451657 
-Q 313.188771 121.451657 313.188771 119.007771 
-L 313.188771 109.8432 
-Q 313.188771 107.399314 310.40389 107.399314 
-L 267.934459 107.399314 
-Q 265.149578 107.399314 265.149578 109.8432 
-L 265.149578 119.007771 
-Q 265.149578 121.451657 267.934459 121.451657 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_37">
-    <path d="M 267.934459 148.3344 
-L 310.40389 148.3344 
-Q 313.188771 148.3344 313.188771 145.890514 
-L 313.188771 136.725943 
-Q 313.188771 134.282057 310.40389 134.282057 
-L 267.934459 134.282057 
-Q 265.149578 134.282057 265.149578 136.725943 
-L 265.149578 145.890514 
-Q 265.149578 148.3344 267.934459 148.3344 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_38">
-    <path d="M 37.137468 88.764686 
-L 92.138862 88.764686 
-Q 94.923743 88.764686 94.923743 86.3208 
-L 94.923743 38.054057 
-Q 94.923743 35.610171 92.138862 35.610171 
-L 37.137468 35.610171 
-Q 34.352587 35.610171 34.352587 38.054057 
-L 34.352587 86.3208 
-Q 34.352587 88.764686 37.137468 88.764686 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_39">
-    <path d="M 43.40345 55.772229 
-L 85.872881 55.772229 
-Q 88.657761 55.772229 88.657761 53.328343 
-L 88.657761 44.163771 
-Q 88.657761 41.719886 85.872881 41.719886 
-L 43.40345 41.719886 
-Q 40.618569 41.719886 40.618569 44.163771 
-L 40.618569 53.328343 
-Q 40.618569 55.772229 43.40345 55.772229 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_40">
-    <path d="M 43.40345 82.654971 
-L 85.872881 82.654971 
-Q 88.657761 82.654971 88.657761 80.211086 
-L 88.657761 71.046514 
-Q 88.657761 68.602629 85.872881 68.602629 
-L 43.40345 68.602629 
-Q 40.618569 68.602629 40.618569 71.046514 
-L 40.618569 80.211086 
-Q 40.618569 82.654971 43.40345 82.654971 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_41">
-    <path d="M 111.981138 88.764686 
-L 166.982532 88.764686 
-Q 169.767413 88.764686 169.767413 86.3208 
-L 169.767413 38.054057 
-Q 169.767413 35.610171 166.982532 35.610171 
-L 111.981138 35.610171 
-Q 109.196257 35.610171 109.196257 38.054057 
-L 109.196257 86.3208 
-Q 109.196257 88.764686 111.981138 88.764686 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_42">
-    <path d="M 118.247119 55.772229 
-L 160.71655 55.772229 
-Q 163.501431 55.772229 163.501431 53.328343 
-L 163.501431 44.163771 
-Q 163.501431 41.719886 160.71655 41.719886 
-L 118.247119 41.719886 
-Q 115.462239 41.719886 115.462239 44.163771 
-L 115.462239 53.328343 
-Q 115.462239 55.772229 118.247119 55.772229 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_43">
-    <path d="M 118.247119 82.654971 
-L 160.71655 82.654971 
-Q 163.501431 82.654971 163.501431 80.211086 
-L 163.501431 71.046514 
-Q 163.501431 68.602629 160.71655 68.602629 
-L 118.247119 68.602629 
-Q 115.462239 68.602629 115.462239 71.046514 
-L 115.462239 80.211086 
-Q 115.462239 82.654971 118.247119 82.654971 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_44">
-    <path d="M 186.824807 88.764686 
-L 241.826202 88.764686 
-Q 244.611083 88.764686 244.611083 86.3208 
-L 244.611083 38.054057 
-Q 244.611083 35.610171 241.826202 35.610171 
-L 186.824807 35.610171 
-Q 184.039927 35.610171 184.039927 38.054057 
-L 184.039927 86.3208 
-Q 184.039927 88.764686 186.824807 88.764686 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_45">
-    <path d="M 193.090789 55.772229 
-L 235.56022 55.772229 
-Q 238.345101 55.772229 238.345101 53.328343 
-L 238.345101 44.163771 
-Q 238.345101 41.719886 235.56022 41.719886 
-L 193.090789 41.719886 
-Q 190.305908 41.719886 190.305908 44.163771 
-L 190.305908 53.328343 
-Q 190.305908 55.772229 193.090789 55.772229 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_46">
-    <path d="M 193.090789 82.654971 
-L 235.56022 82.654971 
-Q 238.345101 82.654971 238.345101 80.211086 
-L 238.345101 71.046514 
-Q 238.345101 68.602629 235.56022 68.602629 
-L 193.090789 68.602629 
-Q 190.305908 68.602629 190.305908 71.046514 
-L 190.305908 80.211086 
-Q 190.305908 82.654971 193.090789 82.654971 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_47">
-    <path d="M 261.668477 88.764686 
-L 316.669872 88.764686 
-Q 319.454752 88.764686 319.454752 86.3208 
-L 319.454752 38.054057 
-Q 319.454752 35.610171 316.669872 35.610171 
-L 261.668477 35.610171 
-Q 258.883596 35.610171 258.883596 38.054057 
-L 258.883596 86.3208 
-Q 258.883596 88.764686 261.668477 88.764686 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e8f1fb; stroke: #2b6cb0; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_48">
-    <path d="M 267.934459 55.772229 
-L 310.40389 55.772229 
-Q 313.188771 55.772229 313.188771 53.328343 
-L 313.188771 44.163771 
-Q 313.188771 41.719886 310.40389 41.719886 
-L 267.934459 41.719886 
-Q 265.149578 41.719886 265.149578 44.163771 
-L 265.149578 53.328343 
-Q 265.149578 55.772229 267.934459 55.772229 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #ffffff; stroke: #2b6cb0; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_49">
-    <path d="M 267.934459 82.654971 
-L 310.40389 82.654971 
-Q 313.188771 82.654971 313.188771 80.211086 
-L 313.188771 71.046514 
-Q 313.188771 68.602629 310.40389 68.602629 
-L 267.934459 68.602629 
-Q 265.149578 68.602629 265.149578 71.046514 
-L 265.149578 80.211086 
-Q 265.149578 82.654971 267.934459 82.654971 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #e6f4ec; stroke: #2f855a; stroke-width: 0.9; stroke-linejoin: miter"/>
-   </g>
-   <g id="text_1">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="64.638165" y="247.771093" transform="rotate(-0 64.638165 247.771093)">compute</text>
-   </g>
-   <g id="text_2">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="64.638165" y="274.653836" transform="rotate(-0 64.638165 274.653836)">local mem</text>
-   </g>
-   <g id="text_3">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="139.481835" y="247.771093" transform="rotate(-0 139.481835 247.771093)">compute</text>
-   </g>
-   <g id="text_4">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="139.481835" y="274.653836" transform="rotate(-0 139.481835 274.653836)">local mem</text>
-   </g>
-   <g id="text_5">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="214.325505" y="247.771093" transform="rotate(-0 214.325505 247.771093)">compute</text>
-   </g>
-   <g id="text_6">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="214.325505" y="274.653836" transform="rotate(-0 214.325505 274.653836)">local mem</text>
-   </g>
-   <g id="text_7">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="289.169174" y="247.771093" transform="rotate(-0 289.169174 247.771093)">compute</text>
-   </g>
-   <g id="text_8">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="289.169174" y="274.653836" transform="rotate(-0 289.169174 274.653836)">local mem</text>
-   </g>
-   <g id="text_9">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="64.638165" y="182.091664" transform="rotate(-0 64.638165 182.091664)">compute</text>
-   </g>
-   <g id="text_10">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="64.638165" y="208.974407" transform="rotate(-0 64.638165 208.974407)">local mem</text>
-   </g>
-   <g id="text_11">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="139.481835" y="182.091664" transform="rotate(-0 139.481835 182.091664)">compute</text>
-   </g>
-   <g id="text_12">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="139.481835" y="208.974407" transform="rotate(-0 139.481835 208.974407)">local mem</text>
-   </g>
-   <g id="text_13">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="214.325505" y="182.091664" transform="rotate(-0 214.325505 182.091664)">compute</text>
-   </g>
-   <g id="text_14">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="214.325505" y="208.974407" transform="rotate(-0 214.325505 208.974407)">local mem</text>
-   </g>
-   <g id="text_15">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="289.169174" y="182.091664" transform="rotate(-0 289.169174 182.091664)">compute</text>
-   </g>
-   <g id="text_16">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="289.169174" y="208.974407" transform="rotate(-0 289.169174 208.974407)">local mem</text>
-   </g>
-   <g id="text_17">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="64.638165" y="116.412236" transform="rotate(-0 64.638165 116.412236)">compute</text>
-   </g>
-   <g id="text_18">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="64.638165" y="143.294979" transform="rotate(-0 64.638165 143.294979)">local mem</text>
-   </g>
-   <g id="text_19">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="139.481835" y="116.412236" transform="rotate(-0 139.481835 116.412236)">compute</text>
-   </g>
-   <g id="text_20">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="139.481835" y="143.294979" transform="rotate(-0 139.481835 143.294979)">local mem</text>
-   </g>
-   <g id="text_21">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="214.325505" y="116.412236" transform="rotate(-0 214.325505 116.412236)">compute</text>
-   </g>
-   <g id="text_22">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="214.325505" y="143.294979" transform="rotate(-0 214.325505 143.294979)">local mem</text>
-   </g>
-   <g id="text_23">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="289.169174" y="116.412236" transform="rotate(-0 289.169174 116.412236)">compute</text>
-   </g>
-   <g id="text_24">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="289.169174" y="143.294979" transform="rotate(-0 289.169174 143.294979)">local mem</text>
-   </g>
-   <g id="text_25">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="64.638165" y="50.732807" transform="rotate(-0 64.638165 50.732807)">compute</text>
-   </g>
-   <g id="text_26">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="64.638165" y="77.61555" transform="rotate(-0 64.638165 77.61555)">local mem</text>
-   </g>
-   <g id="text_27">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="139.481835" y="50.732807" transform="rotate(-0 139.481835 50.732807)">compute</text>
-   </g>
-   <g id="text_28">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="139.481835" y="77.61555" transform="rotate(-0 139.481835 77.61555)">local mem</text>
-   </g>
-   <g id="text_29">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="214.325505" y="50.732807" transform="rotate(-0 214.325505 50.732807)">compute</text>
-   </g>
-   <g id="text_30">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="214.325505" y="77.61555" transform="rotate(-0 214.325505 77.61555)">local mem</text>
-   </g>
-   <g id="text_31">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2d3748" x="289.169174" y="50.732807" transform="rotate(-0 289.169174 50.732807)">compute</text>
-   </g>
-   <g id="text_32">
-    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2f855a" x="289.169174" y="77.61555" transform="rotate(-0 289.169174 77.61555)">local mem</text>
-   </g>
-   <g id="text_33">
-    <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2d3748" x="35.048807" y="20.946857" transform="rotate(-0 35.048807 20.946857)">Each tile = a small core (compute + local memory)</text>
-   </g>
-   <g id="patch_50">
-    <path d="M 311.305142 106.447962 
-Q 282.465919 116.819471 255.099591 126.66128 
-" style="fill: none; stroke: #dd6b20; stroke-width: 1.4; stroke-linecap: round"/>
-    <path d="M 259.096326 127.136789 
-L 255.099591 126.66128 
-L 257.878039 123.749198 
-" style="fill: none; stroke: #dd6b20; stroke-width: 1.4; stroke-linecap: round"/>
-   </g>
-   <g id="text_34">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #dd6b20" transform="translate(308.222726 91.82254)">network-on-chip</text>
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #dd6b20" transform="translate(310.68507 101.900571)">(router + links)</text>
-   </g>
-   <g id="patch_51">
-    <path d="M 61.157064 262.280571 
-L 68.119266 262.280571 
-L 68.119266 256.170857 
-L 61.157064 256.170857 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_52">
-    <path d="M 136.000734 262.280571 
-L 142.962936 262.280571 
-L 142.962936 256.170857 
-L 136.000734 256.170857 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_53">
-    <path d="M 210.844404 262.280571 
-L 217.806606 262.280571 
-L 217.806606 256.170857 
-L 210.844404 256.170857 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_54">
-    <path d="M 285.688073 262.280571 
-L 292.650275 262.280571 
-L 292.650275 256.170857 
-L 285.688073 256.170857 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_55">
-    <path d="M 61.157064 196.601143 
-L 68.119266 196.601143 
-L 68.119266 190.491429 
-L 61.157064 190.491429 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_56">
-    <path d="M 136.000734 196.601143 
-L 142.962936 196.601143 
-L 142.962936 190.491429 
-L 136.000734 190.491429 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_57">
-    <path d="M 210.844404 196.601143 
-L 217.806606 196.601143 
-L 217.806606 190.491429 
-L 210.844404 190.491429 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_58">
-    <path d="M 285.688073 196.601143 
-L 292.650275 196.601143 
-L 292.650275 190.491429 
-L 285.688073 190.491429 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_59">
-    <path d="M 61.157064 130.921714 
-L 68.119266 130.921714 
-L 68.119266 124.812 
-L 61.157064 124.812 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_60">
-    <path d="M 136.000734 130.921714 
-L 142.962936 130.921714 
-L 142.962936 124.812 
-L 136.000734 124.812 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_61">
-    <path d="M 210.844404 130.921714 
-L 217.806606 130.921714 
-L 217.806606 124.812 
-L 210.844404 124.812 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_62">
-    <path d="M 285.688073 130.921714 
-L 292.650275 130.921714 
-L 292.650275 124.812 
-L 285.688073 124.812 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_63">
-    <path d="M 61.157064 65.242286 
-L 68.119266 65.242286 
-L 68.119266 59.132571 
-L 61.157064 59.132571 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_64">
-    <path d="M 136.000734 65.242286 
-L 142.962936 65.242286 
-L 142.962936 59.132571 
-L 136.000734 59.132571 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_65">
-    <path d="M 210.844404 65.242286 
-L 217.806606 65.242286 
-L 217.806606 59.132571 
-L 210.844404 59.132571 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
-   <g id="patch_66">
-    <path d="M 285.688073 65.242286 
-L 292.650275 65.242286 
-L 292.650275 59.132571 
-L 285.688073 59.132571 
-z
-" clip-path="url(#pa364a8fc17)" style="fill: #dd6b20"/>
-   </g>
+
+  <!-- Enlarged representative core -->
+  <g filter="url(#softShadow)">
+    <rect x="34" y="96" width="322" height="424" rx="24" fill="url(#coreFill)" stroke="#2b6cb0" stroke-width="2"/>
   </g>
- </g>
- <defs>
-  <clipPath id="pa364a8fc17">
-   <rect x="7.2" y="7.2" width="379.44" height="299.376"/>
-  </clipPath>
- </defs>
+  <text x="61" y="128" class="kicker" fill="#2b6cb0">CORE / TILE</text>
+
+  <g>
+    <rect x="61" y="154" width="262" height="96" rx="16" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+    <circle cx="91" cy="185" r="16" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.5"/>
+    <path d="M84 185 H98 M91 178 V192" fill="none" stroke="#2b6cb0" stroke-width="2.2" stroke-linecap="round"/>
+    <text x="119" y="192" class="label" fill="#2b6cb0">Compute</text>
+    <text x="91" y="228" class="body" fill="#4a5568">synaptic and neuron updates</text>
+
+    <rect x="61" y="286" width="262" height="96" rx="16" fill="url(#memoryFill)" stroke="#2f855a" stroke-width="2"/>
+    <g transform="translate(77,311)" fill="none" stroke="#2f855a" stroke-width="1.7">
+      <ellipse cx="14" cy="5" rx="14" ry="5" fill="#e6f4ec"/>
+      <path d="M0 5 V27 C0 30 6 32 14 32 C22 32 28 30 28 27 V5"/>
+      <path d="M0 16 C0 19 6 21 14 21 C22 21 28 19 28 16"/>
+    </g>
+    <text x="119" y="329" class="label" fill="#276749">Local memory</text>
+    <text x="91" y="363" class="body" fill="#4a5568">weights and neuron state</text>
+  </g>
+
+  <!-- Separate arrows avoid the previous bow-tie artifact and show bidirectional local access. -->
+  <path d="M178 254 V279" fill="none" stroke="#2b6cb0" stroke-width="2.5" marker-end="url(#arrowBlueSmall)"/>
+  <path d="M199 282 V257" fill="none" stroke="#2f855a" stroke-width="2.5" marker-end="url(#arrowGreenSmall)"/>
+  <text x="216" y="273" class="small" fill="#4a5568">read / write</text>
+
+  <!-- Event traffic bypasses the memory label and reaches the lower-right corner router. -->
+  <path d="M323 201 H341 V465.5 H321" fill="none" stroke="#dd6b20" stroke-width="2.7" marker-start="url(#arrowOrangeSmall)" marker-end="url(#arrowOrangeSmall)"/>
+  <rect x="185" y="438" width="138" height="55" rx="14" fill="#fdf0e4" stroke="#dd6b20" stroke-width="2"/>
+  <circle cx="213.5" cy="465.5" r="13" fill="#fffaf5" stroke="#dd6b20" stroke-width="2"/>
+  <circle cx="213.5" cy="465.5" r="7" fill="#dd6b20"/>
+  <circle cx="213.5" cy="465.5" r="2.7" fill="#ffffff"/>
+  <text x="244" y="472" class="body" font-weight="700" fill="#9c4221">Router</text>
+
+  <!-- Physical array and logical layer mapping -->
+  <rect x="393" y="96" width="573" height="424" rx="24" fill="#fbfdff" stroke="#cbd5e0" stroke-width="1.6"/>
+  <text x="421" y="127" class="kicker" fill="#4a5568">PHYSICAL CORE ARRAY</text>
+
+  <g>
+    <rect x="432" y="140" width="120" height="27" rx="13.5" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.4"/>
+    <text x="492" y="159" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">L1 · 3 cores</text>
+    <text x="569" y="160" text-anchor="middle" font-size="22" fill="#718096">→</text>
+    <rect x="585" y="140" width="120" height="27" rx="13.5" fill="#faf5ff" stroke="#805ad5" stroke-width="1.4"/>
+    <text x="645" y="159" text-anchor="middle" class="small" font-weight="700" fill="#6b46c1">L2 · 6 cores</text>
+    <text x="722" y="160" text-anchor="middle" font-size="22" fill="#718096">→</text>
+    <rect x="738" y="140" width="120" height="27" rx="13.5" fill="#e6f4ec" stroke="#2f855a" stroke-width="1.4"/>
+    <text x="798" y="159" text-anchor="middle" class="small" font-weight="700" fill="#276749">L3 · 3 cores</text>
+  </g>
+
+  <!-- Full mesh remains available regardless of which cores are mapped. -->
+  <g fill="none" stroke="#a0aec0" stroke-width="3.4" stroke-linecap="round">
+    <path d="M428 274 H923"/>
+    <path d="M428 379 H923"/>
+    <path d="M428 484 H923"/>
+    <path d="M529 200 V490"/>
+    <path d="M659 200 V490"/>
+    <path d="M789 200 V490"/>
+    <path d="M919 200 V490"/>
+  </g>
+
+  <!-- Layer 1: three mapped cores. -->
+  <g>
+    <use href="#compactCore" x="428" y="200"/>
+    <rect x="428" y="200" width="105" height="80" rx="12" fill="none" stroke="#2b6cb0" stroke-width="3"/>
+    <text x="480.5" y="262" text-anchor="middle" class="layer-id" fill="#2b6cb0">L1a</text>
+
+    <use href="#compactCore" x="428" y="305"/>
+    <rect x="428" y="305" width="105" height="80" rx="12" fill="none" stroke="#2b6cb0" stroke-width="3"/>
+    <text x="480.5" y="367" text-anchor="middle" class="layer-id" fill="#2b6cb0">L1b</text>
+
+    <use href="#compactCore" x="428" y="410"/>
+    <rect x="428" y="410" width="105" height="80" rx="12" fill="none" stroke="#2b6cb0" stroke-width="3"/>
+    <text x="480.5" y="472" text-anchor="middle" class="layer-id" fill="#2b6cb0">L1c</text>
+  </g>
+
+  <!-- Layer 2: six mapped cores. -->
+  <g>
+    <use href="#compactCore" x="558" y="200"/>
+    <rect x="558" y="200" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="610.5" y="262" text-anchor="middle" class="layer-id" fill="#6b46c1">L2a</text>
+
+    <use href="#compactCore" x="558" y="305"/>
+    <rect x="558" y="305" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="610.5" y="367" text-anchor="middle" class="layer-id" fill="#6b46c1">L2b</text>
+
+    <use href="#compactCore" x="558" y="410"/>
+    <rect x="558" y="410" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="610.5" y="472" text-anchor="middle" class="layer-id" fill="#6b46c1">L2c</text>
+
+    <use href="#compactCore" x="688" y="200"/>
+    <rect x="688" y="200" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="740.5" y="262" text-anchor="middle" class="layer-id" fill="#6b46c1">L2d</text>
+
+    <use href="#compactCore" x="688" y="305"/>
+    <rect x="688" y="305" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="740.5" y="367" text-anchor="middle" class="layer-id" fill="#6b46c1">L2e</text>
+
+    <use href="#compactCore" x="688" y="410"/>
+    <rect x="688" y="410" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="740.5" y="472" text-anchor="middle" class="layer-id" fill="#6b46c1">L2f</text>
+  </g>
+
+  <!-- Layer 3: three mapped cores. -->
+  <g>
+    <use href="#compactCore" x="818" y="200"/>
+    <rect x="818" y="200" width="105" height="80" rx="12" fill="none" stroke="#2f855a" stroke-width="3"/>
+    <text x="870.5" y="262" text-anchor="middle" class="layer-id" fill="#276749">L3a</text>
+
+    <use href="#compactCore" x="818" y="305"/>
+    <rect x="818" y="305" width="105" height="80" rx="12" fill="none" stroke="#2f855a" stroke-width="3"/>
+    <text x="870.5" y="367" text-anchor="middle" class="layer-id" fill="#276749">L3b</text>
+
+    <use href="#compactCore" x="818" y="410"/>
+    <rect x="818" y="410" width="105" height="80" rx="12" fill="none" stroke="#2f855a" stroke-width="3"/>
+    <text x="870.5" y="472" text-anchor="middle" class="layer-id" fill="#276749">L3c</text>
+  </g>
+
+  <!-- Each core contributes one circular router at its lower-right mesh intersection. -->
+  <g aria-label="Twelve routers, one at every network-on-chip intersection">
+    <use href="#compactRouter" x="529" y="274"/>
+    <use href="#compactRouter" x="659" y="274"/>
+    <use href="#compactRouter" x="789" y="274"/>
+    <use href="#compactRouter" x="919" y="274"/>
+    <use href="#compactRouter" x="529" y="379"/>
+    <use href="#compactRouter" x="659" y="379"/>
+    <use href="#compactRouter" x="789" y="379"/>
+    <use href="#compactRouter" x="919" y="379"/>
+    <use href="#compactRouter" x="529" y="484"/>
+    <use href="#compactRouter" x="659" y="484"/>
+    <use href="#compactRouter" x="789" y="484"/>
+    <use href="#compactRouter" x="919" y="484"/>
+  </g>
+
+  <!-- Every source visits every core in the next layer in a fixed shuffled order. -->
+  <g class="moving-packets" aria-hidden="true">
+    <!-- L1a destination order: L2e → L2a → L2f → L2c → L2d → L2b. -->
+    <g transform="translate(529 274)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.1467;0.1567;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.1467;1"><mpath href="#routeTwoDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.1767;0.1867;0.3133;0.3233;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.1867;0.3133;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.48;0.49;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.48;1"><mpath href="#routeTwoDown2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.51;0.52;0.6467;0.6567;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.52;0.6467;1"><mpath href="#routeNextDown2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.8133;0.8233;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.8133;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.8433;0.8533;0.98;0.99;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.8533;0.98;1"><mpath href="#routeNextDown1"/></animateMotion>
+      </g>
+    </g>
+    <!-- L1b destination order: L2c → L2f → L2b → L2d → L2a → L2e. -->
+    <g transform="translate(529 379)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.1467;0.1567;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.1467;1"><mpath href="#routeNextDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.1767;0.1867;0.3133;0.3233;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.1867;0.3133;1"><mpath href="#routeTwoDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.48;0.49;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.48;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.51;0.52;0.6467;0.6567;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.52;0.6467;1"><mpath href="#routeTwoUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.8133;0.8233;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.8133;1"><mpath href="#routeNextUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.8433;0.8533;0.98;0.99;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.8533;0.98;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L1c destination order: L2d → L2b → L2e → L2a → L2c → L2f. -->
+    <g transform="translate(529 484)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.1467;0.1567;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.1467;1"><mpath href="#routeTwoUp2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.1767;0.1867;0.3133;0.3233;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.1867;0.3133;1"><mpath href="#routeNextUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.48;0.49;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.48;1"><mpath href="#routeTwoUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.51;0.52;0.6467;0.6567;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.52;0.6467;1"><mpath href="#routeNextUp2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.8133;0.8233;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.8133;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.8433;0.8533;0.98;0.99;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.8533;0.98;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2a destination order: L3c → L3a → L3b. -->
+    <g transform="translate(659 274)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="3s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeTwoDown2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="3s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 274)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="3s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeTwoDown1"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2b destination order: L3a → L3c → L3b. -->
+    <g transform="translate(659 379)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="3.8s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3.8s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeTwoUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="3.8s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3.8s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeTwoDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 379)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="3.8s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3.8s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2c destination order: L3b → L3a → L3c. -->
+    <g transform="translate(659 484)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="4.6s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="4.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeTwoUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="4.6s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="4.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeTwoUp2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 484)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="4.6s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="4.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2d destination order: L3b → L3c → L3a. -->
+    <g transform="translate(789 274)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="5.4s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="5.4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeNextDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="5.4s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="5.4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeNextDown2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 274)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="5.4s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="5.4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2e destination order: L3c → L3b → L3a. -->
+    <g transform="translate(789 379)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="6.2s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="6.2s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeNextDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="6.2s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="6.2s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 379)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="6.2s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="6.2s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeNextUp1"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2f destination order: L3a → L3b → L3c. -->
+    <g transform="translate(789 484)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="7s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="7s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeNextUp2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="7s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="7s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeNextUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 484)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="7s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="7s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+  </g>
+
+  <!-- One external input port and one external output port continue the middle NoC row. -->
+  <g>
+    <path d="M372 379 H517.5" fill="none" stroke="#c53030" stroke-width="2.7" marker-end="url(#arrowInputSmall)"/>
+    <path d="M930.5 379 H978" fill="none" stroke="#b7791f" stroke-width="2.7" marker-end="url(#arrowOutputSmall)"/>
+  </g>
+
+  <!-- Red input packets cycle L1a → L1b → L1c; gold output packets cycle L3a → L3b → L3c. -->
+  <g class="moving-packets" aria-hidden="true">
+    <g transform="translate(372 379)">
+      <g opacity="0">
+        <use href="#packetInput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="9s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeInputTop"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(372 379)" opacity="0.9">
+      <g opacity="0">
+        <use href="#packetInput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="9s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeInputMiddle"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(372 379)" opacity="0.82">
+      <g opacity="0">
+        <use href="#packetInput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="9s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeInputBottom"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(919 274)">
+      <g opacity="0">
+        <use href="#packetOutput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="9s" begin="4s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeOutputFromTop"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(919 379)" opacity="0.9">
+      <g opacity="0">
+        <use href="#packetOutput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="9s" begin="4s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeOutputMiddle"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(919 484)" opacity="0.82">
+      <g opacity="0">
+        <use href="#packetOutput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="9s" begin="4s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeOutputFromBottom"/></animateMotion>
+      </g>
+    </g>
+  </g>
+  <!-- Mapping and traffic legend -->
+  <g>
+    <rect x="34" y="544" width="932" height="46" rx="15" fill="#fffaf5" stroke="#f6ad55" stroke-width="1.4"/>
+
+    <rect x="58" y="557" width="38" height="21" rx="10.5" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.5"/>
+    <text x="77" y="573" text-anchor="middle" class="layer-id" fill="#2b6cb0">L1</text>
+    <text x="108" y="574" class="small" font-weight="700" fill="#2b6cb0">3 LAYER 1 CORES</text>
+
+    <rect x="275" y="557" width="38" height="21" rx="10.5" fill="#faf5ff" stroke="#805ad5" stroke-width="1.5"/>
+    <text x="294" y="573" text-anchor="middle" class="layer-id" fill="#6b46c1">L2</text>
+    <text x="325" y="574" class="small" font-weight="700" fill="#6b46c1">6 HIDDEN CORES</text>
+
+    <rect x="508" y="557" width="38" height="21" rx="10.5" fill="#e6f4ec" stroke="#2f855a" stroke-width="1.5"/>
+    <text x="527" y="573" text-anchor="middle" class="layer-id" fill="#276749">L3</text>
+    <text x="558" y="574" class="small" font-weight="700" fill="#276749">3 LAYER 3 CORES</text>
+
+    <line x1="744" y1="567.5" x2="785" y2="567.5" stroke="#a0aec0" stroke-width="3.4" stroke-linecap="round"/>
+    <rect x="751" y="562.5" width="18" height="10" rx="4" fill="#2b6cb0" stroke="#ffffff" stroke-width="1.5"/>
+    <rect x="768" y="562.5" width="18" height="10" rx="4" fill="#6b46c1" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="797" y="574" class="small" font-weight="700" fill="#4a5568">PACKETS ON NoC</text>
+
+  </g>
 </svg>
