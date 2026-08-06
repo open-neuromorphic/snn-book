@@ -91,7 +91,7 @@ Even in this minimal example, there is no single correct answer: many combinatio
 This ambiguity is at the heart of spatial credit assignment, and it only grows worse as networks get deeper and more complex.
 A caveat on the word *ambiguity*: that many weight settings solve the task does not make credit *undefined*.
 Given a loss, the gradient still prescribes one well-defined update.
-aaa
+It is the *solution set*, not the credit signal, that is *degenerate*: many distinct weight settings collapse onto the same output, so the task alone singles out none of them.
 Now, imagine adding time to the equation.
 
 ```{aside} What is state?
