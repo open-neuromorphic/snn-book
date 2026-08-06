@@ -15,9 +15,9 @@
       .body { font-size: 18px; }
       .flow-label { font-size: 17px; font-weight: 500; text-anchor: middle; }
       .output-label { font-size: 17px; font-weight: 600; text-anchor: middle; }
-      .traffic-label { font-size: 16px; font-weight: 500; }
+      .traffic-label { font-size: 17px; font-weight: 500; }
       .memory-title { font-size: 20px; font-weight: 600; text-anchor: middle; }
-      .memory-detail { font-size: 17px; text-anchor: middle; }
+      .memory-detail { font-size: 18px; text-anchor: middle; }
       .energy-title { font-size: 19px; font-weight: 600; }
       .energy-text { font-size: 17px; }
       .stage-card, .memory-body, .memory-rim, .energy-band, .flow-line,
@@ -28,19 +28,19 @@
     </style>
 
     <marker id="arrow-neutral" markerWidth="10" markerHeight="10" refX="8.5" refY="5"
-            orient="auto" markerUnits="strokeWidth">
+            orient="auto" markerUnits="userSpaceOnUse">
       <path d="M0,0 L10,5 L0,10 Z" fill="#26364a"/>
     </marker>
     <marker id="arrow-blue" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5"
-            orient="auto-start-reverse" markerUnits="strokeWidth">
+            orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M0,0 L9,4.5 L0,9 Z" fill="#2f6fb5"/>
     </marker>
     <marker id="arrow-orange" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5"
-            orient="auto-start-reverse" markerUnits="strokeWidth">
+            orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M0,0 L9,4.5 L0,9 Z" fill="#d7671f"/>
     </marker>
     <marker id="arrow-green" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5"
-            orient="auto" markerUnits="strokeWidth">
+            orient="auto" markerUnits="userSpaceOnUse">
       <path d="M0,0 L9,4.5 L0,9 Z" fill="#2e8259"/>
     </marker>
   </defs>
@@ -57,113 +57,117 @@
   <path class="flow-line" d="M694 210H725" marker-end="url(#arrow-neutral)"/>
 
   <path class="flow-line" d="M1014 210H1084" marker-end="url(#arrow-neutral)"/>
-  <text class="text flow-label" x="1055" y="166">routed</text>
-  <text class="text flow-label" x="1055" y="188">AER packet(s)</text>
+  <text class="text flow-label" x="1055" y="144">routed</text>
+  <text class="text flow-label" x="1055" y="166">AER</text>
+  <text class="text flow-label" x="1055" y="188">packet(s)</text>
 
   <!-- Stage 1: synaptic processing. -->
-  <rect class="stage-card" x="90" y="75" width="280" height="265" rx="15"
+  <rect class="stage-card" x="90" y="75" width="280" height="275" rx="15"
         fill="#eaf3fc" stroke="#2f6fb5" stroke-width="2"/>
   <path d="M105 75H355Q370 75 370 90V83H90V90Q90 75 105 75Z" fill="#2f6fb5"/>
   <circle cx="120" cy="110" r="18" fill="#2f6fb5"/>
   <text class="text stage-number" x="120" y="117">1</text>
   <text class="text stage-title" x="149" y="118" fill="#245d99">Synaptic process</text>
 
-  <circle cx="116" cy="158" r="4.5" fill="#2f6fb5"/>
-  <text class="text body" x="132" y="164">Decode source; optional delay</text>
-  <circle cx="116" cy="198" r="4.5" fill="#2f6fb5"/>
-  <text class="text body" x="132" y="204">Read weights; expand</text>
-  <text class="text body" x="132" y="226">connectivity to targets</text>
-  <circle cx="116" cy="251" r="4.5" fill="#2f6fb5"/>
-  <text class="text body" x="132" y="257">Optional learning:</text>
-  <text class="text body" x="132" y="279">write updated weights</text>
+  <circle cx="116" cy="153" r="4.5" fill="#2f6fb5"/>
+  <text class="text body" x="132" y="159">Decode source;</text>
+  <text class="text body" x="132" y="181">apply optional delay</text>
+  <circle cx="116" cy="207" r="4.5" fill="#2f6fb5"/>
+  <text class="text body" x="132" y="213">Read weights; expand</text>
+  <text class="text body" x="132" y="235">connectivity to targets</text>
+  <circle cx="116" cy="261" r="4.5" fill="#2f6fb5"/>
+  <text class="text body" x="132" y="267">Optional learning:</text>
+  <text class="text body" x="132" y="289">write updated weights</text>
 
-  <rect x="102" y="292" width="256" height="37" rx="9" fill="#d8eaf9"/>
-  <text class="text output-label" x="230" y="317">→ weighted target update(s)</text>
+  <rect x="102" y="302" width="256" height="37" rx="9" fill="#d8eaf9"/>
+  <text class="text output-label" x="230" y="327">→ weighted target update(s)</text>
 
   <!-- Stage 2: neuron processing. -->
-  <rect class="stage-card" x="410" y="75" width="280" height="265" rx="15"
+  <rect class="stage-card" x="410" y="75" width="280" height="275" rx="15"
         fill="#fdf1e7" stroke="#d7671f" stroke-width="2"/>
   <path d="M425 75H675Q690 75 690 90V83H410V90Q410 75 425 75Z" fill="#d7671f"/>
   <circle cx="440" cy="110" r="18" fill="#d7671f"/>
   <text class="text stage-number" x="440" y="117">2</text>
   <text class="text stage-title" x="469" y="118" fill="#ad4e15">Neuron process</text>
 
-  <circle cx="436" cy="158" r="4.5" fill="#d7671f"/>
-  <text class="text body" x="452" y="164">Read affected neuron states</text>
-  <circle cx="436" cy="198" r="4.5" fill="#d7671f"/>
-  <text class="text body" x="452" y="204">Accumulate, leak,</text>
-  <text class="text body" x="452" y="226">threshold, and reset</text>
-  <circle cx="436" cy="251" r="4.5" fill="#d7671f"/>
-  <text class="text body" x="452" y="257">Parallel, partial, or</text>
-  <text class="text body" x="452" y="279">time-multiplexed</text>
+  <circle cx="436" cy="153" r="4.5" fill="#d7671f"/>
+  <text class="text body" x="452" y="159">Read affected</text>
+  <text class="text body" x="452" y="181">neuron states</text>
+  <circle cx="436" cy="207" r="4.5" fill="#d7671f"/>
+  <text class="text body" x="452" y="213">Accumulate, leak,</text>
+  <text class="text body" x="452" y="235">threshold, and reset</text>
+  <circle cx="436" cy="261" r="4.5" fill="#d7671f"/>
+  <text class="text body" x="452" y="267">Parallel, partial, or</text>
+  <text class="text body" x="452" y="289">time-multiplexed</text>
 
-  <rect x="422" y="292" width="256" height="37" rx="9" fill="#f8dfca"/>
-  <text class="text output-label" x="550" y="317">→ firing-neuron IDs</text>
+  <rect x="422" y="302" width="256" height="37" rx="9" fill="#f8dfca"/>
+  <text class="text output-label" x="550" y="327">→ firing-neuron IDs</text>
 
   <!-- Stage 3: event generation. -->
-  <rect class="stage-card" x="730" y="75" width="280" height="265" rx="15"
+  <rect class="stage-card" x="730" y="75" width="280" height="275" rx="15"
         fill="#e9f5ef" stroke="#2e8259" stroke-width="2"/>
   <path d="M745 75H995Q1010 75 1010 90V83H730V90Q730 75 745 75Z" fill="#2e8259"/>
   <circle cx="760" cy="110" r="18" fill="#2e8259"/>
   <text class="text stage-number" x="760" y="117">3</text>
   <text class="text stage-title" x="789" y="118" fill="#236946">Event generation</text>
 
-  <circle cx="756" cy="158" r="4.5" fill="#2e8259"/>
-  <text class="text body" x="772" y="164">Read axon / routing entries</text>
-  <circle cx="756" cy="198" r="4.5" fill="#2e8259"/>
-  <text class="text body" x="772" y="204">Build or compress</text>
-  <text class="text body" x="772" y="226">AER packets</text>
-  <circle cx="756" cy="251" r="4.5" fill="#2e8259"/>
-  <text class="text body" x="772" y="257">Optional delay, feedback,</text>
-  <text class="text body" x="772" y="279">and pooling</text>
+  <circle cx="756" cy="153" r="4.5" fill="#2e8259"/>
+  <text class="text body" x="772" y="159">Read axon / routing</text>
+  <text class="text body" x="772" y="181">entries</text>
+  <circle cx="756" cy="207" r="4.5" fill="#2e8259"/>
+  <text class="text body" x="772" y="213">Build or compress</text>
+  <text class="text body" x="772" y="235">AER packets</text>
+  <circle cx="756" cy="261" r="4.5" fill="#2e8259"/>
+  <text class="text body" x="772" y="267">Optional delay, feedback,</text>
+  <text class="text body" x="772" y="289">and pooling</text>
 
-  <rect x="742" y="292" width="256" height="37" rx="9" fill="#d6ecdf"/>
-  <text class="text output-label" x="870" y="317">→ destination packets</text>
+  <rect x="742" y="302" width="256" height="37" rx="9" fill="#d6ecdf"/>
+  <text class="text output-label" x="870" y="327">→ destination packets</text>
 
   <!-- Explicit memory traffic. -->
-  <path class="memory-link" d="M230 347V393" stroke="#2f6fb5"
+  <path class="memory-link" d="M230 362V389" stroke="#2f6fb5"
         marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
   <text class="text traffic-label" x="248" y="375" fill="#245d99">read / optional write</text>
 
-  <path class="memory-link" d="M550 347V393" stroke="#d7671f"
+  <path class="memory-link" d="M550 362V389" stroke="#d7671f"
         marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)"/>
   <text class="text traffic-label" x="568" y="375" fill="#ad4e15">read–modify–write</text>
 
-  <path class="memory-link" d="M870 393V347" stroke="#2e8259" marker-end="url(#arrow-green)"/>
+  <path class="memory-link" d="M870 389V362" stroke="#2e8259" marker-end="url(#arrow-green)"/>
   <text class="text traffic-label" x="888" y="375" fill="#236946">read destinations</text>
 
   <!-- Weight memory. -->
-  <rect class="memory-body" x="120" y="405" width="220" height="100"
+  <rect class="memory-body" x="105" y="405" width="250" height="100"
         fill="#edf5fd" stroke="#2f6fb5" stroke-width="2"/>
-  <ellipse class="memory-rim" cx="230" cy="405" rx="110" ry="14"
+  <ellipse class="memory-rim" cx="230" cy="405" rx="125" ry="14"
            fill="#f8fbff" stroke="#2f6fb5" stroke-width="2"/>
-  <ellipse class="memory-rim" cx="230" cy="505" rx="110" ry="14"
+  <ellipse class="memory-rim" cx="230" cy="505" rx="125" ry="14"
            fill="#edf5fd" stroke="#2f6fb5" stroke-width="2"/>
-  <text class="text memory-title" x="230" y="440">Weight memory</text>
-  <text class="text memory-detail muted" x="230" y="466">reads scale with fan-out</text>
-  <text class="text memory-detail muted" x="230" y="486">optional learning writes</text>
+  <text class="text memory-title" x="230" y="439">Weight memory</text>
+  <text class="text memory-detail muted" x="230" y="464">reads scale with fan-out</text>
+  <text class="text memory-detail muted" x="230" y="484">optional learning writes</text>
 
   <!-- Neuron-state memory. -->
-  <rect class="memory-body" x="440" y="405" width="220" height="100"
+  <rect class="memory-body" x="425" y="405" width="250" height="100"
         fill="#fdf4ec" stroke="#d7671f" stroke-width="2"/>
-  <ellipse class="memory-rim" cx="550" cy="405" rx="110" ry="14"
+  <ellipse class="memory-rim" cx="550" cy="405" rx="125" ry="14"
            fill="#fffaf6" stroke="#d7671f" stroke-width="2"/>
-  <ellipse class="memory-rim" cx="550" cy="505" rx="110" ry="14"
+  <ellipse class="memory-rim" cx="550" cy="505" rx="125" ry="14"
            fill="#fdf4ec" stroke="#d7671f" stroke-width="2"/>
-  <text class="text memory-title" x="550" y="440">Neuron-state memory</text>
-  <text class="text memory-detail muted" x="550" y="466">read–modify–write</text>
-  <text class="text memory-detail muted" x="550" y="486">for affected neurons</text>
+  <text class="text memory-title" x="550" y="439">Neuron-state memory</text>
+  <text class="text memory-detail muted" x="550" y="464">read–modify–write</text>
+  <text class="text memory-detail muted" x="550" y="484">for affected neurons</text>
 
   <!-- Axon and routing memory. -->
-  <rect class="memory-body" x="760" y="405" width="220" height="100"
+  <rect class="memory-body" x="745" y="405" width="250" height="100"
         fill="#edf7f1" stroke="#2e8259" stroke-width="2"/>
-  <ellipse class="memory-rim" cx="870" cy="405" rx="110" ry="14"
+  <ellipse class="memory-rim" cx="870" cy="405" rx="125" ry="14"
            fill="#f8fcfa" stroke="#2e8259" stroke-width="2"/>
-  <ellipse class="memory-rim" cx="870" cy="505" rx="110" ry="14"
+  <ellipse class="memory-rim" cx="870" cy="505" rx="125" ry="14"
            fill="#edf7f1" stroke="#2e8259" stroke-width="2"/>
-  <text class="text memory-title" x="870" y="440">Axon / routing memory</text>
-  <text class="text memory-detail muted" x="870" y="466">destination lookup</text>
-  <text class="text memory-detail muted" x="870" y="486">for each firing neuron</text>
+  <text class="text memory-title" x="870" y="439">Axon / routing memory</text>
+  <text class="text memory-detail muted" x="870" y="464">destination lookup</text>
+  <text class="text memory-detail muted" x="870" y="484">for each firing neuron</text>
 
   <!-- Energy implication of the three memory paths. -->
   <path class="energy-link" d="M230 520V540" stroke="#2f6fb5"/>
