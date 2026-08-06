@@ -56,6 +56,7 @@
 
     var simulator = document.createElement('section');
     simulator.className = 'hw-mux-simulator';
+    simulator.hidden = true;
     simulator.setAttribute('aria-label', 'Interactive time-multiplexing scheduler');
     simulator.innerHTML = [
       '<div class="hw-mux-control-row">',
@@ -745,16 +746,25 @@
     updateSummary();
     figure.classList.add('hw-mux-enhanced');
 
-    // Wait two frames so Myst/Simple Browser finish laying out the article
-    // column before the first width measurement.
-    window.requestAnimationFrame(function () {
+    function startInteractive() {
+      simulator.hidden = false;
+      // Wait two frames so Myst/Simple Browser finish laying out the article
+      // column before the first width measurement.
       window.requestAnimationFrame(function () {
-        layout = null;
-        drawNetwork();
-        beginSweep(performance.now(), false);
-        startAnimation();
+        window.requestAnimationFrame(function () {
+          layout = null;
+          drawNetwork();
+          beginSweep(performance.now(), false);
+          startAnimation();
+        });
       });
-    });
+    }
+
+    if (window.hwWidgets && window.hwWidgets.withStylesheet) {
+      window.hwWidgets.withStylesheet('/_static/css/hw-multiplexing.css', startInteractive);
+    } else {
+      startInteractive();
+    }
   }
 
   function initializeFigures() {

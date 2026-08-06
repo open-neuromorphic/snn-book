@@ -1,6 +1,13 @@
 /* Interactive companion to fig:hw-energy-calculator. The SVG remains the
    no-JavaScript and print/PDF worked example. */
 
+figure.hw-energy-calculator-interactive {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 980px;
+  width: 80%;
+}
+
 .seneca-energy-calculator {
   --seneca-text: #243449;
   --seneca-muted: #5c697a;
@@ -8,6 +15,7 @@
   --seneca-layer-surface: #eef5fc;
   --seneca-border: #b6c0cc;
   --seneca-input: #ffffff;
+  --seneca-handling: #a43d59;
   --seneca-synaptic: #3977b9;
   --seneca-floor: #d7671f;
   --seneca-spike: #2e8259;
@@ -20,6 +28,7 @@
   --seneca-layer-surface: light-dark(#eef5fc, #14283c);
   --seneca-border: light-dark(#b6c0cc, #586779);
   --seneca-input: light-dark(#ffffff, #101821);
+  --seneca-handling: light-dark(#a43d59, #e07c96);
   --seneca-synaptic: light-dark(#3977b9, #70a9e3);
   --seneca-floor: light-dark(#d7671f, #f19a5f);
   --seneca-spike: light-dark(#2e8259, #66c291);
@@ -41,44 +50,34 @@
   box-sizing: border-box;
 }
 
-.seneca-energy-header {
-  align-items: baseline;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 1rem;
-  justify-content: space-between;
+.seneca-energy-mode-row {
   margin-bottom: 0.8rem;
+  max-width: 32rem;
 }
 
-.seneca-energy-title {
-  color: var(--seneca-text);
-  font-size: 1.2rem;
-  font-weight: 600;
-  line-height: 1.3;
-  margin: 0;
-}
-
-.seneca-energy-fixed-model {
-  color: var(--seneca-muted);
-  font-size: 0.88rem;
-  margin: 0;
-}
-
-.seneca-energy-layers {
-  border: 0;
+.seneca-energy-mode-field {
   display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 0;
-  padding: 0;
+  gap: 0.28rem;
+  min-width: 0;
 }
 
-.seneca-energy-layer {
-  background: var(--seneca-layer-surface);
-  border: 1px solid color-mix(in srgb, var(--seneca-synaptic) 68%, var(--seneca-border));
-  border-radius: 0.55rem;
+.seneca-energy-mode-field label {
+  color: var(--seneca-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.seneca-energy-mode {
+  background: var(--seneca-input);
+  border: 1px solid var(--seneca-border);
+  border-radius: 0.3rem;
+  color: var(--seneca-text);
+  font: inherit;
+  font-size: 0.88rem;
+  min-height: 2.2rem;
   min-width: 0;
-  padding: 0.7rem 0.75rem 0.75rem;
+  padding: 0.35rem 2rem 0.35rem 0.45rem;
+  width: 100%;
 }
 
 .seneca-energy-layer legend {
@@ -88,17 +87,43 @@
   padding: 0 0.25rem;
 }
 
-.seneca-energy-layer-index {
+.seneca-energy-layer legend::before {
   align-items: center;
   background: var(--seneca-synaptic);
   border-radius: 50%;
   color: #ffffff;
+  content: counter(seneca-layer);
   display: inline-flex;
   font-size: 0.78rem;
   height: 1.35rem;
   justify-content: center;
   margin-right: 0.35rem;
   width: 1.35rem;
+}
+
+.seneca-energy-layers {
+  border: 0;
+  counter-reset: seneca-layer;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 1.1rem;
+  padding: 0;
+}
+
+.seneca-energy-layer {
+  background: var(--seneca-layer-surface);
+  border: 1px solid var(--seneca-border);
+  border: 1px solid color-mix(in srgb, var(--seneca-synaptic) 68%, var(--seneca-border));
+  border-radius: 0.55rem;
+  counter-increment: seneca-layer;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.7rem 0.75rem 0.75rem;
+}
+
+.seneca-energy-layer-index {
+  display: none;
 }
 
 .seneca-energy-field {
@@ -108,8 +133,7 @@
   min-width: 0;
 }
 
-.seneca-energy-field label,
-.seneca-energy-density-heading {
+.seneca-energy-field label {
   color: var(--seneca-text);
   font-size: 0.82rem;
   font-weight: 600;
@@ -129,7 +153,8 @@
 }
 
 .seneca-energy-neurons:focus-visible,
-.seneca-energy-density:focus-visible {
+.seneca-energy-density:focus-visible,
+.seneca-energy-mode:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--seneca-synaptic) 72%, transparent);
   outline-offset: 2px;
 }
@@ -138,40 +163,77 @@
   border-color: #b42318;
 }
 
-.seneca-energy-density-row {
-  align-items: baseline;
-  display: flex;
+.seneca-energy-density-heading {
+  color: var(--seneca-text);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.seneca-energy-density-controls {
+  align-items: center;
+  display: grid;
   gap: 0.4rem;
-  justify-content: space-between;
+  grid-template-columns: minmax(0, 1fr) 2.6rem;
+  min-width: 0;
+  width: 100%;
 }
 
 .seneca-energy-density-value {
   color: var(--seneca-text);
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
   font-weight: 600;
+  line-height: 1;
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .seneca-energy-density {
+  -webkit-appearance: none;
+  appearance: none;
   accent-color: var(--seneca-synaptic);
+  background: transparent;
   cursor: pointer;
+  display: block;
+  height: 1.4rem;
   margin: 0;
-  min-height: 1.4rem;
+  max-width: 100%;
+  min-width: 0;
   width: 100%;
 }
 
-.seneca-energy-activity {
-  color: var(--seneca-muted);
-  font-size: 0.78rem;
-  font-variant-numeric: tabular-nums;
-  margin: 0.2rem 0 0;
+.seneca-energy-density::-webkit-slider-runnable-track {
+  background: color-mix(in srgb, var(--seneca-border) 70%, transparent);
+  border-radius: 999px;
+  height: 0.35rem;
 }
 
-.seneca-energy-definition {
-  color: var(--seneca-muted);
-  font-size: 0.82rem;
-  line-height: 1.45;
-  margin: 0.6rem 0 0.9rem;
+.seneca-energy-density::-moz-range-track {
+  background: color-mix(in srgb, var(--seneca-border) 70%, transparent);
+  border-radius: 999px;
+  height: 0.35rem;
+}
+
+.seneca-energy-density::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--seneca-synaptic);
+  border: 0;
+  border-radius: 50%;
+  height: 0.9rem;
+  margin-top: -0.28rem;
+  width: 0.9rem;
+}
+
+.seneca-energy-density::-moz-range-thumb {
+  background: var(--seneca-synaptic);
+  border: 0;
+  border-radius: 50%;
+  height: 0.9rem;
+  width: 0.9rem;
 }
 
 .seneca-energy-results {
@@ -262,7 +324,7 @@
 }
 
 .seneca-energy-track {
-  background: var(--seneca-saved);
+  background: color-mix(in srgb, var(--seneca-border) 35%, transparent);
   border-radius: 0.36rem;
   display: flex;
   height: 1.75rem;
@@ -271,15 +333,9 @@
   width: 100%;
 }
 
-.seneca-energy-track::after {
-  border-right: 2px solid var(--seneca-text);
-  content: '';
-  inset: -0.15rem 0 -0.15rem auto;
-  position: absolute;
-}
-
 .seneca-energy-segment {
   display: block;
+  flex: 0 0 auto;
   height: 100%;
   min-width: 0;
   transition: width 160ms ease;
@@ -287,6 +343,10 @@
 
 .seneca-energy-segment-synaptic {
   background: var(--seneca-synaptic);
+}
+
+.seneca-energy-segment-handling {
+  background: var(--seneca-handling);
 }
 
 .seneca-energy-segment-floor {
@@ -303,8 +363,8 @@
 
 .seneca-energy-breakdown {
   display: grid;
-  gap: 0.5rem 0.8rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 0.65rem;
 }
 
@@ -313,12 +373,17 @@
 }
 
 .seneca-energy-breakdown-label {
-  align-items: center;
+  align-items: flex-start;
   color: var(--seneca-muted);
   display: flex;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   gap: 0.35rem;
-  line-height: 1.25;
+  line-height: 1.3;
+  min-height: 2.1rem;
+}
+
+.seneca-energy-breakdown-label > span:last-child {
+  min-width: 0;
 }
 
 .seneca-energy-swatch {
@@ -331,6 +396,10 @@
 
 .seneca-energy-swatch-synaptic {
   background: var(--seneca-synaptic);
+}
+
+.seneca-energy-swatch-handling {
+  background: var(--seneca-handling);
 }
 
 .seneca-energy-swatch-floor {
@@ -353,56 +422,6 @@
   font-weight: 600;
   margin-top: 0.18rem;
   overflow-wrap: anywhere;
-}
-
-.seneca-energy-table-wrap {
-  margin-top: 0.85rem;
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-.seneca-energy-table {
-  border-collapse: collapse;
-  color: var(--seneca-text);
-  font-size: 0.82rem;
-  min-width: 34rem;
-  width: 100%;
-}
-
-.seneca-energy-table th,
-.seneca-energy-table td {
-  border-bottom: 1px solid var(--seneca-border);
-  padding: 0.42rem 0.5rem;
-  text-align: left;
-  vertical-align: top;
-}
-
-.seneca-energy-table th {
-  color: var(--seneca-muted);
-  font-size: 0.76rem;
-  font-weight: 600;
-}
-
-.seneca-energy-table th:nth-child(2),
-.seneca-energy-table th:nth-child(3),
-.seneca-energy-table td:nth-child(2),
-.seneca-energy-table td:nth-child(3) {
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-
-.seneca-energy-formula {
-  color: var(--seneca-text);
-  font-size: 0.82rem;
-  line-height: 1.45;
-  margin: 0.8rem 0 0;
-}
-
-.seneca-energy-assumptions {
-  color: var(--seneca-muted);
-  font-size: 0.76rem;
-  line-height: 1.45;
-  margin: 0.35rem 0 0;
 }
 
 figure.hw-energy-calculator-enhanced .seneca-energy-static-fallback {
@@ -433,11 +452,6 @@ figure.hw-energy-calculator-enhanced .seneca-energy-static-fallback {
   .seneca-energy-layers,
   .seneca-energy-breakdown {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .seneca-energy-header {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }
 

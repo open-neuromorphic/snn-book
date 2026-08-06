@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="650" viewBox="0 0 1100 650"
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="505" viewBox="0 0 1100 505"
      role="img" aria-labelledby="seneca-calc-title seneca-calc-desc">
   <title id="seneca-calc-title">Worked SENeCA energy and power estimate for a four-layer integrate-and-fire network</title>
-  <desc id="seneca-calc-desc">A static worked example of the interactive calculator. Four fully connected integrate-and-fire layers contain 256, 128, 64, and 10 neurons, each at 10 percent spike density. Dynamic processing consumes 58.4 nanojoules per 10 millisecond time step. A fixed single-core static power of 30 microwatts adds 300 nanojoules, giving 358 nanojoules per step and 35.8 microwatts of average total power.</desc>
+  <desc id="seneca-calc-desc">A static worked example of the interactive calculator with BF16 selected at 12.7 picojoules per one-event synaptic operation. Four fully connected integrate-and-fire layers contain 256, 128, 64, and 10 neurons, each at 10 percent spike density. Handling each input spike to an internal layer costs 0.6 nanojoules. Activation and leak updates cost 12.1 picojoules for every neuron, while output event generation costs 0.1 nanojoules for each firing neuron. Dynamic processing consumes 89.8 nanojoules per 10 millisecond time step. A fixed single-core static power of 30 microwatts adds 300 nanojoules, giving about 390 nanojoules per step and 39.0 microwatts of average total power.</desc>
 
   <defs>
     <style>
       .text { fill: #26364a; font-family: 'DejaVu Sans', Arial, sans-serif; }
       .muted { fill: #5b697b; }
-      .title { font-size: 28px; font-weight: 600; text-anchor: middle; }
-      .subtitle { font-size: 17px; text-anchor: middle; }
       .layer-title { font-size: 19px; font-weight: 600; text-anchor: middle; }
       .layer-value { font-size: 25px; font-weight: 600; text-anchor: middle; }
-      .layer-detail { font-size: 16px; text-anchor: middle; }
+      .layer-detail { font-size: 17px; text-anchor: middle; }
       .result-label { font-size: 18px; font-weight: 600; }
       .result-value { font-size: 34px; font-weight: 600; }
-      .breakdown-label { font-size: 16px; font-weight: 600; }
+      .breakdown-label { font-size: 17px; font-weight: 600; }
       .breakdown-value { font-size: 20px; font-weight: 600; }
-      .note { font-size: 15px; }
       .structural { vector-effect: non-scaling-stroke; }
     </style>
     <marker id="seneca-arrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5"
@@ -26,82 +23,75 @@
     </marker>
   </defs>
 
-  <rect width="1100" height="650" fill="#ffffff"/>
-  <text class="text title" x="550" y="42">SENeCA IF energy and power</text>
-  <text class="text subtitle muted" x="550" y="72">Static example: four fully connected layers · BF16 weights · 10% spike density · one-core static power included</text>
+  <rect width="1100" height="505" fill="#ffffff"/>
 
   <g class="structural">
-    <path d="M260 175H315" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
-    <path d="M520 175H575" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
-    <path d="M780 175H835" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
+    <path d="M260 115H315" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
+    <path d="M520 115H575" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
+    <path d="M780 115H835" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
   </g>
 
   <g>
-    <rect x="70" y="105" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
-    <rect x="330" y="105" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
-    <rect x="590" y="105" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
-    <rect x="850" y="105" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
+    <rect x="70" y="45" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
+    <rect x="330" y="45" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
+    <rect x="590" y="45" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
+    <rect x="850" y="45" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
 
-    <text class="text layer-title" x="165" y="135">Layer 1</text>
-    <text class="text layer-value" x="165" y="173">256</text>
-    <text class="text layer-detail muted" x="165" y="197">neurons</text>
-    <text class="text layer-detail" x="165" y="225">10% density · 25.6 active</text>
+    <text class="text layer-title" x="165" y="75">Layer 1</text>
+    <text class="text layer-value" x="165" y="113">256</text>
+    <text class="text layer-detail muted" x="165" y="137">neurons</text>
+    <text class="text layer-detail" x="165" y="165">10% density</text>
 
-    <text class="text layer-title" x="425" y="135">Layer 2</text>
-    <text class="text layer-value" x="425" y="173">128</text>
-    <text class="text layer-detail muted" x="425" y="197">neurons</text>
-    <text class="text layer-detail" x="425" y="225">10% density · 12.8 active</text>
+    <text class="text layer-title" x="425" y="75">Layer 2</text>
+    <text class="text layer-value" x="425" y="113">128</text>
+    <text class="text layer-detail muted" x="425" y="137">neurons</text>
+    <text class="text layer-detail" x="425" y="165">10% density</text>
 
-    <text class="text layer-title" x="685" y="135">Layer 3</text>
-    <text class="text layer-value" x="685" y="173">64</text>
-    <text class="text layer-detail muted" x="685" y="197">neurons</text>
-    <text class="text layer-detail" x="685" y="225">10% density · 6.4 active</text>
+    <text class="text layer-title" x="685" y="75">Layer 3</text>
+    <text class="text layer-value" x="685" y="113">64</text>
+    <text class="text layer-detail muted" x="685" y="137">neurons</text>
+    <text class="text layer-detail" x="685" y="165">10% density</text>
 
-    <text class="text layer-title" x="945" y="135">Layer 4</text>
-    <text class="text layer-value" x="945" y="173">10</text>
-    <text class="text layer-detail muted" x="945" y="197">neurons</text>
-    <text class="text layer-detail" x="945" y="225">10% density · 1.0 active</text>
+    <text class="text layer-title" x="945" y="75">Layer 4</text>
+    <text class="text layer-value" x="945" y="113">10</text>
+    <text class="text layer-detail muted" x="945" y="137">neurons</text>
+    <text class="text layer-detail" x="945" y="165">10% density</text>
   </g>
 
-  <rect x="70" y="285" width="960" height="265" rx="16" fill="#f5f7fa" stroke="#b7c1ce" stroke-width="1.5"/>
-  <line x1="410" y1="310" x2="410" y2="525" stroke="#c5ccd5" stroke-width="1.5"/>
+  <rect x="70" y="225" width="960" height="265" rx="16" fill="#f5f7fa" stroke="#b7c1ce" stroke-width="1.5"/>
+  <line x1="410" y1="250" x2="410" y2="465" stroke="#c5ccd5" stroke-width="1.5"/>
 
-  <text class="text result-label" x="105" y="335">Estimated total energy</text>
-  <text class="text result-value" x="105" y="379">358 nJ</text>
-  <text class="text muted" x="105" y="407" font-size="17">per 10 ms time step</text>
-  <text class="text muted" x="105" y="447" font-size="16" font-weight="600">Average total power</text>
-  <text class="text" x="105" y="478" font-size="27" font-weight="600">35.8 µW</text>
-  <text class="text" x="105" y="522" font-size="17" font-weight="600">57.0% below all-active total</text>
+  <text class="text result-label" x="105" y="275">Estimated total energy</text>
+  <text class="text result-value" x="105" y="319">390 nJ</text>
+  <text class="text muted" x="105" y="347" font-size="17">per 10 ms time step</text>
+  <text class="text muted" x="105" y="387" font-size="17" font-weight="600">Average total power</text>
+  <text class="text" x="105" y="418" font-size="27" font-weight="600">39.0 µW</text>
+  <text class="text" x="105" y="462" font-size="17" font-weight="600">66.1% below the zero-sparsity case</text>
 
-  <text class="text result-label" x="450" y="335">Current total energy on the all-active scale</text>
-  <rect x="450" y="358" width="530" height="34" rx="7" fill="#e2e7ed"/>
-  <rect x="450" y="358" width="33.56" height="34" rx="7" fill="#3977b9"/>
-  <rect x="483.56" y="358" width="3.52" height="34" fill="#d7671f"/>
-  <rect x="487.08" y="358" width="0.03" height="34" fill="#2e8259"/>
-  <rect x="487.11" y="358" width="190.56" height="34" fill="#7359a5"/>
-  <line x1="980" y1="350" x2="980" y2="400" stroke="#26364a" stroke-width="1.5"/>
-  <text class="text muted" x="980" y="421" font-size="15" text-anchor="end">all active = 834 nJ · 83.4 µW</text>
+  <text class="text result-label" x="450" y="275">Share of estimated total energy</text>
+  <rect x="450" y="298" width="49.61" height="34" rx="7" fill="#a43d59"/>
+  <rect x="499.61" y="298" width="97.52" height="34" fill="#3977b9"/>
+  <rect x="597.13" y="298" width="10.23" height="34" fill="#d7671f"/>
+  <rect x="607.36" y="298" width="8.45" height="34" fill="#2e8259"/>
+  <rect x="615.81" y="298" width="364.19" height="34" fill="#7359a5"/>
 
-  <circle cx="457" cy="452" r="6" fill="#3977b9"/>
-  <text class="text breakdown-label" x="473" y="458">Synaptic integration</text>
-  <text class="text breakdown-value" x="473" y="483">52.8 nJ</text>
+  <circle cx="457" cy="392" r="6" fill="#a43d59"/>
+  <text class="text breakdown-label" x="473" y="398">Input event (0.6 nJ)</text>
+  <text class="text breakdown-value" x="473" y="423">26.9 nJ</text>
 
-  <circle cx="742" cy="452" r="6" fill="#d7671f"/>
-  <text class="text breakdown-label" x="758" y="458">Neuron-update floor</text>
-  <text class="text breakdown-value" x="758" y="483">5.54 nJ</text>
+  <circle cx="647" cy="392" r="6" fill="#3977b9"/>
+  <text class="text breakdown-label" x="663" y="398">Synaptic (12.7 pJ)</text>
+  <text class="text breakdown-value" x="663" y="423">52.8 nJ</text>
 
-  <circle cx="457" cy="506" r="6" fill="#2e8259"/>
-  <text class="text breakdown-label" x="473" y="512">Emitted-spike capture</text>
-  <text class="text breakdown-value" x="473" y="537">50.4 pJ</text>
+  <circle cx="837" cy="392" r="6" fill="#d7671f"/>
+  <text class="text breakdown-label" x="853" y="398">Act./leak (12.1 pJ)</text>
+  <text class="text breakdown-value" x="853" y="423">5.54 nJ</text>
 
-  <circle cx="742" cy="506" r="6" fill="#7359a5"/>
-  <text class="text breakdown-label" x="758" y="512">Core static power</text>
-  <text class="text breakdown-value" x="758" y="537">300 nJ · 30 µW</text>
+  <circle cx="552" cy="446" r="6" fill="#2e8259"/>
+  <text class="text breakdown-label" x="568" y="452">Output event (0.1 nJ)</text>
+  <text class="text breakdown-value" x="568" y="477">4.58 nJ</text>
 
-  <text class="text note" x="70" y="582">
-    <tspan font-weight="600">Model:</tspan>
-    <tspan> 12.7 pJ per active synaptic operation + 12.1 pJ per neuron update + 1.1 pJ per emitted spike.</tspan>
-  </text>
-  <text class="text note" x="70" y="607"><tspan font-weight="600">Static:</tspan><tspan x="125">30 µW for one core = 300 nJ per 10 ms step; total power is total energy divided by 10 ms.</tspan></text>
-  <text class="text note muted" x="70" y="632">Expected-value estimate for three internal dense projections; input-to-Layer-1, RISC-V, NoC, and external-memory traffic are excluded.</text>
+  <circle cx="837" cy="446" r="6" fill="#7359a5"/>
+  <text class="text breakdown-label" x="853" y="452">Static power (30 µW)</text>
+  <text class="text breakdown-value" x="853" y="477">300 nJ</text>
 </svg>
