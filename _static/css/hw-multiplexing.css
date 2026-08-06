@@ -1,0 +1,399 @@
+/* Interactive companion to Figure fig:hw-mux. The SVG in the Markdown
+   remains the no-JavaScript and PDF fallback. */
+
+.hw-mux-simulator {
+  --hw-mux-text: #1f2937;
+  --hw-mux-muted: #5f6b7a;
+  --hw-mux-node: #111827;
+  --hw-mux-node-stroke: #ffffff;
+  --hw-mux-edge: #6d96d4;
+  --hw-mux-active: #d92d20;
+  --hw-mux-source: #d92d20;
+  --hw-mux-control-border: #aab4c2;
+  color-scheme: light dark;
+  --hw-mux-text: light-dark(#1f2937, #f3f4f6);
+  --hw-mux-muted: light-dark(#5f6b7a, #c7ced8);
+  --hw-mux-node: light-dark(#111827, #e5e7eb);
+  --hw-mux-node-stroke: light-dark(#ffffff, #111827);
+  --hw-mux-edge: light-dark(#6d96d4, #87aee8);
+  --hw-mux-active: light-dark(#d92d20, #ff655d);
+  --hw-mux-source: light-dark(#d92d20, #ff655d);
+  --hw-mux-control-border: light-dark(#aab4c2, #697386);
+
+  box-sizing: border-box;
+  color: var(--hw-mux-text);
+  font-family: 'DejaVu Sans', Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0.35rem auto 0.8rem;
+  max-width: 860px;
+  text-align: left;
+  width: 85%;
+}
+
+.hw-mux-control-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.15rem;
+  justify-content: center;
+  margin: 0 0 0.45rem;
+}
+
+.hw-mux-p-control,
+.hw-mux-p-options,
+.hw-mux-p-option {
+  align-items: center;
+  display: inline-flex;
+}
+
+.hw-mux-p-control {
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  justify-content: center;
+}
+
+.hw-mux-p-label {
+  color: var(--hw-mux-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.hw-mux-p-options {
+  flex-wrap: wrap;
+  gap: 0.35rem 0.8rem;
+}
+
+.hw-mux-p-option {
+  color: var(--hw-mux-text);
+  cursor: pointer;
+  font-size: 0.88rem;
+  gap: 0.28rem;
+  min-height: 2rem;
+  padding: 0 0.12rem;
+  white-space: nowrap;
+}
+
+.hw-mux-p-option input {
+  accent-color: var(--hw-mux-active);
+  cursor: pointer;
+  height: 1rem;
+  margin: 0;
+  width: 1rem;
+}
+
+.hw-mux-p-option input:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--hw-mux-active) 65%, transparent);
+  outline-offset: 2px;
+}
+
+.hw-mux-toggle {
+  background: transparent;
+  border: 1px solid var(--hw-mux-control-border);
+  border-radius: 0.25rem;
+  color: var(--hw-mux-text);
+  cursor: pointer;
+  font: inherit;
+  min-height: 2.15rem;
+  padding: 0.3rem 0.7rem;
+}
+
+.hw-mux-toggle:hover {
+  background: color-mix(in srgb, var(--hw-mux-edge) 12%, transparent);
+}
+
+.hw-mux-summary {
+  color: var(--hw-mux-muted);
+  font-size: 0.88rem;
+}
+
+.hw-mux-summary {
+  margin: 0 0 0.35rem;
+  max-width: 100%;
+  text-align: center;
+  white-space: normal;
+}
+
+.hw-mux-stage {
+  position: relative;
+  width: 100%;
+}
+
+.hw-mux-network {
+  display: block;
+  height: auto;
+  overflow: visible;
+  width: 100%;
+}
+
+.hw-mux-network .hw-mux-layer-label {
+  fill: var(--hw-mux-text);
+  font-size: 14px;
+  font-weight: 500;
+  text-anchor: middle;
+}
+
+.hw-mux-network .hw-mux-layer-label-output {
+  text-anchor: end;
+}
+
+.hw-mux-network .hw-mux-core-frame {
+  fill: #f5f9fe;
+  fill: color-mix(in srgb, var(--hw-mux-edge) 5%, transparent);
+  stroke: #88a5c7;
+  stroke: var(--hw-mux-edge);
+  stroke-dasharray: 5 5;
+  stroke-opacity: 0.55;
+  stroke-width: 1.2;
+}
+
+.hw-mux-network .hw-mux-core-label {
+  fill: var(--hw-mux-muted);
+  font-size: 12px;
+  font-weight: 500;
+  text-anchor: middle;
+}
+
+.hw-mux-network .hw-mux-edge {
+  stroke: var(--hw-mux-edge);
+  stroke-opacity: 0.35;
+  stroke-width: 1.15;
+}
+
+.hw-mux-network .hw-mux-delivery-edge {
+  stroke: var(--hw-mux-source);
+  stroke-linecap: round;
+  stroke-opacity: 0.95;
+  stroke-width: 2.8;
+  transition: opacity 180ms ease;
+}
+
+.hw-mux-network .hw-mux-delivery-edge.is-consumed {
+  opacity: 0;
+}
+
+.hw-mux-network .hw-mux-node {
+  fill: var(--hw-mux-node);
+  stroke: var(--hw-mux-node-stroke);
+  stroke-width: 2.2;
+  transition: fill 120ms ease, stroke 120ms ease, stroke-width 120ms ease;
+}
+
+.hw-mux-network .hw-mux-firing-halo {
+  fill: none;
+  opacity: 0;
+  stroke: var(--hw-mux-active);
+  stroke-width: 2.5;
+  transition: opacity 120ms ease;
+}
+
+.hw-mux-network .hw-mux-firing-halo.is-visible {
+  opacity: 1;
+}
+
+.hw-mux-network .hw-mux-node.is-processing {
+  animation: hw-mux-processing-pulse 650ms ease-in-out infinite alternate;
+  fill: var(--hw-mux-active);
+  stroke: var(--hw-mux-node-stroke);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hw-mux-network .hw-mux-node.is-source {
+  animation: hw-mux-source-pulse 720ms ease-in-out infinite alternate;
+  fill: var(--hw-mux-source);
+  stroke: var(--hw-mux-node-stroke);
+  stroke-width: 3.5;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes hw-mux-processing-pulse {
+  from {
+    transform: scale(0.96);
+  }
+
+  to {
+    transform: scale(1.16);
+  }
+}
+
+@keyframes hw-mux-source-pulse {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.16);
+  }
+}
+
+.hw-mux-network .hw-mux-node.is-firing {
+  animation: hw-mux-source-pulse 720ms ease-in-out infinite alternate;
+  fill: var(--hw-mux-active);
+  stroke: var(--hw-mux-node-stroke);
+  stroke-width: 3.5;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hw-mux-network .hw-mux-node.is-receiving {
+  stroke: var(--hw-mux-active);
+  stroke-width: 5;
+}
+
+.hw-mux-network .hw-mux-packet {
+  fill: var(--hw-mux-active);
+  opacity: 0;
+  stroke: var(--hw-mux-node-stroke);
+  stroke-width: 1.2;
+  transition: opacity 180ms ease;
+}
+
+.hw-mux-network .hw-mux-packet.is-flowing {
+  opacity: 1;
+}
+
+.hw-mux-network .hw-mux-packet.is-consumed {
+  opacity: 0;
+}
+
+.hw-mux-legend {
+  align-items: center;
+  color: var(--hw-mux-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  gap: 0.3rem 1rem;
+  justify-content: center;
+  margin: 0.2rem 0 0;
+}
+
+.hw-mux-legend-item {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.hw-mux-legend-node,
+.hw-mux-legend-edge,
+.hw-mux-legend-packet {
+  box-sizing: border-box;
+  display: inline-block;
+  flex: 0 0 auto;
+}
+
+.hw-mux-legend-node {
+  background: var(--hw-mux-node);
+  border: 1px solid var(--hw-mux-node-stroke);
+  border-radius: 50%;
+  height: 0.72rem;
+  width: 0.72rem;
+}
+
+.hw-mux-legend-node.is-processing {
+  background: var(--hw-mux-active);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--hw-mux-active) 38%, transparent);
+}
+
+.hw-mux-legend-node.is-source {
+  background: var(--hw-mux-source);
+}
+
+.hw-mux-legend-node.is-firing {
+  background: var(--hw-mux-active);
+  box-shadow: 0 0 0 2px var(--hw-mux-active);
+}
+
+.hw-mux-legend-edge {
+  background: var(--hw-mux-source);
+  border-radius: 999px;
+  height: 2px;
+  width: 1.35rem;
+}
+
+.hw-mux-legend-edge.is-inactive {
+  background: var(--hw-mux-edge);
+  height: 1px;
+  opacity: 0.55;
+}
+
+.hw-mux-legend-packet {
+  background: var(--hw-mux-active);
+  border-radius: 50%;
+  height: 0.48rem;
+  position: relative;
+  width: 0.48rem;
+}
+
+.hw-mux-legend-packet::before {
+  background: var(--hw-mux-active);
+  content: '';
+  height: 2px;
+  position: absolute;
+  right: 0.3rem;
+  top: calc(50% - 1px);
+  width: 1rem;
+}
+
+figure.hw-mux-enhanced .hw-mux-static-fallback {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  .hw-mux-simulator {
+    width: 100%;
+  }
+
+  .hw-mux-control-row {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .hw-mux-p-control {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .hw-mux-toggle {
+    align-self: flex-start;
+  }
+
+  .hw-mux-summary {
+    text-align: left;
+    white-space: normal;
+  }
+
+  .hw-mux-legend {
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hw-mux-network .hw-mux-node,
+  .hw-mux-network .hw-mux-firing-halo {
+    transition: none;
+  }
+
+  .hw-mux-network .hw-mux-delivery-edge,
+  .hw-mux-network .hw-mux-packet {
+    transition: none;
+  }
+
+  .hw-mux-network .hw-mux-node.is-processing,
+  .hw-mux-network .hw-mux-node.is-source,
+  .hw-mux-network .hw-mux-node.is-firing {
+    animation: none;
+  }
+}
+
+@media print {
+  figure.hw-mux-interactive .hw-mux-simulator {
+    display: none !important;
+  }
+
+  figure.hw-mux-interactive .hw-mux-static-fallback {
+    display: block !important;
+  }
+}
