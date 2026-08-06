@@ -6,7 +6,7 @@ This topic covers the complete training workflow for SNNs: from understanding ho
 ```{rubric} Why Training Matters
 ```
 
-The previous topic, [](#foundations), identifies the core elements of spiking neural networks.
+The previous topic, [](#foundations), identifies the core elements of Spiking Neural Networks.
 But, then what? Randomly putting spiking neurons together is rarely useful.
 The connections, time constants, and thresholds need to *adapt* to a specific scenario: we need to **train** the parameters of the network to achieve the desired behavior.
 This is what we cover in this topic.
