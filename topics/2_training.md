@@ -17,7 +17,7 @@ To make this concrete, here is a small *before-and-after* experiment.
 :alt: Spike rasters of one IF neuron before and after training; the trained spiking rate matches the goal.
 :label: 2_training_before_after_fig
 
-The *same* integrate-and-fire neuron before (top) and after (bottom) training. With a poor initial weight it fires too rarely; after adjusting the single weight, we reach the goal of 20 spikes.
+The *same* Integrate-and-Fire neuron before (top) and after (bottom) training. With a poor initial weight it fires too rarely; after adjusting the single weight, we reach the goal of 20 spikes.
 The point of this topic is to show you different tools to go from the untrained to the trained setting.
 :::
 
