@@ -89,7 +89,9 @@ This is why credit assignment is hard.
 
 Even in this minimal example, there is no single correct answer: many combinations of weights produce the same output.
 This ambiguity is at the heart of spatial credit assignment, and it only grows worse as networks get deeper and more complex.
-A caveat on the word *ambiguity*: that many weight settings solve the task does not make credit *undefined*: given a loss, the gradient still prescribes one well-defined update. It is the *solution set* that is degenerate, not the credit signal.
+A caveat on the word *ambiguity*: that many weight settings solve the task does not make credit *undefined*.
+Given a loss, the gradient still prescribes one well-defined update.
+aaa
 Now, imagine adding time to the equation.
 
 ```{aside} What is state?
@@ -135,18 +137,18 @@ Temporal credit assignment. The *same* neuron (weight $w = 2$) acts at $t=0$ and
 :::{aside} How far does the spatial–temporal analogy hold?
 The equivalence above is deliberately clean, and the real world can be less "neat", for three reasons.
 
-First, the output is off by *the same* error as the two-layer case only *by construction*.
+First, the output in the example is off by *the same* error as the two-layer case only *by construction*.
 That follows from the particular weights we picked.
 With arbitrary weights the two errors would generally differ.
 
-Second, a shared weight is not the same as several separate weights.
-Because one $w$ acts at every timestep, a single update changes the neuron's behavior *identically* across all of them, whereas the spatial case nudges its distinct weights by (generally) different amounts.
-A more fair comparison would pit *two* temporal neurons (two weights unrolled over time) against the two spatial layers.
-Here, the extra cost of time really appears, but it would also complicate the example.
+Second, one shared weight is not the same as several separate weights.
+In time, a single $w$ acts at every step, so one update shifts the neuron's behavior by the same amount at every step.
+In space, the two weights are independent and can change by different amounts.
+A fairer comparison would therefore use *two* temporal neurons against the two spatial layers, but that would complicate the example.
 
-Third, "which timestep should receive the update?" is about *attribution*, not bookkeeping.
-We do not apply a separate update at each step: the per-step contributions are summed in {eq}`eq:bptt-gradient`, and a *single* update is applied to the shared weight.
-The ambiguity is about how to read that sum, not about when the weight physically changes.
+Third, the weight is updated only *once*, not once per timestep.
+The per-step contributions in {eq}`eq:bptt-gradient` are added together (some setups average them) into a single update to the shared weight.
+So "which timestep gets the credit?" asks how to read that sum, not when the weight actually changes.
 :::
 
 The gradient in {eq}`eq:bptt-gradient` really flows through the chain of state updates $\partial V[t]/\partial V[t-1]$.
@@ -186,7 +188,7 @@ Scalability is a separate, practical question: even when we know how to compute 
 Backpropagation through time answers the credit question by unrolling the network into one layer per timestep and storing every intermediate state, so it can later walk the errors backward.
 That storage is the bottleneck.
 Memory grows with the sequence length $T$ multiplied by the size of the network, because every activation along the way must be kept until the backward pass reaches it; compute grows with the same product, since each stored step must also be revisited.
-A long recording or a deeply recurrent loop can exhaust memory long before it exhausts the idea.
+A long recording or a deeply recurrent loop can exhaust memory long before the method itself runs into any limit.
 
 This cost is a large part of *why* the coming chapters exist.
 It motivates truncating the unroll to a short window, propagating sensitivities *forward* in time instead of backward (*real-time recurrent learning* (RTRL), which stores nothing extra as the sequence grows but scales poorly in network size [@marschall2020unified]) or abandoning the global backward pass entirely in favor of *local* rules (such as eligibility traces, plasticity, and reward signals) that update each synapse from information it already has on hand.
