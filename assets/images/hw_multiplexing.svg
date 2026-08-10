@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="900" height="575" viewBox="0 0 900 575" role="img"
+     aria-labelledby="hw-mux-static-title hw-mux-static-desc">
+  <title id="hw-mux-static-title">Event-driven handoff between two eight-neuron layers sharing two physical neuron circuits</title>
+  <desc id="hw-mux-static-desc">Five Layer-1 neurons connect to eight logical Layer-2 neurons and then to eight logical Layer-3 neurons. Layers 2 and 3 share one core containing two physical neuron circuits. A red neuron with a white separator and red outer ring marks the currently firing Layer-1 source and the firing Layer-2 neuron. Layer-2 neurons are processed in pairs. When one Layer-2 neuron fires, Layer 2 pauses and the same two circuits process all eight Layer-3 neurons in four pairs before Layer-2 processing resumes. A red line marks a pending or emitted spike without placing a stationary packet dot on the synapse. After its target is processed, the red overlay disappears and the synapse returns to the same pale-blue style as every other inactive synapse. Only one Layer-2 neuron fires during the representative cycle.</desc>
+
+  <defs>
+    <style>
+      .label { fill: #2d3748; font-family: 'DejaVu Sans', Arial, sans-serif; }
+      .core-area { fill: #f5f9fe; stroke: #88a5c7; stroke-dasharray: 7 5; stroke-width: 1.6; }
+      .edge { fill: none; stroke: #7ea6e0; stroke-opacity: 0.38; stroke-width: 1.15; }
+      .node { fill: #111827; stroke: #ffffff; stroke-width: 2.5; }
+      .active-node { fill: #d92d20; }
+      .fire-ring { fill: none; opacity: 1; stroke: #d92d20; stroke-width: 3; }
+      .spike-wire { fill: none; marker-end: url(#spike-arrow); stroke: #c81e1e; stroke-linecap: round; stroke-width: 3; }
+
+      /* A different representative Layer-1 source is used on each full cycle. */
+      .source-slot { animation-duration: 56s; animation-iteration-count: infinite; animation-timing-function: steps(1, end); opacity: 0; }
+      .source-static { opacity: 1; }
+      .source-order-1 { animation-name: mux-source-slot-1; }
+      .source-order-2 { animation-name: mux-source-slot-2; }
+      .source-order-3 { animation-name: mux-source-slot-3; }
+      .source-order-4 { animation-name: mux-source-slot-4; }
+      .source-order-5 { animation-name: mux-source-slot-5; }
+
+      /* Eight hardware steps: three L2 pairs, four L3 pairs, then the final L2 pair. */
+      .cycle-mark, .pending-target, .handoff-wire, .phase-mark {
+        animation-duration: 11.2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: steps(1, end);
+      }
+      .cycle-mark, .pending-target { opacity: 0; }
+      .static-active, .static-pending { opacity: 1; }
+
+      .pending-1 { animation-name: mux-pending-l2-1; }
+      .pending-2 { animation-name: mux-pending-l2-2; }
+      .pending-3 { animation-name: mux-pending-l2-3; }
+      .pending-4 { animation-name: mux-pending-l2-4; }
+
+      .l2-pair-1 { animation-name: mux-l2-pair-1; }
+      .l2-pair-2 { animation-name: mux-l2-pair-2; }
+      .l2-h5 { animation-name: mux-l2-h5; }
+      .l2-h6 { animation-name: mux-l2-h6; }
+      .l2-pair-4 { animation-name: mux-l2-pair-4; }
+      .l2-fire-ring { animation-name: mux-l2-fire-ring; }
+
+      .l3-pair-1 { animation-name: mux-l3-pair-1; }
+      .l3-pair-2 { animation-name: mux-l3-pair-2; }
+      .l3-pair-3 { animation-name: mux-l3-pair-3; }
+      .l3-pair-4 { animation-name: mux-l3-pair-4; }
+
+      .handoff-wire { opacity: 1; }
+      .handoff-12 { animation-name: mux-handoff-12; }
+      .handoff-34 { animation-name: mux-handoff-34; }
+      .handoff-56 { animation-name: mux-handoff-56; }
+      .handoff-78 { animation-name: mux-handoff-78; }
+
+      .phase-l2 { animation-name: mux-phase-l2; opacity: 0; }
+      .phase-l3 { animation-name: mux-phase-l3; opacity: 1; }
+
+      @keyframes mux-source-slot-1 {
+        0%, 19.99% { opacity: 1; }
+        20%, 100% { opacity: 0; }
+      }
+      @keyframes mux-source-slot-2 {
+        0%, 19.99% { opacity: 0; }
+        20%, 39.99% { opacity: 1; }
+        40%, 100% { opacity: 0; }
+      }
+      @keyframes mux-source-slot-3 {
+        0%, 39.99% { opacity: 0; }
+        40%, 59.99% { opacity: 1; }
+        60%, 100% { opacity: 0; }
+      }
+      @keyframes mux-source-slot-4 {
+        0%, 59.99% { opacity: 0; }
+        60%, 79.99% { opacity: 1; }
+        80%, 100% { opacity: 0; }
+      }
+      @keyframes mux-source-slot-5 {
+        0%, 79.99% { opacity: 0; }
+        80%, 99.99% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+
+      /* A pending input synapse returns to pale blue halfway through the
+         hardware step that consumes it. */
+      @keyframes mux-pending-l2-1 {
+        0%, 6.24% { opacity: 1; }
+        6.25%, 100% { opacity: 0; }
+      }
+      @keyframes mux-pending-l2-2 {
+        0%, 18.74% { opacity: 1; }
+        18.75%, 100% { opacity: 0; }
+      }
+      @keyframes mux-pending-l2-3 {
+        0%, 31.24% { opacity: 1; }
+        31.25%, 100% { opacity: 0; }
+      }
+      @keyframes mux-pending-l2-4 {
+        0%, 93.74% { opacity: 1; }
+        93.75%, 100% { opacity: 0; }
+      }
+
+      @keyframes mux-l2-pair-1 {
+        0%, 12.49% { opacity: 1; }
+        12.50%, 100% { opacity: 0; }
+      }
+      @keyframes mux-l2-pair-2 {
+        0%, 12.49% { opacity: 0; }
+        12.50%, 24.99% { opacity: 1; }
+        25%, 100% { opacity: 0; }
+      }
+      @keyframes mux-l2-h5 {
+        0%, 24.99% { opacity: 0; }
+        25%, 87.49% { opacity: 1; }
+        87.50%, 100% { opacity: 0; }
+      }
+      @keyframes mux-l2-h6 {
+        0%, 24.99% { opacity: 0; }
+        25%, 37.49% { opacity: 1; }
+        37.50%, 100% { opacity: 0; }
+      }
+      @keyframes mux-l2-pair-4 {
+        0%, 87.49% { opacity: 0; }
+        87.50%, 100% { opacity: 1; }
+      }
+      @keyframes mux-l2-fire-ring {
+        0%, 37.49% { opacity: 0; }
+        37.50%, 87.49% { opacity: 1; }
+        87.50%, 100% { opacity: 0; }
+      }
+
+      @keyframes mux-l3-pair-1 {
+        0%, 37.49% { opacity: 0; }
+        37.50%, 49.99% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+      }
+      @keyframes mux-l3-pair-2 {
+        0%, 49.99% { opacity: 0; }
+        50%, 62.49% { opacity: 1; }
+        62.50%, 100% { opacity: 0; }
+      }
+      @keyframes mux-l3-pair-3 {
+        0%, 62.49% { opacity: 0; }
+        62.50%, 74.99% { opacity: 1; }
+        75%, 100% { opacity: 0; }
+      }
+      @keyframes mux-l3-pair-4 {
+        0%, 74.99% { opacity: 0; }
+        75%, 87.49% { opacity: 1; }
+        87.50%, 100% { opacity: 0; }
+      }
+
+      /* One Layer-2 spike is emitted. Its eight target synapses are consumed
+         by Layer 3 in four batches of two. */
+      @keyframes mux-handoff-12 {
+        0%, 37.49% { opacity: 0; }
+        37.50%, 43.74% { opacity: 1; }
+        43.75%, 100% { opacity: 0; }
+      }
+      @keyframes mux-handoff-34 {
+        0%, 37.49% { opacity: 0; }
+        37.50%, 56.24% { opacity: 1; }
+        56.25%, 100% { opacity: 0; }
+      }
+      @keyframes mux-handoff-56 {
+        0%, 37.49% { opacity: 0; }
+        37.50%, 68.74% { opacity: 1; }
+        68.75%, 100% { opacity: 0; }
+      }
+      @keyframes mux-handoff-78 {
+        0%, 37.49% { opacity: 0; }
+        37.50%, 81.24% { opacity: 1; }
+        81.25%, 100% { opacity: 0; }
+      }
+
+      @keyframes mux-phase-l2 {
+        0%, 37.49% { opacity: 1; }
+        37.50%, 87.49% { opacity: 0; }
+        87.50%, 100% { opacity: 1; }
+      }
+      @keyframes mux-phase-l3 {
+        0%, 37.49% { opacity: 0; }
+        37.50%, 87.49% { opacity: 1; }
+        87.50%, 100% { opacity: 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .source-slot, .cycle-mark, .pending-target, .handoff-wire, .phase-mark { animation: none; }
+      }
+      @media print {
+        .source-slot, .cycle-mark, .pending-target, .handoff-wire, .phase-mark { animation: none; }
+      }
+    </style>
+
+    <marker id="spike-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0L8 4L0 8Z" fill="#c81e1e"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="575" fill="#ffffff"/>
+  <text class="label" x="450" y="29" text-anchor="middle" font-size="21" font-weight="600">
+    Event-driven handoff on a shared time-multiplexed core
+  </text>
+
+  <!-- Layers 2 and 3 occupy the same core and reuse the same two circuits. -->
+  <rect class="core-area" x="405" y="47" width="440" height="385" rx="22"/>
+  <text class="label" x="625" y="69" text-anchor="middle" font-size="16" font-weight="600">
+    one shared core · P = 2 physical neuron circuits
+  </text>
+  <text class="label phase-mark phase-l2" x="625" y="91" text-anchor="middle" font-size="14">
+    core state: processing Layer 2
+  </text>
+  <text class="label phase-mark phase-l3" x="625" y="91" text-anchor="middle" font-size="14">
+    Layer 2 paused · same circuits processing Layer 3
+  </text>
+
+  <!-- Fully connected Layer-1-to-Layer-2 synapses. -->
+  <g class="edge" aria-hidden="true">
+    <path d="M100 115L450 115 M100 115L450 155 M100 115L450 195 M100 115L450 235 M100 115L450 275 M100 115L450 315 M100 115L450 355 M100 115L450 395"/>
+    <path d="M100 185L450 115 M100 185L450 155 M100 185L450 195 M100 185L450 235 M100 185L450 275 M100 185L450 315 M100 185L450 355 M100 185L450 395"/>
+    <path d="M100 255L450 115 M100 255L450 155 M100 255L450 195 M100 255L450 235 M100 255L450 275 M100 255L450 315 M100 255L450 355 M100 255L450 395"/>
+    <path d="M100 325L450 115 M100 325L450 155 M100 325L450 195 M100 325L450 235 M100 325L450 275 M100 325L450 315 M100 325L450 355 M100 325L450 395"/>
+    <path d="M100 395L450 115 M100 395L450 155 M100 395L450 195 M100 395L450 235 M100 395L450 275 M100 395L450 315 M100 395L450 355 M100 395L450 395"/>
+  </g>
+
+  <!-- Pending Layer-1 spike. The red line overlay disappears after each
+       Layer-2 target is processed, revealing the ordinary pale-blue synapse. -->
+  <g class="source-slot source-static source-order-1" aria-hidden="true">
+    <polyline class="spike-wire pending-target pending-1" points="117 255 275 185 433 115"/>
+    <polyline class="spike-wire pending-target pending-1" points="117 255 275 205 433 155"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 255 275 225 433 195"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 255 275 245 433 235"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 255 275 265 433 275"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 255 275 285 433 315"/>
+    <polyline class="spike-wire pending-target pending-4 static-pending" points="117 255 275 305 433 355"/>
+    <polyline class="spike-wire pending-target pending-4 static-pending" points="117 255 275 325 433 395"/>
+  </g>
+  <g class="source-slot source-order-2" aria-hidden="true">
+    <polyline class="spike-wire pending-target pending-1" points="117 115 275 115 433 115"/>
+    <polyline class="spike-wire pending-target pending-1" points="117 115 275 135 433 155"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 115 275 155 433 195"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 115 275 175 433 235"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 115 275 195 433 275"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 115 275 215 433 315"/>
+    <polyline class="spike-wire pending-target pending-4" points="117 115 275 235 433 355"/>
+    <polyline class="spike-wire pending-target pending-4" points="117 115 275 255 433 395"/>
+  </g>
+  <g class="source-slot source-order-3" aria-hidden="true">
+    <polyline class="spike-wire pending-target pending-1" points="117 395 275 255 433 115"/>
+    <polyline class="spike-wire pending-target pending-1" points="117 395 275 275 433 155"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 395 275 295 433 195"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 395 275 315 433 235"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 395 275 335 433 275"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 395 275 355 433 315"/>
+    <polyline class="spike-wire pending-target pending-4" points="117 395 275 375 433 355"/>
+    <polyline class="spike-wire pending-target pending-4" points="117 395 275 395 433 395"/>
+  </g>
+  <g class="source-slot source-order-4" aria-hidden="true">
+    <polyline class="spike-wire pending-target pending-1" points="117 185 275 150 433 115"/>
+    <polyline class="spike-wire pending-target pending-1" points="117 185 275 170 433 155"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 185 275 190 433 195"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 185 275 210 433 235"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 185 275 230 433 275"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 185 275 250 433 315"/>
+    <polyline class="spike-wire pending-target pending-4" points="117 185 275 270 433 355"/>
+    <polyline class="spike-wire pending-target pending-4" points="117 185 275 290 433 395"/>
+  </g>
+  <g class="source-slot source-order-5" aria-hidden="true">
+    <polyline class="spike-wire pending-target pending-1" points="117 325 275 220 433 115"/>
+    <polyline class="spike-wire pending-target pending-1" points="117 325 275 240 433 155"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 325 275 260 433 195"/>
+    <polyline class="spike-wire pending-target pending-2" points="117 325 275 280 433 235"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 325 275 300 433 275"/>
+    <polyline class="spike-wire pending-target pending-3" points="117 325 275 320 433 315"/>
+    <polyline class="spike-wire pending-target pending-4" points="117 325 275 340 433 355"/>
+    <polyline class="spike-wire pending-target pending-4" points="117 325 275 360 433 395"/>
+  </g>
+
+  <!-- Fully connected Layer-2-to-Layer-3 synapses. -->
+  <g class="edge" aria-hidden="true">
+    <path d="M450 115L800 115 M450 115L800 155 M450 115L800 195 M450 115L800 235 M450 115L800 275 M450 115L800 315 M450 115L800 355 M450 115L800 395"/>
+    <path d="M450 155L800 115 M450 155L800 155 M450 155L800 195 M450 155L800 235 M450 155L800 275 M450 155L800 315 M450 155L800 355 M450 155L800 395"/>
+    <path d="M450 195L800 115 M450 195L800 155 M450 195L800 195 M450 195L800 235 M450 195L800 275 M450 195L800 315 M450 195L800 355 M450 195L800 395"/>
+    <path d="M450 235L800 115 M450 235L800 155 M450 235L800 195 M450 235L800 235 M450 235L800 275 M450 235L800 315 M450 235L800 355 M450 235L800 395"/>
+    <path d="M450 275L800 115 M450 275L800 155 M450 275L800 195 M450 275L800 235 M450 275L800 275 M450 275L800 315 M450 275L800 355 M450 275L800 395"/>
+    <path d="M450 315L800 115 M450 315L800 155 M450 315L800 195 M450 315L800 235 M450 315L800 275 M450 315L800 315 M450 315L800 355 M450 315L800 395"/>
+    <path d="M450 355L800 115 M450 355L800 155 M450 355L800 195 M450 355L800 235 M450 355L800 275 M450 355L800 315 M450 355L800 355 M450 355L800 395"/>
+    <path d="M450 395L800 115 M450 395L800 155 M450 395L800 195 M450 395L800 235 M450 395L800 275 M450 395L800 315 M450 395L800 355 M450 395L800 395"/>
+  </g>
+
+  <!-- Exactly one Layer-2 neuron fires in this representative cycle. The same
+       red line visual is used for emitted and still-pending deliveries. -->
+  <g aria-hidden="true">
+    <polyline class="spike-wire handoff-wire handoff-12" points="467 275 625 195 783 115"/>
+    <polyline class="spike-wire handoff-wire handoff-12" points="467 275 625 215 783 155"/>
+    <polyline class="spike-wire handoff-wire handoff-34" points="467 275 625 235 783 195"/>
+    <polyline class="spike-wire handoff-wire handoff-34" points="467 275 625 255 783 235"/>
+    <polyline class="spike-wire handoff-wire handoff-56" points="467 275 625 275 783 275"/>
+    <polyline class="spike-wire handoff-wire handoff-56" points="467 275 625 295 783 315"/>
+    <polyline class="spike-wire handoff-wire handoff-78" points="467 275 625 315 783 355"/>
+    <polyline class="spike-wire handoff-wire handoff-78" points="467 275 625 335 783 395"/>
+  </g>
+
+  <!-- Logical neurons. Red overlays show which logical neurons currently use
+       the two physical circuits; the halo identifies the single firing L2 neuron. -->
+  <g aria-hidden="true">
+    <circle class="node" cx="100" cy="115" r="17"/>
+    <circle class="node" cx="100" cy="185" r="17"/>
+    <circle class="node" cx="100" cy="255" r="17"/>
+    <circle class="node" cx="100" cy="325" r="17"/>
+    <circle class="node" cx="100" cy="395" r="17"/>
+
+    <circle class="node active-node source-slot source-order-2" cx="100" cy="115" r="17"/>
+    <circle class="node active-node source-slot source-order-4" cx="100" cy="185" r="17"/>
+    <circle class="node active-node source-slot source-static source-order-1" cx="100" cy="255" r="17"/>
+    <circle class="node active-node source-slot source-order-5" cx="100" cy="325" r="17"/>
+    <circle class="node active-node source-slot source-order-3" cx="100" cy="395" r="17"/>
+
+    <circle class="fire-ring source-slot source-order-2" cx="100" cy="115" r="23"/>
+    <circle class="fire-ring source-slot source-order-4" cx="100" cy="185" r="23"/>
+    <circle class="fire-ring source-slot source-static source-order-1" cx="100" cy="255" r="23"/>
+    <circle class="fire-ring source-slot source-order-5" cx="100" cy="325" r="23"/>
+    <circle class="fire-ring source-slot source-order-3" cx="100" cy="395" r="23"/>
+
+    <circle class="node" cx="450" cy="115" r="17"/>
+    <circle class="node" cx="450" cy="155" r="17"/>
+    <circle class="node" cx="450" cy="195" r="17"/>
+    <circle class="node" cx="450" cy="235" r="17"/>
+    <circle class="node" cx="450" cy="275" r="17"/>
+    <circle class="node" cx="450" cy="315" r="17"/>
+    <circle class="node" cx="450" cy="355" r="17"/>
+    <circle class="node" cx="450" cy="395" r="17"/>
+
+    <circle class="node active-node cycle-mark l2-pair-1" cx="450" cy="115" r="17"/>
+    <circle class="node active-node cycle-mark l2-pair-1" cx="450" cy="155" r="17"/>
+    <circle class="node active-node cycle-mark l2-pair-2" cx="450" cy="195" r="17"/>
+    <circle class="node active-node cycle-mark l2-pair-2" cx="450" cy="235" r="17"/>
+    <circle class="node active-node cycle-mark static-active l2-h5" cx="450" cy="275" r="17"/>
+    <circle class="node active-node cycle-mark l2-h6" cx="450" cy="315" r="17"/>
+    <circle class="node active-node cycle-mark l2-pair-4" cx="450" cy="355" r="17"/>
+    <circle class="node active-node cycle-mark l2-pair-4" cx="450" cy="395" r="17"/>
+    <circle class="fire-ring cycle-mark static-active l2-fire-ring" cx="450" cy="275" r="23"/>
+
+    <circle class="node" cx="800" cy="115" r="17"/>
+    <circle class="node" cx="800" cy="155" r="17"/>
+    <circle class="node" cx="800" cy="195" r="17"/>
+    <circle class="node" cx="800" cy="235" r="17"/>
+    <circle class="node" cx="800" cy="275" r="17"/>
+    <circle class="node" cx="800" cy="315" r="17"/>
+    <circle class="node" cx="800" cy="355" r="17"/>
+    <circle class="node" cx="800" cy="395" r="17"/>
+
+    <circle class="node active-node cycle-mark static-active l3-pair-1" cx="800" cy="115" r="17"/>
+    <circle class="node active-node cycle-mark static-active l3-pair-1" cx="800" cy="155" r="17"/>
+    <circle class="node active-node cycle-mark l3-pair-2" cx="800" cy="195" r="17"/>
+    <circle class="node active-node cycle-mark l3-pair-2" cx="800" cy="235" r="17"/>
+    <circle class="node active-node cycle-mark l3-pair-3" cx="800" cy="275" r="17"/>
+    <circle class="node active-node cycle-mark l3-pair-3" cx="800" cy="315" r="17"/>
+    <circle class="node active-node cycle-mark l3-pair-4" cx="800" cy="355" r="17"/>
+    <circle class="node active-node cycle-mark l3-pair-4" cx="800" cy="395" r="17"/>
+  </g>
+
+  <g class="label" font-size="19" font-weight="600" text-anchor="middle">
+    <text x="100" y="468">Layer 1</text>
+    <text x="450" y="468">Layer 2 · N = 8</text>
+    <text x="800" y="468">Layer 3 · N = 8</text>
+  </g>
+
+  <!-- Compact legend: emitted and pending spikes intentionally share one mark. -->
+  <g class="label" font-size="14.5" aria-hidden="true">
+    <circle class="node active-node" cx="36" cy="532" r="8"/>
+    <circle class="fire-ring" cx="36" cy="532" r="12" stroke-width="2"/>
+    <text x="54" y="537">firing neuron</text>
+
+    <polyline class="spike-wire" points="174 532 194 532 214 532"/>
+    <text x="226" y="537">pending or emitted spike</text>
+
+    <line x1="426" y1="532" x2="466" y2="532" stroke="#7ea6e0" stroke-opacity="0.55" stroke-width="1.5"/>
+    <text x="478" y="537">inactive or processed synapse</text>
+
+    <circle class="node active-node" cx="741" cy="532" r="8"/>
+    <text x="755" y="537">being updated</text>
+  </g>
+</svg>

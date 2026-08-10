@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">How a digital neuromorphic substrate computes</title>
+  <desc id="desc">Weights, neuron state, and thresholds are stored as binary numbers. Clocked gate, adder, and register circuits update the state, and a comparator emits a deterministic spike. The explicit circuitry costs area and energy, while its hardware description can be synthesized, reused, reconfigured, and ported across process nodes.</desc>
+
+  <defs>
+    <linearGradient id="logicGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fdf0e4" stop-opacity="0"/>
+      <stop offset="0.48" stop-color="#f6ad55" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#fdf0e4" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="digitalFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#e8f1fb"/>
+    </linearGradient>
+    <linearGradient id="neuronFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7fbf9"/>
+      <stop offset="1" stop-color="#e6f4ec"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#1a202c" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2b6cb0"/>
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#dd6b20"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2f855a"/>
+    </marker>
+    <style>
+      text { font-family: "DejaVu Sans", Arial, sans-serif; fill: #2d3748; }
+      .stage { font-size: 14px; font-weight: 700; letter-spacing: 1.65px; }
+      .kicker { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; }
+      .label { font-size: 16px; font-weight: 700; }
+      .body { font-size: 14px; }
+      .small { font-size: 12px; }
+      .tiny { font-size: 10.5px; }
+      .bit { font-size: 15px; font-weight: 700; font-family: "DejaVu Sans Mono", monospace; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="650" fill="#ffffff"/>
+
+  <!-- Stage headings -->
+  <g>
+    <circle cx="50" cy="48" r="15" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.5"/>
+    <text x="50" y="53" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">1</text>
+    <text x="77" y="53" class="stage" fill="#2b6cb0">BINARY STATE</text>
+    <line x1="40" y1="76" x2="372" y2="76" stroke="#90cdf4" stroke-width="2"/>
+    <g transform="translate(268,30)">
+      <rect x="0" y="0" width="42" height="27" rx="13.5" fill="#2b6cb0"/>
+      <text x="21" y="18" text-anchor="middle" class="small" font-weight="700" fill="#ffffff">0</text>
+      <rect x="49" y="0" width="42" height="27" rx="13.5" fill="#ffffff" stroke="#2b6cb0"/>
+      <text x="70" y="18" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">1</text>
+    </g>
+
+    <circle cx="418" cy="48" r="15" fill="#fdf0e4" stroke="#dd6b20" stroke-width="1.5"/>
+    <text x="418" y="53" text-anchor="middle" class="small" font-weight="700" fill="#c05621">2</text>
+    <text x="445" y="53" class="stage" fill="#c05621">EXPLICIT LOGIC</text>
+    <line x1="408" y1="76" x2="798" y2="76" stroke="#f6ad55" stroke-width="2"/>
+
+    <circle cx="844" cy="48" r="15" fill="#e6f4ec" stroke="#2f855a" stroke-width="1.5"/>
+    <text x="844" y="53" text-anchor="middle" class="small" font-weight="700" fill="#276749">3</text>
+    <text x="871" y="53" class="stage" fill="#276749">DIGITAL NEURON</text>
+    <line x1="834" y1="76" x2="1160" y2="76" stroke="#68d391" stroke-width="2"/>
+  </g>
+
+  <!-- Binary registers -->
+  <g filter="url(#softShadow)">
+    <rect x="40" y="106" width="332" height="398" rx="22" fill="url(#digitalFill)" stroke="#2b6cb0" stroke-width="1.8"/>
+  </g>
+  <text x="66" y="139" class="kicker" fill="#2b6cb0">VALUES LIVE IN REGISTERS</text>
+  <text x="66" y="163" class="small" fill="#4a5568">chosen precision, represented by bits</text>
+
+  <!-- Register: weight -->
+  <g transform="translate(66,194)">
+    <text x="0" y="18" class="body" font-weight="700" fill="#2b6cb0">weight w</text>
+    <text x="66" y="21" class="tiny" fill="#718096">[7:0]</text>
+    <g transform="translate(0,32)">
+      <rect x="0" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="34" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="68" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="102" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="136" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="170" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="204" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="238" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <text x="16" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="50" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="84" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="118" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="152" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="186" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="220" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="254" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+    </g>
+  </g>
+
+  <!-- Register: membrane state -->
+  <g transform="translate(66,296)">
+    <text x="0" y="18" class="body" font-weight="700" fill="#2b6cb0">membrane V</text>
+    <text x="92" y="21" class="tiny" fill="#718096">[7:0]</text>
+    <g transform="translate(0,32)">
+      <rect x="0" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="34" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="68" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="102" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="136" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="170" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="204" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="238" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <text x="16" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="50" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="84" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="118" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="152" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="186" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="220" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="254" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+    </g>
+  </g>
+
+  <!-- Register: threshold -->
+  <g transform="translate(66,398)">
+    <text x="0" y="18" class="body" font-weight="700" fill="#2b6cb0">threshold θ</text>
+    <text x="87" y="21" class="tiny" fill="#718096">[7:0]</text>
+    <g transform="translate(0,32)">
+      <rect x="0" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="34" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="68" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="102" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="136" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="170" y="0" width="32" height="36" rx="6" fill="#2b6cb0" stroke="#2b6cb0"/>
+      <rect x="204" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <rect x="238" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#90cdf4"/>
+      <text x="16" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="50" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="84" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="118" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="152" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="186" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+      <text x="220" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+      <text x="254" y="24" text-anchor="middle" class="bit" fill="#2b6cb0">0</text>
+    </g>
+  </g>
+
+  <!-- Explicit logic pipeline -->
+  <rect x="385" y="95" width="430" height="418" rx="28" fill="url(#logicGlow)"/>
+  <path d="M372 257 H415" fill="none" stroke="#2b6cb0" stroke-width="3" marker-end="url(#arrowBlue)"/>
+  <text x="393" y="241" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">bits</text>
+  <g>
+    <rect x="420" y="115" width="105" height="37" rx="18.5" fill="#e8f1fb" stroke="#2b6cb0"/>
+    <path d="M433 140 H442 V126 H450 V140 H459" fill="none" stroke="#2b6cb0" stroke-width="2" stroke-linejoin="round"/>
+    <text x="489" y="139" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">s = 1</text>
+    <path d="M472.5 152 V172" fill="none" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="420" y="176" width="105" height="144" rx="16" fill="#ffffff" stroke="#dd6b20" stroke-width="1.7"/>
+    <rect x="558" y="176" width="105" height="144" rx="16" fill="#ffffff" stroke="#dd6b20" stroke-width="1.7"/>
+    <rect x="696" y="176" width="105" height="144" rx="16" fill="#ffffff" stroke="#dd6b20" stroke-width="1.7"/>
+  </g>
+  <g>
+    <text x="472.5" y="204" text-anchor="middle" class="kicker" fill="#c05621">GATE</text>
+    <path d="M448 229 H471 C490 229 499 241 499 250 C499 259 490 271 471 271 H448 Z" fill="#fdf0e4" stroke="#dd6b20" stroke-width="1.8"/>
+    <text x="473" y="255" text-anchor="middle" class="label" fill="#c05621">s</text>
+    <text x="472.5" y="297" text-anchor="middle" class="small">s ? w : 0</text>
+
+    <text x="610.5" y="204" text-anchor="middle" class="kicker" fill="#c05621">ADD</text>
+    <circle cx="610.5" cy="250" r="28" fill="#fdf0e4" stroke="#dd6b20" stroke-width="1.8"/>
+    <text x="610.5" y="259" text-anchor="middle" font-size="30px" font-weight="700" fill="#c05621">+</text>
+    <text x="610.5" y="297" text-anchor="middle" class="small">V + w</text>
+
+    <text x="748.5" y="204" text-anchor="middle" class="kicker" fill="#c05621">WRITE</text>
+    <rect x="719" y="230" width="59" height="40" rx="7" fill="#fdf0e4" stroke="#dd6b20" stroke-width="1.8"/>
+    <line x1="730" y1="230" x2="730" y2="270" stroke="#dd6b20"/>
+    <line x1="742" y1="230" x2="742" y2="270" stroke="#dd6b20"/>
+    <line x1="754" y1="230" x2="754" y2="270" stroke="#dd6b20"/>
+    <line x1="766" y1="230" x2="766" y2="270" stroke="#dd6b20"/>
+    <text x="748.5" y="297" text-anchor="middle" class="small">next state</text>
+  </g>
+  <g fill="none" stroke="#dd6b20" stroke-width="3" marker-end="url(#arrowOrange)">
+    <path d="M525 250 H554"/>
+    <path d="M663 250 H692"/>
+    <path d="M801 250 H838"/>
+  </g>
+
+  <!-- Clock distribution -->
+  <g>
+    <path d="M427 379 H445 V348 H465 V379 H505 V348 H525 V379 H565 V348 H585 V379 H625 V348 H645 V379 H685 V348 H705 V379 H745 V348 H765 V379 H798" fill="none" stroke="#c05621" stroke-width="2.4" stroke-linejoin="round"/>
+    <text x="427" y="404" class="small" font-weight="700" fill="#c05621">CLOCK</text>
+    <text x="478" y="404" class="small" fill="#4a5568">coordinates every update</text>
+    <path d="M472 348 V322 M610 348 V322 M748 348 V322" fill="none" stroke="#c05621" stroke-width="1.4" stroke-dasharray="4 4"/>
+  </g>
+  <rect x="447" y="437" width="328" height="42" rx="21" fill="#fffaf5" stroke="#f6ad55"/>
+  <text x="611" y="463" text-anchor="middle" class="body" font-weight="700" fill="#c05621">gates  +  adder  +  state register</text>
+
+  <!-- Digital neuron and comparator -->
+  <g filter="url(#softShadow)">
+    <rect x="838" y="106" width="322" height="398" rx="22" fill="url(#neuronFill)" stroke="#2f855a" stroke-width="1.8"/>
+  </g>
+  <text x="864" y="139" class="kicker" fill="#276749">UPDATED STATE</text>
+  <g transform="translate(864,160)">
+    <rect x="0" y="0" width="32" height="36" rx="6" fill="#2f855a"/>
+    <rect x="34" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#68d391"/>
+    <rect x="68" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#68d391"/>
+    <rect x="102" y="0" width="32" height="36" rx="6" fill="#2f855a"/>
+    <rect x="136" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#68d391"/>
+    <rect x="170" y="0" width="32" height="36" rx="6" fill="#2f855a"/>
+    <rect x="204" y="0" width="32" height="36" rx="6" fill="#2f855a"/>
+    <rect x="238" y="0" width="32" height="36" rx="6" fill="#ffffff" stroke="#68d391"/>
+    <text x="16" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+    <text x="50" y="24" text-anchor="middle" class="bit" fill="#2f855a">0</text>
+    <text x="84" y="24" text-anchor="middle" class="bit" fill="#2f855a">0</text>
+    <text x="118" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+    <text x="152" y="24" text-anchor="middle" class="bit" fill="#2f855a">0</text>
+    <text x="186" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+    <text x="220" y="24" text-anchor="middle" class="bit" fill="#ffffff">1</text>
+    <text x="254" y="24" text-anchor="middle" class="bit" fill="#2f855a">0</text>
+  </g>
+
+  <g>
+    <path d="M943 232 H1049 L1083 286 L1049 340 H943 L909 286 Z" fill="#ffffff" stroke="#2f855a" stroke-width="1.8"/>
+    <text x="996" y="273" text-anchor="middle" class="kicker" fill="#276749">COMPARE</text>
+    <text x="996" y="307" text-anchor="middle" font-size="27px" font-weight="700" fill="#276749">V ≥ θ</text>
+    <path d="M1083 286 H1174" fill="none" stroke="#2f855a" stroke-width="3" marker-end="url(#arrowGreen)"/>
+    <text x="1125" y="270" text-anchor="middle" class="small" font-weight="700" fill="#276749">spike = 1</text>
+    <path d="M1101 318 H1117 V295 H1129 V318 H1151" fill="none" stroke="#2f855a" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Determinism callout -->
+  <rect x="864" y="379" width="270" height="89" rx="15" fill="#ffffff" stroke="#9ae6b4"/>
+  <text x="999" y="404" text-anchor="middle" class="kicker" fill="#276749">SAME BITS, SAME RESULT</text>
+  <text x="886" y="431" class="small" fill="#4a5568">run A</text>
+  <text x="935" y="431" class="bit" fill="#276749">10010110  →  1</text>
+  <text x="886" y="454" class="small" fill="#4a5568">run B</text>
+  <text x="935" y="454" class="bit" fill="#276749">10010110  →  1</text>
+  <circle cx="1113" cy="424" r="9" fill="#e6f4ec" stroke="#2f855a"/>
+  <path d="M1109 424 l3 3 l6 -7" fill="none" stroke="#2f855a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1113" cy="447" r="9" fill="#e6f4ec" stroke="#2f855a"/>
+  <path d="M1109 447 l3 3 l6 -7" fill="none" stroke="#2f855a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Cost and portability strip -->
+  <g>
+    <rect x="40" y="538" width="332" height="84" rx="18" fill="#fffaf5" stroke="#f6ad55" stroke-width="1.4"/>
+    <circle cx="74" cy="580" r="18" fill="#fdf0e4" stroke="#dd6b20" stroke-width="1.4"/>
+    <path d="M65 583 C66 573 71 568 74 568 C78 568 83 573 83 583 M67 588 H81 M70 593 H78" fill="none" stroke="#c05621" stroke-width="2" stroke-linecap="round"/>
+    <text x="105" y="568" class="kicker" fill="#c05621">HARDWARE COST</text>
+    <text x="105" y="591" class="body" fill="#4a5568">memory + arithmetic + clocking</text>
+    <text x="105" y="611" class="small" fill="#4a5568">more area and switching energy</text>
+
+    <rect x="390" y="538" width="390" height="84" rx="18" fill="#f8fbff" stroke="#90cdf4" stroke-width="1.4"/>
+    <text x="414" y="563" class="kicker" fill="#2b6cb0">DESIGN AS CODE</text>
+    <g transform="translate(414,576)">
+      <rect x="0" y="0" width="74" height="30" rx="7" fill="#ffffff" stroke="#2b6cb0"/>
+      <text x="37" y="20" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">HDL</text>
+      <path d="M82 15 H124" fill="none" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowBlue)"/>
+      <text x="103" y="8" text-anchor="middle" class="tiny" fill="#4a5568">synthesize</text>
+      <rect x="133" y="0" width="80" height="30" rx="7" fill="#e8f1fb" stroke="#2b6cb0"/>
+      <text x="173" y="20" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">IP BLOCK</text>
+      <path d="M221 15 H257" fill="none" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowBlue)"/>
+      <rect x="266" y="0" width="91" height="30" rx="7" fill="#ffffff" stroke="#2b6cb0"/>
+      <text x="311.5" y="20" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">REUSE</text>
+    </g>
+
+    <rect x="798" y="538" width="362" height="84" rx="18" fill="#f7fbf9" stroke="#68d391" stroke-width="1.4"/>
+    <text x="822" y="563" class="kicker" fill="#276749">PORT ACROSS PROCESS NODES</text>
+    <g transform="translate(822,576)">
+      <rect x="0" y="0" width="70" height="30" rx="7" fill="#ffffff" stroke="#2f855a"/>
+      <text x="35" y="20" text-anchor="middle" class="small" font-weight="700" fill="#276749">65 nm</text>
+      <path d="M78 15 H117" fill="none" stroke="#2f855a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+      <rect x="126" y="0" width="70" height="30" rx="7" fill="#e6f4ec" stroke="#2f855a"/>
+      <text x="161" y="20" text-anchor="middle" class="small" font-weight="700" fill="#276749">28 nm</text>
+      <path d="M204 15 H243" fill="none" stroke="#2f855a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+      <rect x="252" y="0" width="70" height="30" rx="7" fill="#ffffff" stroke="#2f855a"/>
+      <text x="287" y="20" text-anchor="middle" class="small" font-weight="700" fill="#276749">7 nm</text>
+    </g>
+  </g>
+</svg>

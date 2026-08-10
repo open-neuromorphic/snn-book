@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="608" viewBox="0 0 1000 608" role="img" aria-labelledby="title desc">
+  <title id="title">A three-layer spiking neural network mapped onto a tiled neuromorphic processor</title>
+  <desc id="desc">The left panel expands one core into compute, local memory, and a lower-right network router. The right panel maps Layer 1 onto three cores, Layer 2 onto six cores, and Layer 3 onto three cores in a twelve-core mesh. Large circular routers mark every mesh intersection, so packets visibly traverse a router at each horizontal or vertical hop. One red input port cycles packets through the three Layer 1 cores, and packets from the three Layer 3 cores converge on one gold output port. Every Layer 1 core sends blue packets to all six Layer 2 cores, and every Layer 2 core sends purple packets to all three Layer 3 cores, using repeating shuffled destination orders.</desc>
+
+  <defs>
+    <linearGradient id="coreFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#e8f1fb"/>
+    </linearGradient>
+    <linearGradient id="memoryFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7fbf9"/>
+      <stop offset="1" stop-color="#e6f4ec"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#1a202c" flood-opacity="0.10"/>
+    </filter>
+
+    <marker id="arrowBlueSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2b6cb0"/>
+    </marker>
+    <marker id="arrowGreenSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2f855a"/>
+    </marker>
+    <marker id="arrowInputSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#c53030"/>
+    </marker>
+    <marker id="arrowOutputSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#b7791f"/>
+    </marker>
+    <marker id="arrowOrangeSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dd6b20"/>
+    </marker>
+
+    <style>
+      text { font-family: "DejaVu Sans", Arial, sans-serif; fill: #2d3748; }
+      .stage { font-size: 19px; font-weight: 700; letter-spacing: 1.2px; }
+      .kicker { font-size: 17px; font-weight: 700; letter-spacing: 1px; }
+      .label { font-size: 24px; font-weight: 700; }
+      .body { font-size: 18px; }
+      .small { font-size: 17px; }
+      .layer-id { font-size: 15px; font-weight: 700; }
+      .moving-packets { pointer-events: none; }
+      @media (prefers-reduced-motion: reduce), print {
+        .moving-packets { display: none; }
+      }
+    </style>
+
+    <!-- Every compact core keeps compute and memory clear of the bottom/right NoC channels. -->
+    <g id="compactCore">
+      <rect x="0" y="0" width="105" height="80" rx="12" fill="url(#coreFill)" stroke="#2b6cb0" stroke-width="2.2"/>
+      <path d="M101 0 V80 M0 74 H105" fill="none" stroke="#a0aec0" stroke-width="3"/>
+      <rect x="12" y="9" width="81" height="23" rx="6" fill="#ffffff" stroke="#2b6cb0" stroke-width="1.5"/>
+      <rect x="12" y="44" width="81" height="25" rx="6" fill="#e6f4ec" stroke="#2f855a" stroke-width="1.5"/>
+    </g>
+
+    <!-- A router sits directly on each row/column intersection and separates adjacent NoC hops. -->
+    <g id="compactRouter">
+      <circle r="11.5" fill="#fffaf5" stroke="#dd6b20" stroke-width="2.4"/>
+      <circle r="6" fill="#dd6b20"/>
+      <circle r="2.3" fill="#ffffff"/>
+    </g>
+
+    <!-- Packet colors distinguish external input, layer traffic, and external output. -->
+    <g id="packetL1">
+      <rect x="-9" y="-5" width="18" height="10" rx="4" fill="#2b6cb0" stroke="#ffffff" stroke-width="1.7"/>
+      <circle cx="-3.5" cy="0" r="1.35" fill="#ffffff"/>
+      <circle cx="2" cy="0" r="1.35" fill="#ffffff"/>
+    </g>
+    <g id="packetL2">
+      <rect x="-9" y="-5" width="18" height="10" rx="4" fill="#6b46c1" stroke="#ffffff" stroke-width="1.7"/>
+      <circle cx="-3.5" cy="0" r="1.35" fill="#ffffff"/>
+      <circle cx="2" cy="0" r="1.35" fill="#ffffff"/>
+    </g>
+    <g id="packetInput">
+      <rect x="-9" y="-5" width="18" height="10" rx="4" fill="#c53030" stroke="#ffffff" stroke-width="1.7"/>
+      <circle cx="-3.5" cy="0" r="1.35" fill="#ffffff"/>
+      <circle cx="2" cy="0" r="1.35" fill="#ffffff"/>
+    </g>
+    <g id="packetOutput">
+      <rect x="-9" y="-5" width="18" height="10" rx="4" fill="#b7791f" stroke="#ffffff" stroke-width="1.7"/>
+      <circle cx="-3.5" cy="0" r="1.35" fill="#ffffff"/>
+      <circle cx="2" cy="0" r="1.35" fill="#ffffff"/>
+    </g>
+
+    <!-- Relative routes begin and end at routers; longer paths cross every intermediate router. -->
+    <path id="routeNextUp2" d="M0 0 H130 V-210"/>
+    <path id="routeNextUp1" d="M0 0 H130 V-105"/>
+    <path id="routeNextSame" d="M0 0 H130"/>
+    <path id="routeNextDown1" d="M0 0 H130 V105"/>
+    <path id="routeNextDown2" d="M0 0 H130 V210"/>
+
+    <path id="routeTwoUp2" d="M0 0 H260 V-210"/>
+    <path id="routeTwoUp1" d="M0 0 H260 V-105"/>
+    <path id="routeTwoSame" d="M0 0 H260"/>
+    <path id="routeTwoDown1" d="M0 0 H260 V105"/>
+    <path id="routeTwoDown2" d="M0 0 H260 V210"/>
+
+    <path id="routeInputTop" d="M0 0 H157 V-105"/>
+    <path id="routeInputMiddle" d="M0 0 H157"/>
+    <path id="routeInputBottom" d="M0 0 H157 V105"/>
+    <path id="routeOutputFromTop" d="M0 0 V105 H59"/>
+    <path id="routeOutputMiddle" d="M0 0 H59"/>
+    <path id="routeOutputFromBottom" d="M0 0 V-105 H59"/>
+  </defs>
+
+  <rect width="1000" height="608" fill="#ffffff"/>
+
+  <!-- Section headings -->
+  <g>
+    <circle cx="46" cy="43" r="15" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.6"/>
+    <text x="46" y="49" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">1</text>
+    <text x="73" y="49" class="stage" fill="#2b6cb0">ONE LOCAL CORE</text>
+    <line x1="34" y1="72" x2="356" y2="72" stroke="#90cdf4" stroke-width="2"/>
+
+    <circle cx="405" cy="43" r="15" fill="#fdf0e4" stroke="#dd6b20" stroke-width="1.6"/>
+    <text x="405" y="49" text-anchor="middle" class="small" font-weight="700" fill="#9c4221">2</text>
+    <text x="432" y="49" class="stage" fill="#9c4221">MAPPED THREE-LAYER SNN</text>
+    <line x1="393" y1="72" x2="966" y2="72" stroke="#f6ad55" stroke-width="2"/>
+  </g>
+
+  <!-- Enlarged representative core -->
+  <g filter="url(#softShadow)">
+    <rect x="34" y="96" width="322" height="424" rx="24" fill="url(#coreFill)" stroke="#2b6cb0" stroke-width="2"/>
+  </g>
+  <text x="61" y="128" class="kicker" fill="#2b6cb0">CORE / TILE</text>
+
+  <g>
+    <rect x="61" y="154" width="262" height="96" rx="16" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+    <circle cx="91" cy="185" r="16" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.5"/>
+    <path d="M84 185 H98 M91 178 V192" fill="none" stroke="#2b6cb0" stroke-width="2.2" stroke-linecap="round"/>
+    <text x="119" y="192" class="label" fill="#2b6cb0">Compute</text>
+    <text x="91" y="228" class="body" fill="#4a5568">synaptic and neuron updates</text>
+
+    <rect x="61" y="286" width="262" height="96" rx="16" fill="url(#memoryFill)" stroke="#2f855a" stroke-width="2"/>
+    <g transform="translate(77,311)" fill="none" stroke="#2f855a" stroke-width="1.7">
+      <ellipse cx="14" cy="5" rx="14" ry="5" fill="#e6f4ec"/>
+      <path d="M0 5 V27 C0 30 6 32 14 32 C22 32 28 30 28 27 V5"/>
+      <path d="M0 16 C0 19 6 21 14 21 C22 21 28 19 28 16"/>
+    </g>
+    <text x="119" y="329" class="label" fill="#276749">Local memory</text>
+    <text x="91" y="363" class="body" fill="#4a5568">weights and neuron state</text>
+  </g>
+
+  <!-- Separate arrows avoid the previous bow-tie artifact and show bidirectional local access. -->
+  <path d="M178 254 V279" fill="none" stroke="#2b6cb0" stroke-width="2.5" marker-end="url(#arrowBlueSmall)"/>
+  <path d="M199 282 V257" fill="none" stroke="#2f855a" stroke-width="2.5" marker-end="url(#arrowGreenSmall)"/>
+  <text x="216" y="273" class="small" fill="#4a5568">read / write</text>
+
+  <!-- Event traffic bypasses the memory label and reaches the lower-right corner router. -->
+  <path d="M323 201 H341 V465.5 H321" fill="none" stroke="#dd6b20" stroke-width="2.7" marker-start="url(#arrowOrangeSmall)" marker-end="url(#arrowOrangeSmall)"/>
+  <rect x="185" y="438" width="138" height="55" rx="14" fill="#fdf0e4" stroke="#dd6b20" stroke-width="2"/>
+  <circle cx="213.5" cy="465.5" r="13" fill="#fffaf5" stroke="#dd6b20" stroke-width="2"/>
+  <circle cx="213.5" cy="465.5" r="7" fill="#dd6b20"/>
+  <circle cx="213.5" cy="465.5" r="2.7" fill="#ffffff"/>
+  <text x="244" y="472" class="body" font-weight="700" fill="#9c4221">Router</text>
+
+  <!-- Physical array and logical layer mapping -->
+  <rect x="393" y="96" width="573" height="424" rx="24" fill="#fbfdff" stroke="#cbd5e0" stroke-width="1.6"/>
+  <text x="421" y="127" class="kicker" fill="#4a5568">PHYSICAL CORE ARRAY</text>
+
+  <g>
+    <rect x="432" y="140" width="120" height="27" rx="13.5" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.4"/>
+    <text x="492" y="159" text-anchor="middle" class="small" font-weight="700" fill="#2b6cb0">L1 · 3 cores</text>
+    <text x="569" y="160" text-anchor="middle" font-size="22" fill="#718096">→</text>
+    <rect x="585" y="140" width="120" height="27" rx="13.5" fill="#faf5ff" stroke="#805ad5" stroke-width="1.4"/>
+    <text x="645" y="159" text-anchor="middle" class="small" font-weight="700" fill="#6b46c1">L2 · 6 cores</text>
+    <text x="722" y="160" text-anchor="middle" font-size="22" fill="#718096">→</text>
+    <rect x="738" y="140" width="120" height="27" rx="13.5" fill="#e6f4ec" stroke="#2f855a" stroke-width="1.4"/>
+    <text x="798" y="159" text-anchor="middle" class="small" font-weight="700" fill="#276749">L3 · 3 cores</text>
+  </g>
+
+  <!-- Full mesh remains available regardless of which cores are mapped. -->
+  <g fill="none" stroke="#a0aec0" stroke-width="3.4" stroke-linecap="round">
+    <path d="M428 274 H923"/>
+    <path d="M428 379 H923"/>
+    <path d="M428 484 H923"/>
+    <path d="M529 200 V490"/>
+    <path d="M659 200 V490"/>
+    <path d="M789 200 V490"/>
+    <path d="M919 200 V490"/>
+  </g>
+
+  <!-- Layer 1: three mapped cores. -->
+  <g>
+    <use href="#compactCore" x="428" y="200"/>
+    <rect x="428" y="200" width="105" height="80" rx="12" fill="none" stroke="#2b6cb0" stroke-width="3"/>
+    <text x="480.5" y="262" text-anchor="middle" class="layer-id" fill="#2b6cb0">L1a</text>
+
+    <use href="#compactCore" x="428" y="305"/>
+    <rect x="428" y="305" width="105" height="80" rx="12" fill="none" stroke="#2b6cb0" stroke-width="3"/>
+    <text x="480.5" y="367" text-anchor="middle" class="layer-id" fill="#2b6cb0">L1b</text>
+
+    <use href="#compactCore" x="428" y="410"/>
+    <rect x="428" y="410" width="105" height="80" rx="12" fill="none" stroke="#2b6cb0" stroke-width="3"/>
+    <text x="480.5" y="472" text-anchor="middle" class="layer-id" fill="#2b6cb0">L1c</text>
+  </g>
+
+  <!-- Layer 2: six mapped cores. -->
+  <g>
+    <use href="#compactCore" x="558" y="200"/>
+    <rect x="558" y="200" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="610.5" y="262" text-anchor="middle" class="layer-id" fill="#6b46c1">L2a</text>
+
+    <use href="#compactCore" x="558" y="305"/>
+    <rect x="558" y="305" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="610.5" y="367" text-anchor="middle" class="layer-id" fill="#6b46c1">L2b</text>
+
+    <use href="#compactCore" x="558" y="410"/>
+    <rect x="558" y="410" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="610.5" y="472" text-anchor="middle" class="layer-id" fill="#6b46c1">L2c</text>
+
+    <use href="#compactCore" x="688" y="200"/>
+    <rect x="688" y="200" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="740.5" y="262" text-anchor="middle" class="layer-id" fill="#6b46c1">L2d</text>
+
+    <use href="#compactCore" x="688" y="305"/>
+    <rect x="688" y="305" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="740.5" y="367" text-anchor="middle" class="layer-id" fill="#6b46c1">L2e</text>
+
+    <use href="#compactCore" x="688" y="410"/>
+    <rect x="688" y="410" width="105" height="80" rx="12" fill="none" stroke="#805ad5" stroke-width="3"/>
+    <text x="740.5" y="472" text-anchor="middle" class="layer-id" fill="#6b46c1">L2f</text>
+  </g>
+
+  <!-- Layer 3: three mapped cores. -->
+  <g>
+    <use href="#compactCore" x="818" y="200"/>
+    <rect x="818" y="200" width="105" height="80" rx="12" fill="none" stroke="#2f855a" stroke-width="3"/>
+    <text x="870.5" y="262" text-anchor="middle" class="layer-id" fill="#276749">L3a</text>
+
+    <use href="#compactCore" x="818" y="305"/>
+    <rect x="818" y="305" width="105" height="80" rx="12" fill="none" stroke="#2f855a" stroke-width="3"/>
+    <text x="870.5" y="367" text-anchor="middle" class="layer-id" fill="#276749">L3b</text>
+
+    <use href="#compactCore" x="818" y="410"/>
+    <rect x="818" y="410" width="105" height="80" rx="12" fill="none" stroke="#2f855a" stroke-width="3"/>
+    <text x="870.5" y="472" text-anchor="middle" class="layer-id" fill="#276749">L3c</text>
+  </g>
+
+  <!-- Each core contributes one circular router at its lower-right mesh intersection. -->
+  <g aria-label="Twelve routers, one at every network-on-chip intersection">
+    <use href="#compactRouter" x="529" y="274"/>
+    <use href="#compactRouter" x="659" y="274"/>
+    <use href="#compactRouter" x="789" y="274"/>
+    <use href="#compactRouter" x="919" y="274"/>
+    <use href="#compactRouter" x="529" y="379"/>
+    <use href="#compactRouter" x="659" y="379"/>
+    <use href="#compactRouter" x="789" y="379"/>
+    <use href="#compactRouter" x="919" y="379"/>
+    <use href="#compactRouter" x="529" y="484"/>
+    <use href="#compactRouter" x="659" y="484"/>
+    <use href="#compactRouter" x="789" y="484"/>
+    <use href="#compactRouter" x="919" y="484"/>
+  </g>
+
+  <!-- Every source visits every core in the next layer in a fixed shuffled order. -->
+  <g class="moving-packets" aria-hidden="true">
+    <!-- L1a destination order: L2e → L2a → L2f → L2c → L2d → L2b. -->
+    <g transform="translate(529 274)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.1467;0.1567;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.1467;1"><mpath href="#routeTwoDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.1767;0.1867;0.3133;0.3233;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.1867;0.3133;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.48;0.49;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.48;1"><mpath href="#routeTwoDown2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.51;0.52;0.6467;0.6567;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.52;0.6467;1"><mpath href="#routeNextDown2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.8133;0.8233;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.8133;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.8433;0.8533;0.98;0.99;1" dur="24s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.8533;0.98;1"><mpath href="#routeNextDown1"/></animateMotion>
+      </g>
+    </g>
+    <!-- L1b destination order: L2c → L2f → L2b → L2d → L2a → L2e. -->
+    <g transform="translate(529 379)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.1467;0.1567;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.1467;1"><mpath href="#routeNextDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.1767;0.1867;0.3133;0.3233;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.1867;0.3133;1"><mpath href="#routeTwoDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.48;0.49;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.48;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.51;0.52;0.6467;0.6567;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.52;0.6467;1"><mpath href="#routeTwoUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.8133;0.8233;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.8133;1"><mpath href="#routeNextUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.8433;0.8533;0.98;0.99;1" dur="24s" begin="1.3s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="1.3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.8533;0.98;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L1c destination order: L2d → L2b → L2e → L2a → L2c → L2f. -->
+    <g transform="translate(529 484)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.1467;0.1567;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.1467;1"><mpath href="#routeTwoUp2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.1767;0.1867;0.3133;0.3233;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.1867;0.3133;1"><mpath href="#routeNextUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.48;0.49;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.48;1"><mpath href="#routeTwoUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.51;0.52;0.6467;0.6567;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.52;0.6467;1"><mpath href="#routeNextUp2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.8133;0.8233;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.8133;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(529 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL1"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.8433;0.8533;0.98;0.99;1" dur="24s" begin="2.6s" repeatCount="indefinite"/>
+        <animateMotion dur="24s" begin="2.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.8533;0.98;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2a destination order: L3c → L3a → L3b. -->
+    <g transform="translate(659 274)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="3s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeTwoDown2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="3s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 274)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="3s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeTwoDown1"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2b destination order: L3a → L3c → L3b. -->
+    <g transform="translate(659 379)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="3.8s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3.8s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeTwoUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="3.8s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3.8s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeTwoDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 379)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="3.8s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="3.8s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2c destination order: L3b → L3a → L3c. -->
+    <g transform="translate(659 484)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="4.6s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="4.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeTwoUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="4.6s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="4.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeTwoUp2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(659 484)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="4.6s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="4.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeTwoSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2d destination order: L3b → L3c → L3a. -->
+    <g transform="translate(789 274)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="5.4s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="5.4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeNextDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 274)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="5.4s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="5.4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeNextDown2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 274)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="5.4s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="5.4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2e destination order: L3c → L3b → L3a. -->
+    <g transform="translate(789 379)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="6.2s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="6.2s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeNextDown1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 379)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="6.2s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="6.2s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 379)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="6.2s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="6.2s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeNextUp1"/></animateMotion>
+      </g>
+    </g>
+    <!-- L2f destination order: L3a → L3b → L3c. -->
+    <g transform="translate(789 484)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="12s" begin="7s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="7s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeNextUp2"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 484)" opacity="0.86">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="12s" begin="7s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="7s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeNextUp1"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(789 484)">
+      <g opacity="0">
+        <use href="#packetL2"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="12s" begin="7s" repeatCount="indefinite"/>
+        <animateMotion dur="12s" begin="7s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeNextSame"/></animateMotion>
+      </g>
+    </g>
+  </g>
+
+  <!-- One external input port and one external output port continue the middle NoC row. -->
+  <g>
+    <path d="M372 379 H517.5" fill="none" stroke="#c53030" stroke-width="2.7" marker-end="url(#arrowInputSmall)"/>
+    <path d="M930.5 379 H978" fill="none" stroke="#b7791f" stroke-width="2.7" marker-end="url(#arrowOutputSmall)"/>
+  </g>
+
+  <!-- Red input packets cycle L1a → L1b → L1c; gold output packets cycle L3a → L3b → L3c. -->
+  <g class="moving-packets" aria-hidden="true">
+    <g transform="translate(372 379)">
+      <g opacity="0">
+        <use href="#packetInput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="9s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeInputTop"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(372 379)" opacity="0.9">
+      <g opacity="0">
+        <use href="#packetInput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="9s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeInputMiddle"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(372 379)" opacity="0.82">
+      <g opacity="0">
+        <use href="#packetInput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="9s" begin="0s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="0s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeInputBottom"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(919 274)">
+      <g opacity="0">
+        <use href="#packetOutput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.01;0.02;0.3133;0.3233;1" dur="9s" begin="4s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.02;0.3133;1"><mpath href="#routeOutputFromTop"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(919 379)" opacity="0.9">
+      <g opacity="0">
+        <use href="#packetOutput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3433;0.3533;0.6467;0.6567;1" dur="9s" begin="4s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.3533;0.6467;1"><mpath href="#routeOutputMiddle"/></animateMotion>
+      </g>
+    </g>
+    <g transform="translate(919 484)" opacity="0.82">
+      <g opacity="0">
+        <use href="#packetOutput"/>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6767;0.6867;0.98;0.99;1" dur="9s" begin="4s" repeatCount="indefinite"/>
+        <animateMotion dur="9s" begin="4s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.6867;0.98;1"><mpath href="#routeOutputFromBottom"/></animateMotion>
+      </g>
+    </g>
+  </g>
+  <!-- Mapping and traffic legend -->
+  <g>
+    <rect x="34" y="544" width="932" height="46" rx="15" fill="#fffaf5" stroke="#f6ad55" stroke-width="1.4"/>
+
+    <rect x="58" y="557" width="38" height="21" rx="10.5" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="1.5"/>
+    <text x="77" y="573" text-anchor="middle" class="layer-id" fill="#2b6cb0">L1</text>
+    <text x="108" y="574" class="small" font-weight="700" fill="#2b6cb0">3 LAYER 1 CORES</text>
+
+    <rect x="275" y="557" width="38" height="21" rx="10.5" fill="#faf5ff" stroke="#805ad5" stroke-width="1.5"/>
+    <text x="294" y="573" text-anchor="middle" class="layer-id" fill="#6b46c1">L2</text>
+    <text x="325" y="574" class="small" font-weight="700" fill="#6b46c1">6 HIDDEN CORES</text>
+
+    <rect x="508" y="557" width="38" height="21" rx="10.5" fill="#e6f4ec" stroke="#2f855a" stroke-width="1.5"/>
+    <text x="527" y="573" text-anchor="middle" class="layer-id" fill="#276749">L3</text>
+    <text x="558" y="574" class="small" font-weight="700" fill="#276749">3 LAYER 3 CORES</text>
+
+    <line x1="744" y1="567.5" x2="785" y2="567.5" stroke="#a0aec0" stroke-width="3.4" stroke-linecap="round"/>
+    <rect x="751" y="562.5" width="18" height="10" rx="4" fill="#2b6cb0" stroke="#ffffff" stroke-width="1.5"/>
+    <rect x="768" y="562.5" width="18" height="10" rx="4" fill="#6b46c1" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="797" y="574" class="small" font-weight="700" fill="#4a5568">PACKETS ON NoC</text>
+
+  </g>
+</svg>

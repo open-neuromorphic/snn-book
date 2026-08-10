@@ -10,7 +10,30 @@ const fs = require('fs');
 installGlobals();
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
-const PROJECT_ROOT = path.join(process.cwd(), '..', '..', '..', '..', '..');
+
+// Resolve the book root from this file's location or the process cwd.
+// jupyter-book may start the theme server with different working directories,
+// so counting `..` from cwd alone is brittle and can make `/_static` 404.
+function findProjectRoot(startDir) {
+  let dir = path.resolve(startDir);
+  for (let i = 0; i < 12; i += 1) {
+    if (
+      fs.existsSync(path.join(dir, 'myst.yml')) &&
+      fs.existsSync(path.join(dir, '_static'))
+    ) {
+      return dir;
+    }
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return null;
+}
+
+const PROJECT_ROOT =
+  findProjectRoot(__dirname) ||
+  findProjectRoot(process.cwd()) ||
+  path.resolve(process.cwd(), '..', '..', '..', '..', '..');
 
 const app = express();
 
@@ -149,8 +172,13 @@ print("[PyScript Bootstrap] Dynamical systems executor ready")
       const jsPath = path.join(customStaticPath, 'js');
       if (fs.existsSync(jsPath)) {
         const staticFiles = fs.readdirSync(jsPath, { withFileTypes: true })
-          .filter(dirent => dirent.isFile() && dirent.name.endsWith('.js'))
-          .map(dirent => dirent.name);
+          .filter(dirent =>
+            dirent.isFile() &&
+            dirent.name.endsWith('.js') &&
+            dirent.name !== 'server.js'
+          )
+          .map(dirent => dirent.name)
+          .sort();
 
         staticFiles.forEach(file => {
           customScripts += `\n  <script src="/_static/js/${file}" defer></script>`;

@@ -1,0 +1,472 @@
+/* Interactive companion to fig:hw-energy-calculator. The SVG remains the
+   no-JavaScript and print/PDF worked example. */
+
+figure.hw-energy-calculator-interactive {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 980px;
+  width: 80%;
+}
+
+.seneca-energy-calculator {
+  --seneca-text: #243449;
+  --seneca-muted: #5c697a;
+  --seneca-surface: #f6f8fa;
+  --seneca-layer-surface: #eef5fc;
+  --seneca-border: #b6c0cc;
+  --seneca-input: #ffffff;
+  --seneca-handling: #a43d59;
+  --seneca-synaptic: #3977b9;
+  --seneca-floor: #d7671f;
+  --seneca-spike: #2e8259;
+  --seneca-static: #7359a5;
+  --seneca-saved: #e2e7ed;
+  color-scheme: light dark;
+  --seneca-text: light-dark(#243449, #edf2f7);
+  --seneca-muted: light-dark(#5c697a, #c3ccd8);
+  --seneca-surface: light-dark(#f6f8fa, #17202b);
+  --seneca-layer-surface: light-dark(#eef5fc, #14283c);
+  --seneca-border: light-dark(#b6c0cc, #586779);
+  --seneca-input: light-dark(#ffffff, #101821);
+  --seneca-handling: light-dark(#a43d59, #e07c96);
+  --seneca-synaptic: light-dark(#3977b9, #70a9e3);
+  --seneca-floor: light-dark(#d7671f, #f19a5f);
+  --seneca-spike: light-dark(#2e8259, #66c291);
+  --seneca-static: light-dark(#7359a5, #b59ae6);
+  --seneca-saved: light-dark(#e2e7ed, #344252);
+
+  box-sizing: border-box;
+  color: var(--seneca-text);
+  font-family: 'DejaVu Sans', Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0.4rem auto 0.8rem;
+  max-width: 980px;
+  text-align: left;
+  width: 100%;
+}
+
+.seneca-energy-calculator *,
+.seneca-energy-calculator *::before,
+.seneca-energy-calculator *::after {
+  box-sizing: border-box;
+}
+
+.seneca-energy-mode-row {
+  margin-bottom: 0.8rem;
+  max-width: 32rem;
+}
+
+.seneca-energy-mode-field {
+  display: grid;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+.seneca-energy-mode-field label {
+  color: var(--seneca-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.seneca-energy-mode {
+  background: var(--seneca-input);
+  border: 1px solid var(--seneca-border);
+  border-radius: 0.3rem;
+  color: var(--seneca-text);
+  font: inherit;
+  font-size: 0.88rem;
+  min-height: 2.2rem;
+  min-width: 0;
+  padding: 0.35rem 2rem 0.35rem 0.45rem;
+  width: 100%;
+}
+
+.seneca-energy-layer legend {
+  color: var(--seneca-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0 0.25rem;
+}
+
+.seneca-energy-layer legend::before {
+  align-items: center;
+  background: var(--seneca-synaptic);
+  border-radius: 50%;
+  color: #ffffff;
+  content: counter(seneca-layer);
+  display: inline-flex;
+  font-size: 0.78rem;
+  height: 1.35rem;
+  justify-content: center;
+  margin-right: 0.35rem;
+  width: 1.35rem;
+}
+
+.seneca-energy-layers {
+  border: 0;
+  counter-reset: seneca-layer;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 1.1rem;
+  padding: 0;
+}
+
+.seneca-energy-layer {
+  background: var(--seneca-layer-surface);
+  border: 1px solid var(--seneca-border);
+  border: 1px solid color-mix(in srgb, var(--seneca-synaptic) 68%, var(--seneca-border));
+  border-radius: 0.55rem;
+  counter-increment: seneca-layer;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.7rem 0.75rem 0.75rem;
+}
+
+.seneca-energy-layer-index {
+  display: none;
+}
+
+.seneca-energy-field {
+  display: grid;
+  gap: 0.28rem;
+  margin-top: 0.45rem;
+  min-width: 0;
+}
+
+.seneca-energy-field label {
+  color: var(--seneca-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.seneca-energy-neurons {
+  background: var(--seneca-input);
+  border: 1px solid var(--seneca-border);
+  border-radius: 0.3rem;
+  color: var(--seneca-text);
+  font: inherit;
+  font-size: 0.92rem;
+  min-height: 2.2rem;
+  min-width: 0;
+  padding: 0.35rem 0.45rem;
+  width: 100%;
+}
+
+.seneca-energy-neurons:focus-visible,
+.seneca-energy-density:focus-visible,
+.seneca-energy-mode:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--seneca-synaptic) 72%, transparent);
+  outline-offset: 2px;
+}
+
+.seneca-energy-neurons[aria-invalid="true"] {
+  border-color: #b42318;
+}
+
+.seneca-energy-density-heading {
+  color: var(--seneca-text);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.seneca-energy-density-controls {
+  align-items: center;
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: minmax(0, 1fr) 2.6rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.seneca-energy-density-value {
+  color: var(--seneca-text);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1;
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.seneca-energy-density {
+  -webkit-appearance: none;
+  appearance: none;
+  accent-color: var(--seneca-synaptic);
+  background: transparent;
+  cursor: pointer;
+  display: block;
+  height: 1.4rem;
+  margin: 0;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
+.seneca-energy-density::-webkit-slider-runnable-track {
+  background: color-mix(in srgb, var(--seneca-border) 70%, transparent);
+  border-radius: 999px;
+  height: 0.35rem;
+}
+
+.seneca-energy-density::-moz-range-track {
+  background: color-mix(in srgb, var(--seneca-border) 70%, transparent);
+  border-radius: 999px;
+  height: 0.35rem;
+}
+
+.seneca-energy-density::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--seneca-synaptic);
+  border: 0;
+  border-radius: 50%;
+  height: 0.9rem;
+  margin-top: -0.28rem;
+  width: 0.9rem;
+}
+
+.seneca-energy-density::-moz-range-thumb {
+  background: var(--seneca-synaptic);
+  border: 0;
+  border-radius: 50%;
+  height: 0.9rem;
+  width: 0.9rem;
+}
+
+.seneca-energy-results {
+  align-items: stretch;
+  background: var(--seneca-surface);
+  border: 1px solid var(--seneca-border);
+  border-radius: 0.65rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(12rem, 0.72fr) minmax(0, 1.5fr);
+  padding: 1rem;
+}
+
+.seneca-energy-primary {
+  border-right: 1px solid var(--seneca-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding-right: 1rem;
+}
+
+.seneca-energy-result-label {
+  color: var(--seneca-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.seneca-energy-total {
+  color: var(--seneca-text);
+  font-size: clamp(1.65rem, 4.5vw, 2.35rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-top: 0.22rem;
+  overflow-wrap: anywhere;
+}
+
+.seneca-energy-per-step,
+.seneca-energy-comparison {
+  color: var(--seneca-muted);
+  font-size: 0.82rem;
+}
+
+.seneca-energy-comparison {
+  margin-top: 0.55rem;
+}
+
+.seneca-energy-power-label {
+  color: var(--seneca-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 0.65rem;
+}
+
+.seneca-energy-power {
+  color: var(--seneca-text);
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  margin-top: 0.08rem;
+}
+
+.seneca-energy-chart {
+  align-self: center;
+  min-width: 0;
+}
+
+.seneca-energy-chart-heading {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.7rem;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.seneca-energy-chart-title {
+  color: var(--seneca-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.seneca-energy-dense-value {
+  color: var(--seneca-muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.seneca-energy-track {
+  background: color-mix(in srgb, var(--seneca-border) 35%, transparent);
+  border-radius: 0.36rem;
+  display: flex;
+  height: 1.75rem;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.seneca-energy-segment {
+  display: block;
+  flex: 0 0 auto;
+  height: 100%;
+  min-width: 0;
+  transition: width 160ms ease;
+}
+
+.seneca-energy-segment-synaptic {
+  background: var(--seneca-synaptic);
+}
+
+.seneca-energy-segment-handling {
+  background: var(--seneca-handling);
+}
+
+.seneca-energy-segment-floor {
+  background: var(--seneca-floor);
+}
+
+.seneca-energy-segment-spike {
+  background: var(--seneca-spike);
+}
+
+.seneca-energy-segment-static {
+  background: var(--seneca-static);
+}
+
+.seneca-energy-breakdown {
+  display: grid;
+  gap: 0.55rem 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 0.65rem;
+}
+
+.seneca-energy-breakdown-item {
+  min-width: 0;
+}
+
+.seneca-energy-breakdown-label {
+  align-items: flex-start;
+  color: var(--seneca-muted);
+  display: flex;
+  font-size: 0.72rem;
+  gap: 0.35rem;
+  line-height: 1.3;
+  min-height: 2.1rem;
+}
+
+.seneca-energy-breakdown-label > span:last-child {
+  min-width: 0;
+}
+
+.seneca-energy-swatch {
+  border-radius: 50%;
+  display: inline-block;
+  flex: 0 0 auto;
+  height: 0.62rem;
+  width: 0.62rem;
+}
+
+.seneca-energy-swatch-synaptic {
+  background: var(--seneca-synaptic);
+}
+
+.seneca-energy-swatch-handling {
+  background: var(--seneca-handling);
+}
+
+.seneca-energy-swatch-floor {
+  background: var(--seneca-floor);
+}
+
+.seneca-energy-swatch-spike {
+  background: var(--seneca-spike);
+}
+
+.seneca-energy-swatch-static {
+  background: var(--seneca-static);
+}
+
+.seneca-energy-breakdown-value {
+  color: var(--seneca-text);
+  display: block;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  margin-top: 0.18rem;
+  overflow-wrap: anywhere;
+}
+
+figure.hw-energy-calculator-enhanced .seneca-energy-static-fallback {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .seneca-energy-layers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .seneca-energy-results {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .seneca-energy-primary {
+    border-bottom: 1px solid var(--seneca-border);
+    border-right: 0;
+    padding: 0 0 0.85rem;
+  }
+
+  .seneca-energy-breakdown {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .seneca-energy-layers,
+  .seneca-energy-breakdown {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seneca-energy-segment {
+    transition: none;
+  }
+}
+
+@media print {
+  figure.hw-energy-calculator-interactive .seneca-energy-calculator {
+    display: none !important;
+  }
+
+  figure.hw-energy-calculator-interactive .seneca-energy-static-fallback {
+    display: block !important;
+  }
+}

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="505" viewBox="0 0 1100 505"
+     role="img" aria-labelledby="seneca-calc-title seneca-calc-desc">
+  <title id="seneca-calc-title">Worked SENeCA energy and power estimate for a four-layer integrate-and-fire network</title>
+  <desc id="seneca-calc-desc">A static worked example of the interactive calculator with BF16 selected at 12.7 picojoules per one-event synaptic operation. Four fully connected integrate-and-fire layers contain 256, 128, 64, and 10 neurons, each at 10 percent spike density. Handling each input spike to an internal layer costs 0.6 nanojoules. Activation and leak updates cost 12.1 picojoules for every neuron, while output event generation costs 0.1 nanojoules for each firing neuron. Dynamic processing consumes 89.8 nanojoules per 10 millisecond time step. A fixed single-core static power of 30 microwatts adds 300 nanojoules, giving about 390 nanojoules per step and 39.0 microwatts of average total power.</desc>
+
+  <defs>
+    <style>
+      .text { fill: #26364a; font-family: 'DejaVu Sans', Arial, sans-serif; }
+      .muted { fill: #5b697b; }
+      .layer-title { font-size: 19px; font-weight: 600; text-anchor: middle; }
+      .layer-value { font-size: 25px; font-weight: 600; text-anchor: middle; }
+      .layer-detail { font-size: 17px; text-anchor: middle; }
+      .result-label { font-size: 18px; font-weight: 600; }
+      .result-value { font-size: 34px; font-weight: 600; }
+      .breakdown-label { font-size: 17px; font-weight: 600; }
+      .breakdown-value { font-size: 20px; font-weight: 600; }
+      .structural { vector-effect: non-scaling-stroke; }
+    </style>
+    <marker id="seneca-arrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5"
+            orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0L10 5L0 10Z" fill="#58799f"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="505" fill="#ffffff"/>
+
+  <g class="structural">
+    <path d="M260 115H315" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
+    <path d="M520 115H575" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
+    <path d="M780 115H835" fill="none" stroke="#58799f" stroke-width="2.2" marker-end="url(#seneca-arrow)"/>
+  </g>
+
+  <g>
+    <rect x="70" y="45" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
+    <rect x="330" y="45" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
+    <rect x="590" y="45" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
+    <rect x="850" y="45" width="190" height="145" rx="14" fill="#eef5fc" stroke="#3977b9" stroke-width="2"/>
+
+    <text class="text layer-title" x="165" y="75">Layer 1</text>
+    <text class="text layer-value" x="165" y="113">256</text>
+    <text class="text layer-detail muted" x="165" y="137">neurons</text>
+    <text class="text layer-detail" x="165" y="165">10% density</text>
+
+    <text class="text layer-title" x="425" y="75">Layer 2</text>
+    <text class="text layer-value" x="425" y="113">128</text>
+    <text class="text layer-detail muted" x="425" y="137">neurons</text>
+    <text class="text layer-detail" x="425" y="165">10% density</text>
+
+    <text class="text layer-title" x="685" y="75">Layer 3</text>
+    <text class="text layer-value" x="685" y="113">64</text>
+    <text class="text layer-detail muted" x="685" y="137">neurons</text>
+    <text class="text layer-detail" x="685" y="165">10% density</text>
+
+    <text class="text layer-title" x="945" y="75">Layer 4</text>
+    <text class="text layer-value" x="945" y="113">10</text>
+    <text class="text layer-detail muted" x="945" y="137">neurons</text>
+    <text class="text layer-detail" x="945" y="165">10% density</text>
+  </g>
+
+  <rect x="70" y="225" width="960" height="265" rx="16" fill="#f5f7fa" stroke="#b7c1ce" stroke-width="1.5"/>
+  <line x1="410" y1="250" x2="410" y2="465" stroke="#c5ccd5" stroke-width="1.5"/>
+
+  <text class="text result-label" x="105" y="275">Estimated total energy</text>
+  <text class="text result-value" x="105" y="319">390 nJ</text>
+  <text class="text muted" x="105" y="347" font-size="17">per 10 ms time step</text>
+  <text class="text muted" x="105" y="387" font-size="17" font-weight="600">Average total power</text>
+  <text class="text" x="105" y="418" font-size="27" font-weight="600">39.0 µW</text>
+  <text class="text" x="105" y="462" font-size="17" font-weight="600">66.1% below the zero-sparsity case</text>
+
+  <text class="text result-label" x="450" y="275">Share of estimated total energy</text>
+  <rect x="450" y="298" width="49.61" height="34" rx="7" fill="#a43d59"/>
+  <rect x="499.61" y="298" width="97.52" height="34" fill="#3977b9"/>
+  <rect x="597.13" y="298" width="10.23" height="34" fill="#d7671f"/>
+  <rect x="607.36" y="298" width="8.45" height="34" fill="#2e8259"/>
+  <rect x="615.81" y="298" width="364.19" height="34" fill="#7359a5"/>
+
+  <circle cx="457" cy="392" r="6" fill="#a43d59"/>
+  <text class="text breakdown-label" x="473" y="398">Input event (0.6 nJ)</text>
+  <text class="text breakdown-value" x="473" y="423">26.9 nJ</text>
+
+  <circle cx="647" cy="392" r="6" fill="#3977b9"/>
+  <text class="text breakdown-label" x="663" y="398">Synaptic (12.7 pJ)</text>
+  <text class="text breakdown-value" x="663" y="423">52.8 nJ</text>
+
+  <circle cx="837" cy="392" r="6" fill="#d7671f"/>
+  <text class="text breakdown-label" x="853" y="398">Act./leak (12.1 pJ)</text>
+  <text class="text breakdown-value" x="853" y="423">5.54 nJ</text>
+
+  <circle cx="552" cy="446" r="6" fill="#2e8259"/>
+  <text class="text breakdown-label" x="568" y="452">Output event (0.1 nJ)</text>
+  <text class="text breakdown-value" x="568" y="477">4.58 nJ</text>
+
+  <circle cx="837" cy="446" r="6" fill="#7359a5"/>
+  <text class="text breakdown-label" x="853" y="452">Static power (30 µW)</text>
+  <text class="text breakdown-value" x="853" y="477">300 nJ</text>
+</svg>

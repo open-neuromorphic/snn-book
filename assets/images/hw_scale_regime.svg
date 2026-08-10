@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Qualitative workload regimes for clocked, hybrid, and event-driven hardware</title>
+  <desc id="desc">A qualitative map with input activity becoming sparser from left to right and network size increasing from bottom to top. A compact clocked accelerator occupies the small or dense region, event-driven neuromorphic hardware occupies the large or sparse region, and a broad hybrid event-clocked band lies between them. Eight example applications are positioned illustratively.</desc>
+
+  <defs>
+    <clipPath id="plot-clip">
+      <rect x="100" y="42" width="760" height="473"/>
+    </clipPath>
+    <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#263445"/>
+    </marker>
+    <style>
+      .figure-text { font-family: 'DejaVu Sans', Arial, sans-serif; fill: #263445; }
+      .axis { stroke: #263445; stroke-width: 2.2; fill: none; }
+      .axis-label { font-size: 19px; font-weight: 500; }
+      .region-title { font-size: 21px; font-weight: 700; letter-spacing: 0.25px; }
+      .region-note { font-size: 15px; font-weight: 500; }
+      .application { font-size: 17px; font-weight: 500; }
+      .qualifier { font-size: 15.5px; fill: #526171; }
+      .boundary { fill: none; stroke: #7c83a6; stroke-width: 1.6; }
+      .clocked { fill: #b45309; }
+      .hybrid { fill: #4f46a5; }
+      .event { fill: #237a50; }
+    </style>
+  </defs>
+
+  <rect width="900" height="620" fill="#ffffff"/>
+
+  <g clip-path="url(#plot-clip)">
+    <!-- Large and/or sparse workloads. -->
+    <path d="M 100 42 H 860 V 385
+             C 628 316 332 172 100 125 Z" fill="#ddefe5"/>
+
+    <!-- A deliberately broad transition region for heterogeneous execution. -->
+    <path d="M 100 125
+             C 332 172 628 316 860 385
+             L 860 485
+             C 630 440 336 305 100 260 Z" fill="#e8e8f6"/>
+
+    <!-- Small and/or dense workloads. -->
+    <path d="M 100 260
+             C 336 305 630 440 860 485
+             V 515 H 100 Z" fill="#fbe8d7"/>
+
+    <path class="boundary" d="M 100 125 C 332 172 628 316 860 385"/>
+    <path class="boundary" d="M 100 260 C 336 305 630 440 860 485"/>
+  </g>
+
+  <!-- A light frame keeps the colored regions visually contained. -->
+  <path d="M 100 42 H 860 V 515" fill="none" stroke="#cbd5df" stroke-width="1.2"/>
+
+  <!-- Region labels. -->
+  <g class="figure-text">
+    <text x="842" y="80" text-anchor="end" class="region-title event">EVENT-DRIVEN NEUROMORPHIC</text>
+    <text x="842" y="105" text-anchor="end" class="region-note event">sparse events amortize control overhead</text>
+
+    <text x="126" y="177" class="region-title hybrid">HYBRID</text>
+    <text x="126" y="201" class="region-title hybrid">EVENT/CLOCKED</text>
+    <text x="126" y="225" class="region-note hybrid">event front end +</text>
+    <text x="126" y="245" class="region-note hybrid">clocked/vector back end</text>
+
+    <text x="400" y="442" class="region-title clocked">COMPACT CLOCKED</text>
+    <text x="400" y="466" class="region-title clocked">ACCELERATOR</text>
+    <text x="400" y="490" class="region-note clocked">regular compute; sleep between frames</text>
+  </g>
+
+  <!-- Example applications: positions are illustrative rather than benchmark thresholds. -->
+  <g class="figure-text application">
+    <!-- Event-driven examples. -->
+    <circle cx="370" cy="135" r="6" class="event"/>
+    <text x="387" y="130">Large SNN with</text>
+    <text x="387" y="151">sparse activity</text>
+
+    <circle cx="570" cy="210" r="6" class="event"/>
+    <text x="587" y="216">Sparse event-audio</text>
+
+    <circle cx="756" cy="300" r="6" class="event"/>
+    <text x="738" y="294" text-anchor="end">Event-camera</text>
+    <text x="738" y="315" text-anchor="end">perception</text>
+
+    <!-- Hybrid examples. -->
+    <circle cx="340" cy="284" r="6" class="hybrid"/>
+    <text x="357" y="290">Audio front end + classifier</text>
+
+    <circle cx="505" cy="356" r="6" class="hybrid"/>
+    <text x="522" y="350">Sensor + DSP/SNN</text>
+    <text x="522" y="371">pipeline</text>
+
+    <circle cx="790" cy="407" r="6" class="hybrid"/>
+    <text x="772" y="397" text-anchor="end">Keyword / wake-word</text>
+    <text x="772" y="418" text-anchor="end">detector</text>
+
+    <!-- Clocked examples. -->
+    <circle cx="170" cy="335" r="6" class="clocked"/>
+    <text x="187" y="341">Dense image inference</text>
+
+    <circle cx="190" cy="475" r="6" class="clocked"/>
+    <text x="207" y="481">Tiny frame CNN</text>
+  </g>
+
+  <!-- Directional axes. -->
+  <path class="axis" d="M 100 515 H 872" marker-end="url(#axis-arrow)"/>
+  <path class="axis" d="M 100 515 V 30" marker-end="url(#axis-arrow)"/>
+
+  <g class="figure-text axis-label">
+    <text x="480" y="558" text-anchor="middle">Input activity sparsity (dense &#8594; sparse)</text>
+    <text x="35" y="279" text-anchor="middle" transform="rotate(-90 35 279)">Network size (small &#8594; large)</text>
+  </g>
+
+  <text x="480" y="598" text-anchor="middle" class="figure-text qualifier">
+    Qualitative only—precision, memory traffic, fan-out, and timing shift the boundaries.
+  </text>
+</svg>

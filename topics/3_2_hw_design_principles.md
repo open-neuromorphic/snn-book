@@ -3,6 +3,258 @@ authors:
   - name: Manolis Sifalakis
     affiliation: Innatera
     email: manolis.sifalakis@innatera.com
+  - name: Amirreza Yousefzadeh
+    affiliation: University of Twente
+    email: a.yousefzadeh@utwente.nl
 ---
 (chapter:hw_design_principles)=
 # Hardware design principles
+
+No two neuromorphic processors look quite alike. The same spiking network can suit one chip well and the next one badly, simply because each design settles its trade-offs differently. This chapter is about those trade-offs and how to reason through them.
+
+We take the design axes one at a time, starting from the substrate and the array template and working toward memory, acceleration, and software. Throughout, each axis is weighed against the same set of key performance indicators, namely latency, energy per inference, area and cost, maximum model size, accuracy, and flexibility. 
+
+(sec:substrate)=
+## The substrate decision: digital, analog, or mixed-signal
+
+The substrate is the physical medium out of which the neurons and synapses are built, and it comes in three flavors, analog, digital, or mixed-signal. The choice is one of the earliest a designer makes and one of the hardest to undo, because it settles three things at once. It fixes the numerical precision the hardware can hold, the effort needed to port the design to a newer process node, and how mature the surrounding programming tools are.
+
+```{figure} /assets/images/hw_analog_substrate.svg
+:name: fig:hw-analog
+:width: 70%
+:align: center
+
+How an analog neuromorphic substrate computes. Synaptic currents meet on a shared wire and sum by Kirchhoff's law, with no adder circuit, then charge the membrane capacitance of an analog neuron. Values live as voltages, currents, or charge, so device mismatch and noise enter the computation directly.
+```
+
+Analog circuits hold each neuron and synapse value as a physical quantity, typically a voltage, a charge, or a current, and let the device physics carry out the computation. Currents that meet on a shared wire, for instance, add themselves up with no adder circuit at all, which is why analog neurons can be tiny and sip very little power ({numref}`fig:hw-analog`). Neurogrid pushes this idea about as far as it goes. Its transistors run in the subthreshold regime, so the physics emulates the neural dynamics directly, and sixteen of its chips model a million neurons in real time on roughly three watts [@benjamin2014neurogrid]. DYNAP builds mixed-signal cores of adaptive exponential integrate-and-fire neurons and routes their spikes asynchronously [@moradi2018dynaps]. BrainScaleS-2 turns the same parallelism into speed. Because each neuron is a physical analog circuit that is never slowed to biological time, the chip runs about a thousand times faster than biology [@pehle2022brainscales2]. What all of these designs pay for this efficiency is a dependence on the exact behavior of the transistors. Two devices drawn identically still come off the line slightly different, and this mismatch, together with thermal and shot noise, feeds straight into the computation. Porting the design to a smaller process node is likewise no simple recompile. It usually means redesigning the analog blocks, since the device behavior itself shifts with the process.
+
+
+```{figure} /assets/images/hw_digital_substrate.svg
+:name: fig:hw-digital
+:width: 70%
+:align: center
+
+How a digital neuromorphic substrate computes. Synaptic weights and neuron states are encoded as bits in registers; explicit gate, adder, and comparator circuits update them under a clock, producing exact, repeatable outputs. That hardware costs area and switching energy, but its HDL remains synthesizable, reconfigurable, reusable as an IP block, and portable across process nodes.
+```
+
+Digital circuits store those same values as binary numbers and compute with logic gates ({numref}`fig:hw-digital`). They spend more area and energy per neuron, but they earn it back elsewhere. Their results are exact and repeatable, and the design can be synthesized from a hardware description language, reconfigured, and reused as an intellectual-property (IP) block. It also inherits the density and speed gains of each new process node with little extra effort. This is why many neuromorphic processors are digital, from the million-neuron TrueNorth [@merolla2014million] and the learning-capable Loihi [@davies2018loihi] to the general-purpose ARM cores of SpiNNaker [@furber2014spinnaker] and the sub-square-millimeter ODIN [@frenkel2019odin].
+
+The substrate also governs how freely weight precision can be chosen, and precision is the quiet lever behind both model size and accuracy. A digital design can hold its weights at eight, four, or even two bits, trading accuracy for memory in a very direct way, since halving the bits per weight halves the weight memory, often largest of the on-chip stores. NorthPole is built around exactly this freedom and supports eight-, four-, and two-bit operands [@modha2023northpole], and low-bit quantization is one of the main tools of {ref}`sec:software-mapping`. An analog array offers no such dial. Its effective precision is pinned by the device physics and the noise floor at three to four digits, so a task that needs more must either be reshaped to tolerate the noise or moved onto a digital substrate [@bocquet2020embracing].
+
+Mixed-signal designs sit between these two poles. The most common form today is in-memory computing on a resistive crossbar, where the synaptic weights live as the conductances of memory devices. A single analog step then carries out a full multiply-accumulate inside the memory array, with Ohm's law doing the multiplication and Kirchhoff current summation along each column doing the addition. A fully hardware-implemented memristor CNN built this way reached an energy efficiency more than two orders of magnitude better than a GPU, but only for a small scale neural network and after a hybrid training procedure that adapted the network to the arrays' imperfections [@yao2020fully]. IBM's HERMES research chip, although not advertised as neuromorphic, illustrates this mixed-signal compromise at multicore scale. Its 64 phase-change-memory cores perform the analog matrix-vector products, but much of the surrounding data path is digital: after analog-to-digital converters digitize the column currents, local digital processing units combine the partial results, apply affine scaling, and evaluate activations, while digital link controllers and an on-chip network route values between cores. A separate global digital processing unit implements FP16 fused multiply-add operations, tanh and sigmoid activations, and LSTM cell-state updates and storage [@legallo2023mixed].
+
+Reliability exposes a less obvious difference between the substrates. Digital hardware has a long record of reliable operation, not because its transistors escape variation and noise, but because logic thresholds and timing margins usually prevent those perturbations from changing a logical value, while error-control mechanisms catch many that do. Once a margin is crossed and an error escapes protection, however, the abstraction is cliff-like rather than graceful: a bit is either correct or wrong, and the effect depends sharply on its role. Not every bit flip matters, but across nineteen deep neural network models, most contained at least one parameter bit whose corruption caused an accuracy loss of more than ninety percent [@hong2019terminal]. Inside an analog array there is no corresponding bit boundary. Small conductance or current errors often produce proportional numerical perturbations, which a neural network may tolerate or learn around, and experiments with error-prone RRAM programming found only a small loss of accuracy even without formal error correction [@bocquet2020embracing]. This does not mean that failures in analog systems are intrinsically graceful. Drift, saturation, correlated noise and stuck devices can still create abrupt system failures. Determining when device-level analog degradation remains graceful at full-system scale, and comparing it fairly with digital designs protected by error correction and redundancy, remains an open research problem.
+
+Process scaling changes the balance again. As feature size and supply voltage are reduced, digital logic switches smaller capacitances across a smaller zero-to-one voltage swing, so its dynamic energy, roughly proportional to $CV_\mathrm{DD}^2$, falls. Analog circuits gain speed and density too, but do not scale as cleanly. Their lower supply voltage shrinks signal swing and headroom while the thermal-noise floor and matching requirements do not fall in proportion, so preserving a given signal-to-noise ratio can demand larger devices or capacitors, more current, calibration, redundancy, and data-converter overhead [@kinget2015scaling]. For one charge-domain in-memory architecture, analysis found that the maximum attainable signal-to-noise ratio decreased with technology scaling and that maintaining a fixed signal-to-noise ratio increased energy rather than reducing it [@gonugondla2020fundamental]. Those costs can narrow the nominal analog advantage enough that, for some precision and workload targets, a low-bit digital implementation uses less energy.
+
+Whether analog is the better long-term substrate remains an open question, and the disagreement runs deep rather than surface. Its advocates point out that fully parallel analog computation sheds two costs that digital systems can never quite escape, the clocking and synchronization overhead and the energy of shuttling operands to and from memory. The standard objection is precision. Analog in-memory systems typically resolve only three to four decimal digits, drift over time, and vary from one device to the next, so they lean on calibration or on a training procedure that keeps the physical chip in the loop [@bocquet2020embracing]. A third camp treats this unreliability as a resource rather than a flaw and designs algorithms that tolerate or even exploit device noise [@bocquet2020embracing]. What separates these groups is not the measurements so much as how much error they consider acceptable for a given task, and that is why the question stays open.
+
+(sec:array-template)=
+## The dominant template: an array of tiny processors plus a network-on-chip
+
+Almost every scalable digital neuromorphic processor is put together the same way. It is built from many small cores, each carrying its own local memory and compute, wired together by a network-on-chip (NoC). The pattern keeps reappearing across chips that otherwise have little in common. TrueNorth tiles 4096 fixed-function cores on a single die for a million neurons and 256 million synapses [@merolla2014million]. Loihi uses 128 programmable cores for about 130000 neurons with on-chip learning [@davies2018loihi]. SpiNNaker places eighteen general-purpose ARM cores on each chip and extends its packet network across 57,600 chips to form a machine with more than one million cores [@furber2014spinnaker; @plana2020spinnlink]. NorthPole spreads 224 MB of SRAM across 256 cores and keeps every weight on-chip [@modha2023northpole]. NeuronFlow, AKIDA, and SENeCA follow the same template [@moreira2020neuronflow; @tang2023seneca]. The core count spans more than an order of magnitude and the per-core memory a wide range, yet the organizing idea never changes, and that consistency is what makes it a template rather than a coincidence. It echoes the decentralized layout of cortical tissue, where computation and storage are not held physically apart as they are in a von Neumann machine.
+
+```{figure} /assets/images/hw_template.svg
+:name: fig:hw-template
+:width: 90%
+:align: center
+:alt: An enlarged neuromorphic core beside a twelve-core mesh mapping a three-layer SNN onto three Layer 1 cores, six Layer 2 cores, and three Layer 3 cores. Large circular routers sit at all twelve mesh intersections, so animated packets cross a router at every hop. One red input port cycles through the Layer 1 cores, one gold output port collects from the Layer 3 cores, and every source core connects to every core in the following layer using shuffled destination orders.
+
+The template shared by most scalable digital neuromorphic processors.
+```
+
+In this picture the core plays the part of the neuron substrate and the NoC that of the axon substrate ({numref}`fig:hw-template`). Keeping each core's memory right beside its compute is the central efficiency argument against the von Neumann organization, where operands must travel back and forth to a separate, distant memory. Scalability then comes almost for free, because every core added brings compute and memory together. A larger chip, or several chips tiled side by side, raises capacity, on-chip bandwidth, and parallelism all at once. The difficulty does not vanish, though. It shifts into mapping, the problem of placing neurons and layers onto cores, and into load balancing, the problem of keeping those cores evenly busy. Mapping is therefore as much a hardware concern as a software one, and {ref}`sec:software-mapping` comes back to it.
+
+Building real systems on this template teaches two practical lessons. The first is that scaling past one die requires a hierarchy above the on-chip NoC, not merely more cores. The second lesson is that parallelism is only as good as the mapping behind it. Let one core hold a busy layer while its neighbors sit idle, and that core becomes the critical path with the rest of the array waiting on it, so a balanced placement counts for as much as raw core count.
+
+The template is near-universal, yet its justification is contested, and the sharpest counterexample deserves to be stated plainly. A highly connected cortical model can run faster and at lower energy on a single GPU than on SpiNNaker or a CPU cluster, with energy per synaptic event reported as up to fourteen times lower on the GPU [@knight2018gpus]. When a commodity dense accelerator can win on a workload that looks tailor-made for neuromorphic hardware, the tiled array stops being an automatic default and becomes a choice to justify for each application. What the tiled array really trades on is sparsity and scale, the subjects of the next two sections. Where those are missing, its overheads can lose to a GPU or a plain accelerator.
+
+(sec:scale-regime)=
+## Scaled-up systems versus the extreme edge
+
+The array template was designed for scale, and its advantages do not carry over automatically to a tiny chip running a tiny network. This gap is the central practical tension of the chapter, so the two regimes are worth spelling out.
+
+At large scale the template performs well because memory and compute are distributed, leaving no shared bottleneck, and every core added brings capacity, bandwidth, and parallelism together. SpiNNaker was built to simulate on the order of a billion neurons in real time across a million cores [@furber2014spinnaker], Neurogrid models a million neurons on roughly three watts [@benjamin2014neurogrid], and multi-chip Loihi systems spread large networks across many tiles [@davies2021advancing]. These machines offers an scalability solution which a is not offered by conventional clusters.
+
+The extreme edge asks for something else entirely. Here there are thousands of neurons rather than millions, power budgets of a milliwatt or less, silicon area dictated by unit cost, and often a single sensor as the only input. μBrain shows how small this can get. Its 40 nm prototype implements 336 physical neurons and 37,366 programmable 4-bit synapses in a 1.42-square-millimeter core [@stuijt2021ubrain]. Innatera's Pulsar targets the same always-on, battery-powered sensor niche commercially [@innatera2025pulsar]. Parts of this class do find real use, in always-on sensing where the alternative is to keep a microcontroller awake all the time.
+
+
+In extreme edge ,where scalability is not a concerrn, two properties of the workload decide whether that neuromorphic approach is worth taking. The first is how sparse the activity still is by the time it reaches the datapath. The second is how much work each arriving event sets off, a quantity that {ref}`sec:event-driven` makes precise as operation density. {numref}`fig:hw-regime-map` places both on one map, and its lesson is that a design needs both at once. Rare events are not enough on their own, because an event that touches only a handful of neurons cannot pay back the cost of handling it. Vibration monitoring built around rare threshold crossings sits in that corner, and so do the small dense classifiers common at the edge, such as recognizing an activity from a handful of inertial-sensor features. Plenty of work per event is not enough either, because a dense workload leaves the event machinery nothing to skip. Classifying a single still image is the clearest case, since one frame carries no temporal redundancy at all, whereas a video stream repeats most of its content from one moment to the next and does leave something to skip. Convolutional networks additionally inflate per-neuron state memory [@yousefzadeh2025memory]. Only the upper right corner, sparse and with enough work per event, favors event-driven hardware, and the broad band between the two is where hybrid designs live, combining event-driven sensing or communication with dense or vector computation.
+
+```{figure} /assets/images/hw_regime_map.svg
+:name: fig:hw-regime-map
+:width: 100%
+:align: center
+
+Where each style of hardware tends to win, plotted for applications rather than for network architectures. The axes are the two properties that decide the outcome, how sparse the activity still is when it reaches the datapath and how much work each event sets off. An event-driven design needs both at once, so the lower right corner, where events are rare but each one does little work, still favors a conventional dense or vector accelerator, and the band between the two regions is where hybrid designs combine event-driven scheduling with dense or vector kernels. Positions are illustrative rather than measured.
+```
+
+A consequence worth drawing out is that these coordinates describe a deployed application, not a network architecture, so the same family of models can sit on either side. Dense transformer serving belongs on the conventional side, but activation sparsity in large language models is already high and can be raised deliberately. Roughly ninety percent of the feed-forward activations in Llama-class models can be suppressed with no appreciable loss of accuracy [@mirzadeh2024relu], contextual sparsity of a similar order accelerates inference by several times [@liu2023dejavu], and mixture-of-experts models activate only a small subset of their experts for each token. A heavily sparsified large model therefore has both properties the map asks for at once, since almost every activation is absent and each surviving activation carries a great deal of work behind it. On this reasoning, large sparse models are a more natural long-term target for event-driven hardware than the small dense networks usually associated with the edge. Movement runs in the other direction too. An event camera sits in the same corner under moderate motion and leaves it under fast motion, when its output climbs into millions of events per second and the sparsity the hardware was counting on disappears.
+
+:::{admonition} When does event-driven processing pay off on a tiny chip?
+:class: tip
+Handling an event costs something even when that event does very little. In a large network the cost is easy to overlook, because a single event may update thousands of neurons and the overhead is spread thinly across all of them. In a small network there is almost nothing to spread it over, so the overhead takes the largest share. This is the small-workload trap, and the SENeCA measurements show it directly [@tang2023open].
+:::
+
+
+
+So "*neuromorphic is for the edge*" is a slogan rather than an analysis, and the conditions behind it are demanding. In small edge processors, where the memory and compute is naturally co-located, the gap between a neuromorphic or conventional AI processor becomes quickly invisible. Spiking models often need very high activity sparsity, around ninety-three percent or more, before they beat an equivalent artificial neural network, and once the energy per spike per synapse is counted, even that advantage can vanish [@yan2024reconsidering]. At the extreme edge, where networks are small and not always sparse, that threshold is easy to miss. Recent reviews land on a compatible position. Neuromorphic hardware complements GPU-based deep learning on sparse, event-driven workloads and falls behind on dense ones [@muir2025road].
+
+(sec:time-multiplexing)=
+## Time-multiplexing versus physical parallelism
+
+A single physical core can stand in for many logical neurons by reusing its datapath over time. This works because silicon switches millions of times faster than a biological neuron fires, so one datapath can march through many neurons in sequence within a single time step and still finish before the next step falls due. TrueNorth exploits this directly, sharing each core's logic across its 256 neurons [@merolla2014million], and digital arrays such as Loihi and SENeCA do the same.
+
+Designs spread along a spectrum, from fully parallel, through partially parallel, to fully time-multiplexed, where a single datapath updates one neuron per step ({numref}`fig:hw-mux`).
+
+A higher time-multiplexing ratio buys area efficiency and lowers core-to-core communication overhead, because more neurons fits into one core. A lower ratio buys throughput, latency, because more neurons update in parallel. The area saving grows the more expensive the neuron model is, since one costly datapath is then amortized across many more neurons.
+
+A quick calculation shows why high ratios are so practical. A datapath in an advanced node can finishe a simple neuron update in a few nanoseconds, so within a one-millisecond time step it can work through on the order of $10^5$ neurons in sequence before the step comes due. A biological time step thus leaves enormous headroom on silicon, and that headroom is the physical reason one datapath can stand in for thousands of neurons with no loss of real-time behavior. The binding limit is not time at all but the memory bandwidth needed to stream those neuron states past the datapath, which brings the discussion back to memory.
+
+```{figure} /assets/images/hw_multiplexing.svg
+:name: fig:hw-mux
+:class: hw-mux-interactive
+:width: 85%
+:align: center
+
+Interactive scheduling to demonstrate time-mutiplexing. Select $P=1$, $2$, or $4$ physical neuron circuits: the core then updates one, two, or four logical neurons at once.
+```
+
+Time-multiplexing requires a digital control path, since it runs a hardware loop over the logical neurons. It is therefore not beeing used in a fully analog system. Most analog neuromorphic cores work in a slow sub-threshold regime, meaning they opt for having fully parallel but super slow physical neurons. There is a circuit-level reason to prefer many slow units over one fast one, and it is the strongest argument against time-multiplexing. The dynamic energy a CMOS gate spends on a single switching event grows with the square of the supply voltage, so halving the supply cuts the energy of every operation to roughly a quarter. What that buys is paid for in speed, because transistors driven at a lower voltage switch more slowly. Lowering the supply toward the threshold voltage of the transistor, called near-threshold operation, or below it, called subthreshold operation, keeps pushing the energy per operation down. The fall does not continue forever. A slower circuit leaks current for longer on every operation, so leakage eventually catches up with the shrinking switching energy, and there is a supply voltage at which the total energy per operation is smallest. This is the minimum energy point, and it sits at or below the threshold voltage for circuits that do not need to be fast [@dreslinski2010near].
+
+A parallel design can sit near that point, because each of its units only has to keep pace with biology, and biology is slow. This is precisely the bargain behind Neurogrid's subthreshold transistors [@benjamin2014neurogrid]. A time-multiplexed datapath cannot take it. Serving $M$ neurons within one time step means running $M$ times faster, which demands a higher supply voltage, and the quadratic term then charges for that speed on every update. Stated in the language of low-power design, the classic move is to spend silicon area on parallel hardware in order to buy a lower supply voltage and lower energy [@chandrakasan1992low], and a high multiplexing ratio does the exact opposite. 
+
+(sec:event-driven)=
+## The event-driven datapath and sparsity exploitation
+
+An event-driven core does work only when an event arrives and stays idle the rest of the time, so its power tracks activity rather than wall-clock time. Loihi makes this explicit by running without a global clock, advancing only as spikes arrive [@davies2018loihi], and commercial event-based parts such as AKIDA rest on the same principle. In this event-proportional model the energy of one inference is a static term plus a sum over the events actually processed,
+
+```{math}
+:label: eq:event-energy
+E_\text{inf} \;\approx\; \underbrace{P_\text{static}\,T}_{\text{idle}} \;+\; \sum_{\text{events}} \big( e_\text{syn} + e_\text{nrn} + e_\text{gen} \big),
+```
+
+where $T$ is the inference window and $e_\text{syn}, e_\text{nrn}, e_\text{gen}$ are the per-event energies of the three pipeline stages described below. When $N_\text{ev}$ events are processed, the dynamic energy scales with $N_\text{ev}$, which is just the formal way of saying "power proportional to activity." That per-event energy is small but never free. ODIN, for instance, reports 12.7 picojoules per synaptic operation [@frenkel2019odin].
+
+The datapath runs in three stages ({numref}`fig:hw-pipeline`) [@tang2023open]. During the **synaptic process** the core optionally applies a delay, reads the relevant weights, works out the addresses of the neurons the event affects, and, when on-device learning is enabled, updates the weights. This is also where convolutional connectivity gets expanded. During the **neuron process** the core updates the affected neuron states. This is the step that decides efficiency, and it can be fully parallel, partially parallel, or fully time-multiplexed as in {numref}`fig:hw-mux`. During **event generation** the core assembles address-event-representation (AER) packets from the addresses of the neurons that fired and reads the axon memory to find their targets. It can also compress those packets, feed them back for recurrence and learning, apply delays for skip connections, and fold in pooling.
+
+```{figure} /assets/images/hw_event_pipeline.svg
+:name: fig:hw-pipeline
+:width: 100%
+:align: center
+:alt: A representative logical event pipeline with three numbered stages: synaptic processing expands a source AER event into weighted target updates, neuron processing updates neuron states and identifies firing neurons, and event generation creates routed AER packets. A lower lane shows weight-memory reads and optional writes, neuron-state read-modify-write traffic, and axon or routing-memory reads. A final band notes that memory access and address movement often dominate the simple arithmetic, depending on architecture and workload.
+
+A representative logical pipeline for a digital event-driven core. An incoming source event is expanded into one or more weighted target-neuron updates; neuron states are read, updated, written back, and tested for firing; any firing-neuron identifiers are then converted into routed output packets. Memory access and address movement often dominate the simple arithmetic, although the balance depends on fan-out, scheduling, architecture, and the number of emitted spikes. Implementations may fuse, overlap, or reorder these logical stages.
+```
+
+Two quantities decide the outcome. The first is activation sparsity, the fraction of neurons active at any moment, and it is the main lever. Careful energy budgets of cortex place it near or below one percent, since the metabolic cost of a spike means only about one neuron in twenty-five to one in sixty can be substantially active at once [@lennie2003cost], and this very low activity is what the event-driven datapath feeds on, because idle neurons cost nothing. Weight sparsity, the fraction of zero-valued weights, is a separate and harder problem, since exploiting it means skipping scattered entries rather than whole inactive neurons. The second quantity is operation density, the number of arithmetic operations performed per delivered packet, and it decides whether data movement or computation dominates,
+
+```{math}
+:label: eq:op-density
+D \;=\; \frac{\text{arithmetic operations performed}}{\text{packets delivered}} .
+```
+
+Suppose each delivered packet carries a fixed handling overhead $e_\text{ovh}$ and sets off $D$ operations at $e_\text{op}$ each. The energy per useful operation is then about $e_\text{ovh}/D + e_\text{op}$. When $D$ is large, as in a convolution where one event fans out to many synapses, the overhead is amortized away and the core runs efficiently. When $D$ is small, as in a tiny network where an event touches only a few neurons, the fixed overhead takes over and the event-driven style loses its advantage. This is the same small-workload trap met in {ref}`sec:scale-regime`, now put in quantitative terms.
+
+A concrete contrast drives the point home. A single event entering a convolutional layer with a $3 \times 3$ kernel and sixty-four output channels fans out to about $3 \times 3 \times 64 \approx 576$ synaptic operations, a high operation density that swamps the packet overhead. The same event entering a small fully connected layer with only a handful of targets carries an operation density of just a few, so nearly all of its energy goes to handling the packet rather than to useful work.
+
+Low operation density is not a verdict against event-driven processing, though. It is a signal that the events have to be handled differently. The real design question is how much control and bookkeeping to spend for each unit of useful arithmetic, and it has a spectrum of answers rather than one [@westerink2026sparsity]. An application with little work per event therefore calls for cheaper event-handling with the cost of more wastefull computation.
+
+A recent reassessment finds that event handling, memory access, and instruction control are routinely left out of efficiency claims, which makes reported SNN advantages look more optimistic than they are [@yan2024reconsidering]. How much sparsity is actually usable is disputed as well. The one-to-ten-percent figure from cortex gets quoted often, but reaching high sparsity in a trained deep network usually calls for explicit regularization during training, which can cost accuracy and shift the energy break-even point.
+
+```{figure} /assets/images/hw_energy_calculator.svg
+:name: fig:hw-energy-calculator
+:class: hw-energy-calculator-interactive
+:width: 80%
+:align: center
+:alt: An energy calculator for four fully connected integrate-and-fire layers. A global selector chooses the synaptic-weight and accumulation precision, and each layer has a neuron-count input and spike-density control. The result separates indicative SENeCA energy per 10 millisecond time step into input-event handling, synaptic integration, activation and leak updates, output event generation, and a fixed 30 microwatt single-core static term, then reports total energy and average power relative to the zero-sparsity case.
+
+Interactive educational estimate of energy and power for a four-layer integrate-and-fire network. The synaptic-integration and activation/leak costs are based on [@tang2023open]; values are indicative.
+```
+
+
+
+(sec:spike-representation)=
+## Spike representation: binary versus graded spikes
+
+How much information a single spike carries is itself a design choice, and it bears on both accuracy and bandwidth. A binary spike carries one bit. The synapse simply accumulates its weight with no multiplication, which is the biologically faithful case and the cheapest per event. The first generation of large digital chips committed to it, TrueNorth and the original Loihi among them [@merolla2014million; @davies2018loihi]. A graded, or valued, spike instead carries a number. It costs a multiplication and a few more bits per packet, but it can reach the same accuracy with far fewer spikes. The trade is therefore between the cost of each event and the number of events needed.
+
+The field has since drifted toward graded spikes. The second-generation chips, Loihi 2, NorthPole, and SpiNNaker 2 among them, all carry numeric values rather than bare events [@davies2021advancing; @modha2023northpole]. The choice trades multiplier cost against spike count and accuracy, and a flexible core can support either, which is one more argument for flexibility. Binary events are the cheapest per event, but if a small network needs many of them to stay accurate, the larger event count can undo the per-event saving.
+
+A little bandwidth arithmetic makes the trade concrete. In a network of about a million neurons an AER packet needs roughly twenty bits just to name its source, so a binary spike is about twenty bits on the wire. A graded spike tacks on an eight- to sixteen-bit value, which brings the packet to one and a half or two times that size. If carrying the value lets the network reach the same accuracy with a third as many spikes, total bandwidth still drops. Whether it does depends on the task, and that dependence is the practical case for a core that can switch representations.
+
+Underneath the binary-versus-graded choice sits the older and still unsettled debate between rate and temporal coding. Rate coding represents a value by a spike count over a window. It is robust but demands many time steps and redundant spikes, which drives up both latency and energy. Temporal codes such as time-to-first-spike represent a value by *when* a neuron fires, and claim much lower latency at similar or better accuracy. The dispute is very much live.
+
+(sec:noc)=
+## The network-on-chip: communication and its real cost
+
+Cores share a limited set of physical wires, so a spike cannot travel as a bare electrical pulse. Instead it travels as a routed packet that carries the identity of its source, an arrangement known as address-event representation (AER) [@boahen2000point]. Wires cannot be added after fabrication, so connectivity is virtualized, and the shared links are time-multiplexed to emulate the dense, point-to-point wiring of a biological network. Routing comes in two flavors. It can be destination-based, where the packet carries its own list of targets, as in TrueNorth. Or it can be source-based, where the packet names only its origin and each router works out the targets, the style SpiNNaker chose and built a dedicated multicast router around [@merolla2014million; @furber2014spinnaker]. Multicasting is what handles fan-out, letting one source reach many targets without sending a separate packet to each.
+
+A rough count shows why routing tables grow. Suppose each of $N$ neurons has to name its targets explicitly, and each drives a fan-out of $F$ targets chosen from $N$ possibilities. A destination list then costs about $F \log_2 N$ bits per neuron, so high fan-out and large $N$ together make destination-based tables costly. Source-based routing sidesteps the per-target lists by computing destinations from the source address and a compact rule. It trades table memory for a lookup at each router, a bargain that pays off when the connectivity is structured, as it is in a convolution.
+
+:::{admonition} The real cost of the NoC is memory, not bandwidth
+:class: note
+Across NeuronFlow, Loihi, SpiNNaker, Epiphany, and SENeCA, the NoC has not turned out to be the performance or energy bottleneck, because operation density is high enough that moving a packet is far cheaper than processing it. The cost that does bite is memory. Routing tables can grow large. TrueNorth spends twenty-six bits per neuron just to encode a single destination [@merolla2014million], and in NeuronFlow the routing table takes up about a quarter of on-chip memory [@moreira2020neuronflow]. Source-based routing shrinks these tables for structured networks and makes multicast cheap, at the price of a lookup at each hop.
+:::
+
+The guideline that follows is to keep the NoC itself simple while budgeting deliberately for routing-table memory, an easily overlooked area and energy cost that leads straight into the memory section. The claim that the NoC is never the bottleneck holds only for certain workloads, and the exception is instructive. In large-scale brain simulation, with very high fan-out and low operation density per packet, communication and its routing memory can take over, which is part of why SpiNNaker invested so heavily in its routing fabric [@furber2014spinnaker]. The accurate statement is a conditional one. For inference workloads with high operation density the NoC is cheap, whereas at biological connectivity and scale communication has repeatedly proven to be a first-order cost.
+
+(sec:memory)=
+## Memory is the real challenge
+
+In a distributed near-memory processor, on-chip memory dominates both area and energy, and that alone promotes memory organization from an implementation detail to the central design decision. This section is the analytical core of the chapter, and most of the axes seen so far come back into play here [@yousefzadeh2025memory].
+
+The key point is that bringing compute next to memory does not tear down the memory wall. It only moves it. The tiled, near-memory template does away with the von Neumann habit of shuttling operands to and from a distant main memory, and at the system level this works. NorthPole carries the idea all the way, dropping off-chip memory entirely and spreading 224 MB of SRAM across its cores so that no weight ever leaves the chip [@modha2023northpole]. Inside a single core, though, the local memory becomes the limiting resource. SRAM today, and non-volatile alternatives such as STT-MRAM in the near future, dominate the per-inference area and energy. A digital neuromorphic core spends its memory on four things, the synaptic weights, the neuron states, the routing tables (or axon memory) that virtualize connectivity over the NoC and the instruction and control memory that drives the datapath. Set against these, the arithmetic is a small line item. A single inference burns far more energy reading and writing state than computing on it [@horowitz2014computing; @tang2023open].
+
+Non-volatile memories such as PCM, RRAM, MRAM, and FeRAM offer a longer-term lever for density and for eliminating standby leakage, which matters for an always-on device that sits idle most of the time. Their drawbacks are just as concrete. Device-to-device variation, costly writes, and limited precision remain unsolved, and any one of them can wipe out the density gain for a given workload [@yousefzadeh2025memory]. The strongest opposing view holds that analog in-memory computing removes the memory wall outright by carrying out the multiply-accumulate inside the memory array, so weights never move at all, as the memristor CNN of {ref}`sec:substrate` shows [@yao2020fully]. The counterpoint, now increasingly well documented, is that the wall simply reappears at the array boundary. In crossbar in-memory accelerators the analog-to-digital converters and their supporting peripheral circuits typically eat sixty to eighty percent of both energy and area [@ibrayev2024pruning], and wire parasitics cap how large a usable crossbar can get. The disagreement is about where the memory wall sits, not whether it exists at all. Digital measurements and in-memory results point the same way. Data movement and data conversion, not arithmetic, are the dominant cost in every substrate. The practical discipline that follows is to hold every other design decision up to a single test. Does it move or store fewer bits? A decision that does neither is unlikely to shift the energy number that matters.
+
+(sec:acceleration)=
+## Adding hardware acceleration without losing programmability
+
+A core can sit anywhere on a spectrum from fully programmable to fully fixed-function, and real chips fill the whole range. At one end, SpiNNaker runs every neuron and synapse model in software on general-purpose ARM cores, which makes it maximally flexible but burns energy interpreting instructions [@furber2014spinnaker]. At the other, TrueNorth hardwires a fixed neuron and synapse model into each core with no programmability and no on-chip learning, which makes it extremely efficient on the one model it implements and useless on any other [@merolla2014million]. Loihi sits in between, exposing programmable microcode and configurable learning rules while keeping dedicated datapaths for the common operations [@davies2018loihi], and SpiNNaker 2 adds multiply-accumulate and transcendental-function accelerators alongside its ARM cores [@mayr2019spinnaker2]. Sliding toward the fixed-function end lowers energy on the targeted kernel but narrows the range of algorithms the chip can run well.
+
+:::{admonition} Dedicated is not automatically faster
+:class: warning
+Flexible commercial CPUs and GPUs have beaten domain-specific accelerators whenever their flexibility opened the door to a better algorithm. A dedicated core wins only when the application matches the hardware closely. Independent benchmarks of Loihi make the point. It shows little or no advantage on feed-forward networks yet delivers very large gains on recurrent and temporally structured ones, so the outcome turns on the workload rather than on the label "dedicated" [@davies2021advancing; @ostrau2022benchmarking].
+:::
+
+
+On-chip learning is a special case of the same trade. A chip that adapts in the field, such as Loihi, or BrainScaleS-2, has to add a plasticity datapath and, more consequentially, memory to hold the per-synapse state and eligibility traces a learning rule needs, which can rival the weight memory itself [@davies2018loihi; @pehle2022brainscales2]. Inference-only chips such as TrueNorth and NorthPole skip all of this, which is part of why they pack in so densely [@merolla2014million; @modha2023northpole]. Paying for learning is therefore as much a memory decision as a compute one. 
+
+(sec:software-mapping)=
+## Software and mapping as first-class hardware design
+
+On a flexible architecture, mapping and software optimization are part of hardware design, because they cash in performance the silicon has already paid for. A few techniques make this concrete. Spike grouping updates the same neuron states once for several events that target them, removing redundant memory reads and writes and roughly halving energy and latency in measured results [@tang2023seneca]. 
+
+Quantization and sparsification are the baseline hardware-aware optimizations. They cut the bits per weight and the number of nonzero operations respectively, and both feed straight into the memory and energy models of the previous sections. The broader point is that mapping choices shift a platform's effective KPIs as much as silicon changes do, so a platform's performance means little apart from its mapping strategy. This is the strongest practical reason to keep the core flexible. Everyone agrees that algorithm-hardware co-design is necessary, but not on who should own it, and the major platforms have answered the question differently. SpiNNaker exposes a familiar modeling interface through PyNN, and Loihi ships the Lava framework so that applications need not be written against the silicon directly [@furber2014spinnaker; @davies2021advancing]. The opposite philosophy publishes the instruction set and the energy model so that algorithm designers can optimize against the hardware as it actually is, the route SENeCA took [@tang2023open]. Recent reviews argue that a high-level, example-based programming model is the piece still missing for commercial adoption [@muir2025road]. The two positions differ on how much of the mapping a user should see, and both have merit. The first maximizes achievable efficiency, the second maximizes the number of people who can deploy at all.
+
+(sec:synthesis)=
+## Concolution
+
+The practical guidance below reflects one well-supported design philosophy, the flexible-digital approach that several recent processors follow. It is not the only defensible one. A team building a product around a single, frozen workload may sensibly invert the first and fourth points and commit to a dedicated datapath from the start, the choice TrueNorth made and the reason it is so efficient on the one model it runs. With that caveat, the recurring guidance boils down to a short checklist:
+
+- Start flexible, and specialize only where measurement justifies it.
+- Keep the NoC simple, and budget for routing-table memory.
+- Match the multiplexing ratio to the workload.
+- Add accelerators incrementally, and only for the dominant kernels. Use analog/mixed signal accelerators when it makes sense.
+- Separate control from computation.
+- Treat memory organization as the first-order problem.
+- Exploit event sparsity in software, where the gains are nearly free.
+
+
+:::{admonition} How to read a neuromorphic datasheet
+:class: tip
+A specification sheet mixes three kinds of numbers. Some reveal a design decision. Neurons per core and the multiplexing ratio expose the time-multiplexing choice, memory per core and weight precision expose the substrate and the memory budget, and the spike type and routing scheme expose the NoC. Others depend on an unstated workload. Energy per inference, operations per second per watt, and latency all assume a particular network size and activity sparsity, and {eq}`eq:event-energy` shows why two sparsities can produce very different numbers on the same chip. A last group is marketing. Peak synaptic operations per second and best-case sparsity figures describe a corner case a real application rarely reaches. The useful habit is to ask, for every headline number, which network and which activity level produced it. Standardized benchmark suites such as NeuroBench try to make these numbers comparable across chips by fixing the workload and the measurement method [@yik2025neurobench].
+:::
+
+(sec:outlook)=
+## Open challenges and outlook
+
+Several parts of the template are still weak, and naming them helps a designer deploy with clear eyes.
+
+The small-workload overhead is the first. When an event updates only a few neurons, the per-event control cost on the general core dominates even with accelerators present, exactly the low operation density of {eq}`eq:op-density`. Dedicated control accelerators that shave the fixed cost per event are a promising direction. New model families are the second. Transformers and on-device learning will demand accelerator blocks and execution models beyond today's focus on spiking and convolution, and hybrid designs that run both artificial and spiking networks on one die, such as Tianjic, are one answer to that pressure [@pei2019tianjic]. Weight sparsity is a third. Unlike activation sparsity, it stays hard to exploit on synchronous vector units, because the nonzero weights are scattered, and it remains an open problem. The memory wall is the long-horizon theme, where new memory technologies, 3D integration, shared-memory mappings, and in-memory and in-material processing are the levers on offer, each carrying the precision and conversion-overhead caveats discussed in {ref}`sec:memory` [@yousefzadeh2025memory; @ibrayev2024pruning].
+
+Neuromorphic hardware is routinely measured against the energy budget of the brain [@lennie2003cost], and the gap is then read as a failure of engineering. In this comparision please note that a neuromorphic chip is built to be programmable. The brain is not programmable in that sense.
+
+The field also still lacks a workload where neuromorphic hardware wins outright, and its compilers, mappers, and debuggers trail far behind the CUDA and TensorFlow ecosystems, which several reviews single out as the real barrier to adoption [@muir2025road]. On that reading, improving the toolchain may matter more than any single architectural advance, because the design space mapped in this chapter is only useful insofar as a designer can actually navigate it.
