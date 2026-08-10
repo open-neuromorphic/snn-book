@@ -40,10 +40,16 @@ Having completed mapping, the process of converting the data into an appropriate
 
 To give some examples, on SpiNNaker it is necessary to convert the routing information calculated during mapping into the binary representation used by the routers themselves.  Once this has been done correctly, it will always be the same since the routers will never change.  In contrast, the representation of neurons is purely software, so the data conversion has to be similarly fluid.  To this end, the user representation, conversion code and machine representation are also kept close to each other in the SpiNNaker code base.
 
+The data conversion may require a loss of precision and/or a change in representation.  For example, if the weights are represented with a small number of bits on the hardware, but the software allows the user to specify weights with 32-bit or even 64-bit floating point representation within the high-level software, these will have to be converted to the hardware format, both losing precision and changing representation on the way.  Users might find this surprising at first, so it is useful to allow them to read back the values to see what actual values are in use.  It is also important that the user is warned if it is not possible to represent the value that they have used.
+
 
 ## Loading
 
+With the data in the right format, the values in the hardware representation can be loaded on to the machine for use during simulation.  On hardware where values might change quickly once loaded, this will need to be done as quickly as possible.  In any case, any parallelism that can be exploited here is useful, as it means that the time before the  simulation starts is reduced, leading to a better user experience.
 
+Although speed is important it is also worth noting that correctness is more important here.  If the hardware allows verification of the loaded data, it would be prudent to use it to ensure the simulation is what the user asked for.  Popular techniques include CRC codes amongst other things.
+
+It may also be possible to speed up the loading of data by taking advantage of repetition or randomly generated data, as networks are commonly specified with the same parameters for every neuron or using some random pattern that can be defined using standard generation techniques.  If the hardware can execute user programs in any form, this could be used to execute a data expansion algorithm to allow a small amount of data to be loaded and then expanded on the machine.  Standard compression techniques may also be useful here if there isn't any such pattern.
 
 ## Machine Control
 
