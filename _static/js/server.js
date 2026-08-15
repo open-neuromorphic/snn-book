@@ -27,7 +27,7 @@ app.disable('x-powered-by');
 // Serve custom static files from project root _static directory
 const customStaticPath = path.join(PROJECT_ROOT, '_static');
 if (fs.existsSync(customStaticPath)) {
-  app.use('/_static', express.static(customStaticPath, { maxAge: '1h' }));
+  app.use('/_static', express.static(customStaticPath, { maxAge: 0, etag: false, lastModified: false }));
   console.log('Custom static files enabled from:', customStaticPath);
 }
 
@@ -91,7 +91,7 @@ app.use((req, res, next) => {
   function injectScripts(html) {
     let customScripts = '';
 
-    // Add PyScript (CSS + JS) for Python-powered visualizations
+    // Add PyScript first (CSS + JS) for Python-powered visualizations
     customScripts += '\n  <link rel="stylesheet" href="https://pyscript.net/releases/2026.1.1/core.css" />';
     customScripts += '\n  <script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>';
 
@@ -115,8 +115,13 @@ from pyscript.ffi import create_proxy
 from pyodide.ffi import to_js
 from js import Object
 
-def execute_dynsim_code(python_code_str, container_id, config):
+# Global function to execute user Python code and register systems
+def execute_dynsim_code(python_code_str, container_id, config_js):
+    """Execute user's Python code and register the system."""
+    # Create namespace for user code with numpy
     user_namespace = {"np": np, "numpy": np}
+
+    # Execute user code to get step function
     exec(python_code_str, user_namespace)
     raw_step = user_namespace["step"]
 
@@ -129,7 +134,10 @@ def execute_dynsim_code(python_code_str, container_id, config):
     # Always use _dynsimJsRegister (set by dynsim autoInit synchronously)
     # instead of registerPythonSystem (set by Python bridge, may not exist yet)
     window._dynsimJsRegister(container_id, create_proxy(wrapped_step), config)
+
+# Expose to JavaScript
 window.executeDynSimCode = create_proxy(execute_dynsim_code)
+print("[PyScript Bootstrap] Dynamical systems executor ready")
   </script>`;
     customScripts += pyBootstrap;
 
@@ -186,6 +194,7 @@ window.executeDynSimCode = create_proxy(execute_dynsim_code)
   })();
   </script>`;
     customScripts += spaObserver;
+
     // Add custom CSS from _static/css
     if (fs.existsSync(customStaticPath)) {
       const cssPath = path.join(customStaticPath, 'css');
@@ -200,15 +209,15 @@ window.executeDynSimCode = create_proxy(execute_dynsim_code)
       }
     }
 
-    // Add auto-generated dynsim systems data file
+    // Add custom scripts from _static/js with defer to maintain execution order
     if (fs.existsSync(customStaticPath)) {
       const jsPath = path.join(customStaticPath, 'js');
       if (fs.existsSync(jsPath)) {
-        const dataFiles = fs.readdirSync(jsPath, { withFileTypes: true })
-          .filter(dirent => dirent.isFile() && dirent.name.startsWith('0-dynsim') && dirent.name.endsWith('.js'))
+        const staticFiles = fs.readdirSync(jsPath, { withFileTypes: true })
+          .filter(dirent => dirent.isFile() && dirent.name.endsWith('.js'))
           .map(dirent => dirent.name);
 
-        dataFiles.forEach(file => {
+        staticFiles.forEach(file => {
           customScripts += `\n  <script src="/_static/js/${file}" defer></script>`;
         });
       }

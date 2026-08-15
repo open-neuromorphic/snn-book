@@ -7,25 +7,32 @@ kernelspec:
 (chapter:plasticity)=
 # What is Synaptic Plasticity?
 
-In the previous chapters, we saw how spikes travel across synapses and how synaptic weights control the flow of information in SNNs.
-Up to now, those weights were _static_, i.e., set once, used forever.
-But in biological systems, and often in SNNs, weights can evolve over time.
-This ability to change is called _synaptic plasticity_.
+In the previous chapters, we saw how spikes travel across synapses and how
+synaptic weights control the flow of information in SNNs. Up to now, those
+weights were _static_, i.e., set once, used forever. But in biological systems,
+and often in SNNs, weights can evolve over time. This ability to change weights
+is called _synaptic plasticity_.
 
-In biology, _plastic_ means malleable, i.e., capable of being reshaped.
-A synapse is said to be plastic when its strength changes based on neural activity.
-Two of the most studied complementary mechanisms of these synaptic changes are **Long-Term Potentiation (LTP)** and **Long-Term Depression (LTD)**.
-In the next sections, we look at how each mechanism works and why they matter for SNNs.
+In biology, _plastic_ means malleable, i.e., capable of being reshaped. A
+synapse is said to be plastic when its strength changes based on neural
+activity. Two of the most studied complementary mechanisms of these synaptic
+changes are **Long-Term Potentiation (LTP)** and **Long-Term Depression (LTD)**.
+In the next sections, we look at how each mechanism works and why they matter
+for SNNs.
 
 ## Long-Term Potentiation
 
-LTP refers to a persistent increase of a synaptic weight following specific patterns of correlated pre- and post-synaptic activity.
-Specifically, when a pre-synaptic neuron repeatedly fires _just before_ the post-synaptic neuron, the system interprets it as a "causal" relationship:
+LTP refers to a persistent increase of a synaptic weight following specific
+patterns of correlated pre- and post-synaptic activity. Specifically, when a
+pre-synaptic neuron repeatedly fires _just before_ the post-synaptic neuron, the
+system interprets it as a "causal" relationship:
 
 > "Neuron A helped neuron B fire, let's make that connection stronger."
 
-In SNNs, this principle appears in multiple practical forms.
-One of the most common ones is based on how close in time the two spikes occur: if the pre-synaptic spike arrives shortly before the post-synaptic one, the weight increases; if the delay is large, the effect becomes negligible.
+In SNNs, this principle appears in multiple practical forms. One of the most
+common ones is based on how close in time the two spikes occur: if the
+pre-synaptic spike arrives shortly before the post-synaptic one, the weight
+increases; if the delay is large, the effect becomes negligible.
 
 Formally, this timing-based increase of the weight can be described by:
 

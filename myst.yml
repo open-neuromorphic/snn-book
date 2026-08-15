@@ -15,8 +15,8 @@ project:
       affiliation: Virginia Tech, USA
       email: ramashishgaurav@gmail.com
     - name: Pedersen, Jens Egholm
-      affiliation: Stanford University, USA
-      email: jens@jepedersen.dk
+      affiliation: Technical University of Denmark
+      email: jegpe@dtu.dk
     - name: Bogdan, Petrut
       affiliation: Innatera
       email: petrut.bogdan@innatera.com
@@ -24,6 +24,8 @@ project:
   license: CC-BY-4.0
   plugins:
     - _plugins/dynamical-systems.mjs
+    - _plugins/rubric.mjs
+    - _plugins/sg-plot.mjs
   toc:
     - file: README.md
       numbering: false
@@ -65,9 +67,11 @@ project:
         - file: topics/2_8_optimization.md
     - file: topics/3_hardware.md
       children:
-        - file: topics/3_1_platforms.md
-        - file: topics/3_2_frameworks.md
-        - file: topics/3_3_quantization.md
+        - file: topics/3_1_motivation.md
+        - file: topics/3_2_hw_design_principles.md
+        - file: topics/3_3_toolchain.md
+        - file: topics/3_4_interoperability.md
+        - file: topics/3_5_performance_modelling.md
     - file: topics/appendices.md
       children:
         - file: topics/a_dynamics.md
@@ -113,12 +117,11 @@ project:
         - topics/1_3_1_rate-enc.md
         - topics/1_3_2_temp-enc.md
         - topics/1_3_3_decoding.md
-        - topics/1_3_snn.md
         - topics/1_4_event_representations.md
-        - topics/1_4_snn.md
-        - topics/1_4_1_why-snns.md
-        - topics/1_4_2_snn-basics.md
-        - topics/1_5_frameworks.md
+        - topics/1_5_snn.md
+        - topics/1_5_1_why-snns.md
+        - topics/1_5_2_snn-basics.md
+        - topics/1_6_plasticity.md
         - topics/2_training.md
         - topics/2_1_credit_assignment.md
         - topics/2_2_surrogate_gradients.md
@@ -129,9 +132,11 @@ project:
         - topics/2_7_ann-to-snn_conversion.md
         - topics/2_8_optimization.md
         - topics/3_hardware.md
-        - topics/3_1_platforms.md
-        - topics/3_2_frameworks.md
-        - topics/3_3_quantization.md
+        - topics/3_1_motivation.md
+        - topics/3_2_hw_design_principles.md
+        - topics/3_3_toolchain.md
+        - topics/3_4_interoperability.md
+        - topics/3_5_performance_modelling.md
         - topics/appendices.md
         - topics/a_dynamics.md
         - topics/a_modeling_theories.md
@@ -142,6 +147,7 @@ project:
 parse:
   myst_enable_extensions:
     - amsmath
+  allowDangerousHtml: true
 site:
   template: book-theme
   options:
