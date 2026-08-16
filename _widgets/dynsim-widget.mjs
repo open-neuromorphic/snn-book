@@ -1,4 +1,4 @@
-const DYNSIM_URL = 'https://unpkg.com/dynsim@0.3.0/dist/dynsim.esm.js';
+const DYNSIM_URL = 'https://unpkg.com/dynsim@0.4.2/dist/dynsim.esm.js';
 const PLOTLY_URL = 'https://cdn.plot.ly/plotly-2.27.0.min.js';
 const PYSCRIPT_CSS_URL = 'https://pyscript.net/releases/2026.1.1/core.css';
 const PYSCRIPT_URL = 'https://pyscript.net/releases/2026.1.1/core.js';
@@ -138,51 +138,6 @@ export function buildConfig(model) {
   };
 }
 
-/**
- * DynSim 0.3 stops a controller when document.contains(plotDiv) is false.
- * Elements inside an AnyWidget shadow root are connected, but are not
- * descendants of document, so use Node.isConnected for that one check.
- */
-export function createShadowDomController(dynsim, options) {
-  const controller = new dynsim.SimulationController(options);
-
-  controller.animate = function animate() {
-    if (!this.view.plotDiv?.isConnected) {
-      this.stop();
-      return;
-    }
-
-    if (this.isRunning && !this.simulation.paused) {
-      const inputValue = this.view.getInput();
-      const paramValues = this.view.getParameters();
-      try {
-        this.simulation.step(inputValue, paramValues);
-      } catch (error) {
-        console.error('[DynSim] Step error:', error);
-        this.stop();
-        return;
-      }
-
-      if (this.simulation.paused) {
-        this.isRunning = false;
-        this.view.setPauseState(false);
-      }
-    }
-
-    const plotArrays = this.simulation.getPlotArrays();
-    const xRange = this.simulation.plotType === 'timeseries'
-      ? this.simulation.getTimeseriesRange()
-      : undefined;
-    const spikeTimes = this.simulation.spikes
-      ? this.simulation.spikeTimes
-      : undefined;
-    this.view.updatePlot(plotArrays, xRange, spikeTimes);
-    this.animationId = requestAnimationFrame(() => this.animate());
-  };
-
-  return controller;
-}
-
 function renderLoading(el, text) {
   el.innerHTML = '';
   el.style.position = 'relative';
@@ -234,7 +189,10 @@ function render({ model, el }) {
       await window.executeDynSimCode(pythonCode, containerId, window.dynSimSystemsData[containerId].config);
       if (!active) return;
       const config = dynsim.registry.getConfig(containerId);
-      const controller = createShadowDomController(dynsim, {
+      // DynSim >=0.4.2 handles shadow-root containers (isConnected check) and
+      // hands axis control back to the user while paused, so no override is
+      // needed — use the controller directly.
+      const controller = new dynsim.SimulationController({
         container,
         config,
         stepProvider: () => dynsim.registry.getStep(containerId),
