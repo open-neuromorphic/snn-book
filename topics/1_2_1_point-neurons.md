@@ -78,10 +78,12 @@ using the **forward Euler method** -- we show how to do it in the
 [Appx. %s](#sec:discretizing-if-neuron). For quick reference, following are the 
 *discrete-time* equations that describe an $\texttt{IF}$ neuron:
 
-\begin{align}
-I[t] &= (1 - i_\text{decay})\times I[t-1] + w\times S_\text{inp}[t] \tag{a}\\
-V[t] &= V[t-1] + I[t] \tag{b}\\
-S_\text{out}[t] &= \Theta(V[t] - V_\text{thr}) \tag{c}\\
+```{math}
+:label: eq:discrete-if
+\begin{aligned}
+I[t] &= (1 - i_\text{decay})\times I[t-1] + w\times S_\text{inp}[t] && \text{(a)}\\
+V[t] &= V[t-1] + I[t] && \text{(b)}\\
+S_\text{out}[t] &= \Theta(V[t] - V_\text{thr}) && \text{(c)}\\
 V[t] &\leftarrow \begin{cases}
     V_\text{rest} \text{\quad\qquad\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{hard reset}} \\
     V[t] - V_\text{thr}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
@@ -179,16 +181,18 @@ forward Euler method; we do that in the [Appx. %s](sec:discretizing-lif-neuron).
 Following are the _discrete-time_ equations that describe a $\texttt{LIF}$ 
 neuron:
 
-\begin{align}
-I[t] &= (1 - i_\text{decay})\times I[t-1] + w\times S_\text{inp}[t] \tag{a} \\
-V[t] &= (1 - v_\text{decay})\times V[t-1] + I[t]  \tag{b} \\
-S_\text{out}[t] &= \Theta(V[t] - V_\text{thr})  \tag{c} \\
+```{math}
+:label: eq:discrete-lif
+\begin{aligned}
+I[t] &= (1 - i_\text{decay})\times I[t-1] + w\times S_\text{inp}[t] && \text{(a)} \\
+V[t] &= (1 - v_\text{decay})\times V[t-1] + I[t] && \text{(b)} \\
+S_\text{out}[t] &= \Theta(V[t] - V_\text{thr}) && \text{(c)} \\
 V[t] &\leftarrow \begin{cases}
     V_\text{rest} \text{\quad\qquad\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{hard reset}} \\
     V[t] - V_\text{thr}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
-\end{cases} \tag{d}
-\label{eq:discrete-lif}
-\end{align}
+\end{cases} && \text{(d)}
+\end{aligned}
+```
 
 In Eq {eq}`eq:discrete-lif`$\textsf{a}$, $i_\text{decay}$ is the *current decay*
 value – same as defined for the $\texttt{IF}$ neuron; and in Eq

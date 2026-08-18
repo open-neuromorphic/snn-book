@@ -1,0 +1,25 @@
+<!doctype html>
+<!--
+  Minimal harness used by scripts/capture-plots.mjs to render a single {sgplot}
+  variant in isolation (light DOM, no MyST/PyScript) so it can be exported to a
+  static PNG. It reuses the real widget code unchanged, so the captured image
+  matches what readers see in the browser.
+-->
+<html lang="en">
+  <head><meta charset="utf-8" /><title>sgplot capture harness</title></head>
+  <body style="margin: 0; padding: 16px; font-family: sans-serif;">
+    <div id="app" style="width: 900px;"></div>
+    <script type="module">
+      import widget from '/_widgets/surrogate-widget.mjs';
+
+      const variant = new URLSearchParams(location.search).get('variant') || 'sg-fwd-plot';
+      // The widget only reads `variant`, `height`, `caption` from the model.
+      const model = {
+        get(key) {
+          return { variant, height: 400, caption: '' }[key];
+        },
+      };
+      widget.render({ model, el: document.getElementById('app') });
+    </script>
+  </body>
+</html>

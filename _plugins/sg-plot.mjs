@@ -15,6 +15,12 @@
 
 const WIDGET_PATH = '/_widgets/surrogate-widget.mjs';
 
+// LaTeX/PDF cannot render an anywidget node (it is dropped with a warning). When
+// building the PDF we set DYNSIM_STATIC=1 (see the Makefile) and emit a static,
+// pre-captured PNG of each plot instead. The PNGs live in _static/sg/<variant>.png
+// and are regenerated from the live widgets (Plotly.toImage) when the plots change.
+const STATIC_EXPORT = !!process.env.DYNSIM_STATIC;
+
 const plugin = {
   name: 'Surrogate Gradient Plot',
   directives: [
@@ -31,12 +37,28 @@ const plugin = {
         caption:   { type: String, doc: 'Instructional caption shown above the plot' },
       },
       run(data) {
+        const variant = data.arg || 'sg-fwd-plot';
+
+        if (STATIC_EXPORT) {
+          // Static fallback for PDF: the interactive caption ("move the α
+          // slider") is meaningless in print, so it is dropped.
+          return [
+            {
+              type: 'image',
+              url: `/_static/sg/${variant}.png`,
+              alt: `Surrogate gradient plot: ${variant}`,
+              width: '90%',
+              align: 'center',
+            }
+          ];
+        }
+
         return [
           {
             type: 'anywidget',
             esm: WIDGET_PATH,
             model: {
-              variant: data.arg || 'sg-fwd-plot',
+              variant,
               height: data.options?.height || 360,
               caption: data.options?.caption || '',
             }

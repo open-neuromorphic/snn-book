@@ -1,0 +1,118 @@
+\documentclass[a4paper,11pt,oneside]{book}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{changepage}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\bibliographystyle{abbrvnat}
+
+% Make list items more compact
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, topsep=0pt}
+
+[- IMPORTS -]
+
+\hypersetup{
+  colorlinks,
+  linkcolor={black},
+  citecolor={black},
+  urlcolor={black}
+}
+
+% Style quotes
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.55}
+\definecolor{quoteshade}{rgb}{0.95, 0.95, 1}
+\renewenvironment{quote}{%
+  \def\FrameCommand{%
+    \hspace{1pt}%
+    {\color{darkblue}\vrule width 2pt}%
+    {\color{quoteshade}\vrule width 4pt}%
+    \colorbox{quoteshade}%
+  }%
+  \MakeFramed {\advance\hsize-\width \FrameRestore}%
+  \noindent\hspace{-8pt}% disable indenting first paragraph
+  \begin{adjustwidth}{0pt}{0pt}% adjust as needed
+  \vspace{2pt}\vspace{2pt}%
+}
+{%
+  \vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+
+% Style code listings: line numbers + smaller font.
+% MyST emits code blocks as {verbatim}; fancyvrb lets us recustom that
+% environment in place so every code block across the book picks up the style.
+\usepackage{fancyvrb}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{%
+  fontsize=\small,%
+  numbers=left,%
+  numbersep=8pt,%
+  xleftmargin=2.5em,%
+  frame=leftline,%
+  framesep=6pt,%
+}
+
+% Relabel the sectioning hierarchy for the print book:
+%   top-level \chapter  -> "Topic"   (was "Chapter")
+%   next-level \section -> "Chapter"
+\usepackage{titlesec}
+\renewcommand{\chaptername}{Topic}
+\titleformat{\section}
+  {\normalfont\Large\bfseries}   % heading font
+  {Chapter \thesection}          % label printed before the title
+  {1em}                          % gap between label and title
+  {}
+
+% Save the default (main-matter) chapter heading. The front matter overrides it
+% with an inline "I. Title" style; the book body restores this at the boundary.
+\makeatletter
+\let\snnMainChapterHead\@makechapterhead
+\makeatother
+
+\title{\Huge \textbf{[-doc.title-]}[# if doc.subtitle #] \\ \huge [-doc.subtitle-][# endif #]}
+\author{\textsc{
+[#- for author in doc.authors #]
+  [#- if not loop.first #] and [# endif #][-author.name-][# if not loop.last and not loop.first #], [# endif #]
+[#- endfor -#]
+}}
+
+\begin{document}
+\sloppy
+
+% Front matter (acknowledgements, preface): roman PAGE numbers, and chapters
+% numbered with uppercase roman shown inline as "I. Acknowledgements".
+% \frontmatter gives roman pages but disables chapter numbers, so \@mainmattertrue
+% re-enables them. secnumdepth 0 numbers chapters only, leaving front-matter
+% sections unnumbered. The book body restores the default "Topic N" style and
+% arabic numbering at the front/main boundary (see topics/0_why_snns.md).
+\frontmatter
+\makeatletter
+\@mainmattertrue
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand\@makechapterhead[1]{%
+  \vspace*{50\p@}%
+  {\parindent\z@ \raggedright \normalfont
+    \huge\bfseries \thechapter.\space #1\par\nobreak
+    \vskip 40\p@}}
+\makeatother
+\setcounter{secnumdepth}{0}
+\maketitle
+
+\tableofcontents
+% \listoffigures
+% \listoftables
+
+[- CONTENT -]
+
+
+[# if doc.bibliography #]
+\bibliography{[- doc.bibliography | join(", ") -]}
+[# endif #]
+
+\end{document}

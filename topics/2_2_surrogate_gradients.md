@@ -250,11 +250,13 @@ A value of $\beta$ close to $1$ means slow decay (long memory); close to $0$ mea
 The input current $I[t] = WX[t]$ is now weighted by a learnable parameter $W$, absorbing the effect of the membrane resistance.
 The complete simplified neuron model becomes:
 
-\begin{align}
-V[t+1] &= \beta V[t] + WX[t+1] - S[t]V_\text{thr} \tag{a} \\
-S[t] &= \Theta(V[t] - V_\text{thr}) \tag{b}
-\label{eq:sg-simplified-lif}
-\end{align}
+```{math}
+:label: eq:sg-simplified-lif
+\begin{aligned}
+V[t+1] &= \beta V[t] + WX[t+1] - S[t]V_\text{thr} && \text{(a)} \\
+S[t] &= \Theta(V[t] - V_\text{thr}) && \text{(b)}
+\end{aligned}
+```
 
 In the language of the SRM, the decay term $\beta V[t]$ implements the membrane filter $\kappa$ (exponential integration of past inputs), while the reset term $-S[t]V_\text{thr}$ implements the spike afterpotential $\eta$ (reset by subtraction).
 The only free hyperparameter is $\beta$.
