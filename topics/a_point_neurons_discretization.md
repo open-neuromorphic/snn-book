@@ -1,3 +1,6 @@
+---
+numbering: false
+---
 (point_neurons_discretization)=
 # Point Neurons Discretization
 

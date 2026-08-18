@@ -143,3 +143,9 @@ non-differentiable? This chapter introduces surrogate gradient methods that
 approximate gradients during the backward pass while maintaining spike-based
 computation in the forward pass.
 
+```{raw} latex
+% Restore section numbering for the chapters that follow. (The unnumbered
+% heading above does not advance the section counter, so the first real chapter
+% under this topic still numbers as x.1.)
+\setcounter{secnumdepth}{2}
+```

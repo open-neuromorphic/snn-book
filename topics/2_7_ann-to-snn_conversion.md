@@ -1,5 +1,8 @@
 (ann-to-snn_conversion)=
-# ANN-to-SNN Conversion
+# ANN-to-SNN Conversion *(upcoming)*
+
+```{upcoming}
+```
 
 **Core idea:** Train a conventional ANN, then convert it to an SNN
 - **Rate-based conversion**: Map ANN activations to spike rates

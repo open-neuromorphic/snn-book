@@ -1,2 +1,5 @@
 (biologically_inspired_training)=
-# Biologically Inspired Training
+# Biologically Inspired Training *(upcoming)*
+
+```{upcoming}
+```

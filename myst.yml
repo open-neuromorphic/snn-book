@@ -26,8 +26,11 @@ project:
     - _plugins/dynamical-systems.mjs
     - _plugins/rubric.mjs
     - _plugins/sg-plot.mjs
+    - _plugins/upcoming.mjs
   toc:
     - file: README.md
+      numbering: false
+    - file: acknowledgements.md
       numbering: false
     - file: topics/0_intro.md
       children:
@@ -99,7 +102,8 @@ project:
     headings: true
   exports:
     - format: pdf
-      template: plain_latex_book
+      output: book.pdf
+      template: templates/plain_latex_book
       article_type: book
       # level sets the LaTeX sectioning depth per file so the book nests by TOC
       # depth: 0 = \chapter (top-level topics), 1 = \section (their pages),
@@ -201,5 +205,5 @@ site:
   options:
     folders: true
     logo_text: Practical Spiking Neural Networks
-  #   favicon: favicon.ico
+    favicon: _static/icons/icon.ico
   #   logo: site_logo.png
