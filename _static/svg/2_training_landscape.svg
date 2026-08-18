@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="50 50 580 300" shape-rendering="geometricPrecision"
+  text-rendering="geometricPrecision">
+  <defs>
+    <marker id="ah" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"
+      markerUnits="userSpaceOnUse">
+      <polygon points="0,0 11,4.5 0,9" fill="#8e9bae" />
+    </marker>
+    <marker id="ah-red" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"
+      markerUnits="userSpaceOnUse">
+      <polygon points="0,0 11,4.5 0,9" fill="#c0392b" />
+    </marker>
+  </defs>
+
+  <style><![CDATA[
+    text { font-family: system-ui, -apple-system, sans-serif; }
+    .axis { stroke: #8e9bae; stroke-width: 1.5; }
+    .axlbl { font-size: 20px; fill: #6b7fa3; font-weight: 600; }
+    .lbl { font-size: 18px; fill: #8e9bae; }
+    .err { fill: #c0392b; font-size: 13px; font-weight: 600; }
+    .guide { stroke: #8e9bae; stroke-width: 1.2; stroke-dasharray: 5 3; }
+    .curve { fill: none; stroke: #3f5787; stroke-width: 2.5; }
+    .fill { fill: #eef2f9; stroke: none; }
+    /* the ball rolls in, rests, then fades and resets */
+    .ball { animation: fade 7s ease infinite; }
+    @keyframes fade { 0%,4%{opacity:0} 8%,92%{opacity:1} 100%{opacity:0} }
+  ]]></style>
+
+  <!-- filled landscape under the loss curve -->
+  <path class="fill" d="M 95,110
+    C 150,190 185,215 215,215
+    C 250,215 270,168 300,166
+    C 345,163 370,268 415,270
+    C 470,272 520,225 560,175
+    C 575,157 585,145 595,132
+    L 595,300 L 95,300 Z" />
+
+  <!-- axes -->
+  <line class="axis" x1="95" y1="300" x2="95" y2="58" marker-end="url(#ah)" />
+  <line class="axis" x1="95" y1="300" x2="612" y2="300" marker-end="url(#ah)" />
+  <text class="axlbl" x="28" y="230" text-anchor="middle" transform="rotate(-90 28 180)">Loss L(&#952;)</text>
+  <text class="axlbl" x="280" y="332" text-anchor="middle">Parameter &#952;</text>
+
+  <!-- the loss curve -->
+  <path class="curve" d="M 95,110
+    C 150,190 185,215 215,215
+    C 250,215 270,168 300,166
+    C 345,163 370,268 415,270
+    C 470,272 520,225 560,175
+    C 575,157 585,145 595,132" />
+
+  <!-- local minimum, lightly noted -->
+  <text class="lbl" x="215" y="234" text-anchor="middle">local min</text>
+
+  <!-- global minimum: guide down to axis + label -->
+  <line class="guide" x1="415" y1="272" x2="415" y2="300" />
+  <text class="lbl" x="415" y="318" text-anchor="middle">best &#952;</text>
+  <text class="lbl" x="452" y="280" text-anchor="start">minimum</text>
+
+  <!-- downhill / gradient direction on the right slope -->
+  <line x1="525" y1="182" x2="500" y2="214" stroke="#c0392b" stroke-width="2"
+    marker-end="url(#ah-red)" />
+  <text class="err" x="450" y="200" text-anchor="middle">downhill (&#8722;&#8711;L)</text>
+
+  <!-- start marker -->
+  <text class="lbl" x="550" y="150" text-anchor="middle">start</text>
+
+  <!-- the current parameters: a ball rolling down into the global minimum -->
+  <g class="ball">
+    <circle r="9" fill="#c0392b" stroke="#fff" stroke-width="1.5" />
+    <animateMotion dur="7s" repeatCount="indefinite" calcMode="spline"
+      keyTimes="0;0.55;1" keyPoints="0;1;1"
+      keySplines="0.4 0 0.4 1; 0 0 1 1"
+      path="M 560,166 C 520,216 470,263 415,261" />
+  </g>
+</svg>
