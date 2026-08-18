@@ -6,7 +6,7 @@ Artificial intelligence (AI) as a field was born from the drive to understand
 and model key functions of biological nervous systems.
 The neuromorphic field draws inspiration from the same source, with the added
 goal of modelling the computational aspects of the brain much more closely
-than the currently dominant AI approach - deep learning.
+than the currently dominant AI approach - **deep learning**.
 
 The core functional element of a nervous system is the **neuron**, which
 Wikipedia defines as follows [@enwiki:1362551640]:
