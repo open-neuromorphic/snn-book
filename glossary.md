@@ -285,14 +285,4 @@ input, so that stronger stimuli spike sooner.
 WTA
 : Winner-Takes-All &mdash; a mechanism in which the most strongly stimulated
 neuron in a group suppresses the activity of the others.
-
-$i_\text{decay}$
-: $=$exp$(\frac{-\Delta t}{\tau_\text{s}})$, it is the **current decay** of a CUBA
-spiking neuron model (in their discrete-time implementation), where
-$\tau_\text{s}$ is the synaptic time-constant [@rossbroich2022fluctuation].
-
-$v_\text{decay}$
-: $=$exp$(\frac{-\Delta t}{\tau_\text{m}})$, it is the **voltage decay** of a
-CUrrent BAsed (CUBA) spiking neuron (in their discrete-time implementation),
-where $\tau_\text{m}$ is the membrane time-constant [@bellec2018long].
 :::
