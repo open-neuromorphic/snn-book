@@ -98,7 +98,7 @@ Now, imagine adding time to the equation.
 
 State is the information a neuron shares between time steps.
 Like membrane potential and hidden memory.
-Read more in @chapter:bio-neurons.
+Read more in @chapter:point-neurons.
 ```
 
 ### Credit assignment in time
@@ -203,9 +203,9 @@ others drop the global backward pass entirely.
 ## Approaches to solving credit assignment
 The rest of this topic explores three families of approaches, each developed fully in the chapters that follow:
 
-- **Gradient-based**: approximate the derivatives and flow error signals backward, just as in classical deep learning ([](#surrogate_gradients), [](#exact_gradients)).
-- **Eligibility-based**: each synapse keeps a running *eligibility trace* of its recent activity, so a later global signal (an error or a reward) can find the synapses responsible: the *three-factor* rule of neuroscience [@gerstner2018eligibility]. This is more than a heuristic. *e-prop* [@bellec2020solution] shows the exact BPTT gradient of {eq}`eq:bptt-gradient` factorizes into just such a local trace times a top-down signal (see [](#biologically_inspired_training)).
-- **Direct optimization** — sidestep gradients entirely and *search* for good parameters through evolution or random perturbation ([](#evolutionary_algorithms)).
+- **Gradient-based**: approximate the derivatives and flow error signals backward, just as in classical deep learning ([](#surrogate_gradients)).
+- **Eligibility-based**: each synapse keeps a running *eligibility trace* of its recent activity, so a later global signal (an error or a reward) can find the synapses responsible: the *three-factor* rule of neuroscience [@gerstner2018eligibility]. This is more than a heuristic. *e-prop* [@bellec2020solution] shows the exact BPTT gradient of {eq}`eq:bptt-gradient` factorizes into just such a local trace times a top-down signal.
+- **Direct optimization** — sidestep gradients entirely and *search* for good parameters through evolution or random perturbation.
 
 ### Choosing a method: a simple heuristic
 Now that you have multiple options, the practical question is *when to reach out for which*.
@@ -232,7 +232,7 @@ They are separated here only where the distinction changes *when* you would reac
 
 These families are not mutually exclusive.
 In practice they are often combined.
-Eligibility traces carry a reward signal, surrogate gradients seed an evolutionary search, and plasticity rules can themselves be *meta-learned* by evolution ([](#meta_learning)).
+Eligibility traces carry a reward signal, surrogate gradients seed an evolutionary search, and plasticity rules can themselves be *meta-learned* by evolution.
 Treat the heuristic as a starting point, not a verdict.
 
 
@@ -247,7 +247,7 @@ Here is a list of resources sorted by topic ([please help expand the list](#cont
 
 - Foundational: [@sutton2018reinforcement], [@werbos1990backpropagation], [@rumelhart1986learning], [@williams1989learning], [@bengio1994learning]
 - Gradient geometry (natural gradient): [@amari1998natural], [@martens2020new]
-- [Eligibility traces](#biologically_inspired_training): [@bellec2020solution], [@gerstner2018eligibility], [@singh1996reinforcement]
+- Eligibility traces: [@bellec2020solution], [@gerstner2018eligibility], [@singh1996reinforcement]
 - [Reinforcement learning](https://en.wikipedia.org/wiki/Reinforcement_learning): [@sutton2018reinforcement], [@pignatelli2023survey], [@singh1996reinforcement]
 - Biologically plausible alternatives to backprop: [@lillicrap2016random], [@nokland2016direct], [@whittington2017approximation], [@scellier2017equilibrium], [@lee2015difference]
 - [Neuroscience](https://en.wikipedia.org/wiki/Neuroscience): [@lillicrap2020backpropagation], [@murray2019local], [@roelfsema2018control]

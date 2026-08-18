@@ -18,7 +18,7 @@ written in Python using [NumPy](https://numpy.org/).
 
 As of this writing (2025), this **Practical SNN** book (or just the "SNN book"
 informally) is in a nascent stage; a lot of contents are yet to be added -- from
-foudational theories to neuromorphic hardware deployments. Therefore, if you have
+foundational theories to neuromorphic hardware deployments. Therefore, if you have
 some expertise on certain chapters/sections of this book and wish to write about
 it, or propose new sections, get in touch with us in the `#snnbook` channel on
 [Open Neuromorphic Discord](https://discord.gg/wAKVddWE6p). We invite and

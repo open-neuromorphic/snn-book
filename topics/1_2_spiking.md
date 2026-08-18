@@ -62,7 +62,7 @@ action potential _propagation_ through the concept of introducing _delays_ in
 spike transmission time - between the pre-synaptic and post-synpatic neurons.
 ```
 
-Note that we have subtely introduced the concept of _point_ and _spatial_
+Note that we have subtly introduced the concept of _point_ and _spatial_
 spiking neuron models here. While researching in SNNs, you will see that a
 majority of the SNN models are built with _point_ spiking neurons. Our next
 chapter dives into different kinds of **Point Neuron** and **Spatial Neuron**

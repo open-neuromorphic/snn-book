@@ -27,7 +27,7 @@ The point of this topic is to show you different ways to go from an untrained to
 There exist a plethora of neuron types: some spike, some don't.
 Some are complicated, some are simple.
 Common for all neurons is that they have many inputs but only one output.
-See the chapter [](#neuron) for more information.
+See the chapter [](#spiking) for more information.
 :::
 
 We use the simplest possible spiking neuron: a single **Integrate-and-Fire (IF)** unit (see [](#foundations)) driven by a constant input that it scales by one weight $w$.Our goal is modest — make the neuron fire at a *target rate*.
@@ -122,16 +122,16 @@ The rest of this topic is, in essence, about different ways to effectively navig
 ```
 
 The topic is organized around methods for solving the [credit assignment problem](#credit_assignment) for SNNs: determining which parameters are responsible for the network's error, both in space and time.
-We begin by discussing gradient methods in the chapters on [](#surrogate_gradients) and [](#exact_gradients) because they closely resemble well-established methods in neural networks and because they are popular in the present-day SNN literature.
-The chapter on [meta learning](#meta_learning) teaches you how you can improve the learning mechanisms,
-a process known as 'learning to learn'. This is an interesting and fruitful approach that is arguably also biologically inspired and useful in both classical and spiking neural networks alike.
-The subsequent chapters on [](#biologically_inspired_training) and [](#evolutionary_algorithms) abandon the comfortable realm of backpropagation to build learning algorithms that are closer to biology in certain ways.
-First, they are biologically feasible, meaning that they can be built exclusively with components from the Topic on [](#foundations).
-Second, they are decentralized and asynchronous, meaning that the individual components are driven by local dynamics that taken together, produce desirable effects.
-The chapter on [](#ann-to-snn_conversion) covers methods for converting classical Artificial Neural Networks (ANNs) into SNNs, which circumvents the training problem by simply training the ANNs before conversion.
-The final chapter on [](#training_optimization) discusses methods for improving training performance in terms of both accuracy and speed.
+We begin by discussing gradient methods in the chapter on [](#surrogate_gradients) because they closely resemble well-established methods in neural networks and because they are popular in the present-day SNN literature.
 
-Here is the list of chapters:
+Further chapters are in preparation and will appear in later releases.
+They cover exact gradients, which exploit precise spike timing rather than approximating the threshold;
+meta learning, which improves the learning mechanism itself, a process known as 'learning to learn';
+biologically inspired and evolutionary methods, which abandon the comfortable realm of backpropagation for algorithms that are decentralized, asynchronous, and buildable exclusively from components in the Topic on [](#foundations);
+ANN-to-SNN conversion, which circumvents the training problem by training a classical network before converting it;
+and training optimization, which addresses accuracy and speed.
+
+Here is the list of chapters in this release:
 
 1. **Credit Assignment**: How do you attribute success or failure to specific
 network components when dealing with both spatial connectivity and temporal
@@ -143,30 +143,3 @@ non-differentiable? This chapter introduces surrogate gradient methods that
 approximate gradients during the backward pass while maintaining spike-based
 computation in the forward pass.
 
-1. **Exact Gradients**: Are there methods to compute exact gradients through
-spiking neurons? This chapter covers ways to leverage the precise timing of
-spikes to get exact gradient information.
-
-1. **Meta Learning**: Can networks learn how to learn better? This chapter
-explores meta-learning approaches for SNNs, including learning rate adaptation,
-architecture search, and learning optimization strategies.
-
-1. **Biologically Inspired Training**: How does the brain assign credit and learn
-without backpropagation? This chapter covers Spike-Timing Dependent Plasticity
-(STDP), local learning rules, and biologically plausible training methods that
-work without global error signals.
-
-1. **Evolutionary Algorithms**: Can we evolve SNNs instead of training them with
-gradients? This chapter introduces evolutionary strategies, genetic algorithms,
-and neuroevolution techniques that can discover network parameters and
-architectures through simulated evolution.
-
-1. **ANN-to-SNN Conversion**: How can we leverage pre-trained Artificial Neural
-Networks (ANNs)? This chapter covers conversion techniques that transform
-conventional ANNs into SNNs, including rate-based conversion, calibration
-methods, and handling of various layer types.
-
-1. **Optimization**: How do we make SNN training practical and efficient? This
-chapter covers hyperparameter tuning strategies, regularization techniques for
-temporal dynamics, batch normalization adaptations, and performance optimization
-for faster training.
