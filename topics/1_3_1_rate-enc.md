@@ -68,9 +68,9 @@ It's highly recommended to check the spiking profile of your encoding neurons
 properly represented and the information doesn't get lost.
 ```
 
-The following code demonstrates how to encode an example signal $x[t]$ using Eq.
+<!-- The following code demonstrates how to encode an example signal $x[t]$ using Eq.
 {eq}`eq:enc-nrn-jt` via an $\texttt{IF}$ neuron (Eq. {eq}`eq:discrete-if`).
-$\textcolor{red}{start}$
+$\textcolor{red}{start}$ -->
 
 
 
@@ -133,9 +133,10 @@ $e = 1$:
 :width: 100%
 ```
 
-<span style="color:red">Write code later</span>
+<!-- <span style="color:red">Write code later</span> -->
 
-As can be clearly seen in Fig. x, the neuron is sensitive to only the positive
+<!-- As can be clearly seen in Fig. x, -->
+The neuron is sensitive to only the positive
 part of the sine wave and encodes it to spikes, however, the information from
 the negative part is lost. If we allow negative $V[t]$, and set another
 $V_\text{thr}$ in the negative direction - to produce spikes for the negative
@@ -199,8 +200,8 @@ A real-valued signal is typically composed of positive and negative values,
 therefore, always consider employing a Two-Neuron Encoding system.
 ```
 
-### Ensemble Encoding
-Next step: Write this.
+<!-- ### Ensemble Encoding
+Next step: Write this. -->
 
 <!--Note that in the scientific literature it is common to refer to all these
 encoding methods simply as rate encoding. However, some authors explicitly

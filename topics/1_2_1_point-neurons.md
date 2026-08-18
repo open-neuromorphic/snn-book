@@ -75,7 +75,7 @@ Coming back to the $\texttt{IF}$ neurons, to implement it on a digital system,
 i.e., a computer, it is necessary to discretize its continuous-time equation 
 such that one can program it. We can discretize the Eq {eq}`eq:continuous-if` 
 using the **forward Euler method** -- we show how to do it in the 
-[Appx. %s](#sec:discretizing-if-neuron). For quick reference, following are the 
+[](#sec:discretizing-if-neuron). For quick reference, following are the 
 *discrete-time* equations that describe an $\texttt{IF}$ neuron:
 
 ```{math}
@@ -89,7 +89,7 @@ V[t] &\leftarrow \begin{cases}
     V[t] - V_\text{thr}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
 \end{cases} \tag{d}
 \label{eq:discrete-if}
-\end{align}
+\end{aligned}
 
 Before we begin explaining the Eqs {eq}`eq:discrete-if`, let us introduce the 
 concept of **Spike Train**. 
@@ -177,7 +177,7 @@ membrane capacitance  $C_\text{m}$, hence the name: "leaky integrator"
 ### Implementing $\texttt{LIF}$ neuron
 Similar to implementing the $\texttt{IF}$ neuron on a digital computer, one can 
 discretize the Eq {eq}`eq:continuous-lif` of the $\texttt{LIF}$ neuron via the 
-forward Euler method; we do that in the [Appx. %s](sec:discretizing-lif-neuron). 
+forward Euler method; we do that in the [](#sec:discretizing-lif-neuron). 
 Following are the _discrete-time_ equations that describe a $\texttt{LIF}$ 
 neuron:
 

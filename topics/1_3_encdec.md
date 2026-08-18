@@ -16,7 +16,8 @@ in spiking networks, and recommend the readers to read [@panzeri2010sensory] and
 [@auge2021survey] for an in-depth knowledge on various encoding/decoding 
 methodologies. Let's dig a bit deeper into these conversion methodologies. 
 
-## Encoding
+```{rubric} Encoding
+```
 When one wishes to input data to their spiking network, they must ensure that the 
 data are discrete events/spikes. If the input data are already discretized, e.g.,
 obtained from _Event-based Sensors_ (DVS Cameras, etc.), then it's all set to be 
@@ -27,7 +28,8 @@ encoding process can be considered as the task of the _Input_ layer in an SNN.
 The encoding methods fall under two broad categories: **Rate Encoding** and 
 **Temporal Encoding**; in this chapter, we will discuss them both. 
 
-## Decoding
+```{rubric} Decoding
+```
 Spiking neurons output spikes, and use that to communicate with each other; they 
 do _not_ output their internal voltage and current states. Therefore, for 
 operations that involve discrete spikes as input and continuous-values as output 

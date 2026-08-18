@@ -68,7 +68,7 @@ $0.001$s, i.e., $1$ms.
 (sec:discretizing-if-neuron)=
 ## Discretizing $\texttt{IF}$ neuron
 The _continuous-time_ equation of the $\texttt{IF}$ neuron as mentioned in the
-[Sec. %s](#sec:spk-nrn-if) is:
+[](#sec:spk-nrn-if) is:
 
 ```{math}
 :label: eq:cont-if
@@ -97,7 +97,7 @@ i.e.,
 \frac{V[n+1] - V[n]}{h} = I[n]
 ```
 Note that in Eq {eq}`eq:dscrt-if-1`, $h$ denotes the _difference_ between
-consecutive timesteps (as mentioned in the [Sec. %s](#sec:forward-euler)), 
+consecutive timesteps (as mentioned in [](#sec:forward-euler)), 
 therefore, let us assume the _difference_ is $1$ timestep, i.e., $h=1$. Thus,
 setting $h=1$ in Eq {eq}`eq:dscrt-if-1`, we get the following:
 
@@ -110,7 +110,7 @@ which is a _discrete-time_ equation of an $\texttt{IF}$ neuron.
 (sec:discretizing-lif-neuron)=
 ## Discretizing $\texttt{LIF}$ neuron
 The _continuous-time_ equation of the $\texttt{LIF}$ neuron as mentioned in the 
-[Sec. %s](#sec:spk-nrn-lif) is:
+[](#sec:spk-nrn-lif) is:
 
 ```{math}
 :label: eq:cont-lif
