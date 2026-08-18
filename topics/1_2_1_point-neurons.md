@@ -84,7 +84,7 @@ V[t] &= V[t-1] + I[t] \tag{b}\\
 S_\text{out}[t] &= \Theta(V[t] - V_\text{thr}) \tag{c}\\
 V[t] &\leftarrow \begin{cases}
     V_\text{rest} \text{\quad\qquad\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{hard reset}} \\
-    V[t] - V_\text{rest}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
+    V[t] - V_\text{thr}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
 \end{cases} \tag{d}
 \label{eq:discrete-if}
 \end{align}
@@ -140,7 +140,7 @@ reset Eq {eq}`eq:discrete-if`$\textsf{d}$, either of which can be chosen for the
 implementation. The operational difference between these two implementations of
 voltage reset will be clear when we will implement them in code later. For now,
 a hard reset sets $V[t]$ to $V_\text{rest}$ after the neuron produces a spike 
-and a soft reset sets $V[t]$ to its new value lesser by $V_\text{rest}$. In 
+and a soft reset instead subtracts $V_\text{thr}$ from $V[t]$. In 
 other words, the soft reset enables the neuron to retain some contribution of 
 the $I[t]$ or $S_\text{inp}[t]$ received, while hard reset results the neuron to
 discard any such contribution and start updating its $V[t]$ right from
