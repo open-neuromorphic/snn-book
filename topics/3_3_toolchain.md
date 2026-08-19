@@ -63,6 +63,31 @@ Machine control may then also go deeper than just commands from the outside, and
 
 After the simulation has been started, the software should interact less with the machine to avoid interference with the running processes that might affect the outcome.  Of course if the hardware allows, some monitoring could take place here to pick up errors that might happen and stop the simulation.  If this is not possible, the software can wait for the hardware to finish the simulation.  If the expected duration is known, the wait can be matched to this before any checks are done to determine completion.  If the completion does not happen, additional data can then be read to hopefully determine the cause and allow some level of debugging data to be generated.
 
+There are circumstances where the duration of the simulation is not known in advance.   In these cases, some interaction from the user or some other external signal can be used to trigger the end of the simulation.  
+
 
 ## Data Extraction 
 
+Once the simulation has completed, any data that has been recorded can be extracted.  Although it is possible to return control to the user and wait for them to initiate the reading of data, this devoids the software of the opportunity to extract data in bulk with improved efficiency.  On SpiNNaker for example, the network and cores are configured to allow high rate extraction of data and allow the bulk reading of all the data efficiently, but this setup would be slow to execute at each request.
+
+In a similar way to data loading, the extracted data will in all probability need to be converted from the most efficient storage method on the machine into a more standardized format that the user expects.  This conversation may be more efficiently done as the user requests the particular part of the data, as the standard formats can be poor in terms of memory efficiency.
+
+If the simulation is long and the hardware doesn't have much space for data storage during the simulation, there are some options.  One of these is to live-extract the data during the simulation of the platform supports this.  The potentially large volumes of data to be extracted may require a very high bandwidth of communication to make this possible.  The extraction could also interfere with the network operation if the same medium is used as is used for general network communication.  On SpiNNaker this is indeed the case, even for spike data; although multicast is used, an additional target still requires additional routing and creates central point which will naturally mean a concentration of traffic which can result in additional dropping of packets.
+
+An alternative is to only record a subset of the data, either by limiting the duration of the recording, or by limiting the data per time step.  For example, if recording neuron membrane voltages or spikes, a subset of the spikes can be recorded.  This may be enough to get valid statistics from the simulation, so the user should be offered this at least, possibly in combination with other options.
+
+Another option, where the hardware supports it, is to calculate the duration of the simulation that would fill the memory available, and the split the run of the simulation into runs for this duration, extracting the data after each and caching this for later reconstruction.  This requires that the hardware can be set back up to continue the execution of the subsequent runs.  This is more easily done on digital platforms therefore, but it is not precluded from analogue systems if the set up can be done precisely and quickly enough.
+
+
+# Back to the User
+
+When the simulation has been run so far to the satisfaction of the user, they can be given the option of what to do next.  This could include simply reading and analysing the data.  It might instead be to change some parameters and run the simulation again, either from the start again, or from the end of the previous simulation.
+
+If the user does want to make changes, it is important to verify that these changes won't break the way that the simulation has already been set up.  If the hardware has been optimised for the previous network, some changes may be hard to accommodate without restarting things from scratch.  This happens on SpiNNaker when a user wants to add a new connection between two populations of neurons that were not previously connected.  This requires changes to the routing that was done previously, and this is normally easier to do from the beginning, and so this sort of change is simply unsupported without a reset to the start of simulation.
+
+
+# Conclusion
+
+This chapter has discussed the ideas around the requirements of a neuromorphic toolchain.  The various steps that the toolchain must consider and how these might be handled with different types of hardware were introduced.
+
+It is unlikely that these details will be sufficient on their own, but hopefully help to give an overview of the things that need to be done.  But, with work, a toolchain can make the hardware easy for the user to implement their networks in a flexible way.
