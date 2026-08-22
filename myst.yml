@@ -202,6 +202,11 @@ project:
         #  level: 0
         - file: topics/a_point_neurons_discretization.md
           level: 0
+        # Print only, and deliberately absent from the `toc` above: the web
+        # keeps each solution in a dropdown beside its exercise, while the PDF
+        # gathers them here so the answer is not sitting under the question.
+        - file: topics/a_solutions.md
+          level: 0
 
 parse:
   myst_enable_extensions:

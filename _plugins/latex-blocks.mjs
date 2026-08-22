@@ -14,64 +14,47 @@
  * Rewrite each of them, at the `project` stage and only when building the PDF,
  * into node types the LaTeX renderer already understands:
  *
- *   - `exercise` / `solution` -> `admonition` (a `framed` box), with the
- *     enumerator baked into the title: "Exercise 1: Spatial credit assignment".
- *   - `tabSet`                -> its tabs one after another, each introduced by
- *     its title in bold. Tabs are a screen affordance; on paper the reader
- *     wants all three implementations in sequence.
+ *   - `exercise` -> `admonition` (a `framed` box), with the enumerator baked
+ *     into the title: "Exercise 1: Spatial credit assignment".
+ *   - `tabSet`   -> its tabs one after another, each introduced by its title in
+ *     bold. Tabs are a screen affordance; on paper the reader wants all three
+ *     implementations in sequence.
+ *   - `solution` -> depends on where it is; see below.
  *
- * Solutions carry `class: dropdown` so the web collapses them. Print has no
- * disclosure triangle, so they are rendered open — which is what a printed
- * textbook does anyway.
+ * ## Solutions move to an appendix
  *
- * References *to* an exercise are rewritten to plain text at the same time; see
- * `flattenExerciseRefs` below for why they cannot stay as `\ref`s.
+ * Solutions are authored with `:class: dropdown`, i.e. hidden until the reader
+ * asks for them. The web honours that. Print has no disclosure triangle, so
+ * setting a solution directly under its exercise would put the answer in the
+ * reader's eye before they have attempted the question — the opposite of what
+ * the source asks for.
+ *
+ * `topics/a_solutions.md` (in the pdf export's `articles:` list, deliberately
+ * absent from the site `toc`) embeds each solution by label. This transform
+ * then renders a solution differently depending on the context it is found in:
+ *
+ *   - inside an `embed`, i.e. in the appendix -> the full framed box, titled
+ *     with the chapter it came from so that two "Exercise 1"s from different
+ *     chapters stay distinguishable.
+ *   - anywhere else, i.e. inline in a chapter -> replaced by a one-line
+ *     pointer, "Solution in Appendix B."
  */
 
-// Set by `make pdf`; DYNSIM_STATIC is accepted as an alias so an ad-hoc
-// `DYNSIM_STATIC=1 myst build --pdf` behaves the same as the Makefile target.
-const PDF_EXPORT = !!(process.env.PDF_EXPORT || process.env.DYNSIM_STATIC);
+import {
+  LEVEL_NOUN,
+  PAGES,
+  PDF_EXPORT,
+  crossRef,
+  pageIdForFile,
+  plainText,
+  replaceChildren,
+} from './book-pages.mjs';
 
 // Node types this plugin replaces, plus the word that introduces each in print.
 const BLOCK_NOUN = { exercise: 'Exercise', solution: 'Solution' };
 
-/**
- * Concatenate the text carried by a subtree, ignoring formatting nodes.
- *
- * @param {object[]} nodes
- * @returns {string}
- */
-function plainText(nodes) {
-  return (nodes ?? [])
-    .map((n) => (typeof n.value === 'string' ? n.value : plainText(n.children)))
-    .join('');
-}
-
-/**
- * Walk a tree, replacing nodes for which `visit` returns an array of
- * replacement nodes. Returning undefined leaves the node in place and recurses
- * into it.
- *
- * @param {object} node
- * @param {(child: object) => object[] | undefined} visit
- */
-function replaceChildren(node, visit) {
-  if (!node || !Array.isArray(node.children)) return;
-  const next = [];
-  for (const child of node.children) {
-    const replacement = visit(child);
-    if (replacement) {
-      // Recurse into the replacements too: a rewritten exercise can contain a
-      // tab-set, and a tab-set can contain an exercise.
-      replacement.forEach((r) => replaceChildren(r, visit));
-      next.push(...replacement);
-    } else {
-      replaceChildren(child, visit);
-      next.push(child);
-    }
-  }
-  node.children = next;
-}
+// Page target of topics/a_solutions.md. Inline solutions point here.
+const SOLUTIONS_APPENDIX = 'appendix:solutions';
 
 /**
  * Split an exercise/solution into its title node and its body.
@@ -118,6 +101,31 @@ function headingChildren(node, title) {
 }
 
 /**
+ * Name the chapter an embedded solution came from.
+ *
+ * Exercise enumerators restart on every page, so the appendix would otherwise
+ * list two indistinguishable "Solution to Exercise 1" entries. `embedTransform`
+ * records where the embedded content came from on the embed node's `source`;
+ * `location` gives the source file, which maps to that page's `\label`.
+ *
+ * @param {object | undefined} source an embed node's `source` metadata
+ * @returns {object[]} nodes to append to the heading, empty if unresolvable
+ */
+function chapterSuffix(source) {
+  const id = pageIdForFile(source?.location);
+  if (id) {
+    const noun = LEVEL_NOUN[PAGES.byId.get(id)?.level ?? 1] ?? 'Chapter';
+    return [
+      { type: 'text', value: ' (' },
+      crossRef(id, `${noun} %s`),
+      { type: 'text', value: ')' },
+    ];
+  }
+  // No label to point at: the chapter title alone still disambiguates.
+  return source?.title ? [{ type: 'text', value: ` (${source.title})` }] : [];
+}
+
+/**
  * Cross-references to an exercise cannot survive as `\ref`s.
  *
  * A `\label` inside the generated `framed` box would bind to whichever counter
@@ -139,44 +147,88 @@ function flattenExerciseRefs(node) {
   return node.children?.length ? node.children : [{ type: 'text', value: node.identifier }];
 }
 
+/**
+ * Wrap content in the framed box LaTeX renders for an admonition.
+ *
+ * @param {object[]} title heading children
+ * @param {object[]} body remaining content
+ */
+function framed(title, body) {
+  return {
+    type: 'admonition',
+    kind: 'note',
+    children: [{ type: 'admonitionTitle', children: title }, ...body],
+  };
+}
+
+/**
+ * Build the tree visitor.
+ *
+ * @param {{embedSource?: object}} ctx `embedSource` is set while walking the
+ *   contents of an `embed` node, i.e. while inside the solutions appendix.
+ */
+function makeVisitor(ctx) {
+  return function visit(node) {
+    const flattened = flattenExerciseRefs(node);
+    if (flattened) return flattened;
+
+    // Descend into embedded content with the embed's provenance in hand, then
+    // splice the result in place: myst-to-tex renders `embed` transparently.
+    if (node.type === 'embed') {
+      const lifted = { children: node.children ?? [] };
+      replaceChildren(lifted, makeVisitor({ ...ctx, embedSource: node.source }));
+      return lifted.children;
+    }
+
+    if (node.type === 'solution') {
+      const { title, body } = splitTitle(node);
+      if (ctx.embedSource) {
+        return [framed([...headingChildren(node, title), ...chapterSuffix(ctx.embedSource)], body)];
+      }
+      // Inline: send the reader to the appendix instead of showing the answer.
+      return [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'emphasis',
+              children: [
+                { type: 'text', value: 'Solution in ' },
+                crossRef(SOLUTIONS_APPENDIX, 'Appendix %s'),
+                { type: 'text', value: '.' },
+              ],
+            },
+          ],
+        },
+      ];
+    }
+
+    if (node.type === 'exercise') {
+      const { title, body } = splitTitle(node);
+      return [framed(headingChildren(node, title), body)];
+    }
+
+    if (node.type === 'tabSet') {
+      return (node.children ?? []).flatMap((tab) => [
+        {
+          type: 'paragraph',
+          children: [{ type: 'strong', children: [{ type: 'text', value: tab.title ?? '' }] }],
+        },
+        ...(tab.children ?? []),
+      ]);
+    }
+
+    return undefined;
+  };
+}
+
 const printBlocks = {
   name: 'pdf-print-blocks',
   doc: 'Render exercise, solution and tabSet nodes, which LaTeX would otherwise drop',
   stage: 'project',
   plugin: () => (tree) => {
     if (!PDF_EXPORT) return tree;
-
-    replaceChildren(tree, (node) => {
-      const flattened = flattenExerciseRefs(node);
-      if (flattened) return flattened;
-
-      if (node.type === 'exercise' || node.type === 'solution') {
-        const { title, body } = splitTitle(node);
-        return [
-          {
-            type: 'admonition',
-            kind: 'note',
-            children: [
-              { type: 'admonitionTitle', children: headingChildren(node, title) },
-              ...body,
-            ],
-          },
-        ];
-      }
-
-      if (node.type === 'tabSet') {
-        return (node.children ?? []).flatMap((tab) => [
-          {
-            type: 'paragraph',
-            children: [{ type: 'strong', children: [{ type: 'text', value: tab.title ?? '' }] }],
-          },
-          ...(tab.children ?? []),
-        ]);
-      }
-
-      return undefined;
-    });
-
+    replaceChildren(tree, makeVisitor({}));
     return tree;
   },
 };

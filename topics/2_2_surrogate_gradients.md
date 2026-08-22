@@ -274,8 +274,12 @@ This is the soft reset mechanism described in [](#sec:spk-nrn-lif).
 Equation {eq}`eq:sg-simplified-lif` describes a recurrence: $V[t+1]$ depends on $V[t]$, which depends on $V[t-1]$, and so on.
 We can visualize this by *unrolling* the computation graph across time steps:
 
+<!-- Width as a percentage, not `800px`: myst-to-tex divides a px width by an
+800px reference page and only scales the result up when it is *strictly* below
+1, so exactly 800px falls through as 1/100 and the figure prints at 1% of the
+line width, i.e. invisibly. -->
 :::{figure} ../_static/img/unrolled_lif.png
-:width: 800px
+:width: 100%
 :align: center
 :name: fig-unrolled-lif
 Recurrent representation of spiking neurons.
