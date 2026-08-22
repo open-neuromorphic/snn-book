@@ -24,9 +24,12 @@ project:
   license: CC-BY-4.0
   plugins:
     - _plugins/dynamical-systems.mjs
+    - _plugins/draft-notice.mjs
     - _plugins/rubric.mjs
     - _plugins/sg-plot.mjs
-    - _plugins/upcoming.mjs
+    - _plugins/pdf-fixups.mjs
+    - _plugins/latex-blocks.mjs
+    - _plugins/cite-this.mjs
   toc:
     - file: README.md
       numbering: false
@@ -102,9 +105,13 @@ project:
     headings: true
   exports:
     - format: pdf
-      output: book.pdf
+      output: snnbook.pdf
       template: templates/plain_latex_book
       article_type: book
+      # Single source of truth for the release. Printed under the title on the
+      # PDF cover and read by _plugins/draft-notice.mjs for the per-chapter
+      # banners on both web and print. Bump this on every release.
+      book_version: '0.8'
       # level sets the LaTeX sectioning depth per file so the book nests by TOC
       # depth: 0 = \chapter (top-level topics), 1 = \section (their pages),
       # 2 = \subsection (nested pages). Without this MyST defaults every file to

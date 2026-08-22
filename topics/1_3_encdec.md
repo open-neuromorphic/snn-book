@@ -1,6 +1,9 @@
 (chapter:encdec)=
 # What is Encoding & Decoding?
 
+```{draft}
+```
+
 This chapter describes another foundational concept in neuromorphic computing: 
 **Encoding** & **Decoding**. Spiking networks work with _discrete_ spikes 
 (generally binary, i.e., 0 and 1); however, the real-world data are (almost

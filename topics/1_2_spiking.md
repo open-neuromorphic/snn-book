@@ -1,6 +1,9 @@
 (spiking)=
 # What is a spiking neuron?
 
+```{draft}
+```
+
 In this chapter, we will study the most fundamental unit of building SNNs -- the
 **Spiking Neuron**. In the previous chapter you were introduced to **Biological
 Neurons** and their common types. Here'in, we will learn how to _simulate_ them
@@ -27,8 +30,8 @@ reaches/crosses a certain set voltage threshold.
 
 - **Generating an output action-potential**: Spiking neurons simulate the
 generation of action-potential by producing a *binary*/*graded* *spike*, where a
-*binary* *spike* implies a binary value ∈ {0, 1} and a *graded* *spike* implies
-an integer value ∈ ℤ⁺ > 1. Note that the values of spikes are also sometimes
+*binary* *spike* implies a binary value $\in \{0, 1\}$ and a *graded* *spike* implies
+an integer value $\in \mathbb{Z}^+ > 1$. Note that the values of spikes are also sometimes
 referred as their *amplitude*.
 
 ```{note}

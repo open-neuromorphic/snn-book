@@ -2,8 +2,11 @@
 
 .PHONY: html pdf plots
 
+# The second step stamps the Umami analytics tag into every built page; MyST
+# has no site option for a self-hosted Umami, so it happens after the build.
 html:
 	uv run jupyter-book build --html
+	node scripts/inject-analytics.mjs
 
 # Regenerate the static PNG fallbacks for the interactive {sgplot} plots into
 # _static/sg/ (the PDF can't render the live widgets). Run this whenever the
@@ -19,5 +22,9 @@ plots:
 # activate xdg-desktop-portal over it and dies when the portal can't mount.
 # DBUS_SESSION_BUS_ADDRESS=disabled: removes the bus so Inkscape skips DBus
 # entirely; GTK_USE_PORTAL=0 stops the portal lookup as a backstop.
+#
+# PDF_EXPORT=1 additionally enables _plugins/pdf-fixups.mjs, which rewrites
+# cross-page references so they resolve in print instead of emitting dead
+# \href{/topics/...} links.
 pdf:
-	DYNSIM_STATIC=1 GTK_USE_PORTAL=0 DBUS_SESSION_BUS_ADDRESS=disabled: uv run jupyter-book build --pdf
+	PDF_EXPORT=1 DYNSIM_STATIC=1 GTK_USE_PORTAL=0 DBUS_SESSION_BUS_ADDRESS=disabled: uv run jupyter-book build --pdf

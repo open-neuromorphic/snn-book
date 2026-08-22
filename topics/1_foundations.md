@@ -1,6 +1,9 @@
 (foundations)=
 # Foundations of SNNs
 
+```{draft}
+```
+
 ```{note} Topic headline
 **Foundations of SNNs** introduces you to the concepts
 of neuromorphic computing.

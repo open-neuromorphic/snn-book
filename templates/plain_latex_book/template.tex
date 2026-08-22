@@ -19,11 +19,18 @@
 
 [- IMPORTS -]
 
+% Link colours. Muted enough to stay readable when the book is printed in
+% greyscale, saturated enough on screen to read as "this is clickable".
+% Internal references and citations share one dark blue; external URLs get a
+% warmer indigo so a reader can tell at a glance whether a link leaves the book.
+\definecolor{snnLink}{rgb}{0.05, 0.24, 0.52}
+\definecolor{snnUrl}{rgb}{0.27, 0.20, 0.55}
 \hypersetup{
   colorlinks,
-  linkcolor={black},
-  citecolor={black},
-  urlcolor={black}
+  linkcolor={snnLink},
+  citecolor={snnLink},
+  urlcolor={snnUrl},
+  linktoc=all
 }
 
 % Style quotes
@@ -75,7 +82,9 @@
 \let\snnMainChapterHead\@makechapterhead
 \makeatother
 
-\title{\Huge \textbf{[-doc.title-]}[# if doc.subtitle #] \\ \huge [-doc.subtitle-][# endif #]}
+% The version sits under the title: below 1.0 it tells the reader the book is
+% still in progress without stamping "DRAFT" across the page.
+\title{\Huge \textbf{[-doc.title-]}[# if doc.subtitle #] \\ \huge [-doc.subtitle-][# endif #][# if options.book_version #] \\[1em] \large Version [-options.book_version-][# endif #]}
 \author{\textsc{
 [#- for author in doc.authors #]
   [#- if not loop.first #] and [# endif #][-author.name-][# if not loop.last and not loop.first #], [# endif #]
@@ -104,7 +113,10 @@
 \setcounter{secnumdepth}{0}
 \maketitle
 
-\tableofcontents
+% Entries stay clickable (linktoc=all) but print black: a full page of blue
+% would be noise, and there is no ambiguity about a table of contents linking
+% to its own chapters.
+{\hypersetup{linkcolor=black}\tableofcontents}
 % \listoffigures
 % \listoftables
 

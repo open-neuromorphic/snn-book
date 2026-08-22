@@ -4,6 +4,10 @@ numbering:
 ---
 (chapter:rate-enc)=
 # Rate Encoding
+
+```{draft}
+```
+
 **Rate Encoding** is a prevalent form of encoding continuous values to discrete
 spikes, and is quite easy to work with. This is because it relates well to the
 Deep Learning networks and training methodologies (that researchers leverage

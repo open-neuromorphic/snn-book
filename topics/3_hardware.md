@@ -1,6 +1,9 @@
 (deployment)=
 # Deploying SNNs
 
+```{draft}
+```
+
 ```{note} Topic headline
 **Deploying SNNs** covers neuromorphic hardware constraints and lets you
 accelerate spiking networks on various systems.

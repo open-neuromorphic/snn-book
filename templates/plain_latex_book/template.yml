@@ -26,12 +26,15 @@ doc:
   #   description: |
   #     Include a list of keywords after the abstract (minimum 3)
   - id: bibliography
-# options:
-#   - id: double_spacing
-#     title: Double line spacing
-#     type: boolean
-#     description: Enable double line spacing
-#     default: false
+options:
+  - id: book_version
+    title: Book version
+    type: string
+    description: >
+      Release version of the book, printed under the title. Anything below 1.0
+      signals to the reader that the book is not finished. Set in myst.yml under
+      the pdf export; _plugins/draft-notice.mjs reads the same key so the
+      per-chapter banners stay in sync.
 files:
   - template.tex
 packages:

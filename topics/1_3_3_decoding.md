@@ -1,6 +1,9 @@
 (chapter:decoding)=
 # Decoding
 
+```{draft}
+```
+
 As described in the preface of [](#chapter:encdec), **Decoding** is about
 extracting meaningful information from spikes. Depending on the context of the
 problem statement and the information required, one can employ different

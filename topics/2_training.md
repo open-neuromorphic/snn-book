@@ -1,6 +1,9 @@
 (training)=
 # Training SNNs
 
+```{draft}
+```
+
 This topic covers training SNNs end to end: from tracing errors back to the parameters that caused them, to building practical and efficient setups for your use case.
 
 ```{rubric} Why Training Matters

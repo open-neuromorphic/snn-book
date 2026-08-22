@@ -4,6 +4,9 @@ numbering: false
 (point_neurons_discretization)=
 # Point Neurons Discretization
 
+```{draft}
+```
+
 Here, we present the derivations based on the **Forward Euler** method to 
 discretize the continuous time equations of the $\texttt{IF}$ and $\texttt{LIF}$ 
 neurons. The Forward Euler method is a simple numerical method to approximate 

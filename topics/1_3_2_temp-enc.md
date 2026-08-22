@@ -1,6 +1,9 @@
 (chapter:temp-enc)=
 # Temporal Encoding
 
+```{draft}
+```
+
 Our perception of the world relies of various biosensors, which need to convey
 what is going on in our environment to the brain
 [@Gollisch.Meister-2008-RapidNeural].

@@ -13,6 +13,9 @@ authors:
 (surrogate_gradients)=
 # Surrogate Gradient Training
 
+```{draft}
+```
+
 In [](#credit_assignment), we established that training a neural network requires assigning credit to each component: which weight or neuron contributed to an error, and how should they change?
 For classical neural networks, the backpropagation algorithm solves this by flowing gradients backward through the network.
 For spiking neural networks, the same idea applies — but with a critical obstacle.
@@ -375,7 +378,7 @@ class LIFNeuron:
         return spikes, membrane
 
     def surrogate_grad(self, membrane):
-        """Arctangent surrogate gradient — called manually in the backward pass.
+        """Arctangent surrogate gradient - called manually in the backward pass.
 
         Args:
             membrane: array of shape (num_steps,), membrane potential values
@@ -465,7 +468,7 @@ spike_fn.defvjp(spike_fn_fwd, spike_fn_bwd)
 
 
 def lif_step(mem, inp, beta, threshold):
-    """Single LIF time step — differentiable via spike_fn above."""
+    """Single LIF time step - differentiable via spike_fn above."""
     mem = beta * mem + inp
     spk = spike_fn(mem, threshold)
     mem = mem - spk * threshold

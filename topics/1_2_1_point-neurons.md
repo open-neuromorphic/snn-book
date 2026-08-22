@@ -1,6 +1,9 @@
 (chapter:point-neurons)=
 # Point Neuron Models
 
+```{draft}
+```
+
 **Point Neurons Models** are minimalistic spiking neuron models that use
 simplified electro-mathematical equations to mimic the _spike generation_,
 _voltage reset_, and _refractory state_ behaviours of biological neurons; they
@@ -87,9 +90,9 @@ S_\text{out}[t] &= \Theta(V[t] - V_\text{thr}) && \text{(c)}\\
 V[t] &\leftarrow \begin{cases}
     V_\text{rest} \text{\quad\qquad\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{hard reset}} \\
     V[t] - V_\text{thr}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
-\end{cases} \tag{d}
-\label{eq:discrete-if}
+\end{cases} && \text{(d)}
 \end{aligned}
+```
 
 Before we begin explaining the Eqs {eq}`eq:discrete-if`, let us introduce the 
 concept of **Spike Train**. 

@@ -36,7 +36,7 @@ sequentially or jump to specific topics as needed.
 To read this book, you only need a basic understanding of calculus and linear
 algebra. If you're new to spiking neurons or SNNs, start with Topic 1. If you're
 familiar with the foundational concepts, use the later topics on
-[training](/training) or [deployment](/hardware) as a practical reference.
+[training](#training) or [deployment](#deployment) as a practical reference.
 
 ### Learning approach:
 Take time to read, and run and _modify_ the interactive code examples in your

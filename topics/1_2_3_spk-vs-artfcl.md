@@ -1,6 +1,9 @@
 (chapter:spk-vs-artfcl)=
 # Spiking vs Artificial Neurons
 
+```{draft}
+```
+
 SNNs are considered to be the _third_ generation of neural networks
 [@maass1997networks] compared to the ANNs, which are _second_ generation.
 Therefore, it is but obvious to compare spiking neurons with artificial neurons
