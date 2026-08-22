@@ -787,7 +787,7 @@ However, very high $\beta$ can also result in slow convergence because the reset
 Surrogate gradient training is the most widely used method for training SNNs today.
 It is well suited when:
 
-- **Accuracy is the priority**: Surrogate gradients leverage the full power of gradient-based optimization, typically outperforming non-gradient-based SNN training methods, though exact-gradient approaches (see [](#exact_gradients)) can match or exceed them at greater computational cost
+- **Accuracy is the priority**: Surrogate gradients leverage the full power of gradient-based optimization, typically outperforming non-gradient-based SNN training methods, though exact-gradient approaches can match or exceed them at greater computational cost
 - **Offline training is acceptable**: Training happens in batch mode on a GPU, not on the target hardware
 - **A teaching signal is available**: Labels, self-supervised targets, or any other differentiable loss signal can be used — surrogate gradients aren't limited to strictly supervised setups
 - **More complex neuron models**: The SRM perspective shows that surrogate gradients work for any neuron model more complex than the simple LIF, as long as it decomposes into linear filters plus a threshold — including adaptive neurons with multiple spike afterpotential kernels $\eta$, or neurons with synaptic current dynamics
@@ -798,7 +798,7 @@ The main limitations are:
 - **Not biologically plausible**: The backward pass requires symmetric weights and global error signals — mechanisms not found in biological neural circuits
 - **Offline only**: The network cannot adapt during deployment; training and inference are separate phases
 
-For alternatives that address some of these limitations, see [](#exact_gradients) for methods that compute exact (rather than approximate) gradients, [](#biologically_inspired_training) for biologically plausible learning rules, and [](#meta_learning) for approaches that can improve the learning process itself.
+Alternatives that address some of these limitations — exact-gradient methods, biologically plausible learning rules, and meta-learning approaches that improve the learning process itself — are covered in chapters planned for a later release.
 
 ## Related reading
 

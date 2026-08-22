@@ -41,7 +41,7 @@ J[t] = \alpha \times e \times x[t] + J_\text{bias} \label{eq:enc-nrn-jt}
 where $\alpha$ is the encoding neuron’s _gain_, $e$ is the encoding neuron’s
 _encoder_ coefficient, $x[t]$ is the scalar input, and $J_\text{bias}$ is the
 _bias current_ to the encoding neuron. Note that $e$ determines the _sensitivity_
-of the enoding neuron to input values; we will provide more details in the NEF
+of the encoding neuron to input values; we will provide more details in the NEF
 appendix. After obtaining $J[t]$, one can use Eqs.
 {eq}`eq:discrete-if`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$) or Eqs.
 {eq}`eq:discrete-lif`($\textsf{b}$, $\textsf{c}$, $\textsf{d}$) to encode a
@@ -59,11 +59,11 @@ _or_ $e=-1$ if the input values that need to be encoded are _only_ positive _or_
 negative, respectively. Overall, one should be careful in choosing appropriate
 values of $\alpha$, $e$, $J_\text{bias}$ in accordance with the input $x[t]$ and
 the chosen $V_\text{thr}\in\mathbb{R}^+$ or any other hyperparameter of the
-encoding neuron (e.g., voltage decay $\tau_\text{vol}$ in $\texttt{LIF}$ neuron,
+encoding neuron (e.g., voltage decay $v_\text{decay}$ in $\texttt{LIF}$ neuron,
 i.e., in Eq. {eq}`eq:discrete-lif`).
 
 ```{note}
-It's highly recommended to check the spiking profile of your encondig neurons
+It's highly recommended to check the spiking profile of your encoding neurons
 (in the input layer of your SNN) on a few samples to ensure the input $x[t]$ is
 properly represented and the information doesn't get lost.
 ```
@@ -94,7 +94,7 @@ hinted above, such an encoding system is commonly used when one has to encode an
 input signal composed of positive and negative values over time. If you use only
 one neuron sensitive to positive values, only the positive part of the signal
 will be encoded into spikes, and you will lose the information available from
-the negative part of the signal, and vice eversa if you use only one neuron
+the negative part of the signal, and vice versa if you use only one neuron
 sensitive to negative values. To illustrate this, we take the following example
 of rate encoding a sine wave (oscillating between -1 and 1) using the
 abovementioned **Neuron Encoding** approach -- first by using a _single_ neuron,

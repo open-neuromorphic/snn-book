@@ -6,7 +6,7 @@ numbering: false
 
 ## Format
 This SNN book currently exists as a live website; it will also be
-made downloadable as a staic PDF. The live website will have interactive code
+made downloadable as a static PDF. The live website will have interactive code
 examples that can be run on your browser. We recommend using the live
 website to interact with code examples and visualizations rather than just
 plainly reading the book.

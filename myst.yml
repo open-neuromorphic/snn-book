@@ -11,7 +11,7 @@ project:
     - machine learning
     - deep learning
   authors:
-    - name: Guarav, Ramashish
+    - name: Gaurav, Ramashish
       affiliation: Virginia Tech, USA
       email: ramashishgaurav@gmail.com
     - name: Pedersen, Jens Egholm
@@ -35,49 +35,49 @@ project:
         - file: topics/0_why_snns.md
     - file: topics/1_foundations.md
       children:
-        - file: topics/1_1_neuron.md
-          children:
-            - file: topics/1_1_1_bio-neurons.md
-            - file: topics/1_1_2_glial-cells.md
+        # - file: topics/1_1_neuron.md
+          # children:
+            # - file: topics/1_1_1_bio-neurons.md
+            # - file: topics/1_1_2_glial-cells.md
         - file: topics/1_2_spiking.md
           children:
             - file: topics/1_2_1_point-neurons.md
-            - file: topics/1_2_2_spatial-neurons.md
+            # - file: topics/1_2_2_spatial-neurons.md
             - file: topics/1_2_3_spk-vs-artfcl.md
         - file: topics/1_3_encdec.md
           children:
             - file: topics/1_3_1_rate-enc.md
             - file: topics/1_3_2_temp-enc.md
             - file: topics/1_3_3_decoding.md
-        - file: topics/1_4_event_representations.md
-        - file: topics/1_5_snn.md
-          children:
-            - file: topics/1_5_1_why-snns.md
-            - file: topics/1_5_2_snn-basics.md
+        # - file: topics/1_4_event_representations.md
+        # - file: topics/1_5_snn.md
+          # children:
+            # - file: topics/1_5_1_why-snns.md
+            # - file: topics/1_5_2_snn-basics.md
         - file: topics/1_6_plasticity.md
     - file: topics/2_training.md
       children:
         - file: topics/2_1_credit_assignment.md
         - file: topics/2_2_surrogate_gradients.md
-        - file: topics/2_3_exact_gradients.md
-        - file: topics/2_4_meta_learning.md
-        - file: topics/2_5_biologically_inspired_training.md
-        - file: topics/2_6_evolutionary_algorithms.md
-        - file: topics/2_7_ann-to-snn_conversion.md
-        - file: topics/2_8_optimization.md
+        # - file: topics/2_3_exact_gradients.md
+        # - file: topics/2_4_meta_learning.md
+        # - file: topics/2_5_biologically_inspired_training.md
+        # - file: topics/2_6_evolutionary_algorithms.md
+        # - file: topics/2_7_ann-to-snn_conversion.md
+        # - file: topics/2_8_optimization.md
     - file: topics/3_hardware.md
       children:
         - file: topics/3_1_motivation.md
         - file: topics/3_2_hw_design_principles.md
-        - file: topics/3_3_toolchain.md
-        - file: topics/3_4_interoperability.md
-        - file: topics/3_5_performance_modelling.md
+        # - file: topics/3_3_toolchain.md
+        # - file: topics/3_4_interoperability.md
+        # - file: topics/3_5_performance_modelling.md
     - file: topics/appendices.md
       children:
-        - file: topics/a_dynamics.md
-        - file: topics/a_modeling_theories.md
-        - file: topics/a_datasets.md
-        - file: topics/a_tools.md
+        # - file: topics/a_dynamics.md
+        # - file: topics/a_modeling_theories.md
+        # - file: topics/a_datasets.md
+        # - file: topics/a_tools.md
         - file: topics/a_point_neurons_discretization.md
       numbering: false
     - file: glossary.md
@@ -106,42 +106,42 @@ project:
         - topics/0_reader.md
         - topics/0_why_snns.md
         - topics/1_foundations.md
-        - topics/1_1_neuron.md
-        - topics/1_1_1_bio-neurons.md
-        - topics/1_1_2_glial-cells.md
+        # - topics/1_1_neuron.md
+        # - topics/1_1_1_bio-neurons.md
+        # - topics/1_1_2_glial-cells.md
         - topics/1_2_spiking.md
         - topics/1_2_1_point-neurons.md
-        - topics/1_2_2_spatial-neurons.md
+        # - topics/1_2_2_spatial-neurons.md
         - topics/1_2_3_spk-vs-artfcl.md
         - topics/1_3_encdec.md
         - topics/1_3_1_rate-enc.md
         - topics/1_3_2_temp-enc.md
         - topics/1_3_3_decoding.md
-        - topics/1_4_event_representations.md
-        - topics/1_5_snn.md
-        - topics/1_5_1_why-snns.md
-        - topics/1_5_2_snn-basics.md
+        # - topics/1_4_event_representations.md
+        # - topics/1_5_snn.md
+        # - topics/1_5_1_why-snns.md
+        # - topics/1_5_2_snn-basics.md
         - topics/1_6_plasticity.md
         - topics/2_training.md
         - topics/2_1_credit_assignment.md
         - topics/2_2_surrogate_gradients.md
-        - topics/2_3_exact_gradients.md
-        - topics/2_4_meta_learning.md
-        - topics/2_5_biologically_inspired_training.md
-        - topics/2_6_evolutionary_algorithms.md
-        - topics/2_7_ann-to-snn_conversion.md
-        - topics/2_8_optimization.md
+        # - topics/2_3_exact_gradients.md
+        # - topics/2_4_meta_learning.md
+        # - topics/2_5_biologically_inspired_training.md
+        # - topics/2_6_evolutionary_algorithms.md
+        # - topics/2_7_ann-to-snn_conversion.md
+        # - topics/2_8_optimization.md
         - topics/3_hardware.md
         - topics/3_1_motivation.md
         - topics/3_2_hw_design_principles.md
-        - topics/3_3_toolchain.md
-        - topics/3_4_interoperability.md
-        - topics/3_5_performance_modelling.md
+        # - topics/3_3_toolchain.md
+        # - topics/3_4_interoperability.md
+        # - topics/3_5_performance_modelling.md
         - topics/appendices.md
-        - topics/a_dynamics.md
-        - topics/a_modeling_theories.md
-        - topics/a_datasets.md
-        - topics/a_tools.md
+        # - topics/a_dynamics.md
+        # - topics/a_modeling_theories.md
+        # - topics/a_datasets.md
+        # - topics/a_tools.md
         - topics/a_point_neurons_discretization.md
 
 parse:

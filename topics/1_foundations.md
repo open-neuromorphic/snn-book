@@ -16,7 +16,7 @@ answers all these questions in the following chapters:
 
 ## What You'll Learn?
 
-1. **What is a Neuron?**: What are biological neruons and how do they function?
+1. **What is a Neuron?**: What are biological neurons and how do they function?
 What role do the glial cells play? What biological characteristics of these
 neurons and cells should we simulate to build an SNN? This chapter follows
 through all these fundamental questions.

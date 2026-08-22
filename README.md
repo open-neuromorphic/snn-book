@@ -21,7 +21,7 @@ Channel](https://discord.gg/wAKVddWE6p): `#snnbook` 👋.
 
 ::::{aside}
 :::{seealso} Curious about the book?
-Read more about about [the motivation to write this book](/topics/intro)
+Read more about [the motivation to write this book](/topics/intro)
 and [why spiking neurons are cool](/topics/why-snns).
 :::
 ::::
