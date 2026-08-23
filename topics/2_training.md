@@ -127,13 +127,6 @@ The rest of this topic is, in essence, about different ways to effectively navig
 The topic is organized around methods for solving the [credit assignment problem](#credit_assignment) for SNNs: determining which parameters are responsible for the network's error, both in space and time.
 We begin by discussing gradient methods in the chapter on [](#surrogate_gradients) because they closely resemble well-established methods in neural networks and because they are popular in the present-day SNN literature.
 
-Further chapters are in preparation and will appear in later releases.
-They cover exact gradients, which exploit precise spike timing rather than approximating the threshold;
-meta learning, which improves the learning mechanism itself, a process known as 'learning to learn';
-biologically inspired and evolutionary methods, which abandon the comfortable realm of backpropagation for algorithms that are decentralized, asynchronous, and buildable exclusively from components in the Topic on [](#foundations);
-ANN-to-SNN conversion, which circumvents the training problem by training a classical network before converting it;
-and training optimization, which addresses accuracy and speed.
-
 Here is the list of chapters in this release:
 
 1. **Credit Assignment**: How do you attribute success or failure to specific
@@ -145,6 +138,16 @@ in SNNs, including backpropagation through time for spiking networks.
 non-differentiable? This chapter introduces surrogate gradient methods that
 approximate gradients during the backward pass while maintaining spike-based
 computation in the forward pass.
+
+```{rubric} Planned for later releases
+```
+
+Further chapters are in preparation and will appear in later releases.
+They cover exact gradients, which exploit precise spike timing rather than approximating the threshold;
+meta learning, which improves the learning mechanism itself, a process known as 'learning to learn';
+biologically inspired and evolutionary methods, which abandon the comfortable realm of backpropagation for algorithms that are decentralized, asynchronous, and buildable exclusively from components in the Topic on [](#foundations);
+ANN-to-SNN conversion, which circumvents the training problem by training a classical network before converting it;
+and training optimization, which addresses accuracy and speed for memory- and compute-intensive training algorithms.
 
 ```{raw} latex
 % Restore section numbering for the chapters that follow. (The unnumbered

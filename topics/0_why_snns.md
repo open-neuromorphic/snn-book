@@ -5,9 +5,10 @@ numbering: false
 # Why spiking networks?
 
 Artificial Neural Networks (ANNs) excel at pattern recognition and
-decision-making, but biological brains are fundamentally more capable; and
-brains solve harder problems while consuming vastly less energy! The key
-difference lies in how neurons compute.
+decision-making. Biological brains rely on the same principles, but
+are fundamentally more capable; and, somehow, brains solve harder problems
+while consuming vastly less energy! The key difference lies in how neurons
+compute.
 
 **Biological neurons are hybrid systems**: They gather analog information
 internally through continuous _chemical_ and _electrical_ processes, but
