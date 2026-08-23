@@ -11,9 +11,9 @@ A hands-on introduction to Spiking Neural Networks (SNNs) that teaches you to **
 
 :::{warning icon=false} ✍️ Version 0.8 - Work In Progress, More Chapters Releasing Soon!
 The first chapters are out! 🚀 Note that this is a work in progress.
-Some pieces are still missing -- more content will be released as soon as it's ready.
+Some pieces are still missing -- more content release as soon as it's ready.
 
-Star us [on GitHub](https://github.com/open-neuromorphic/snn-book/), give us a shout on social media, and stay up to date by [joining us on Discord](https://discord.gg/wAKVddWE6p) 👋.
+Star us [on GitHub](https://github.com/open-neuromorphic/snn-book/), give us a shout on social media, and [join us on Discord](https://discord.gg/wAKVddWE6p) 👋.
 :::
 
 ## What is this book about?

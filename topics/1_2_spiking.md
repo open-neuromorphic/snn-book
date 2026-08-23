@@ -8,8 +8,10 @@ In this chapter, we will study the most fundamental unit of building SNNs -- the
 **Spiking Neuron**. In the previous chapter you were introduced to **Biological
 Neurons** and their common types. Here'in, we will learn how to _simulate_ them
 with various levels of fidelity, using the *neuroscience principles* underlying
-the biological neurons. Later, a section on the *functional comparison* between
-spiking neurons and artificial neurons will also be presented, where, we:
+the biological neurons.
+
+A section on the *functional comparison* between spiking neurons and artificial
+neurons is in preparation and will appear in a later release; it will:
 
 - highlight the inherent _temporality_ and _sparsity_ of spiking neurons, and
 - intuitively explain the _relation_ between spiking and artificial neurons
