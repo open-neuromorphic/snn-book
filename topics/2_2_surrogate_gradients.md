@@ -13,6 +13,9 @@ authors:
 (surrogate_gradients)=
 # Surrogate Gradient Training
 
+```{draft}
+```
+
 In [](#credit_assignment), we established that training a neural network requires assigning credit to each component: which weight or neuron contributed to an error, and how should they change?
 For classical neural networks, the backpropagation algorithm solves this by flowing gradients backward through the network.
 For spiking neural networks, the same idea applies — but with a critical obstacle.
@@ -250,11 +253,13 @@ A value of $\beta$ close to $1$ means slow decay (long memory); close to $0$ mea
 The input current $I[t] = WX[t]$ is now weighted by a learnable parameter $W$, absorbing the effect of the membrane resistance.
 The complete simplified neuron model becomes:
 
-\begin{align}
-V[t+1] &= \beta V[t] + WX[t+1] - S[t]V_\text{thr} \tag{a} \\
-S[t] &= \Theta(V[t] - V_\text{thr}) \tag{b}
-\label{eq:sg-simplified-lif}
-\end{align}
+```{math}
+:label: eq:sg-simplified-lif
+\begin{aligned}
+V[t+1] &= \beta V[t] + WX[t+1] - S[t]V_\text{thr} && \text{(a)} \\
+S[t] &= \Theta(V[t] - V_\text{thr}) && \text{(b)}
+\end{aligned}
+```
 
 In the language of the SRM, the decay term $\beta V[t]$ implements the membrane filter $\kappa$ (exponential integration of past inputs), while the reset term $-S[t]V_\text{thr}$ implements the spike afterpotential $\eta$ (reset by subtraction).
 The only free hyperparameter is $\beta$.
@@ -269,8 +274,12 @@ This is the soft reset mechanism described in [](#sec:spk-nrn-lif).
 Equation {eq}`eq:sg-simplified-lif` describes a recurrence: $V[t+1]$ depends on $V[t]$, which depends on $V[t-1]$, and so on.
 We can visualize this by *unrolling* the computation graph across time steps:
 
+<!-- Width as a percentage, not `800px`: myst-to-tex divides a px width by an
+800px reference page and only scales the result up when it is *strictly* below
+1, so exactly 800px falls through as 1/100 and the figure prints at 1% of the
+line width, i.e. invisibly. -->
 :::{figure} ../_static/img/unrolled_lif.png
-:width: 800px
+:width: 100%
 :align: center
 :name: fig-unrolled-lif
 Recurrent representation of spiking neurons.
@@ -373,7 +382,7 @@ class LIFNeuron:
         return spikes, membrane
 
     def surrogate_grad(self, membrane):
-        """Arctangent surrogate gradient — called manually in the backward pass.
+        """Arctangent surrogate gradient - called manually in the backward pass.
 
         Args:
             membrane: array of shape (num_steps,), membrane potential values
@@ -463,7 +472,7 @@ spike_fn.defvjp(spike_fn_fwd, spike_fn_bwd)
 
 
 def lif_step(mem, inp, beta, threshold):
-    """Single LIF time step — differentiable via spike_fn above."""
+    """Single LIF time step - differentiable via spike_fn above."""
     mem = beta * mem + inp
     spk = spike_fn(mem, threshold)
     mem = mem - spk * threshold

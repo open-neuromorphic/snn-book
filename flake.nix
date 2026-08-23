@@ -20,6 +20,9 @@
                     pkgs.inconsolata-lgc
                     pkgs.nodejs
                     pkgs.uv
+                    # MyST rasterizes SVG figures to PDF via Inkscape during
+                    # `make pdf`; without it those figures fail to convert.
+                    pkgs.inkscape
                 ];
 
                 shellHook = ''

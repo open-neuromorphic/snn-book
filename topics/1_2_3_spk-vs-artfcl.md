@@ -1,6 +1,9 @@
 (chapter:spk-vs-artfcl)=
 # Spiking vs Artificial Neurons
 
+```{draft}
+```
+
 SNNs are considered to be the _third_ generation of neural networks
 [@maass1997networks] compared to the ANNs, which are _second_ generation.
 Therefore, it is but obvious to compare spiking neurons with artificial neurons
@@ -24,7 +27,7 @@ spiking neuron.
 This factual observation enables us to build rate-coding based SNNs and train
 them using deep learning based methods. In fact, one of the earliest and most
 effective methods to build SNNs: **ANN-to-SNN** conversion (as we will see in
-[Topic {number}](training) chapters), is foundationally based on artificial
+[](#training) chapters), is foundationally based on artificial
 neurons being the rate approximation of spiking neurons. We next demonstrate
 this _rate approximation_ of an artificial neuron with a LIF neuron.
 

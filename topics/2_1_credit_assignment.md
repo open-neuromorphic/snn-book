@@ -7,6 +7,9 @@ authors:
 (credit_assignment)=
 # Credit Assignment in SNNs
 
+```{draft}
+```
+
 To improve any neural network, we need to solve the **credit assignment challenge**: when the network makes an error, how do we determine which components to adjust? And by how much?
 This chapter explains the intuition and mathematics behind credit assignment with an emphasis on time
 because, unfortunately, credit assignment becomes harder when you work with stateful neurons and networks, which are described in the previous topic on [](#foundations).

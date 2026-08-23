@@ -1,6 +1,9 @@
 (training)=
 # Training SNNs
 
+```{draft}
+```
+
 This topic covers training SNNs end to end: from tracing errors back to the parameters that caused them, to building practical and efficient setups for your use case.
 
 ```{rubric} Why Training Matters
@@ -143,3 +146,9 @@ non-differentiable? This chapter introduces surrogate gradient methods that
 approximate gradients during the backward pass while maintaining spike-based
 computation in the forward pass.
 
+```{raw} latex
+% Restore section numbering for the chapters that follow. (The unnumbered
+% heading above does not advance the section counter, so the first real chapter
+% under this topic still numbers as x.1.)
+\setcounter{secnumdepth}{2}
+```

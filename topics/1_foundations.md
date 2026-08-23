@@ -1,6 +1,9 @@
 (foundations)=
 # Foundations of SNNs
 
+```{draft}
+```
+
 ```{note} Topic headline
 **Foundations of SNNs** introduces you to the concepts
 of neuromorphic computing.
@@ -14,7 +17,15 @@ How *learning* happens in the brain, and how can we implement it? This topic
 covers the Computational Neuroscience basics - _relevant_ to the SNNs, and
 answers all these questions in the following chapters:
 
-## What You'll Learn?
+```{raw} latex
+% This overview heading is a plain subheading of the topic, not a numbered
+% "Chapter". secnumdepth 0 keeps the topic (chapter) numbered but drops the
+% section number/label here; restored at the end of the page.
+\setcounter{secnumdepth}{0}
+```
+
+```{rubric} What You'll Learn?
+```
 
 1. **What is a Neuron?**: What are biological neurons and how do they function?
 What role do the glial cells play? What biological characteristics of these
@@ -42,3 +53,10 @@ pass; the backward pass / training is covered in the next topic "[Training SNNs]
 neuroscience principles that facilitate learning in brain? This chapter covers
 the foundational concepts of neuroplasticity, e.g., Long-Term Potentiation (LTP)
 and Long-Term Depression (LTD) based on precise spike timings.
+
+```{raw} latex
+% Restore section numbering for the chapters that follow. (The unnumbered
+% heading above does not advance the section counter, so the first real chapter
+% under this topic still numbers as x.1.)
+\setcounter{secnumdepth}{2}
+```

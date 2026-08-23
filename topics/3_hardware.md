@@ -1,6 +1,9 @@
 (deployment)=
 # Deploying SNNs
 
+```{draft}
+```
+
 ```{note} Topic headline
 **Deploying SNNs** covers neuromorphic hardware constraints and lets you
 accelerate spiking networks on various systems.
@@ -14,7 +17,15 @@ hardware. It begins with the motivating principles and the core hardware-design
 trade-offs, followed by the practical compilation toolchain and the examples of
 platform-specific SNN implementations; all covered in the chapters as follows:
 
-## What You'll Learn?
+```{raw} latex
+% This overview heading is a plain subheading of the topic, not a numbered
+% "Chapter". secnumdepth 0 keeps the topic (chapter) numbered but drops the
+% section number/label here; restored at the end of the page.
+\setcounter{secnumdepth}{0}
+```
+
+```{rubric} What You'll Learn?
+```
 
 1. **Motivation and Performance Metrics**: Why should you start with considering
 the hardware, on which your solution would run, before writing a single line of
@@ -46,3 +57,10 @@ accuracy.
 6. **Event-based sensors**: SNNs are natively compatible with event-based data;
 this chapter will explore various event-based sensors that generate event data,
 and how those sensors interface with neuromorphic hardware.
+
+```{raw} latex
+% Restore section numbering for the chapters that follow. (The unnumbered
+% heading above does not advance the section counter, so the first real chapter
+% under this topic still numbers as x.1.)
+\setcounter{secnumdepth}{2}
+```

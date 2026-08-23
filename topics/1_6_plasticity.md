@@ -7,6 +7,9 @@ kernelspec:
 (chapter:plasticity)=
 # What is Synaptic Plasticity?
 
+```{draft}
+```
+
 In the previous chapters, we saw how spikes travel across synapses and how
 synaptic weights control the flow of information in SNNs. Up to now, those
 weights were _static_, i.e., set once, used forever. But in biological systems,
