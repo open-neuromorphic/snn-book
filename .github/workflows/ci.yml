@@ -1,0 +1,20 @@
+name: CI
+
+# Every PR and every push to main runs the full build: vitest, the static site
+# and the PDF. Nothing is published — the site and PDF land under the run's
+# "Artifacts" section so a reviewer can download and check them.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# A newer push to the same branch/PR cancels an in-flight build.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    # analytics defaults to false: preview builds stay untagged.

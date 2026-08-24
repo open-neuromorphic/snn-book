@@ -69,9 +69,6 @@ Other few differences are:
   the relation between $V[t]$ and $V[t-1]$).
 * Spiking neurons output _discrete_ spikes (which can be graded too, i.e., 
   non-binary integers).
-  
-In the later sections, we will present an interesting relation between the
-spiking and artificial neurons.
 
 ### Implementing $\texttt{IF}$ neuron
 Coming back to the $\texttt{IF}$ neurons, to implement it on a digital system, 

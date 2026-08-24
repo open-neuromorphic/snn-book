@@ -12,7 +12,7 @@ research topics, and the material is scattered and disorganized. This
 leaves a gap for practitioners who want to learn, build, train, *and*
 deploy SNNs on neuromorphic hardware. This book fills that gap.
 
-This book serves **three** purposes:
+Additionally, this book serves **three** purposes:
 
 1. It helps you *get stuff to work*. We gather the most important and useful
 **practical** insights. There's more advanced material out there.

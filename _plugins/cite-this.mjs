@@ -20,10 +20,12 @@
  *
  *   - editors / booktitle / publisher  -> `project:` in myst.yml
  *   - edition                          -> `book_version:` of the pdf export
+ *   - year                             -> the build year
  *   - authors / title                  -> the page's frontmatter, falling back
  *                                         to its first `#` heading
  *   - url                              -> SITE_URL + the page's slug
- *   - key                              -> the page's `(label)=` target
+ *   - key                              -> book name + year + the page's
+ *                                         `(label)=` target
  *
  * Suppressed for the PDF build (a print reader cannot copy from it, and the
  * book is cited as a whole there) and on front/back matter, which is not
@@ -52,8 +54,10 @@ const DOI = '';
 
 const PUBLISHER = 'Open Neuromorphic';
 
-// Stem of every citation key, e.g. `snnbook-point-neurons`.
-const BOOK_KEY = 'snnbook';
+// Stem of the BibTeX citation key. The build year is appended to it (BOOK_KEY,
+// below), and each page then adds its own suffix (citationKey), giving
+// e.g. snnbook2026-point-neurons.
+const BOOK_KEY_STEM = 'snnbook';
 
 // Front and back matter: no citation box at all.
 const SKIP = new Set([
@@ -97,14 +101,23 @@ function readProjectMeta() {
  * @param {string[]} lines the document, split into lines
  * @param {RegExp} opener matches the `authors:` line that starts the block
  * @param {number} indent column the `authors:` key sits at; the block ends at
- *                        the next line indented no further
+ *                        the next key indented no further
  * @returns {string[]} the names, in order
  */
 function readAuthorList(lines, opener, indent) {
   const start = lines.findIndex((line) => opener.test(line));
   if (start === -1) return [];
   const names = [];
-  const ends = new RegExp(`^\\s{0,${indent}}\\S`);
+  // The block ends at the next *key*, not at the next non-blank line: YAML lets
+  // a sequence sit at the same indent as the key that owns it, so page
+  // frontmatter is commonly written flush-left --
+  //
+  //   authors:
+  //   - name: Doe, Jane
+  //
+  // and a terminator of `\S` would end the block on the very first entry.
+  // Excluding `-` keeps sequence items inside it.
+  const ends = new RegExp(`^\\s{0,${indent}}[^\\s-]`);
   for (let i = start + 1; i < lines.length; i += 1) {
     const line = lines[i];
     if (line.trim() === '') continue;
@@ -217,7 +230,11 @@ function pageUrl(relPath) {
 
 /**
  * A BibTeX citation key for a page: the book key plus the page's label with its
- * namespace prefix dropped. `chapter:point-neurons` -> `snnbook-point-neurons`.
+ * namespace prefix dropped. `chapter:point-neurons` -> `snnbook2026-point-neurons`.
+ *
+ * Each page needs its own key because each page emits its own `@incollection`,
+ * with that chapter's title and authors. BibTeX cannot hold two entries under
+ * one key, so a shared key would break for any reader citing two chapters.
  *
  * @param {string | undefined} label
  * @param {string} relPath used when the page declares no label
@@ -225,7 +242,11 @@ function pageUrl(relPath) {
  */
 function citationKey(label, relPath) {
   const base = label?.split(':').pop() ?? path.basename(relPath).replace(/\.\w+$/, '');
-  return `${BOOK_KEY}-${base.replace(/[^A-Za-z0-9-]+/g, '-').replace(/^-|-$/g, '').toLowerCase()}`;
+  const suffix = base
+    .replace(/[^A-Za-z0-9-]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .toLowerCase();
+  return `${BOOK_KEY}-${suffix}`;
 }
 
 /**
@@ -268,6 +289,10 @@ function sameNames(a, b) {
 const PROJECT = readProjectMeta();
 // Stamped once per build, so every page of a given deployment agrees.
 const YEAR = String(new Date().getFullYear());
+// e.g. snnbook2026 — stem plus year, the usual BibTeX convention. Derived from
+// YEAR rather than written out, so the key and the entry's `year` field cannot
+// disagree; a rebuild in a later year moves both together.
+const BOOK_KEY = `${BOOK_KEY_STEM}${YEAR}`;
 // Double braces keep BibTeX styles that case-fold titles from doing so.
 const BOOK_TITLE = `{${PROJECT.title}}`;
 const EDITION = PROJECT.version ? `Version ${PROJECT.version}` : undefined;

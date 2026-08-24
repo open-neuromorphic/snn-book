@@ -1,0 +1,119 @@
+name: Release
+
+# Cuts a release from a version tag: builds the site (with the analytics tag)
+# and the PDF, publishes the site to GitHub Pages, and attaches the site bundle
+# and the PDF to the GitHub Release.
+#
+# To release:  git tag v0.8 && git push origin v0.8   (with the tag on main)
+#
+# One-time setup in repo Settings → Pages: set "Source" to "GitHub Actions" and
+# set the custom domain to snnbook.net.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+# Releases are never cancelled mid-flight — a half-finished Pages deploy would
+# leave the published site inconsistent.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  # A tag trigger fires wherever the tag points, so check explicitly that we
+  # are releasing something that actually landed on main.
+  guard:
+    name: Check the tag is on main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify the tagged commit is an ancestor of main
+        run: |
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::${GITHUB_REF_NAME} points at a commit that is not on main — refusing to release"
+            exit 1
+          fi
+          echo "${GITHUB_REF_NAME} is on main"
+
+  build:
+    needs: guard
+    uses: ./.github/workflows/build.yml
+    with:
+      analytics: true
+
+  deploy-pages:
+    name: Publish to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download the built site
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: site
+
+      # The custom domain also lives in Settings → Pages; the file keeps it
+      # pinned if that setting is ever cleared.
+      - name: Pin the custom domain
+        run: echo 'snnbook.net' > site/CNAME
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  release-assets:
+    name: Attach downloads to the release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download the built site
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: site
+
+      - name: Download the PDF
+        uses: actions/download-artifact@v4
+        with:
+          name: snnbook-pdf
+
+      # A single zip is what a reader wants for offline browsing; the run's own
+      # `site` artifact stays the unpacked copy.
+      - name: Bundle the site
+        run: |
+          cd site
+          zip -qr "../snnbook-site-${GITHUB_REF_NAME}.zip" .
+
+      # The tag may have been pushed on its own or created through the releases
+      # UI, so create the release only if it isn't there yet. --clobber makes
+      # re-running the workflow on the same tag replace the assets.
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release create "$GITHUB_REF_NAME" \
+              --title "Practical Spiking Neural Networks $GITHUB_REF_NAME" \
+              --generate-notes
+          fi
+          gh release upload "$GITHUB_REF_NAME" --clobber \
+            snnbook.pdf \
+            "snnbook-site-${GITHUB_REF_NAME}.zip"

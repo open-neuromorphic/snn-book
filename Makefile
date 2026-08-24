@@ -1,11 +1,15 @@
 # Convenience targets for the SNN book.
 
-.PHONY: html pdf plots
+.PHONY: html html-release pdf plots
 
-# The second step stamps the Umami analytics tag into every built page; MyST
-# has no site option for a self-hosted Umami, so it happens after the build.
+# The site as you preview it locally and as PR builds produce it: no analytics
+# tag, so opening a local or downloaded copy doesn't report hits.
 html:
 	uv run jupyter-book build --html
+
+# What we publish. Stamps the Umami analytics tag into every built page; MyST
+# has no site option for a self-hosted Umami, so it happens after the build.
+html-release: html
 	node scripts/inject-analytics.mjs
 
 # Regenerate the static PNG fallbacks for the interactive {sgplot} plots into

@@ -49,7 +49,7 @@ project:
           children:
             - file: topics/1_2_1_point-neurons.md
             # - file: topics/1_2_2_spatial-neurons.md
-            - file: topics/1_2_3_spk-vs-artfcl.md
+            #- file: topics/1_2_3_spk-vs-artfcl.md
         - file: topics/1_3_encdec.md
           children:
             - file: topics/1_3_1_rate-enc.md
@@ -74,7 +74,7 @@ project:
     - file: topics/3_hardware.md
       children:
         - file: topics/3_1_motivation.md
-        - file: topics/3_2_hw_design_principles.md
+        # - file: topics/3_2_hw_design_principles.md
         # - file: topics/3_3_toolchain.md
         # - file: topics/3_4_interoperability.md
         # - file: topics/3_5_performance_modelling.md
@@ -139,8 +139,8 @@ project:
           level: 2
         #- file: topics/1_2_2_spatial-neurons.md
         #  level: 2
-        - file: topics/1_2_3_spk-vs-artfcl.md
-          level: 2
+        #- file: topics/1_2_3_spk-vs-artfcl.md
+        #  level: 2
         - file: topics/1_3_encdec.md
           level: 1
         - file: topics/1_3_1_rate-enc.md
@@ -181,8 +181,8 @@ project:
           level: 0
         - file: topics/3_1_motivation.md
           level: 1
-        - file: topics/3_2_hw_design_principles.md
-          level: 1
+        #- file: topics/3_2_hw_design_principles.md
+        #  level: 1
         #- file: topics/3_3_toolchain.md
         #  level: 1
         #- file: topics/3_4_interoperability.md
