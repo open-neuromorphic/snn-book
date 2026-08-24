@@ -2,6 +2,10 @@
 kernelspec:
   name: python3
   display_name: 'Python 3'
+authors:
+- name: Goupy, Gaspard
+  affiliation: Nokia Bell Labs
+  email: gaspard.goupy@nokia-bell-labs.com
 ---
 
 (chapter:plasticity)=
