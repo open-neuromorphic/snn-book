@@ -118,8 +118,8 @@ where $\alpha (=1)$ is the gain of the $\texttt{IF}$ neuron, $J_\text{bias}
 _sensitivity_; $x[t]$ is the input signal (i.e., sine wave in our example) to
 our $\texttt{IF}$ neuron – the above rate-encoding equation is taken from the
 Neural Engineering Framework theory [@eliasmith2003neural,
-@stewart2012technical]. The encoding neuron produces a binary spike when $V[t]$
-> $V_\text{thr}$, and its voltage $V[t]$ is reset to 0 upon spiking. Note that
+@stewart2012technical]. The encoding neuron produces a binary spike when $V[t] >
+V_\text{thr}$, and its voltage $V[t]$ is reset to 0 upon spiking. Note that
 $V[t]$ is constrained to be always $> 0$; there is _no_ reason for it go
 negative – as for the neuron to spike, its $V[t]$ should increase towards the
 positive $V_\text{thr}$. The following code demonstrates the sine wave $x[t]$
