@@ -1,5 +1,8 @@
 (training_optimization)=
-# Training Optimization
+# Training Optimization *(upcoming)*
+
+```{upcoming}
+```
 
 Once you've chosen your training method, optimization techniques ensure stable, efficient, and effective learning.
 

@@ -39,3 +39,14 @@ neuromorphic chips/systems is another complex task.
 train, and deploy SNNs on neuromorphic hardware effectively. In this book, we
 start with the fundamentals and build toward real-world applications with
 neuromorphic systems.
+
+```{raw} latex
+% End of the front matter (acknowledgements + preface, roman "I./II." chapters).
+% Restore the default "Topic N" chapter style and arabic numbering, then switch
+% to the numbered book body: arabic page 1, Topic 1 starts next.
+\makeatletter\let\@makechapterhead\snnMainChapterHead\makeatother
+\renewcommand{\thechapter}{\arabic{chapter}}
+\setcounter{chapter}{0}
+\mainmatter
+\setcounter{secnumdepth}{2}
+```

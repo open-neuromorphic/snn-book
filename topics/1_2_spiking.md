@@ -1,6 +1,9 @@
 (spiking)=
 # What is a spiking neuron?
 
+```{draft}
+```
+
 In this chapter, we will study the most fundamental unit of building SNNs -- the
 **Spiking Neuron**. In the previous chapter you were introduced to **Biological
 Neurons** and their common types. Here'in, we will learn how to _simulate_ them
@@ -27,8 +30,8 @@ reaches/crosses a certain set voltage threshold.
 
 - **Generating an output action-potential**: Spiking neurons simulate the
 generation of action-potential by producing a *binary*/*graded* *spike*, where a
-*binary* *spike* implies a binary value ∈ {0, 1} and a *graded* *spike* implies
-an integer value ∈ ℤ⁺ > 1. Note that the values of spikes are also sometimes
+*binary* *spike* implies a binary value $\in \{0, 1\}$ and a *graded* *spike* implies
+an integer value $\in \mathbb{Z}^+ > 1$. Note that the values of spikes are also sometimes
 referred as their *amplitude*.
 
 ```{note}
@@ -62,7 +65,7 @@ action potential _propagation_ through the concept of introducing _delays_ in
 spike transmission time - between the pre-synaptic and post-synpatic neurons.
 ```
 
-Note that we have subtely introduced the concept of _point_ and _spatial_
+Note that we have subtly introduced the concept of _point_ and _spatial_
 spiking neuron models here. While researching in SNNs, you will see that a
 majority of the SNN models are built with _point_ spiking neurons. Our next
 chapter dives into different kinds of **Point Neuron** and **Spatial Neuron**

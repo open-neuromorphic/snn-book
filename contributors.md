@@ -2,6 +2,7 @@
 numbering:
   title: false
 ---
+(contributors)=
 # Guidelines for Contributors
 
 This page explains _what_ and _how_ to contribute to this **Practical Spiking
@@ -17,7 +18,7 @@ written in Python using [NumPy](https://numpy.org/).
 
 As of this writing (2025), this **Practical SNN** book (or just the "SNN book"
 informally) is in a nascent stage; a lot of contents are yet to be added -- from
-foudational theories to neuromorphic hardware deployments. Therefore, if you have
+foundational theories to neuromorphic hardware deployments. Therefore, if you have
 some expertise on certain chapters/sections of this book and wish to write about
 it, or propose new sections, get in touch with us in the `#snnbook` channel on
 [Open Neuromorphic Discord](https://discord.gg/wAKVddWE6p). We invite and
@@ -107,6 +108,61 @@ reviewer(s), merge your branch to `main` (assuming no conflicts exist).
 
 **NOTE:** Unless already discussed with repository maintainers/reviewer(s)
 please do not add massive changes to review.
+
+
+(sec:authoring-conventions)=
+## Authoring conventions
+
+A few conventions keep the book building cleanly in **both** the interactive
+HTML site and the print/PDF export.
+
+### Building locally
+* HTML (interactive, with live widgets): `make html` -- or `jupyter book start`
+  for a live-reloading preview at `http://localhost:3000/`.
+* PDF (print, with static figures): `make pdf`.
+
+### Equations
+Label an equation you want to cross-reference with the `{math}` directive and a
+`:label:`, then refer to it with the `{eq}` role:
+
+````
+```{math}
+:label: eq:my-equation
+\begin{aligned}
+y &= f(x) && \text{(a)} \\
+z &= g(y) && \text{(b)}
+\end{aligned}
+```
+
+... as shown in Eq. {eq}`eq:my-equation`.
+````
+
+Avoid a bare `\begin{align} ... \label{...} \end{align}`: MyST does not export
+that `\label` to LaTeX, so the equation renders in HTML but its `{eq}` references
+come out **undefined in the PDF**. For per-line markers use a trailing
+`&& \text{(a)}` column (as above) rather than `\tag{a}`.
+
+### Cross-references
+Give a target an explicit label -- `(my-section)=` on the line above a heading,
+or `:label:` on a directive -- and link to it with `{ref}` or `[](#my-section)`.
+Headings without an explicit label resolve on the website but not reliably in the
+PDF.
+
+### Interactive plots (`{sgplot}`, `{dynsim}`)
+These render as live widgets on the website, but LaTeX/PDF cannot draw them, so
+the PDF uses a **static PNG fallback**. For the surrogate `{sgplot}` plots the
+PNGs live in `_static/sg/<variant>.png`.
+
+If you add or change one of these plots, refresh its PNG. Two ways:
+
+* **Automatic:** `make plots` renders every `{sgplot}` variant and writes the
+  PNGs (needs `npm install` and a Chromium for Playwright -- see
+  `scripts/capture-plots.mjs`; on NixOS run
+  `PLAYWRIGHT_CHROMIUM=$(command -v chromium) make plots`).
+* **By hand:** open the plot on the HTML site and save a screenshot to
+  `_static/sg/<variant>.png`.
+
+Commit the updated PNG alongside your change so the PDF stays in sync.
 
 
 ## Getting acknowledged!

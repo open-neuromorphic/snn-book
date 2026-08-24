@@ -1,6 +1,9 @@
 (chapter:point-neurons)=
 # Point Neuron Models
 
+```{draft}
+```
+
 **Point Neurons Models** are minimalistic spiking neuron models that use
 simplified electro-mathematical equations to mimic the _spike generation_,
 _voltage reset_, and _refractory state_ behaviours of biological neurons; they
@@ -75,19 +78,21 @@ Coming back to the $\texttt{IF}$ neurons, to implement it on a digital system,
 i.e., a computer, it is necessary to discretize its continuous-time equation 
 such that one can program it. We can discretize the Eq {eq}`eq:continuous-if` 
 using the **forward Euler method** -- we show how to do it in the 
-[Appx. %s](#sec:discretizing-if-neuron). For quick reference, following are the 
+[](#sec:discretizing-if-neuron). For quick reference, following are the 
 *discrete-time* equations that describe an $\texttt{IF}$ neuron:
 
-\begin{align}
-I[t] &= (1 - i_\text{decay})\times I[t-1] + w\times S_\text{inp}[t] \tag{a}\\
-V[t] &= V[t-1] + I[t] \tag{b}\\
-S_\text{out}[t] &= \Theta(V[t] - V_\text{thr}) \tag{c}\\
+```{math}
+:label: eq:discrete-if
+\begin{aligned}
+I[t] &= (1 - i_\text{decay})\times I[t-1] + w\times S_\text{inp}[t] && \text{(a)}\\
+V[t] &= V[t-1] + I[t] && \text{(b)}\\
+S_\text{out}[t] &= \Theta(V[t] - V_\text{thr}) && \text{(c)}\\
 V[t] &\leftarrow \begin{cases}
     V_\text{rest} \text{\quad\qquad\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{hard reset}} \\
-    V[t] - V_\text{rest}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
-\end{cases} \tag{d}
-\label{eq:discrete-if}
-\end{align}
+    V[t] - V_\text{thr}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
+\end{cases} && \text{(d)}
+\end{aligned}
+```
 
 Before we begin explaining the Eqs {eq}`eq:discrete-if`, let us introduce the 
 concept of **Spike Train**. 
@@ -140,7 +145,7 @@ reset Eq {eq}`eq:discrete-if`$\textsf{d}$, either of which can be chosen for the
 implementation. The operational difference between these two implementations of
 voltage reset will be clear when we will implement them in code later. For now,
 a hard reset sets $V[t]$ to $V_\text{rest}$ after the neuron produces a spike 
-and a soft reset sets $V[t]$ to its new value lesser by $V_\text{rest}$. In 
+and a soft reset instead subtracts $V_\text{thr}$ from $V[t]$. In 
 other words, the soft reset enables the neuron to retain some contribution of 
 the $I[t]$ or $S_\text{inp}[t]$ received, while hard reset results the neuron to
 discard any such contribution and start updating its $V[t]$ right from
@@ -175,20 +180,22 @@ membrane capacitance  $C_\text{m}$, hence the name: "leaky integrator"
 ### Implementing $\texttt{LIF}$ neuron
 Similar to implementing the $\texttt{IF}$ neuron on a digital computer, one can 
 discretize the Eq {eq}`eq:continuous-lif` of the $\texttt{LIF}$ neuron via the 
-forward Euler method; we do that in the [Appx. %s](sec:discretizing-lif-neuron). 
+forward Euler method; we do that in the [](#sec:discretizing-lif-neuron). 
 Following are the _discrete-time_ equations that describe a $\texttt{LIF}$ 
 neuron:
 
-\begin{align}
-I[t] &= (1 - i_\text{decay})\times I[t-1] + w\times S_\text{inp}[t] \tag{a} \\
-V[t] &= (1 - v_\text{decay})\times V[t-1] + I[t]  \tag{b} \\
-S_\text{out}[t] &= \Theta(V[t] - V_\text{thr})  \tag{c} \\
+```{math}
+:label: eq:discrete-lif
+\begin{aligned}
+I[t] &= (1 - i_\text{decay})\times I[t-1] + w\times S_\text{inp}[t] && \text{(a)} \\
+V[t] &= (1 - v_\text{decay})\times V[t-1] + I[t] && \text{(b)} \\
+S_\text{out}[t] &= \Theta(V[t] - V_\text{thr}) && \text{(c)} \\
 V[t] &\leftarrow \begin{cases}
     V_\text{rest} \text{\quad\qquad\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{hard reset}} \\
     V[t] - V_\text{thr}  \text{\qquad\qquad$\cdots$ if $V[t]>V_\text{thr}$ and \textit{soft reset}} \\
-\end{cases} \tag{d}
-\label{eq:discrete-lif}
-\end{align}
+\end{cases} && \text{(d)}
+\end{aligned}
+```
 
 In Eq {eq}`eq:discrete-lif`$\textsf{a}$, $i_\text{decay}$ is the *current decay*
 value – same as defined for the $\texttt{IF}$ neuron; and in Eq

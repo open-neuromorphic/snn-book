@@ -11,12 +11,12 @@ project:
     - machine learning
     - deep learning
   authors:
-    - name: Guarav, Ramashish
+    - name: Gaurav, Ramashish
       affiliation: Virginia Tech, USA
       email: ramashishgaurav@gmail.com
     - name: Pedersen, Jens Egholm
-      affiliation: Stanford University, USA
-      email: jens@jepedersen.dk
+      affiliation: Technical University of Denmark
+      email: jegpe@dtu.dk
     - name: Bogdan, Petrut
       affiliation: Innatera
       email: petrut.bogdan@innatera.com
@@ -24,8 +24,16 @@ project:
   license: CC-BY-4.0
   plugins:
     - _plugins/dynamical-systems.mjs
+    - _plugins/draft-notice.mjs
+    - _plugins/rubric.mjs
+    - _plugins/sg-plot.mjs
+    - _plugins/pdf-fixups.mjs
+    - _plugins/latex-blocks.mjs
+    - _plugins/cite-this.mjs
   toc:
     - file: README.md
+      numbering: false
+    - file: acknowledgements.md
       numbering: false
     - file: topics/0_intro.md
       children:
@@ -33,49 +41,49 @@ project:
         - file: topics/0_why_snns.md
     - file: topics/1_foundations.md
       children:
-        - file: topics/1_1_neuron.md
-          children:
-            - file: topics/1_1_1_bio-neurons.md
-            - file: topics/1_1_2_glial-cells.md
+        # - file: topics/1_1_neuron.md
+          # children:
+            # - file: topics/1_1_1_bio-neurons.md
+            # - file: topics/1_1_2_glial-cells.md
         - file: topics/1_2_spiking.md
           children:
             - file: topics/1_2_1_point-neurons.md
-            - file: topics/1_2_2_spatial-neurons.md
+            # - file: topics/1_2_2_spatial-neurons.md
             - file: topics/1_2_3_spk-vs-artfcl.md
         - file: topics/1_3_encdec.md
           children:
             - file: topics/1_3_1_rate-enc.md
             - file: topics/1_3_2_temp-enc.md
             - file: topics/1_3_3_decoding.md
-        - file: topics/1_4_event_representations.md
-        - file: topics/1_4_snn.md
-          children:
-            - file: topics/1_4_1_why-snns.md
-            - file: topics/1_4_2_snn-basics.md
-        - file: topics/1_5_plasticity.md
+        # - file: topics/1_4_event_representations.md
+        # - file: topics/1_5_snn.md
+          # children:
+            # - file: topics/1_5_1_why-snns.md
+            # - file: topics/1_5_2_snn-basics.md
+        - file: topics/1_6_plasticity.md
     - file: topics/2_training.md
       children:
         - file: topics/2_1_credit_assignment.md
         - file: topics/2_2_surrogate_gradients.md
-        - file: topics/2_3_exact_gradients.md
-        - file: topics/2_4_meta_learning.md
-        - file: topics/2_5_biologically_inspired_training.md
-        - file: topics/2_6_evolutionary_algorithms.md
-        - file: topics/2_7_ann-to-snn_conversion.md
-        - file: topics/2_8_optimization.md
+        # - file: topics/2_3_exact_gradients.md
+        # - file: topics/2_4_meta_learning.md
+        # - file: topics/2_5_biologically_inspired_training.md
+        # - file: topics/2_6_evolutionary_algorithms.md
+        # - file: topics/2_7_ann-to-snn_conversion.md
+        # - file: topics/2_8_optimization.md
     - file: topics/3_hardware.md
       children:
         - file: topics/3_1_motivation.md
         - file: topics/3_2_hw_design_principles.md
-        - file: topics/3_3_toolchain.md
-        - file: topics/3_4_interoperability.md
-        - file: topics/3_5_performance_modelling.md
+        # - file: topics/3_3_toolchain.md
+        # - file: topics/3_4_interoperability.md
+        # - file: topics/3_5_performance_modelling.md
     - file: topics/appendices.md
       children:
-        - file: topics/a_dynamics.md
-        - file: topics/a_modeling_theories.md
-        - file: topics/a_datasets.md
-        - file: topics/a_tools.md
+        # - file: topics/a_dynamics.md
+        # - file: topics/a_modeling_theories.md
+        # - file: topics/a_datasets.md
+        # - file: topics/a_tools.md
         - file: topics/a_point_neurons_discretization.md
       numbering: false
     - file: glossary.md
@@ -97,59 +105,117 @@ project:
     headings: true
   exports:
     - format: pdf
-      template: arxiv_nips
+      output: snnbook.pdf
+      template: templates/plain_latex_book
       article_type: book
+      # Single source of truth for the release. Printed under the title on the
+      # PDF cover and read by _plugins/draft-notice.mjs for the per-chapter
+      # banners on both web and print. Bump this on every release.
+      book_version: '0.8'
+      # level sets the LaTeX sectioning depth per file so the book nests by TOC
+      # depth: 0 = \chapter (top-level topics), 1 = \section (their pages),
+      # 2 = \subsection (nested pages). Without this MyST defaults every file to
+      # \section, collapsing the whole book under one unnumbered chapter "0".
       articles:
-        - topics/0_intro.md
-        - topics/0_reader.md
-        - topics/0_why_snns.md
-        - topics/1_foundations.md
-        - topics/1_1_neuron.md
-        - topics/1_1_1_bio-neurons.md
-        - topics/1_1_2_glial-cells.md
-        - topics/1_2_spiking.md
-        - topics/1_2_1_point-neurons.md
-        - topics/1_2_2_spatial-neurons.md
-        - topics/1_2_3_spk-vs-artfcl.md
-        - topics/1_3_encdec.md
-        - topics/1_3_1_rate-enc.md
-        - topics/1_3_2_temp-enc.md
-        - topics/1_3_3_decoding.md
-        - topics/1_3_snn.md
-        - topics/1_4_event_representations.md
-        - topics/1_4_snn.md
-        - topics/1_4_1_why-snns.md
-        - topics/1_4_2_snn-basics.md
-        - topics/1_5_frameworks.md
-        - topics/2_training.md
-        - topics/2_1_credit_assignment.md
-        - topics/2_2_surrogate_gradients.md
-        - topics/2_3_exact_gradients.md
-        - topics/2_4_meta_learning.md
-        - topics/2_5_biologically_inspired_training.md
-        - topics/2_6_evolutionary_algorithms.md
-        - topics/2_7_ann-to-snn_conversion.md
-        - topics/2_8_optimization.md
-        - topics/3_hardware.md
-        - topics/3_1_motivation.md
-        - topics/3_2_hw_design_principles.md
-        - topics/3_3_toolchain.md
-        - topics/3_4_interoperability.md
-        - topics/3_5_performance_modelling.md
-        - topics/appendices.md
-        - topics/a_dynamics.md
-        - topics/a_modeling_theories.md
-        - topics/a_datasets.md
-        - topics/a_tools.md
-        - topics/a_point_neurons_discretization.md
+        - file: acknowledgements.md
+          level: 0
+        - file: topics/0_intro.md
+          level: 0
+        - file: topics/0_reader.md
+          level: 1
+        - file: topics/0_why_snns.md
+          level: 1
+        - file: topics/1_foundations.md
+          level: 0
+        #- file: topics/1_1_neuron.md
+        #  level: 1
+        #- file: topics/1_1_1_bio-neurons.md
+        #  level: 2
+        #- file: topics/1_1_2_glial-cells.md
+        #  level: 2
+        - file: topics/1_2_spiking.md
+          level: 1
+        - file: topics/1_2_1_point-neurons.md
+          level: 2
+        #- file: topics/1_2_2_spatial-neurons.md
+        #  level: 2
+        - file: topics/1_2_3_spk-vs-artfcl.md
+          level: 2
+        - file: topics/1_3_encdec.md
+          level: 1
+        - file: topics/1_3_1_rate-enc.md
+          level: 2
+        - file: topics/1_3_2_temp-enc.md
+          level: 2
+        - file: topics/1_3_3_decoding.md
+          level: 2
+        #- file: topics/1_4_event_representations.md
+        #  level: 1
+        #- file: topics/1_5_snn.md
+        #  level: 1
+        #- file: topics/1_5_1_why-snns.md
+        #  level: 2
+        #- file: topics/1_5_2_snn-basics.md
+        #  level: 2
+        - file: topics/1_6_plasticity.md
+          level: 1
+        - file: topics/2_training.md
+          level: 0
+        - file: topics/2_1_credit_assignment.md
+          level: 1
+        - file: topics/2_2_surrogate_gradients.md
+          level: 1
+        #- file: topics/2_3_exact_gradients.md
+        #  level: 1
+        #- file: topics/2_4_meta_learning.md
+        #  level: 1
+        #- file: topics/2_5_biologically_inspired_training.md
+        #  level: 1
+        #- file: topics/2_6_evolutionary_algorithms.md
+        #  level: 1
+        #- file: topics/2_7_ann-to-snn_conversion.md
+        #  level: 1
+        #- file: topics/2_8_optimization.md
+        #  level: 1
+        - file: topics/3_hardware.md
+          level: 0
+        - file: topics/3_1_motivation.md
+          level: 1
+        - file: topics/3_2_hw_design_principles.md
+          level: 1
+        #- file: topics/3_3_toolchain.md
+        #  level: 1
+        #- file: topics/3_4_interoperability.md
+        #  level: 1
+        #- file: topics/3_5_performance_modelling.md
+        #  level: 1
+        - file: topics/appendices.md
+          level: 0
+        # Appendix entries are chapters (level 0) so \appendix labels them A, B, C...
+        #- file: topics/a_dynamics.md
+        #  level: 0
+        #- file: topics/a_modeling_theories.md
+        #  level: 0
+        #- file: topics/a_datasets.md
+        #  level: 0
+        #- file: topics/a_tools.md
+        #  level: 0
+        - file: topics/a_point_neurons_discretization.md
+          level: 0
+        # Print only, and deliberately absent from the `toc` above: the web
+        # keeps each solution in a dropdown beside its exercise, while the PDF
+        # gathers them here so the answer is not sitting under the question.
+        - file: topics/a_solutions.md
+          level: 0
 
 parse:
   myst_enable_extensions:
     - amsmath
+  allowDangerousHtml: true
 site:
   template: book-theme
   options:
     folders: true
     logo_text: Practical Spiking Neural Networks
-  #   favicon: favicon.ico
+    favicon: _static/icons/icon.ico
   #   logo: site_logo.png

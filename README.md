@@ -5,23 +5,22 @@ numbering: false
 
 [![Discord](https://img.shields.io/discord/1044548629622439977)](https://discord.gg/aPFsSRA7Nf)
 [![Neuromorphic Computing](https://img.shields.io/badge/Collaboration_Network-Open_Neuromorphic-blue)](https://open-neuromorphic.org/neuromorphic-computing/)
-<!-- TODO: GitHub Stars and PDF repo
--->
+![GitHub Repo stars](https://img.shields.io/github/stars/open-neuromorphic/snn-book)
 
 A hands-on introduction to Spiking Neural Networks (SNNs) that teaches you to **design**, **build**, **train**, and **deploy** neuromorphic systems - both in simulation and on hardware.
 
-:::{warning icon=false} ✍️ Early Access - Draft Chapters Releasing Soon!
-This book is in its early stages. The first chapters will release in the beginning of 2026 🚀!
+:::{warning icon=false} ✍️ Version 0.8 - Work In Progress, More Chapters Releasing Soon!
+The first chapters are out! 🚀 Note that this is a work in progress.
+Some pieces are still missing -- more content will be released as soon as it's ready.
 
-Return here to check our progress and let us know what you think [on our Discord
-Channel](https://discord.gg/wAKVddWE6p): `#snnbook` 👋.
+Star us [on GitHub](https://github.com/open-neuromorphic/snn-book/), give us a shout on social media, and stay up to date by [joining us on Discord](https://discord.gg/wAKVddWE6p) 👋.
 :::
 
 ## What is this book about?
 
 ::::{aside}
 :::{seealso} Curious about the book?
-Read more about about [the motivation to write this book](/topics/intro)
+Read more about [the motivation to write this book](/topics/intro)
 and [why spiking neurons are cool](/topics/why-snns).
 :::
 ::::
@@ -42,6 +41,24 @@ hardware deployments**. We cover three topics:
 1. **Fundamentals**: Covered in the Topic 1: **Foundations of SNNs**
 2. **Training and Optimization**: Covered in the Topic 2: **Training SNNs**
 3. **Neuromorphic Hardware**: Covered in the Topic 3: **Deploying SNNs**
+
+## What is in version 0.8?
+
+All three topics have opened, each with a first set of draft chapters:
+
+* **Topic 1 - Foundations of SNNs**: what a spiking neuron is (point neuron
+  models, spiking vs. artificial neurons), encoding and decoding (rate
+  encoding, temporal encoding, decoding), and synaptic plasticity.
+* **Topic 2 - Training SNNs**: credit assignment in SNNs, and surrogate
+  gradient training.
+* **Topic 3 - Deploying SNNs**: why the hardware target matters, and hardware
+  design principles.
+* **Appendix**: discretization of point neuron models.
+
+Chapters on exact gradients, meta learning, biologically inspired and
+evolutionary training, ANN-to-SNN conversion, training optimization, the
+neuromorphic compilation toolchain, interoperability, and performance modelling
+are in preparation and will appear in later releases.
 
 ## How is this book written?
 This book is completely open-source and is freely available for everyone. It
