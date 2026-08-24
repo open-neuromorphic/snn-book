@@ -105,9 +105,13 @@ jobs:
       # The tag may have been pushed on its own or created through the releases
       # UI, so create the release only if it isn't there yet. --clobber makes
       # re-running the workflow on the same tag replace the assets.
+      # This job never checks the repository out — it only needs the two build
+      # artifacts — so `gh` has no git remote to infer the repository from and
+      # fails with "not a git repository". GH_REPO tells it directly.
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
           if ! gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             gh release create "$GITHUB_REF_NAME" \
