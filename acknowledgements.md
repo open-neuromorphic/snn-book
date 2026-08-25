@@ -33,7 +33,7 @@ published in August 2026.
 * **[Petrut Antoniu Bogdan](https://pabogdan.com)** -- Innatera
 * **[William Chapman](https://www.sandia.gov/ccr/staff/william-chapman/)** -- Sandia National Laboratories
 * **[Ramashish Gaurav](https://r-gaurav.github.io/)** -- Virginia Tech, USA
-* **[Gaspard Goupy](https://ggoupy.github.io/)** -- Université de Lyon
+* **[Gaspard Goupy](https://ggoupy.github.io/)** -- Nokia Bell Labs
 * **[Alexander Hadjiivanov](https://www.esciencecenter.nl/team/alexander-hadjiivanov/)** -- Netherlands eScience Center
 * **[Assel Kembay](https://akembay.github.io/)** -- University of California, Santa Cruz
 * **[Jens Egholm Pedersen](https://jepedersen.dk)** -- Technical University of Denmark
