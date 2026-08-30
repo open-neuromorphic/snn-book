@@ -75,7 +75,7 @@ ions on both sides of the membrane gives rise to a charge imbalance, which
 in turn translates into the membrane potential.
 
 The soma serves as the primary site for integrating incoming **Excitatory
-and Inhibitory Postsynaptic Potentials** 
+and Inhibitory Postsynaptic Potentials**
 (EPSPs and IPSPs, respectively;
 see @neurotransmitters). This integration occurs across the
 neuron's cell membrane, where the collective electrical influence of synaptic
@@ -96,10 +96,10 @@ thousands of dendrites, each of which contains special receptors for
 Synapses are covered in more detail below.
 
 Neurons can receive input in the form of raw external stimuli (in the case
-of biosensors) or excitatory or inhibitory action potentials generated 
+of biosensors) or excitatory or inhibitory action potentials generated
 by other neurons (EPSPs and IPSPs; see @neurotransmitters).
 For example, in the retina, light is absorbed by a special type of cell called
-a **photoreceptor**, 
+a **photoreceptor**,
 <!-- See Issue #118: https://github.com/open-neuromorphic/snn-book/issues/118 -->
 which triggers a series of chemical reactions and
 electrical connections that ultimately translate the intensity of the absorbed
@@ -121,7 +121,7 @@ meaning that ions can flow from either neuron into
 the other, so there are no distinct "source" and "target" neurons.
 This mechanism is critical for ensuring rapid responses that are more or less
 automatic. For instance, gap junctions exist between two types of neurons
-(photoreceptors and horizontal cells) 
+(photoreceptors and horizontal cells)
 <!-- See Issue #118: https://github.com/open-neuromorphic/snn-book/issues/118 -->
 in the very first layers of the
 retina, which plays a role in the rapid adaptation of the retina to
@@ -221,7 +221,7 @@ communication with the next synaptically connected neuron.
 Neurotransmitters are broadly categorized into **excitatory** and
 **inhibitory**. Excitatory neurotransmitters, such as glutamate, induce a
 depolarisation of the membrane of the receiving neuron known as an
-**EPSP**, making it more likely to produce an action potential. 
+**EPSP**, making it more likely to produce an action potential.
 In contrast, inhibitory neurotransmitters, such as GABA, induce an **IPSP**,
 which leads to the **hyperpolarisation** of the membrane of the
 receiving neuron and makes an action potential _less_ likely.
@@ -250,19 +250,3 @@ neuron.
 
 In the next chapter (@spiking), we will cover the basics of spiking
 neurons, which are artificial models of biological neurons.
-
----
-
-ToDo:
-
-- [ ] Add references for the membrane potential evolution and the axon.
-- [ ] Add dynamic plots for the temporal evolution of the membrane potential.
-- [ ] Add a plot showing how the membrane is charged.
-- [ ] Add an animated plot of a synapse, including neurotransmitter release
-and binding.
-- [ ] Add an interactive plot of the activation threshold.
-- [ ] Add an animated plot of an ion pump.
-- [ ] Add an animated plot of action potential propagation.
-- [ ] Outline the Hodgkin-Huxley model.
-- [ ] Add an interactive plot for the Hodgkin-Huxley model with variable
-parameters.
