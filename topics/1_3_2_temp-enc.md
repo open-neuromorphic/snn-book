@@ -1,6 +1,9 @@
 (chapter:temp-enc)=
 # Temporal Encoding
 
+```{draft}
+```
+
 Our perception of the world relies of various biosensors, which need to convey
 what is going on in our environment to the brain
 [@Gollisch.Meister-2008-RapidNeural].
@@ -48,7 +51,7 @@ In this chapter, we will introduce two latency-based encoding schemes:
 
 - **Time-to-First-Spike (TTFS)**: a straightforward scheme
  where neurons are allowed to spike only once (similarly to
- [Rank Order Encoding (ROC)](#))
+ Rank Order Encoding (ROC))
 - **Gaussian Receptive Fields (GRFs)**: a population-based scheme using
 overlapping Gaussians to encode each input channel.
 

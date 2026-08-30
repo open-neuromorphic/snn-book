@@ -23,13 +23,13 @@
    linear-gradient(#DDD 50px, transparent 0);
   background-repeat: no-repeat;
   background-size: 75px 175px, 100% 100px, 100% 16px, 100% 30px;
-  background-position: -185px 0, center 0, center 115px, center 142px;
+  background-position: -75px 0, center 0, center 115px, center 142px;
   box-sizing: border-box;
   animation: animloader 1s linear infinite;
 }
 
 @keyframes animloader {
   to {
-    background-position: 185px 0, center 0, center 115px, center 142px;
+    background-position: calc(100% + 75px) 0, center 0, center 115px, center 142px;
   }
 }

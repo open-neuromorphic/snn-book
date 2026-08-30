@@ -1,0 +1,33 @@
+/* Single-panel interactive plots: keep their current (~Fig 3) width, centered.
+   The side-by-side V3 plot (sg-v3-plot) is intentionally left full-width. */
+#sg-atan-plot,
+#sg-fwd-plot,
+#sg-dual-plot {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* α slider card must be the SAME width as the plot above it.
+   It was shrink-wrapping to its text (~200px) because the surrounding
+   layout centers its children and the card had no explicit width — whereas
+   the plot div fills because it carries an inline width:100%. Give the card
+   the same width:100% (capped to the plot width) so the two line up. */
+#sg-atan-slider-wrap,
+#sg-fwd-slider-wrap,
+#sg-dual-slider-wrap {
+  width: 100%;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* the range input itself spans the full card width */
+#sg-atan-slider,
+#sg-fwd-slider,
+#sg-dual-slider {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
