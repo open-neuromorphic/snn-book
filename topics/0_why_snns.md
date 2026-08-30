@@ -5,9 +5,10 @@ numbering: false
 # Why spiking networks?
 
 Artificial Neural Networks (ANNs) excel at pattern recognition and
-decision-making, but biological brains are fundamentally more capable; and
-brains solve harder problems while consuming vastly less energy! The key
-difference lies in how neurons compute.
+decision-making. Biological brains rely on the same principles, but
+are fundamentally more capable; and, somehow, brains solve harder problems
+while consuming vastly less energy! The key difference lies in how neurons
+compute.
 
 **Biological neurons are hybrid systems**: They gather analog information
 internally through continuous _chemical_ and _electrical_ processes, but
@@ -39,3 +40,14 @@ neuromorphic chips/systems is another complex task.
 train, and deploy SNNs on neuromorphic hardware effectively. In this book, we
 start with the fundamentals and build toward real-world applications with
 neuromorphic systems.
+
+```{raw} latex
+% End of the front matter (acknowledgements + preface, roman "I./II." chapters).
+% Restore the default "Topic N" chapter style and arabic numbering, then switch
+% to the numbered book body: arabic page 1, Topic 1 starts next.
+\makeatletter\let\@makechapterhead\snnMainChapterHead\makeatother
+\renewcommand{\thechapter}{\arabic{chapter}}
+\setcounter{chapter}{0}
+\mainmatter
+\setcounter{secnumdepth}{2}
+```

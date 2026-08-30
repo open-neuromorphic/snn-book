@@ -1,5 +1,8 @@
 (evolutionary_algorithms)=
-# Evolutionary Training Algorithms
+# Evolutionary Training Algorithms *(upcoming)*
+
+```{upcoming}
+```
 
 **Core idea:** Evolve network parameters through population-based search
 - **Neuroevolution**: Directly optimize connection weights and architectures

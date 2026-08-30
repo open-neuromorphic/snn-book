@@ -19,7 +19,7 @@
     .err { fill: #c0392b; }
 
     /* input: fade in at 12.5%–18.75% */
-    .anim-input-val { opacity: 0; animation: fade-in-input var(--cycle) ease infinite; }
+    .anim-input-val { opacity: 1; animation: fade-in-input var(--cycle) ease infinite; }
     @keyframes fade-in-input {
       0%, 12.5%      { opacity: 0; }
       18.75%, 93.75% { opacity: 1; }
@@ -27,7 +27,7 @@
     }
 
     /* output arrow & label: fade in at 25%–31.25% */
-    .anim-output-val { opacity: 0; animation: fade-in-output var(--cycle) ease infinite; }
+    .anim-output-val { opacity: 1; animation: fade-in-output var(--cycle) ease infinite; }
     @keyframes fade-in-output {
       0%, 25%        { opacity: 0; }
       31.25%, 93.75% { opacity: 1; }
@@ -35,7 +35,7 @@
     }
 
     /* goal & comparison node: fade in at 37.5%–43.75% */
-    .anim-goal { opacity: 0; animation: fade-in-goal var(--cycle) ease infinite; }
+    .anim-goal { opacity: 1; animation: fade-in-goal var(--cycle) ease infinite; }
     @keyframes fade-in-goal {
       0%, 37.5%      { opacity: 0; }
       43.75%, 93.75% { opacity: 1; }
@@ -61,13 +61,13 @@
     }
 
     /* weight: crossfade at 62.5%–68.75% */
-    .anim-weight-old { animation: weight-old var(--cycle) ease infinite; }
+    .anim-weight-old { opacity: 0; animation: weight-old var(--cycle) ease infinite; }
     @keyframes weight-old {
       0%, 62.5%      { opacity: 1; }
       68.75%, 93.75% { opacity: 0; }
       100%           { opacity: 1; }
     }
-    .anim-weight-new { opacity: 0; animation: weight-new var(--cycle) ease infinite; }
+    .anim-weight-new { opacity: 1; animation: weight-new var(--cycle) ease infinite; }
     @keyframes weight-new {
       0%, 62.5%      { opacity: 0; }
       68.75%, 93.75% { opacity: 1; }
@@ -84,7 +84,7 @@
     }
 
     /* corrected output "1": fade in at 75%–81.25% */
-    .anim-output-val-corrected { opacity: 0; animation: val-corrected var(--cycle) ease infinite; }
+    .anim-output-val-corrected { opacity: 1; animation: val-corrected var(--cycle) ease infinite; }
     @keyframes val-corrected {
       0%, 75%        { opacity: 0; }
       81.25%, 93.75% { opacity: 1; }
@@ -101,7 +101,7 @@
     }
 
     /* equals sign: fade in at 81.25%–87.5% */
-    .anim-equals { opacity: 0; animation: fade-equals var(--cycle) ease infinite; }
+    .anim-equals { opacity: 1; animation: fade-equals var(--cycle) ease infinite; }
     @keyframes fade-equals {
       0%, 81.25%     { opacity: 0; }
       87.5%, 93.75%  { opacity: 1; }

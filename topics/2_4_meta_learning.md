@@ -1,5 +1,8 @@
 (meta_learning)=
-# Meta Learning
+# Meta Learning *(upcoming)*
+
+```{upcoming}
+```
 
 **Core idea:** Learn how to learn - optimize the learning algorithm itself
 - **Architecture search**: Automated discovery of optimal SNN topologies

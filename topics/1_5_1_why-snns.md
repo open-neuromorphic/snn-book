@@ -1,4 +1,4 @@
-(chapter:snn-basics)=
+(chapter:why-snns)=
 # Why SNNs?
 
 ### Should we write a topic on why Spiking Neurons

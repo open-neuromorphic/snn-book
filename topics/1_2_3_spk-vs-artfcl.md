@@ -1,12 +1,15 @@
 (chapter:spk-vs-artfcl)=
 # Spiking vs Artificial Neurons
 
+```{draft}
+```
+
 SNNs are considered to be the _third_ generation of neural networks
 [@maass1997networks] compared to the ANNs, which are _second_ generation.
 Therefore, it is but obvious to compare spiking neurons with artificial neurons
 because of their foundational role in building neural networks; note that SNNs
-and ANNs are mostly isomorphic in architecture - as we will see in
-[Chapter %s](#snn), and, in [Topic {number}](training), we will see that the SNNs'
+and ANNs are mostly isomorphic in architecture, and, in
+[Topic {number}](#training), we will see that the SNNs'
 training and inference methodologies are heavily inspired from deep learning
 literature.
 
@@ -24,7 +27,7 @@ spiking neuron.
 This factual observation enables us to build rate-coding based SNNs and train
 them using deep learning based methods. In fact, one of the earliest and most
 effective methods to build SNNs: **ANN-to-SNN** conversion (as we will see in
-[Topic {number}](training) chapters), is foundationally based on artificial
+[](#training) chapters), is foundationally based on artificial
 neurons being the rate approximation of spiking neurons. We next demonstrate
 this _rate approximation_ of an artificial neuron with a LIF neuron.
 
@@ -52,7 +55,7 @@ respect to _rate approximation_ remains unchanged.
 
 The article develops the intuition behind activation functions in traditional
 (i.e., the second generation of) neural networks by conducting a series of
-experiments, where the LIF neuron is simulated for variying values of $J(t)$. In
+experiments, where the LIF neuron is simulated for varying values of $J(t)$. In
 the article, under the **Experiments** section, the first plot (shown below):
 
 ```{figure}../assets/topic_1/chapter_1_2/output_j_0.png
@@ -118,6 +121,6 @@ refractory period ($\tau_{ref}$) and membrane time-constant ($\tau_{RC}$) of the
 simulated LIF neuron, one can very closely match its firing rate profile to the
 activation output of $\texttt{ReLU}$ (or of $\texttt{sigmoid}$) functions.
 
-Thus, emprirically, we see that spiking neurons "rate approximate" the
+Thus, empirically, we see that spiking neurons "rate approximate" the
 artificial neurons! Note that this analysis will remain unchanged for
 time-varying input $J(t)$ as well.

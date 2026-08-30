@@ -1,0 +1,133 @@
+name: Build
+
+# The build of record, shared by CI (ci.yml) and Release (release.yml) so both
+# produce the book exactly the same way. Not triggered on its own — callers
+# invoke it with `uses: ./.github/workflows/build.yml`.
+#
+# Leaves two artifacts on the calling run:
+#   site        the static website (contents of _build/html)
+#   snnbook-pdf snnbook.pdf
+on:
+  workflow_call:
+    inputs:
+      analytics:
+        description: >
+          Stamp the Umami analytics tag into the built pages. True only for
+          what we publish — PR builds stay untagged so downloaded previews
+          don't report hits.
+        type: boolean
+        default: false
+
+jobs:
+  # Unit tests for the build scripts (scripts/*.test.mjs) under vitest. Plain
+  # node here rather than Nix: these tests only need node, and setup-node is
+  # much faster than realising a devShell.
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # `npm install`, not `npm ci` — package-lock.json is gitignored, so
+      # there is no lockfile in the checkout to install from.
+      - name: Install node dependencies
+        run: npm install
+
+      - name: Run vitest
+        run: npm test
+
+  html:
+    name: Static site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Nix gives CI the exact toolchain from flake.nix — the same one
+      # `nix develop` provides locally. One environment definition for both,
+      # so there is nothing to keep in sync.
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Cache the Nix store
+        uses: nix-community/cache-nix-action@v6
+        with:
+          primary-key: nix-html-${{ runner.os }}-${{ hashFiles('flake.nix', 'flake.lock') }}
+          restore-prefixes-first-match: nix-html-${{ runner.os }}-
+          gc-max-store-size-linux: 4G
+
+      # The `html` devShell omits texlive/inkscape (PDF-only), so this job
+      # doesn't pay for that closure. The shellHook runs `uv sync`, so Python
+      # deps are installed here too.
+      - name: Build the site
+        run: nix develop .#html --command make ${{ inputs.analytics && 'html-release' || 'html' }}
+
+      - name: Verify a site was produced
+        run: |
+          test -f _build/html/index.html || {
+            echo "::error::_build/html/index.html is missing — the site build produced nothing"
+            exit 1
+          }
+          du -sh _build/html
+
+      # Guards against the analytics step silently doing nothing (a theme
+      # change that drops </head>, a rename of scripts/inject-analytics.mjs).
+      - name: Verify the analytics tag was injected
+        if: inputs.analytics
+        run: |
+          grep -qF 'analytics.jepedersen.dk/script.js' _build/html/index.html || {
+            echo "::error::The Umami tag is missing from the built index.html"
+            exit 1
+          }
+
+      - name: Upload the site
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: _build/html
+          if-no-files-found: error
+
+  pdf:
+    name: PDF
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      # Separate cache key from the html job: this closure additionally holds
+      # texlive + inkscape and is far larger. If build time is still a concern,
+      # slim `texliveFull` in flake.nix to a custom scheme, or push the closure
+      # to a Cachix cache.
+      - name: Cache the Nix store
+        uses: nix-community/cache-nix-action@v6
+        with:
+          primary-key: nix-pdf-${{ runner.os }}-${{ hashFiles('flake.nix', 'flake.lock') }}
+          restore-prefixes-first-match: nix-pdf-${{ runner.os }}-
+          gc-max-store-size-linux: 8G
+
+      # `make pdf` = PDF_EXPORT=1 (print-safe cross-references) + DYNSIM_STATIC=1
+      # (static PNG fallbacks for the interactive widgets) + the Inkscape
+      # DBus/portal env fix.
+      - name: Build the book PDF
+        run: nix develop --command make pdf
+
+      # myst.yml declares `output: snnbook.pdf`, which lands at the project root.
+      - name: Verify a PDF was produced
+        run: |
+          test -f snnbook.pdf || {
+            echo "::error::snnbook.pdf was not produced"
+            exit 1
+          }
+          ls -lh snnbook.pdf
+
+      - name: Upload the PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: snnbook-pdf
+          path: snnbook.pdf
+          if-no-files-found: error

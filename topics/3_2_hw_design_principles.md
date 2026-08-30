@@ -6,3 +6,6 @@ authors:
 ---
 (chapter:hw_design_principles)=
 # Hardware design principles
+
+```{draft}
+```

@@ -2,10 +2,17 @@
 kernelspec:
   name: python3
   display_name: 'Python 3'
+authors:
+- name: Goupy, Gaspard
+  affiliation: Nokia Bell Labs
+  email: gaspard.goupy@nokia-bell-labs.com
 ---
 
 (chapter:plasticity)=
 # What is Synaptic Plasticity?
+
+```{draft}
+```
 
 In the previous chapters, we saw how spikes travel across synapses and how
 synaptic weights control the flow of information in SNNs. Up to now, those
