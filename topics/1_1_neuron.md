@@ -1,38 +1,328 @@
+---
+authors:
+- name: Hadjiivanov, Alexander
+  affiliation: Netherlands eScience Center
+---
 (neuron)=
 # What is a neuron?
 
 ---
-Wikipedia defines a **neuron** as (accessed: 20th June, 2025):
+Artificial intelligence (AI) as a field was born from the drive to understand
+and model key functions of biological nervous systems.
+The neuromorphic field draws inspiration from the same source, with the added
+goal of modelling the computational aspects of the brain much more closely
+than the currently dominant AI approach - **deep learning**.
 
-`An excitable cell that fires electric signals called action potentials across a
-neural network in the nervous system.`
+The core functional element of a nervous system is the **neuron**, which
+Wikipedia defines as follows [@enwiki:1362551640]:
 
-Our brain has more than **80 billion** neurons, and they communicate with each
-other via **synapses**. On average, each neuron connects to about **7000** other
-neurons; and estimates say that the human brain has about **100 trillion**
-synapses.
+> An excitable cell that fires electric signals called action potentials across a
+neural network in the nervous system.
 
-Note that apart from neurons, our brain also has **glial cells**. On one hand
-where the neurons are excitable cells that enable thought, sensation, movement,
-reasoning, speech, vision, etc., on the other, the glial cells support, protect,
-and nourish neurons by forming myelin and participating in the brain's immune
-defense.
+Neurons are cells that specialize in processing input stimuli from the
+environment and producing signals of their own
+(known as action potentials or **{term}`spikes <spike>`**).
+These processes, known as **{term}`encoding`** and
+**{term}`decoding`** [@DayanAbbott_2001_TheoreticalNeuroscience], can be modelled using
+various algorithms, some of which are covered in [](#chapter:encdec).
+Models of spike-based processing are covered in [](#spiking).
 
-In this chapter, we will study about **Biological Neurons** and **Glial Cells**,
-and their different types.
+Neurons come in many different shapes and display a variety of activation
+patterns.
+At the sensory (or **afferent**) end of the nervous system,
+biosensors (such as the eye and the ear) serve as interfaces to the world,
+allowing an organism to perceive and manipulate its environment.
+Inside those biosensors, populations of specialized neurons inside serve
+the function of converting raw stimuli into spikes that the rest of the
+nervous system can understand.
+For instance, in the eyes of most mammals, this function is carried out by
+the **retina** - a layered set of at least five major types of neurons that
+convert light into spikes.
+Similarly, the **cochlea** inside the ear contains neurons that convert
+sound into spikes.
+All biological organisms have some mechanisms of sensing their
+environment, although those mechanisms do not necessarily involve
+a nervous system.
+For instance, while single-celled organisms can sense the presence
+of chemicals (such as food or toxins), they do so without the help
+of a any neurons.
 
-```{note}
-Include a pic of biological neuron with glial cells around it, myelin sheath
-etc.
+At the motor (or **efferent**) end of the nervous system, there are
+neurons that deliver command spikes to various organs, such as muscles, glands
+and internal organs. Efferent neurons provide the mechanism for moving
+the body, reacting to stimuli and deliberately manipulating the environment.
 
-### Dales Principle
-and How SNNs violate that?
+Afferent and efferent neurons together form the **peripheral** nervous system.
+In contrast, neurons in the **central** nervous system are responsible for
+higher-order processing of all incoming spikes and producing other spikes
+that can be interpreted as commands by different organs and tissues, such as
+muscles, glands and internal organs.
+This makes the central nervous system the "control center" of the body.
 
-### Biological Neurons
-(sec:bio-neuron)=
-### Action Potentials
+Altogether, the human brain has more than **80 billion neurons**, which
+communicate with each other via electrically conductive connections known as
+**synapses**, which are in excess of **100 trillion** in the human brain
+[@Azevedo-2013-AutomaticIsotropic].
+On average, each neuron connects to about **7000** other neurons,
+creating biological **neural networks** which {term}`artificial <ANN>` and
+{term}`spiking <SNN>` neural networks are modelled after.
 
-Perhaps look here: https://pure.rug.nl/ws/portalfiles/portal/1106997626/Complete_thesis.pdf
+Apart from neurons, our brain also has a number of other
+types of cells, such as **glial cells**, which perform
+various maintenance functions necessary to maintain a healthy brain.
+Neurons are excitable cells that enable thought, sensation, perception,
+movement, reasoning, speech, vision and other functions.
+In contrast, glial cells support, protect, and nourish neurons by
+forming **myelin** and participating in the brain's immune defense.
 
-Introduce the notations for membrane potential, V[t], input current I[t], etc. here and then explain them in the Spiking Neurons section.
+In this chapter, we will cover different types of  biological neurons and
+glial cells. Also, as this is the first chapter, we will define
+the notations for the neuron's stateful characteristics and variables,
+which we will consistently use throughout the rest of this book.
+
+
+## Biological Neurons
+
+Biological neurons are specialized cells that play a central role in sensing,
+information processing, cognition and learning, controlling essential
+involuntary
+functions of the body (such as breathing, heart rate, and hormone regulation),
+as well as voluntary functions (such as fine and coarse motor control)
+that allow animals to move
+in space and manipulate their environment.
+A peculiar feature of neurons is that they lack the key cellular
+structures responsible for mitosis, and therefore neurons are unable
+to divide like other cells. Nevertheless, new neurons are still generated in
+in certain certain parts of the nervous system, such as in the olfactory bulb
+and the hippocampus (@Appleby.Kempermann.ea-2011-RoleAdditive).
+
+The physical architecture of a neuron is highly specialized for communication.
+The main structural components of a neuron are the **soma** (or cell body),
+**dendrites**, the **axon**, and **axon terminals** (or synaptic endings). These
+are the primary components of interest to us with respect to simulating a
+biological neuron. Other components of a biological neuron include
+the **nucleus**, the **axon hillock**, **myelin sheath**,
+**nodes of Ranvier**, **ion channels** and so forth. Note that the computational
+complexity of simulating a biological neuron depends on the desired fidelity.
+That is, a simulation that takes into account only the dynamics of the soma
+is computationally simpler and more efficient than one that also includes
+axonal and myelin-related dynamics.
+
+The anatomical structure of a neuron is shown in @fig:bio-neuron.
+
+```{figure} ../assets/topic_1/chapter_1_1/bio_neuron.png
+:label: fig:bio-neuron
+:align: center
+
+A biological neuron. Adapted from
+[Complete neuron cell diagram](https://en.wikipedia.org/wiki/File:Complete_neuron_cell_diagram_en.svg)
+by [LadyofHats](https://commons.wikimedia.org/wiki/User:LadyofHats),
+public domain, Wikimedia Commons.
 ```
+
+### Soma
+
+The cell body of the neuron, known as the soma, contains the nucleus and
+essential organelles (such as ribosomes and mitochondria), which are necessary
+for maintaining the neuron's physiological functions.
+
+A fundamental characteristic of neurons is that they are
+electrically **charged**.
+This charge arises from a difference in ionic concentrations across the cell
+membrane in the soma, which induces a potential difference known as the
+**{term}`membrane potential`**. In humans, the membrane potential of most neurons
+in the absence of any external stimulation is around $−70~mV$.
+This is known as the **resting potential**.
+
+Like most cells in the body, the membrane of the neuron is composed of a double
+lipid layer, which is an excellent electrical insulator.
+This allows the membrane to function as a capacitor, where the interior and
+exterior of the cells function as the electrodes.
+
+While the membrane facilitates the accumulation and maintenance of
+electrical charge, the _process_ of charging and discharging the membrane
+depends on special protein structures known as **ion channels**.
+As the membrane itself is impermeable, ion channels serve as tunnels for
+transporting specific types of ions across the membrane.
+For instance, there are $Na^{+}$, $K^{+}$ and $Ca^{2+}$ channels that transport
+exclusively the respective ions across the membrane, either from the interior
+towards the intercellular space or vice versa. The concentration imbalance of
+ions on both sides of the membrane gives rise to a charge imbalance, which
+in turn translates into the membrane potential.
+
+The soma serves as the primary site for integrating incoming **Excitatory
+and Inhibitory Postsynaptic Potentials**
+(EPSPs and IPSPs, respectively;
+see @neurotransmitters). This integration occurs across the
+neuron's cell membrane, where the collective electrical influence of synaptic
+inputs (@synapses) determines whether the membrane potential in the soma
+reaches the threshold required to trigger an action potential
+(@action-potential) at the axon hillock (@axon).
+
+### Dendrites
+
+Inside a neuron, input in the form of electric pulses propagates in the
+direction from dendrites towards the soma and ultimately the axon, which
+transmits the neuron's activation to other neurons.
+
+Dendrites, the primary input receptors of neurons, are active processing
+units that can locally filter and amplify incoming signals. A neuron can have
+thousands of dendrites, each of which contains special receptors for
+**neurotransmitters** released by the **synaptic bouton** at the tip of an axon.
+Synapses are covered in more detail below.
+
+Neurons can receive input in the form of raw external stimuli (in the case
+of biosensors) or excitatory or inhibitory action potentials generated
+by other neurons (EPSPs and IPSPs; see @neurotransmitters).
+For example, in the retina, light is absorbed by a special type of cell called
+a **photoreceptor**,
+<!-- See Issue #118: https://github.com/open-neuromorphic/snn-book/issues/118 -->
+which triggers a series of chemical reactions and
+electrical connections that ultimately translate the intensity of the absorbed
+light into electric current. This current flows into other neurons,
+ultimately generating action potentials that travel down the optic nerve and
+become input stimuli for other neurons in the brain.
+
+### Synapses
+
+Neurons communicate with each other via **synapses**, which are channels
+that propagate electric pulses between two neurons.
+There are two distinct types of biological synapses: electrical and chemical.
+Electrical synapses, also known as **gap junctions**
+[@Shimizu.Stopfer-2013-GapJunctions], are conductive channels that allow
+ions to flow directly from one cell to another, enabling
+almost instantaneous, synchronized communication.
+Importantly, this communication is **bidirectional**,
+meaning that ions can flow from either neuron into
+the other, so there are no distinct "source" and "target" neurons.
+This mechanism is critical for ensuring rapid responses that are more or less
+automatic. For instance, gap junctions exist between two types of neurons
+(photoreceptors and horizontal cells)
+<!-- See Issue #118: https://github.com/open-neuromorphic/snn-book/issues/118 -->
+in the very first layers of the
+retina, which plays a role in the rapid adaptation of the retina to
+changes in illumination.
+Gap junctions also play an important role in the
+synchronisation of brain waves [@Bennett.Zukin-2004-ElectricalCoupling].
+
+In contrast, chemical synapses are characterized by the presence
+of a physical gap (known as the **synaptic cleft**) between
+the transmitting and receiving ends.
+Chemical synapses contain multiple tiny capsules called **vesicles** that are
+full of chemicals known as **neurotransmitters**.
+When an action potential arrives at a synapse on the side of the source neuron,
+it causes vesicles to burst and release their neurotransmitters into
+the synaptic cleft. The neurotransmitters diffuse across the gap and
+bind to receptors on the receiving neuron, triggering a new electrical response,
+this time inside the dendrite of the receiving neuron.
+This dendritic current is propagated to the soma of the receiving neuron,
+where it adds to the total input of the neuron.
+Since the action potentials transmitted via axons cannot propagate directly
+through the synaptic cleft, this structure ensures that communication
+via chemical synapses is **unidirectional**, so there are distinct
+source and target neurons.
+
+### Axon
+
+The axon is a wire-like structure that extends from the soma to other neurons.
+It the primary output channel of the neuron.
+In some cases, the axon can reach a length of more than one meter
+[@bear2025neuroscience].
+While a single neuron can have hundreds or thousands of dendrites,
+it typically has only one axon.
+
+At the base of the axon lies the axon hillock, a crucial junction where
+the neuron integrates the influx of current received via dendrites.
+This current causes the membrane to *de*polarize, shifting the state
+of the neuron away from the resting potential. If the membrane depolarisation
+reaches a certain critical level known as the **threshold**, the neuron enters
+a regime of cascading excitation that ultimately results in an
+[action potential](@action-potential),
+which travels rapidly down the axon and contributes to the activation
+of other neurons, thus closing the cycle.
+It is important to note that the threshold is not a physical quantity that
+can be measured independently; rather, it emerges dynamically from the current
+neuron state, particularly the membrane depolarisation level, the amount of
+incoming current from the dendrites, the time constant of the membrane and
+so forth.
+
+In many neurons, the axon is wrapped in a lipid-rich
+myelin sheath, which allows the electrical signal to "jump"
+between gaps called nodes of Ranvier, vastly increasing conduction velocity
+through a process known as **saltatory conduction**.
+The axon terminates in synaptic boutons, the specialized structures
+that transmit the signal to other cells, usually via
+**neurotransmitters**.
+
+### Action potential
+
+An action potential is a wave of rapid and temporary change in the membrane
+potential of a neuron that propagates as an electric impulse through the axon
+(@axon).
+
+Upon receiving stimuli via the dendrites, the ion channels of the neuron open,
+and the membrane potential changes due to the inflow and outflow of ions across
+the cell membrane. If the neurotransmitter (henceforth, stimulus) received
+by the dendrites is _excitatory_ and the resulting potential change causes
+sufficient depolarization to push the membrane potential beyond a certain
+**threshold** (generally around $−55~mV$ ), the membrane enters a process of
+rapid depolarization, reaching a level of up to $+40~mV$.
+Immediately after that, the membrane *re*polarizes and falls _below_ the resting
+potential. It eventually recovers to the resting potential after a certain
+amount of time (generally less than $2~ms$). This process results in the
+initiation of an **action potential** at the axon hillock
+(@fig:action-potential). The period of hyperpolarisation is also called
+the **{term}`refractory period`**, where the neuron is _least_ likely to generate
+another action potential.
+
+```{figure} ../assets/topic_1/chapter_1_1/action_potential.png
+:label: fig:action-potential
+:align: center
+
+An illustration of the process of rapid depolarisation that leads
+to an action potential. Credit:
+[Chris 73](https://en.wikipedia.org/wiki/User:Chris_73)
+[CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/),
+Wikimedia Commons.
+```
+
+<!-- TODO: Interactive / dynamic plot. -->
+
+### Neurotransmitters
+
+When the action potential reaches the axon terminals, it triggers the release
+of neurotransmitters into the **synaptic cleft**, thereby enabling
+communication with the next synaptically connected neuron.
+
+Neurotransmitters are broadly categorized into **excitatory** and
+**inhibitory**. Excitatory neurotransmitters, such as glutamate, induce a
+depolarisation of the membrane of the receiving neuron known as an
+**EPSP**, making it more likely to produce an action potential.
+In contrast, inhibitory neurotransmitters, such as GABA, induce an **IPSP**,
+which leads to the **hyperpolarisation** of the membrane of the
+receiving neuron and makes an action potential _less_ likely.
+These opposing effects play a crucial role in learning
+and ensuring the stability of brain activity as a whole.
+
+As a rule, synapses can be either inhibitory or excitatory based on what type
+of neurotransmitter they release, and in biological neural networks they never
+spontaneously switch from one type into the other. The ratio of inhibitory
+to excitatory synapses in the human brain is about $1:4$, meaning that about
+$20%$ of all synaptic connections in the brain are inhibitory. This is known
+as Dale's principle. Note that in general Spiking Neural Networks <!-- (cf. @snn)-->
+_do not_ follow Dale's principle in at least two ways,
+unless special care is taken to ensure that they do. First, {term}`SNN`s are rarely
+initialized in a way that ensures a $1:4$ ratio of inhibitory to excitatory
+connections. Second, learning rules such as backpropagation can turn an
+excitatory connection into an inhibitory one.
+
+In short, in a biological neuron, the dendrites _accept_ signals from the
+pre-synaptic neurons, and the soma _integrates_ those signals. If the effect of
+the integrated signals is _excitatory_, then an action potential is _generated_
+and _communicated_ to the next neuron. Note that if the effect of the integrated
+signals is _inhibitory_, then it _reduces_ the ability of the receiving neuron
+to generate an action potential, thus, _inhibiting_ the firing of the receiving
+neuron.
+
+In the next chapter (@spiking), we will cover the basics of spiking
+neurons, which are artificial models of biological neurons.
