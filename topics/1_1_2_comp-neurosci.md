@@ -2,8 +2,10 @@
 kernelspec:
   name: python3
   display_name: 'Python 3'
+authors:
+- name: Hadjiivanov, Alexander
+  affiliation: Netherlands eScience Center
 ---
-
 (chapter:comp-neurosci)=
 # Computational Neuroscience
 
