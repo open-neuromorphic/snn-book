@@ -13,15 +13,17 @@ functions of the body (such as breathing, heart rate, and hormone regulation),
 as well as voluntary functions (such as fine and coarse motor control)
 that allow animals to move
 in space and manipulate their environment.
-A peculiar feature of neurons is that they lack the key cellular
-structures responsible for mitosis, and therefore neurons are unable
-to divide like other cells. Nevertheless, new neurons are still generated in
+A peculiar feature of neurons is that once they mature, they lose the
+ability to undergo mitosis and cannot divide like other cells
+[@Aranda-Anzaldo-2012-PostmitoticState].
+Nevertheless, new neurons are still generated in
 in certain certain parts of the nervous system, such as in the olfactory bulb
-and the hippocampus (@Appleby.Kempermann.ea-2011-RoleAdditive).
+and the hippocampus [@Appleby.Kempermann.ea-2011-RoleAdditive].
 
 The physical architecture of a neuron is highly specialized for communication.
-The main structural components of a neuron are the **soma** (or cell body),
-**dendrites**, the **axon**, and **axon terminals** (or synaptic endings). These
+The main structural components of a neuron are the [**soma**](#sec:soma)
+(or cell body), [**dendrites**](#sec:dendrites), the [**axon**](#sec:axon), and
+[**synapses**](#sec:synapses) (or axon terminals). These
 are the primary components of interest to us with respect to simulating a
 biological neuron. Other components of a biological neuron include
 the **nucleus**, the **axon hillock**, **myelin sheath**,
@@ -43,6 +45,7 @@ by [LadyofHats](https://commons.wikimedia.org/wiki/User:LadyofHats),
 public domain, Wikimedia Commons.
 ```
 
+(sec:soma)=
 ## Soma
 
 The cell body of the neuron, known as the soma, contains the nucleus and
@@ -76,12 +79,13 @@ in turn translates into the membrane potential.
 The soma serves as the primary site for integrating incoming **Excitatory
 and Inhibitory Postsynaptic Potentials**
 (EPSPs and IPSPs, respectively;
-see @neurotransmitters). This integration occurs across the
-neuron's cell membrane, where the collective electrical influence of synaptic
-inputs (@synapses) determines whether the membrane potential in the soma
-reaches the threshold required to trigger an action potential
-(@action-potential) at the axon hillock (@axon).
+see [{name}](#sec:neurotransmitters). This integration occurs across the
+neuron's cell membrane, where the collective electrical influence of [synaptic
+inputs](#sec:synapses) determines whether the membrane potential in the soma
+reaches the threshold required to trigger an
+[action potential](#sec:action-potential) at the [axon hillock](#sec:axon).
 
+(sec:dendrites)=
 ## Dendrites
 
 Inside a neuron, input in the form of electric pulses propagates in the
@@ -91,12 +95,13 @@ transmits the neuron's activation to other neurons.
 Dendrites, the primary input receptors of neurons, are active processing
 units that can locally filter and amplify incoming signals. A neuron can have
 thousands of dendrites, each of which contains special receptors for
-**neurotransmitters** released by the **synaptic bouton** at the tip of an axon.
+[**neurotransmitters**](#sec:neurotransmitters) released by the
+**synaptic bouton** at the tip of an axon.
 Synapses are covered in more detail below.
 
 Neurons can receive input in the form of raw external stimuli (in the case
 of biosensors) or excitatory or inhibitory action potentials generated
-by other neurons (EPSPs and IPSPs; see @neurotransmitters).
+by other neurons (EPSPs and IPSPs; see [{name}](#sec:neurotransmitters)).
 For example, in the retina, light is absorbed by a special type of cell called
 a **photoreceptor**,<!-- See Issue #118: https://github.com/open-neuromorphic/snn-book/issues/118 -->
 which triggers a series of chemical reactions and
@@ -105,10 +110,11 @@ light into electric current. This current flows into other neurons,
 ultimately generating action potentials that travel down the optic nerve and
 become input stimuli for other neurons in the brain.
 
+(sec:synapses)=
 ## Synapses
 
-Neurons communicate with each other via **synapses**, which are channels
-that propagate electric pulses between two neurons.
+Neurons communicate with each other via [**synapses**](#sec:synapsees),
+which are channels that propagate electric pulses between two neurons.
 There are two distinct types of biological synapses: electrical and chemical.
 Electrical synapses, also known as **gap junctions**
 [@Shimizu.Stopfer-2013-GapJunctions], are conductive channels that allow
@@ -143,6 +149,7 @@ through the synaptic cleft, this structure ensures that communication
 via chemical synapses is **unidirectional**, so there are distinct
 source and target neurons.
 
+(sec:axon)=
 ## Axon
 
 The axon is a wire-like structure that extends from the soma to other neurons.
@@ -158,7 +165,7 @@ This current causes the membrane to *de*polarize, shifting the state
 of the neuron away from the resting potential. If the membrane depolarisation
 reaches a certain critical level known as the **threshold**, the neuron enters
 a regime of cascading excitation that ultimately results in an
-**{term}`action potential`**,
+[**action potential**](#sec:action-potential),
 which travels rapidly down the axon and contributes to the activation
 of other neurons, thus closing the cycle.
 It is important to note that the threshold is not a physical quantity that
@@ -175,11 +182,12 @@ The axon terminates in synaptic boutons, the specialized structures
 that transmit the signal to other cells, usually via
 **neurotransmitters**.
 
+(sec:action-potential)=
 ## Action potential
 
-An action potential is a wave of rapid and temporary change in the membrane
-potential of a neuron that propagates as an electric impulse through the axon
-(@axon).
+An action potential is a wave of rapid  temporary change in the membrane
+potential of a neuron that propagates as an electric impulse through the
+[axon](#axon).
 
 Upon receiving stimuli via the dendrites, the ion channels of the neuron open,
 and the membrane potential changes due to the inflow and outflow of ions across
@@ -209,6 +217,7 @@ Wikimedia Commons.
 
 <!-- TODO: Interactive / dynamic plot. -->
 
+(sec:neurotransmitters)=
 ## Neurotransmitters
 
 When the action potential reaches the axon terminals, it triggers the release
@@ -229,7 +238,7 @@ As a rule, synapses can be either inhibitory or excitatory based on what type
 of neurotransmitter they release, and in biological neural networks they never
 spontaneously switch from one type into the other. The ratio of inhibitory
 to excitatory synapses in the human brain is about $1:4$, meaning that about
-$20%$ of all synaptic connections in the brain are inhibitory. This is known
+$20\%$ of all synaptic connections in the brain are inhibitory. This is known
 as Dale's principle. Note that in general Spiking Neural Networks <!-- (cf. @snn)-->
 _do not_ follow Dale's principle in at least two ways,
 unless special care is taken to ensure that they do. First, {term}`SNN`s are rarely
@@ -245,5 +254,5 @@ signals is _inhibitory_, then it _reduces_ the ability of the receiving neuron
 to generate an action potential, thus, _inhibiting_ the firing of the receiving
 neuron.
 
-In the next chapter (@spiking), we will cover the basics of spiking
+In the next chapter ([](#spiking)), we will cover the basics of spiking
 neurons, which are artificial models of biological neurons.
