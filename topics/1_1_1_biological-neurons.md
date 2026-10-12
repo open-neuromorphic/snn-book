@@ -30,7 +30,7 @@ the **nucleus**, the **axon hillock**, **myelin sheath**,
 **nodes of Ranvier**, **ion channels** and so forth. Note that the computational
 complexity of simulating a biological neuron depends on the desired fidelity.
 That is, a simulation that takes into account only the dynamics of the soma
-is computationally simpler and more efficient than one that also includes
+is computationally _simpler_ and _more efficient_ than one that also includes
 axonal and myelin-related dynamics.
 
 The anatomical structure of a neuron is shown in @fig:bio-neuron.
@@ -39,7 +39,12 @@ The anatomical structure of a neuron is shown in @fig:bio-neuron.
 :label: fig:bio-neuron
 :align: center
 
-A biological neuron. Adapted from
+A biological neuron.
+In this chapter, we cover the main structural parts of the neuron: namely
+the [soma](#sec:soma), [dendrites](#sec:dendrites),
+the [axon](#sec:axon), [synapses](#sec:synapses) and
+[neurotransmitters](#sec:neurotransmitters).
+Adapted from
 [Complete neuron cell diagram](https://en.wikipedia.org/wiki/File:Complete_neuron_cell_diagram_en.svg)
 by [LadyofHats](https://commons.wikimedia.org/wiki/User:LadyofHats),
 public domain, Wikimedia Commons.
