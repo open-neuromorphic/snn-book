@@ -143,7 +143,7 @@ In contrast, chemical synapses are characterized by the presence
 of a physical gap (known as the **synaptic cleft**) between
 the transmitting and receiving ends.
 Chemical synapses contain multiple tiny capsules called **vesicles** that are
-full of chemicals known as **neurotransmitters**.
+full of chemicals known as [**neurotransmitters**](#sec:neurotransmitters).
 When an action potential arrives at a synapse on the side of the source neuron,
 it causes vesicles to burst and release their neurotransmitters into
 the synaptic cleft. The neurotransmitters diffuse across the gap and
@@ -228,35 +228,49 @@ Wikimedia Commons.
 ## Neurotransmitters
 
 When the action potential reaches the axon terminals, it triggers the release
-of neurotransmitters into the **synaptic cleft**, thereby enabling
-communication with the next synaptically connected neuron.
+of chemicals known as **neurotransmitters** into the **synaptic cleft**,
+thereby enabling communication with the next synaptically connected neuron.
+Neurotransmitters diffuse across the synaptic cleft and bind to specialised
+receptors on the receiving side. In turn, this causes **ion channels**
+in the postsynaptic neuron's membrane to open, letting $Na^{+}$ and $Ca^{2+}$
+ions flow through these channels and change the balance of charge
+across the membrane. This flow of charge induces electric pulses
+inside the [dendrites](#sec:dendrites) of the postsynaptic neuron.
 
-Neurotransmitters are broadly categorized into **excitatory** and
+These electric pulses are known as **Excitatory
+and Inhibitory Postsynaptic Potentials** (EPSPs and IPSPs, respectively).
+The type of postsynaptic potential is determined by the type
+of neurotransmitter that induces it.
+Accordingly, neurotransmitters are also categorized into **excitatory** and
 **inhibitory**. Excitatory neurotransmitters, such as glutamate, induce a
-depolarisation of the membrane of the receiving neuron known as an
-**EPSP**, making it more likely to produce an action potential.
-In contrast, inhibitory neurotransmitters, such as GABA, induce an **IPSP**,
-which leads to the **hyperpolarisation** of the membrane of the
-receiving neuron and makes an action potential _less_ likely.
+depolarisation of the membrane of the receiving neuron, evoking
+an EPSP, which makes the neuron more likely to produce an action potential.
+In contrast, inhibitory neurotransmitters, such as GABA, induce an
+IPSP, which leads to the **hyperpolarisation** of the membrane of the
+postsynaptic neuron and makes it _less_ likely to produce an action potential.
 These opposing effects play a crucial role in learning
 and ensuring the stability of brain activity as a whole.
 
-As a rule, synapses can be either inhibitory or excitatory based on what type
-of neurotransmitter they release, and in biological neural networks they never
-spontaneously switch from one type into the other. The ratio of inhibitory
-to excitatory synapses in the human brain is about $1:4$, meaning that about
+As a rule, synapses can also be either inhibitory or excitatory
+based on what type of neurotransmitter they release.
+In biological neural networks, synapses never spontaneously switch
+from one type into the other. The ratio of excitatory to
+inhibitory synapses in the human brain is about $4:1$, meaning that about
 $20\%$ of all synaptic connections in the brain are inhibitory. This is known
 as Dale's principle. Note that in general Spiking Neural Networks <!-- (cf. @snn)-->
 _do not_ follow Dale's principle in at least two ways,
-unless special care is taken to ensure that they do. First, {term}`SNN`s are rarely
-initialized in a way that ensures a $1:4$ ratio of inhibitory to excitatory
+unless special care is taken to ensure that they do.
+First, {term}`SNN`s are rarely
+initialized in a way that ensures a $4:1$ ratio of excitatory to inhibitory
 connections. Second, learning rules such as backpropagation can turn an
 excitatory connection into an inhibitory one.
+
+# Summary
 
 In short, in a biological neuron, the dendrites _accept_ signals from the
 pre-synaptic neurons, and the soma _integrates_ those signals. If the effect of
 the integrated signals is _excitatory_, then an action potential is _generated_
-and _communicated_ to the next neuron. Note that if the effect of the integrated
+and _communicated_ to the next neuron. If the effect of the integrated
 signals is _inhibitory_, then it _reduces_ the ability of the receiving neuron
 to generate an action potential, thus, _inhibiting_ the firing of the receiving
 neuron.
