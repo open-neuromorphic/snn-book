@@ -62,7 +62,8 @@ electrically **charged**.
 This charge arises from a difference in ionic concentrations across the cell
 membrane in the soma, which induces a potential difference known as the
 **{term}`membrane potential`**. In humans, the membrane potential of most neurons
-in the absence of any external stimulation is around $−70~mV$.
+in the absence of any external stimulation is around $−70~mV$
+[@Coward-2013-TheoreticalNeuroscience].
 This is known as the **resting potential**.
 
 Like most cells in the body, the membrane of the neuron is composed of a double
