@@ -268,19 +268,28 @@ postsynaptic neuron and makes it _less_ likely to produce an action potential.
 These opposing effects play a crucial role in learning
 and ensuring the stability of brain activity as a whole.
 
-As a rule, synapses can also be either inhibitory or excitatory
-based on what type of neurotransmitter they release.
-In biological neural networks, synapses never spontaneously switch
-from one type into the other. The ratio of excitatory to
-inhibitory synapses in the human brain is about $4:1$, meaning that about
-$20\%$ of all synaptic connections in the brain are inhibitory. This is known
-as Dale's principle. Note that in general Spiking Neural Networks <!-- (cf. @snn)-->
-_do not_ follow Dale's principle in at least two ways,
-unless special care is taken to ensure that they do.
-First, {term}`SNN`s are rarely
-initialized in a way that ensures a $4:1$ ratio of excitatory to inhibitory
-connections. Second, learning rules such as backpropagation can turn an
-excitatory connection into an inhibitory one.
+Most types of neurons release the same set of neurotransmitters at all of their
+synapses. Accordingly, most synapses have a reliable net inhibitory or
+excitatory effect on the neurons at the receiving end.
+Remarkably, the ratio of excitatory to inhibitory neurons in the brain seems
+to be stable at about $4:1$ [@Sahara.Yanagawa.ea-2012-FractionCortical].
+```{aside}
+The observation that a neuron releases the same set of neurotransmitters
+from all of its synapses is known as **Dale's principle**.
+While it generally holds true, it is subject to ongoing discussion
+[@Gutierrez.Baas-Thomas.ea-2026-WhatDale].
+```
+
+```{note}
+As with every other model of a physical system, artificial
+[spiking neurons](#spiking) (and {term}`SNN`s) deviate
+from their biological counterparts, unless special care is taken
+to ensure that they do not.
+For instance, SNNs are rarely initialized in a way that ensures
+a specific ratio of excitatory to inhibitory connections.
+Also, learning rules such as backpropagation can turn an excitatory
+connection into an inhibitory one and vice versa.
+```
 
 # Summary
 
