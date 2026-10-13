@@ -215,16 +215,18 @@ Upon receiving stimuli via the dendrites, the ion channels of the neuron open,
 and the membrane potential changes due to the inflow and outflow of ions across
 the cell membrane. If the neurotransmitter (henceforth, stimulus) received
 by the dendrites is _excitatory_ and the resulting potential change causes
-sufficient depolarization to push the membrane potential beyond a certain
+sufficient depolarization to increase the membrane potential beyond a certain
 **threshold** (generally around $−55~mV$ ), the membrane enters a process of
 rapid depolarization, reaching a level of up to $+40~mV$.
-Immediately after that, the membrane *re*polarizes and falls _below_ the resting
-potential. It eventually recovers to the resting potential after a certain
+Immediately after that, the membrane undergoes hyperpolarization
+and falls _below_ the resting potential.
+It eventually recovers to the resting potential after a certain
 amount of time (generally less than $2~ms$). This process results in the
 initiation of an **action potential** at the axon hillock
-(@fig:action-potential). The period of hyperpolarisation is also called
-the **{term}`refractory period`**, where the neuron is _least_ likely to generate
-another action potential.
+(@fig:action-potential). The period of time during which the membrane is in
+a hyperpolarized state is also called the **{term}`refractory period`**.
+The neuron is very likely to generate another action potential
+during the refractory period.
 
 ```{figure} ../assets/topic_1/chapter_1_1/action_potential.png
 :label: fig:action-potential
