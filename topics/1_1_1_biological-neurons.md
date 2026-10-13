@@ -166,25 +166,40 @@ In some cases, the axon can reach a length of more than one meter
 While a single neuron can have hundreds or thousands of dendrites,
 it typically has only one axon.
 
-At the base of the axon lies the axon hillock, a crucial junction where
-the neuron integrates the influx of current received via dendrites.
+The neuron integrates the influx of current received via dendrites
+at the axon hillock, a crucial junction between the soma and the axon.
 This current causes the membrane to *de*polarize, shifting the state
-of the neuron away from the resting potential. If the membrane depolarisation
-reaches a certain critical level known as the **threshold**, the neuron enters
-a regime of cascading excitation that ultimately results in an
+of the neuron away from the resting potential in the positive direction
+(the membrane becomes less negative).
+If the membrane depolarisation
+reaches a certain critical voltage level known as the **threshold**,
+the neuron enters a regime of cascading excitation that ultimately results in an
 [**action potential**](#sec:action-potential),
 which travels rapidly down the axon and contributes to the activation
 of other neurons, thus closing the cycle.
-It is important to note that the threshold is not a physical quantity that
-can be measured independently; rather, it emerges dynamically from the current
+
+```{note}
+It is important to mention that the threshold is not a physical quantity that
+can be measured directly; rather, it emerges dynamically from the current
 neuron state, particularly the membrane depolarisation level, the amount of
 incoming current from the dendrites, the time constant of the membrane and
 so forth.
+```
 
-In many neurons, the axon is wrapped in a lipid-rich
-myelin sheath, which allows the electrical signal to "jump"
-between gaps called nodes of Ranvier, vastly increasing conduction velocity
-through a process known as **saltatory conduction**.
+In many neurons, the axon is wrapped in a lipid-rich myelin layer known as
+the **myelin sheath**.
+Myelin acts as an insulator and prevents the dissipation of charge.
+In axons with a myelin sheath, the transmission of action potentials is
+much faster than in unmyelinated axons.
+
+```{aside}
+The boost in transmission speed is enabled by little gaps in the myelin sheath
+known as **nodes of Ranvier**.
+These gaps allow the action potential to regenerate at each node,
+creating the effect of "jumping" from one node to another
+in a process known as **saltatory conduction**.
+```
+
 The axon terminates in synaptic boutons, the specialized structures
 that transmit the signal to other cells, usually via
 **neurotransmitters**.
