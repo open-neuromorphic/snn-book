@@ -41,9 +41,7 @@ The anatomical structure of a neuron is shown in @fig:bio-neuron.
 
 A biological neuron.
 In this chapter, we cover the main structural parts of the neuron: namely
-the [soma](#sec:soma), [dendrites](#sec:dendrites),
-the [axon](#sec:axon), [synapses](#sec:synapses) and
-[neurotransmitters](#sec:neurotransmitters).
+the soma, dendrites, the axon, synapses and neurotransmitters.
 Adapted from
 [Complete neuron cell diagram](https://en.wikipedia.org/wiki/File:Complete_neuron_cell_diagram_en.svg)
 by [LadyofHats](https://commons.wikimedia.org/wiki/User:LadyofHats),
