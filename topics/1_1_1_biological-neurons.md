@@ -137,7 +137,7 @@ in the very first layers of the
 retina, which plays a role in the rapid adaptation of the retina to
 changes in illumination.
 Gap junctions also play an important role in the
-synchronisation of brain waves [@Bennett.Zukin-2004-ElectricalCoupling].
+synchronization of brain waves [@Bennett.Zukin-2004-ElectricalCoupling].
 
 In contrast, chemical synapses are characterized by the presence
 of a physical gap (known as the **synaptic cleft**) between
@@ -171,7 +171,7 @@ at the axon hillock, a crucial junction between the soma and the axon.
 This current causes the membrane to *de*polarize, shifting the state
 of the neuron away from the resting potential in the positive direction
 (the membrane becomes less negative).
-If the membrane depolarisation
+If the membrane depolarization
 reaches a certain critical voltage level known as the **threshold**,
 the neuron enters a regime of cascading excitation that ultimately results in an
 [**action potential**](#sec:action-potential),
@@ -181,7 +181,7 @@ of other neurons, thus closing the cycle.
 ```{note}
 It is important to mention that the threshold is not a physical quantity that
 can be measured directly; rather, it emerges dynamically from the current
-neuron state, particularly the membrane depolarisation level, the amount of
+neuron state, particularly the membrane depolarization level, the amount of
 incoming current from the dendrites, the time constant of the membrane and
 so forth.
 ```
@@ -232,7 +232,7 @@ during the refractory period.
 :label: fig:action-potential
 :align: center
 
-An illustration of the process of rapid depolarisation that leads
+An illustration of the process of rapid depolarization that leads
 to an action potential. Credit:
 [Chris 73](https://en.wikipedia.org/wiki/User:Chris_73)
 [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/),
@@ -247,7 +247,7 @@ Wikimedia Commons.
 When the action potential reaches the axon terminals, it triggers the release
 of chemicals known as **neurotransmitters** into the **synaptic cleft**,
 thereby enabling communication with the next synaptically connected neuron.
-Neurotransmitters diffuse across the synaptic cleft and bind to specialised
+Neurotransmitters diffuse across the synaptic cleft and bind to specialized
 receptors on the receiving side. In turn, this causes **ion channels**
 in the postsynaptic neuron's membrane to open, letting $Na^{+}$ and $Ca^{2+}$
 ions flow through these channels and change the balance of charge
@@ -260,10 +260,10 @@ The type of postsynaptic potential is determined by the type
 of neurotransmitter that induces it.
 Accordingly, neurotransmitters are also categorized into **excitatory** and
 **inhibitory**. Excitatory neurotransmitters, such as glutamate, induce a
-depolarisation of the membrane of the receiving neuron, evoking
+depolarization of the membrane of the receiving neuron, evoking
 an EPSP, which makes the neuron more likely to produce an action potential.
 In contrast, inhibitory neurotransmitters, such as GABA, induce an
-IPSP, which leads to the **hyperpolarisation** of the membrane of the
+IPSP, which leads to the **hyperpolarization** of the membrane of the
 postsynaptic neuron and makes it _less_ likely to produce an action potential.
 These opposing effects play a crucial role in learning
 and ensuring the stability of brain activity as a whole.
