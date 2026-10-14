@@ -145,14 +145,22 @@ full of chemicals known as [**neurotransmitters**](#sec:neurotransmitters).
 When an action potential arrives at a synapse on the side of the source neuron,
 it causes vesicles to burst and release their neurotransmitters into
 the synaptic cleft. The neurotransmitters diffuse across the gap and
-bind to receptors on the receiving neuron, triggering a new electrical response,
-this time inside the dendrite of the receiving neuron.
-This dendritic current is propagated to the soma of the receiving neuron,
-where it adds to the total input of the neuron.
-Since the action potentials transmitted via axons cannot propagate directly
-through the synaptic cleft, this structure ensures that communication
-via chemical synapses is **unidirectional**, so there are distinct
-source and target neurons.
+reach the tips of tiny protrusions called **dendritic spines** located on the
+[dendrites](#dendrites) of the receiving neuron. Neurotransmitters bind to
+specialised receptors on the tips of dendritic spines, triggering a response
+that opens [ion channels](neurotransmitters) to allow ions to flow from the
+intercellular space into the neuron. The influx of ions changes the
+electric potential inside the dendrite of the receiving neuron, inducing
+dendritic current that propagates to the soma of the receiving neuron.
+where it contributes to the total activation of the neuron.
+This mechanism involving a physical gap that needs to be bridged with chemical
+neurotransmitters ensures that communication is **unidirectional**,
+where there are distinct source and target neurons. Since induced dendritic
+currents do not propagate directly back through the synapse,
+the brain employs a range of other mechanisms enabling postsynaptic neurons
+to provide feedback to presynaptic ones.
+
+<!-- TODO: Plasticity in the brain. -->
 
 (sec:axon)=
 # Axon
