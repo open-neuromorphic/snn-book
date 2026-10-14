@@ -49,7 +49,7 @@ public domain, Wikimedia Commons.
 ```
 
 (sec:soma)=
-## Soma
+# Soma
 
 The cell body of the neuron, known as the soma, contains the nucleus and
 essential organelles (such as ribosomes and mitochondria), which are necessary
@@ -89,7 +89,7 @@ reaches the threshold required to trigger an
 [action potential](#sec:action-potential) at the [axon hillock](#sec:axon).
 
 (sec:dendrites)=
-## Dendrites
+# Dendrites
 
 Dendrites are the primary structures responsible for receiving inputs from
 other neurons. They are active processing
@@ -116,7 +116,7 @@ ultimately generating action potentials that travel down the optic nerve and
 become input stimuli for other neurons in the brain.
 
 (sec:synapses)=
-## Synapses
+# Synapses
 
 Neurons communicate with each other via [**synapses**](#sec:synapsees),
 which are channels that propagate electric pulses between two neurons.
@@ -155,7 +155,7 @@ via chemical synapses is **unidirectional**, so there are distinct
 source and target neurons.
 
 (sec:axon)=
-## Axon
+# Axon
 
 The axon is a wire-like structure that extends from the soma to other neurons.
 It the primary output channel of the neuron.
@@ -203,7 +203,7 @@ that transmit the signal to other cells, usually via
 **neurotransmitters**.
 
 (sec:action-potential)=
-## Action potential
+# Action potential
 
 An action potential is a wave of rapid  temporary change in the membrane
 potential of a neuron that propagates as an electric impulse through the
@@ -240,7 +240,7 @@ Wikimedia Commons.
 <!-- TODO: Interactive / dynamic plot. -->
 
 (sec:neurotransmitters)=
-## Neurotransmitters
+# Neurotransmitters
 
 When the action potential reaches the axon terminals, it triggers the release
 of chemicals known as **neurotransmitters** into the **synaptic cleft**,
