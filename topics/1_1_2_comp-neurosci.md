@@ -2,8 +2,10 @@
 kernelspec:
   name: python3
   display_name: 'Python 3'
+authors:
+- name: Hadjiivanov, Alexander
+  affiliation: Netherlands eScience Center
 ---
-
 (chapter:comp-neurosci)=
 # Computational Neuroscience
 
@@ -16,7 +18,8 @@ Extracting these principles makes it possible
 to create idealised models with simplified dynamics as a way of replicating
 these biological processes and, by extension, the corresponding computation.
 
-## Relation between biological and spiking neurons
+(sec:biological-vs-spiking-neurons)=
+# Relation between biological and spiking neurons
 
 The membrane potential is dynamic, meaning that it fluctuates depending on
 two inherent physical quantities of the membrane:
