@@ -49,7 +49,7 @@ project:
           children:
             - file: topics/1_2_1_point-neurons.md
             # - file: topics/1_2_2_spatial-neurons.md
-            #- file: topics/1_2_3_spk-vs-artfcl.md
+            - file: topics/1_2_3_spk-vs-artfcl.md
         - file: topics/1_3_encdec.md
           children:
             - file: topics/1_3_1_rate-enc.md
