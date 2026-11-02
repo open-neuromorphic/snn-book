@@ -170,7 +170,9 @@ It the primary output channel of the neuron.
 In some cases, the axon can reach a length of more than one meter
 [@bear2025neuroscience].
 While a single neuron can have hundreds or thousands of dendrites,
-it typically has only one axon.
+it typically has only one axon, with rare exceptions including multiaxonal 
+[@BaccusOlveczkyManuEtAl_2008_RetinalCircuitThatb] and anaxonal
+[@Wu.Ivanova.ea-2011-ActionPotential] amacrine cells in the retina.
 
 The neuron integrates the influx of current received via dendrites
 at the axon hillock, a crucial junction between the soma and the axon.
