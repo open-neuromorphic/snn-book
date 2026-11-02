@@ -285,6 +285,14 @@ during the refractory period.
 The membrane eventually recovers to the resting potential after a certain
 amount of time (generally less than $2~ms$). 
 
+```{aside}
+It is important to mention that the **threshold** is not a physical quantity 
+that can be measured directly; rather, it emerges dynamically from the current
+neuron state, particularly the membrane depolarization level, the amount of
+incoming current from the dendrites, the time constant of the membrane and
+so forth.
+```
+
 The rapid depolarisation and repolarisation of the membrane potential
 is the driving force behind the generation of a new 
 [action potential](#sec:action-potential) at the 
@@ -296,7 +304,7 @@ This action potential propagates down the [axon](#sec:axon) until it reaches
 # Axon
 
 The axon is a wire-like structure that extends from the soma to other neurons.
-It the primary output channel of the neuron.
+It is the primary output channel of the neuron.
 In some cases, the axon can reach a length of more than one meter
 [@bear2025neuroscience].
 While a single neuron can have hundreds or thousands of dendrites,
@@ -305,24 +313,9 @@ it typically has only one axon, with rare exceptions including multiaxonal
 [@Wu.Ivanova.ea-2011-ActionPotential] amacrine cells in the retina.
 
 The neuron integrates the influx of current received via dendrites
-at the axon hillock, a crucial junction between the soma and the axon.
-This current causes the membrane to *de*polarize, shifting the state
-of the neuron away from the resting potential in the positive direction
-(the membrane becomes less negative).
-If the membrane depolarization
-reaches a certain critical voltage level known as the **threshold**,
-the neuron enters a regime of cascading excitation that ultimately results in an
-[**action potential**](#sec:action-potential),
-which travels rapidly down the axon and contributes to the activation
-of other neurons, thus closing the cycle.
-
-```{note}
-It is important to mention that the threshold is not a physical quantity that
-can be measured directly; rather, it emerges dynamically from the current
-neuron state, particularly the membrane depolarization level, the amount of
-incoming current from the dendrites, the time constant of the membrane and
-so forth.
-```
+in the [soma](#sec:soma) and generates an 
+[action potential](#sec:action-potential) at the **axon hillock**,
+a crucial junction between the soma and the axon.
 
 In many neurons, the axon is wrapped in a lipid-rich myelin layer known as
 the **myelin sheath**.
@@ -338,19 +331,22 @@ creating the effect of "jumping" from one node to another
 in a process known as **saltatory conduction**.
 ```
 
-The axon terminates in synaptic boutons, the specialized structures
-that transmit the signal to other cells, usually via
-**neurotransmitters**.
+The axon terminates in [synaptic boutons](#sec:synapses), which are
+specialized structures that transmit the signal to other cells, usually via
+[neurotransmitters](#sec:neurotransmitters).
+This process completes the life cycle of the action potential by converting 
+it from an **electrical** signal into a **chemical** one.
 
 # Summary
 
-In short, in a biological neuron, the dendrites _accept_ signals from the
-pre-synaptic neurons, and the soma _integrates_ those signals. If the effect of
-the integrated signals is **excitatory**, then an action potential is 
-_generated_ and _communicated_ to the next neuron. If the effect of the 
-integrated signals is **inhibitory**, then it _reduces_ the ability of the 
-receiving neuron to generate an action potential, thus, _inhibiting_ 
-the firing of the receiving neuron.
+In short, in a biological neuron, **dendrites** receive signals from
+pre-synaptic neurons with the aid of **synapses** and **neurotransmitters**, 
+and the **soma** integrates those signals. If the effect of
+the integrated signals is **excitatory**, then an **action potential** is 
+generated and communicated to other neurons via the **axon**. 
+If the effect of the integrated signals is **inhibitory**, 
+then it _reduces_ the ability of the integrating neuron to generate an 
+action potential.
 
 In the next chapter ([](#spiking)), we will cover the basics of spiking
 neurons, which are artificial models of biological neurons.
