@@ -86,23 +86,6 @@ At either end, the process is typically mediated by
 potentials across the physical gap between neurons 
 inside a [synapse](#sec:synapse).
 
-Upon receiving stimuli via the dendrites, the ion channels of the neuron open,
-and the membrane potential changes due to the inflow and outflow of ions across
-the cell membrane. If the neurotransmitter (stimulus) received
-by the dendrites is **excitatory** and the resulting potential change causes
-sufficient depolarization to increase the membrane potential beyond a certain
-**threshold** (generally around $−55~mV$), the membrane enters a process of
-rapid depolarization, reaching a level of up to $+40~mV$.
-Immediately after that, the membrane undergoes hyperpolarization
-and falls **below** the resting potential.
-It eventually recovers to the resting potential after a certain
-amount of time (generally less than $2~ms$). This process results in the
-initiation of an **action potential** at the axon hillock
-(@fig:action-potential). The period of time during which the membrane is in
-a hyperpolarized state is also called the **{term}`refractory period`**.
-It is highly unlikely for the neuron to generate another action potential
-during the refractory period.
-
 ```{figure} ../assets/topic_1/chapter_1_1/action_potential.png
 :label: fig:action-potential
 :align: center
@@ -180,6 +163,23 @@ electrical connections that ultimately translate the intensity of the absorbed
 light into electric current. This current flows into other neurons,
 ultimately generating action potentials that travel down the optic nerve and
 become input stimuli for other neurons in the brain.
+
+Upon receiving stimuli via the dendrites, the ion channels of the neuron open,
+and the membrane potential changes due to the inflow and outflow of ions across
+the cell membrane. If the neurotransmitter (stimulus) received
+by the dendrites is **excitatory** and the resulting potential change causes
+sufficient depolarization to increase the membrane potential beyond a certain
+**threshold** (generally around $−55~mV$), the membrane enters a process of
+rapid depolarization, reaching a level of up to $+40~mV$.
+Immediately after that, the membrane undergoes hyperpolarization
+and falls **below** the resting potential.
+It eventually recovers to the resting potential after a certain
+amount of time (generally less than $2~ms$). This process results in the
+initiation of an **action potential** at the axon hillock
+(@fig:action-potential). The period of time during which the membrane is in
+a hyperpolarized state is also called the **{term}`refractory period`**.
+It is highly unlikely for the neuron to generate another action potential
+during the refractory period.
 
 (sec:synapses)=
 # Synapses
