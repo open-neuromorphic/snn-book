@@ -180,7 +180,8 @@ synchronization of brain waves [@Bennett.Zukin-2004-ElectricalCoupling].
 
 In contrast, chemical synapses are characterized by the presence
 of a physical gap (known as the **synaptic cleft**) between
-the transmitting and receiving ends.
+an [axon](#sec:axon) on the side of the transmitting neuron and a 
+[dendrite](#sec:dendrites) on the side of the receiving neuron.
 Chemical synapses contain multiple tiny capsules called **vesicles** that are
 full of [neurotransmitters](#sec:neurotransmitters).
 When an action potential arrives at a synapse on the side of the source neuron,
