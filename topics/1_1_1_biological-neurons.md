@@ -20,20 +20,31 @@ Nevertheless, new neurons are still generated in
 in certain parts of the nervous system, such as in the olfactory bulb
 and the hippocampus [@Appleby.Kempermann.ea-2011-RoleAdditive].
 
-The physical architecture of a neuron is highly specialized for communication.
-The main structural components of a neuron are the [**soma**](#sec:soma)
-(or cell body), [**dendrites**](#sec:dendrites), the [**axon**](#sec:axon), and
-[**synapses**](#sec:synapses) (or axon terminals). These
-are the primary components of interest to us with respect to simulating a
-biological neuron. Other components of a biological neuron include
-the **nucleus**, the **axon hillock**, **myelin sheath**,
-**nodes of Ranvier**, **ion channels** and so forth. Note that the computational
-complexity of simulating a biological neuron depends on the desired fidelity.
-That is, a simulation that takes into account only the dynamics of the soma
-is computationally _simpler_ and _more efficient_ than one that also includes
-axonal and myelin-related dynamics.
+The anatomical structure of a neuron is shown in @fig:bio-neuron. 
+The physical architecture of a neuron is highly specialized for communication,
+which is typically carried out via [action potentials](#sec:action-potential).
+The main structural components of a neuron are 
+[synapses](#sec:synapses),
+[dendrites](#sec:dendrites), 
+[neurotransmitters](#sec:neurotransmitters),
+the [soma](#sec:soma) (or cell body), and 
+the [axon](#sec:axon).
+In addition to these components, @fig:bio-neuron also includes additional 
+components such as the **nucleus**, the **axon hillock**, 
+the **myelin sheath**, **nodes of Ranvier**, and **ion channels**.
 
-The anatomical structure of a neuron is shown in @fig:bio-neuron.
+While ultimately each of these elements contributes to the
+function and dynamics of a neuron, in this chapter we concentrate on the 
+abovementioned main components as they are of primary interest for neuron 
+modelling. However, it is worth noting that the computational complexity 
+of simulating a biological neuron depends on the desired fidelity.
+In other words, a simulation that takes into account only the dynamics of the 
+soma is computationally **simpler** and **more efficient** than one that also 
+includes axonal and ion channel dynamics.
+
+In the following sections, we introduce the concept of an action potential, 
+followed by the structure and function of each of the abovementioned 
+main components.
 
 ```{figure} ../assets/topic_1/chapter_1_1/bio_neuron.png
 :label: fig:bio-neuron
@@ -47,6 +58,63 @@ Adapted from
 by [LadyofHats](https://commons.wikimedia.org/wiki/User:LadyofHats),
 public domain, Wikimedia Commons.
 ```
+
+(sec:action-potential)=
+# Action potential
+The **action potential** is an **electrical signal** that is the biological 
+equivalent of a {term}`spike <spike>`, which is introduced in detail 
+in [](#spiking).
+As mentioned above, the action potential is the basic unit of the language that 
+neurons use to communicate with each other.
+As such, it is a central concept in the study and modelling of neurons, and a
+substantial portion of the neuromorphic field is dedicated to emulating the
+processes that stem from or lead to action potentials.
+It is noteworthy that the action potential is a **functional property** 
+of the neuron, in contrast to the **structural components** covered below.
+
+Physiologically, the action potential is manifested as a wave of rapid temporary
+change in the membrane potential of a neuron. 
+Despite the considerable variation that neurons display in terms of morphology, 
+dynamics and functional properties, almost all types of neurons generate or
+receive action potentials.
+The basic processes of generating an receiving an action potential is also 
+remarkably consistent across neuron types and involves the entire neuron. 
+This process begins at the [dendrites](#sec:dendrites), passes through 
+the [soma](#sec:soma) and ends at the [axon](#sec:axon).
+At either end, the process is typically mediated by 
+[neurotransmitters](#sec:neurotransmitters), which propagate action 
+potentials across the physical gap between neurons 
+inside a [synapse](#sec:synapse).
+
+Upon receiving stimuli via the dendrites, the ion channels of the neuron open,
+and the membrane potential changes due to the inflow and outflow of ions across
+the cell membrane. If the neurotransmitter (stimulus) received
+by the dendrites is **excitatory** and the resulting potential change causes
+sufficient depolarization to increase the membrane potential beyond a certain
+**threshold** (generally around $−55~mV$), the membrane enters a process of
+rapid depolarization, reaching a level of up to $+40~mV$.
+Immediately after that, the membrane undergoes hyperpolarization
+and falls **below** the resting potential.
+It eventually recovers to the resting potential after a certain
+amount of time (generally less than $2~ms$). This process results in the
+initiation of an **action potential** at the axon hillock
+(@fig:action-potential). The period of time during which the membrane is in
+a hyperpolarized state is also called the **{term}`refractory period`**.
+It is highly unlikely for the neuron to generate another action potential
+during the refractory period.
+
+```{figure} ../assets/topic_1/chapter_1_1/action_potential.png
+:label: fig:action-potential
+:align: center
+
+An illustration of the process of rapid depolarization that leads
+to an action potential. Credit:
+[Chris 73](https://en.wikipedia.org/wiki/User:Chris_73)
+[CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/),
+Wikimedia Commons.
+```
+
+<!-- TODO: Interactive / dynamic plot. -->
 
 (sec:soma)=
 # Soma
@@ -209,43 +277,6 @@ in a process known as **saltatory conduction**.
 The axon terminates in synaptic boutons, the specialized structures
 that transmit the signal to other cells, usually via
 **neurotransmitters**.
-
-(sec:action-potential)=
-# Action potential
-
-An action potential is a wave of rapid temporary change in the membrane
-potential of a neuron that propagates as an electric impulse through the
-[axon](#sec:axon).
-
-Upon receiving stimuli via the dendrites, the ion channels of the neuron open,
-and the membrane potential changes due to the inflow and outflow of ions across
-the cell membrane. If the neurotransmitter (henceforth, stimulus) received
-by the dendrites is _excitatory_ and the resulting potential change causes
-sufficient depolarization to increase the membrane potential beyond a certain
-**threshold** (generally around $−55~mV$ ), the membrane enters a process of
-rapid depolarization, reaching a level of up to $+40~mV$.
-Immediately after that, the membrane undergoes hyperpolarization
-and falls _below_ the resting potential.
-It eventually recovers to the resting potential after a certain
-amount of time (generally less than $2~ms$). This process results in the
-initiation of an **action potential** at the axon hillock
-(@fig:action-potential). The period of time during which the membrane is in
-a hyperpolarized state is also called the **{term}`refractory period`**.
-The neuron is very likely to generate another action potential
-during the refractory period.
-
-```{figure} ../assets/topic_1/chapter_1_1/action_potential.png
-:label: fig:action-potential
-:align: center
-
-An illustration of the process of rapid depolarization that leads
-to an action potential. Credit:
-[Chris 73](https://en.wikipedia.org/wiki/User:Chris_73)
-[CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/),
-Wikimedia Commons.
-```
-
-<!-- TODO: Interactive / dynamic plot. -->
 
 (sec:neurotransmitters)=
 # Neurotransmitters
