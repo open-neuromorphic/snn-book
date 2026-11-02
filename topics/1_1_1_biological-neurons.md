@@ -24,9 +24,9 @@ The anatomical structure of a neuron is shown in @fig:bio-neuron.
 The physical architecture of a neuron is highly specialized for communication,
 which is typically carried out via [action potentials](#sec:action-potential).
 The main structural components of a neuron are 
+[neurotransmitters](#sec:neurotransmitters),
 [synapses](#sec:synapses),
 [dendrites](#sec:dendrites), 
-[neurotransmitters](#sec:neurotransmitters),
 the [soma](#sec:soma) (or cell body), and 
 the [axon](#sec:axon).
 In addition to these components, @fig:bio-neuron also includes additional 
@@ -42,9 +42,10 @@ In other words, a simulation that takes into account only the dynamics of the
 soma is computationally **simpler** and **more efficient** than one that also 
 includes axonal and ion channel dynamics.
 
-In the following sections, we introduce the concept of an action potential, 
-followed by the structure and function of each of the abovementioned 
-main components.
+As neuron-to-neuron communication is a conceptually circular process, 
+the structure of this chapter follows the end-to-end journey of an 
+action potential between the moments when it is converted from and back into 
+a chemical signal at the [synaptic cleft](#sec:synapses).
 
 ```{figure} ../assets/topic_1/chapter_1_1/bio_neuron.png
 :label: fig:bio-neuron
