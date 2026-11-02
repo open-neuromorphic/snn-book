@@ -157,8 +157,11 @@ connection into an inhibitory one and vice versa.
 # Synapses
 
 Neurons communicate with each other via **synapses**,
-which are channels that propagate electric pulses between two neurons.
-There are two distinct types of biological synapses: electrical and chemical.
+which are channels that propagate [action potentials](#sec:action-potential)
+between two neurons.
+
+There are two distinct types of biological synapses: **electrical** and 
+**chemical**.
 Electrical synapses, also known as **gap junctions**
 [@Shimizu.Stopfer-2013-GapJunctions], are conductive channels that allow
 ions to flow directly from one cell to another, enabling
@@ -179,21 +182,22 @@ In contrast, chemical synapses are characterized by the presence
 of a physical gap (known as the **synaptic cleft**) between
 the transmitting and receiving ends.
 Chemical synapses contain multiple tiny capsules called **vesicles** that are
-full of chemicals known as [**neurotransmitters**](#sec:neurotransmitters).
+full of [neurotransmitters](#sec:neurotransmitters).
 When an action potential arrives at a synapse on the side of the source neuron,
 it causes vesicles to burst and release their neurotransmitters into
-the synaptic cleft. The neurotransmitters diffuse across the gap and
+the synaptic cleft. These neurotransmitters diffuse across the gap and
 reach the tips of **dendritic spines** located on the
-[dendrites](#sec:dendrites) of the receiving neuron. Neurotransmitters bind to
-specialised receptors on the tips of dendritic spines, triggering a response
+[dendrites](#sec:dendrites) of the receiving neuron. Each neurotransmitter binds
+to specialised receptors on the tips of dendritic spines, triggering a response
 that opens [ion channels](#sec:neurotransmitters) to allow ions to flow from the
 intercellular space into the neuron. The influx of ions changes the
 electric potential inside the dendrite of the receiving neuron, inducing
 dendritic current that propagates to the soma of the receiving neuron.
 where it contributes to the total activation of the neuron.
+
 This mechanism involving a physical gap that needs to be bridged with chemical
 neurotransmitters ensures that communication is **unidirectional**,
-where there are distinct source and target neurons. Since induced dendritic
+with distinct source and target neurons. Since induced dendritic
 currents do not propagate directly back through the synapse,
 the brain employs a range of other mechanisms enabling postsynaptic neurons
 to provide feedback to presynaptic ones.
