@@ -99,6 +99,56 @@ Wikimedia Commons.
 
 <!-- TODO: Interactive / dynamic plot. -->
 
+(sec:neurotransmitters)=
+# Neurotransmitters
+
+When the action potential reaches the axon terminals, it triggers the release
+of chemicals known as **neurotransmitters** into the **synaptic cleft**,
+thereby enabling communication with the next synaptically connected neuron.
+Neurotransmitters diffuse across the synaptic cleft and bind to specialized
+receptors on the receiving side. In turn, this causes **ion channels**
+in the postsynaptic neuron's membrane to open, letting $Na^{+}$ and $Ca^{2+}$
+ions flow through these channels and change the balance of charge
+across the membrane. This flow of charge induces electric pulses
+inside the [dendrites](#sec:dendrites) of the postsynaptic neuron.
+
+These electric pulses are known as **Excitatory
+and Inhibitory Postsynaptic Potentials** (EPSPs and IPSPs, respectively).
+The type of postsynaptic potential is determined by the type
+of neurotransmitter that induces it.
+Accordingly, neurotransmitters are also categorized into **excitatory** and
+**inhibitory**. Excitatory neurotransmitters, such as glutamate, induce a
+depolarization of the membrane of the receiving neuron, evoking
+an EPSP, which makes the neuron more likely to produce an action potential.
+In contrast, inhibitory neurotransmitters, such as GABA, induce an
+IPSP, which leads to the **hyperpolarization** of the membrane of the
+postsynaptic neuron and makes it _less_ likely to produce an action potential.
+These opposing effects play a crucial role in learning
+and ensuring the stability of brain activity as a whole.
+
+Most types of neurons release the same set of neurotransmitters at all of their
+synapses. Accordingly, most synapses have a reliable net inhibitory or
+excitatory effect on the neurons at the receiving end.
+Remarkably, the ratio of excitatory to inhibitory neurons in the brain seems
+to be stable at about $4:1$ [@Sahara.Yanagawa.ea-2012-FractionCortical].
+```{aside}
+The observation that a neuron releases the same set of neurotransmitters
+from all of its synapses is known as **Dale's principle**.
+While it generally holds true, it is subject to ongoing discussion
+[@Gutierrez.Baas-Thomas.ea-2026-WhatDale].
+```
+
+```{note}
+As with every other model of a physical system, artificial
+[spiking neurons](#spiking) (and {term}`SNN`s) deviate
+from their biological counterparts, unless special care is taken
+to ensure that they do not.
+For instance, SNNs are rarely initialized in a way that ensures
+a specific ratio of excitatory to inhibitory connections.
+Also, learning rules such as backpropagation can turn an excitatory
+connection into an inhibitory one and vice versa.
+```
+
 (sec:soma)=
 # Soma
 
@@ -277,56 +327,6 @@ in a process known as **saltatory conduction**.
 The axon terminates in synaptic boutons, the specialized structures
 that transmit the signal to other cells, usually via
 **neurotransmitters**.
-
-(sec:neurotransmitters)=
-# Neurotransmitters
-
-When the action potential reaches the axon terminals, it triggers the release
-of chemicals known as **neurotransmitters** into the **synaptic cleft**,
-thereby enabling communication with the next synaptically connected neuron.
-Neurotransmitters diffuse across the synaptic cleft and bind to specialized
-receptors on the receiving side. In turn, this causes **ion channels**
-in the postsynaptic neuron's membrane to open, letting $Na^{+}$ and $Ca^{2+}$
-ions flow through these channels and change the balance of charge
-across the membrane. This flow of charge induces electric pulses
-inside the [dendrites](#sec:dendrites) of the postsynaptic neuron.
-
-These electric pulses are known as **Excitatory
-and Inhibitory Postsynaptic Potentials** (EPSPs and IPSPs, respectively).
-The type of postsynaptic potential is determined by the type
-of neurotransmitter that induces it.
-Accordingly, neurotransmitters are also categorized into **excitatory** and
-**inhibitory**. Excitatory neurotransmitters, such as glutamate, induce a
-depolarization of the membrane of the receiving neuron, evoking
-an EPSP, which makes the neuron more likely to produce an action potential.
-In contrast, inhibitory neurotransmitters, such as GABA, induce an
-IPSP, which leads to the **hyperpolarization** of the membrane of the
-postsynaptic neuron and makes it _less_ likely to produce an action potential.
-These opposing effects play a crucial role in learning
-and ensuring the stability of brain activity as a whole.
-
-Most types of neurons release the same set of neurotransmitters at all of their
-synapses. Accordingly, most synapses have a reliable net inhibitory or
-excitatory effect on the neurons at the receiving end.
-Remarkably, the ratio of excitatory to inhibitory neurons in the brain seems
-to be stable at about $4:1$ [@Sahara.Yanagawa.ea-2012-FractionCortical].
-```{aside}
-The observation that a neuron releases the same set of neurotransmitters
-from all of its synapses is known as **Dale's principle**.
-While it generally holds true, it is subject to ongoing discussion
-[@Gutierrez.Baas-Thomas.ea-2026-WhatDale].
-```
-
-```{note}
-As with every other model of a physical system, artificial
-[spiking neurons](#spiking) (and {term}`SNN`s) deviate
-from their biological counterparts, unless special care is taken
-to ensure that they do not.
-For instance, SNNs are rarely initialized in a way that ensures
-a specific ratio of excitatory to inhibitory connections.
-Also, learning rules such as backpropagation can turn an excitatory
-connection into an inhibitory one and vice versa.
-```
 
 # Summary
 
