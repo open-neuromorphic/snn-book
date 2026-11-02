@@ -103,13 +103,16 @@ Wikimedia Commons.
 (sec:neurotransmitters)=
 # Neurotransmitters
 
-When the action potential reaches the axon terminals, it triggers the release
-of chemicals known as **neurotransmitters** into the **synaptic cleft**,
-thereby enabling communication with the next synaptically connected neuron.
+The journey of an action potential as an electrical signal begins and ends 
+with chemicals known as **neurotransmitters**, which propagate the action
+potential across the physical gap between neurons 
+(the [synaptic cleft](#sec:synapses)),
+thereby enabling interneuron communication.
 Neurotransmitters diffuse across the synaptic cleft and bind to specialized
 receptors on the receiving side. In turn, this causes **ion channels**
-in the postsynaptic neuron's membrane to open, letting $Na^{+}$ and $Ca^{2+}$
-ions flow through these channels and change the balance of charge
+in the postsynaptic neuron's membrane to open, letting sodium and calcium ions
+($Na^{+}$ and $Ca^{2+}$) to
+flow through these channels and change the balance of charge
 across the membrane. This flow of charge induces electric pulses
 inside the [dendrites](#sec:dendrites) of the postsynaptic neuron.
 
