@@ -16,16 +16,17 @@ than the currently dominant AI approach - **deep learning**.
 The core functional element of a nervous system is the **neuron**, which
 Wikipedia defines as follows [@enwiki:1362551640]:
 
-> An excitable cell that fires electric signals called action potentials across a
-neural network in the nervous system.
+> An excitable cell that fires electric signals called action potentials across 
+a neural network in the nervous system.
 
 Neurons are cells that specialize in processing input stimuli from the
 environment and producing signals of their own
 (known as action potentials or **{term}`spikes <spike>`**).
 These processes, known as **{term}`encoding`** and
-**{term}`decoding`** [@DayanAbbott_2001_TheoreticalNeuroscience], can be modelled using
-various algorithms, some of which are covered in [](#chapter:encdec).
-Models of spike-based processing are covered in [](#spiking).
+**{term}`decoding`** [@DayanAbbott_2001_TheoreticalNeuroscience], 
+can be modelled using various algorithms, some of which are covered in 
+[](#chapter:encdec). Models of spike-based processing are covered in 
+[](#spiking).
 
 Neurons come in many different shapes and display a variety of activation
 patterns.
@@ -75,7 +76,7 @@ movement, reasoning, speech, vision and other functions.
 In contrast, glial cells support, protect, and nourish neurons by
 forming **myelin** and participating in the brain's immune defense.
 
-In this chapter, we will cover different types of  biological neurons and
+In this chapter, we will cover different types of biological neurons and
 glial cells. Also, as this is the first chapter, we will define
 the notations for the neuron's stateful characteristics and variables,
 which we will consistently use throughout the rest of this book.

@@ -13,7 +13,7 @@ Neuroscience provides insight about the inner workings of neurons and the
 supporting "infrastructure" in the central and peripheral nervous system that
 helps neurons perform their function. As a subfield of neuroscience,
 computational neuroscience focuses on understanding the principles that enable
-neurons to process information (in other words, to **compute**).
+neurons to process information (in other words, to _compute_).
 Extracting these principles makes it possible
 to create idealised models with simplified dynamics as a way of replicating
 these biological processes and, by extension, the corresponding computation.
@@ -33,6 +33,7 @@ The dynamics of the membrane potential can be modelled in simple terms
 by using a simple $RC$ circuit (@fig:rc-circuit):
 
 ```{figure} ../assets/topic_1/chapter_1_1/RC_circuit.png
+:width: 75%
 :label: fig:rc-circuit
 :align: center
 

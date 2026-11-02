@@ -17,7 +17,7 @@ A peculiar feature of neurons is that once they mature, they lose the
 ability to undergo mitosis and cannot divide like other cells
 [@Aranda-Anzaldo-2012-PostmitoticState].
 Nevertheless, new neurons are still generated in
-in certain certain parts of the nervous system, such as in the olfactory bulb
+in certain parts of the nervous system, such as in the olfactory bulb
 and the hippocampus [@Appleby.Kempermann.ea-2011-RoleAdditive].
 
 The physical architecture of a neuron is highly specialized for communication.
@@ -40,8 +40,8 @@ The anatomical structure of a neuron is shown in @fig:bio-neuron.
 :align: center
 
 A biological neuron.
-In this chapter, we cover the main structural parts of the neuron: namely
-the soma, dendrites, the axon, synapses and neurotransmitters.
+In this chapter, we cover the main structural parts of the neuron, namely
+dendrites, synapses, neurotransmitters, the soma, and the axon.
 Adapted from
 [Complete neuron cell diagram](https://en.wikipedia.org/wiki/File:Complete_neuron_cell_diagram_en.svg)
 by [LadyofHats](https://commons.wikimedia.org/wiki/User:LadyofHats),
@@ -56,7 +56,7 @@ essential organelles (such as ribosomes and mitochondria), which are necessary
 for maintaining the neuron's physiological functions.
 
 A fundamental characteristic of neurons is that they are
-electrically **charged**.
+**electrically charged**.
 This charge arises from a difference in ionic concentrations across the cell
 membrane in the soma, which induces a potential difference known as the
 **{term}`membrane potential`**. In humans, the membrane potential of most neurons
@@ -70,7 +70,7 @@ This allows the membrane to function as a capacitor, where the interior and
 exterior of the cells function as the electrodes.
 
 While the membrane facilitates the accumulation and maintenance of
-electrical charge, the _process_ of charging and discharging the membrane
+electrical charge, the **process** of charging and discharging the membrane
 depends on special protein structures known as **ion channels**.
 As the membrane itself is impermeable, ion channels serve as tunnels for
 transporting specific types of ions across the membrane.
@@ -116,7 +116,7 @@ become input stimuli for other neurons in the brain.
 (sec:synapses)=
 # Synapses
 
-Neurons communicate with each other via [**synapses**](#sec:synapsees),
+Neurons communicate with each other via **synapses**,
 which are channels that propagate electric pulses between two neurons.
 There are two distinct types of biological synapses: electrical and chemical.
 Electrical synapses, also known as **gap junctions**
@@ -213,9 +213,9 @@ that transmit the signal to other cells, usually via
 (sec:action-potential)=
 # Action potential
 
-An action potential is a wave of rapid  temporary change in the membrane
+An action potential is a wave of rapid temporary change in the membrane
 potential of a neuron that propagates as an electric impulse through the
-[axon](#axon).
+[axon](#sec:axon).
 
 Upon receiving stimuli via the dendrites, the ion channels of the neuron open,
 and the membrane potential changes due to the inflow and outflow of ions across
@@ -301,11 +301,11 @@ connection into an inhibitory one and vice versa.
 
 In short, in a biological neuron, the dendrites _accept_ signals from the
 pre-synaptic neurons, and the soma _integrates_ those signals. If the effect of
-the integrated signals is _excitatory_, then an action potential is _generated_
-and _communicated_ to the next neuron. If the effect of the integrated
-signals is _inhibitory_, then it _reduces_ the ability of the receiving neuron
-to generate an action potential, thus, _inhibiting_ the firing of the receiving
-neuron.
+the integrated signals is **excitatory**, then an action potential is 
+_generated_ and _communicated_ to the next neuron. If the effect of the 
+integrated signals is **inhibitory**, then it _reduces_ the ability of the 
+receiving neuron to generate an action potential, thus, _inhibiting_ 
+the firing of the receiving neuron.
 
 In the next chapter ([](#spiking)), we will cover the basics of spiking
 neurons, which are artificial models of biological neurons.
