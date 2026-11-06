@@ -32,9 +32,9 @@ reaches/crosses a certain set voltage threshold.
 
 - **Generating an output action-potential**: Spiking neurons simulate the
 generation of action-potential by producing a *binary*/*graded* *spike*, where a
-*binary* *spike* implies a binary value $\in \{0, 1\}$ and a *graded* *spike* implies
-an integer value $\in \mathbb{Z}^+ > 1$. Note that the values of spikes are also sometimes
-referred as their *amplitude*.
+*binary* *spike* implies a binary value $\in \{0, 1\}$ and a *graded* *spike*
+implies an integer value $\in \mathbb{Z}^+ > 1$. Note that the values of spikes
+are also sometimes referred as their *amplitude*.
 
 ```{note}
 Some SNN implementations may use negative spikes! Also, it is commonly agreed
@@ -49,11 +49,11 @@ the neuron's current voltage *subtracted* by its assumed voltage threshold. The
 difference between these two will be clear in the later sections.
 
 - **Entering into refractory state**: Spiking neurons simulate this behavior by
-_keeping_ their membrane potential/voltage set at 0 (in case of hard-reset, the 
-most usual case) or at a subtracted value (in case of soft-reset) for a _certain 
+_keeping_ their membrane potential/voltage set at 0 (in case of hard-reset, the
+most usual case) or at a subtracted value (in case of soft-reset) for a _certain
 number_ of time-steps. This characteristic mimics the neurobiological behaviour
-of the neurons to discourage producing an action potential _immediately after_ 
-firing one.  
+of the neurons to discourage producing an action potential _immediately after_
+firing one.
 
 - **Propagating the action-potential along axon**: Spiking neurons generally do
 *not* simulate this behaviour, except for the *spatial* spiking neuron models;
@@ -69,8 +69,6 @@ spike transmission time - between the pre-synaptic and post-synpatic neurons.
 
 Note that we have subtly introduced the concept of _point_ and _spatial_
 spiking neuron models here. While researching in SNNs, you will see that a
-majority of the SNN models are built with _point_ spiking neurons. Our next
-chapter dives into different kinds of **Point Neuron** and **Spatial Neuron**
-models.
-
-### Topic on Spiking Neurons summary?
+majority of the SNN models are built with _point_ spiking neurons. Therefore,
+our next chapter dives into different kinds of **Point Neuron** models; we will
+cover **Spatial Neuron** models in later versions of this book.
