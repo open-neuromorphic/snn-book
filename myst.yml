@@ -139,8 +139,8 @@ project:
           level: 2
         #- file: topics/1_2_2_spatial-neurons.md
         #  level: 2
-        #- file: topics/1_2_3_spk-vs-artfcl.md
-        #  level: 2
+        - file: topics/1_2_3_spk-vs-artfcl.md
+          level: 2
         - file: topics/1_3_encdec.md
           level: 1
         - file: topics/1_3_1_rate-enc.md
