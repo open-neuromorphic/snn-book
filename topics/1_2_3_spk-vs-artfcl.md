@@ -8,8 +8,8 @@ SNNs are considered to be the _third_ generation of neural networks
 [@maass1997networks] compared to the ANNs, which are _second_ generation.
 Therefore, it is but obvious to compare spiking neurons with artificial neurons
 because of their foundational role in building neural networks; note that SNNs
-and ANNs are mostly isomorphic in architecture, and, in
-[Topic {number}](#training), we will see that the SNNs'
+and ANNs are mostly isomorphic in architecture, and, in topic
+[Training SNNs](#training), we will see that the SNNs'
 training and inference methodologies are heavily inspired from deep learning
 literature.
 
